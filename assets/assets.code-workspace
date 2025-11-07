@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../config"
+		},
+		{
+			"path": "../layout"
+		},
+		{
+			"path": "../locales"
+		},
+		{
+			"path": "../sections"
+		},
+		{
+			"path": "../snippets"
+		},
+		{
+			"path": "../templates"
+		}
+	]
+}
