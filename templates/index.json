@@ -41,17 +41,6 @@
         "enable_preload_image": false
       }
     },
-    "liquid_drip_divider_Ki8Lbj": {
-      "type": "liquid-drip-divider",
-      "name": "Liquid Drip Divider",
-      "settings": {
-        "mask_image_above": true,
-        "top_color": "#F5F0E8",
-        "bottom_color": "#1b45c7",
-        "drip_height": 160,
-        "wave_style": "medium"
-      }
-    },
     "image_with_text_kX9k8X": {
       "type": "image-with-text",
       "custom_css": [],
@@ -70,7 +59,7 @@
         "show_image_reverse": false,
         "hover_effect": false,
         "image_animation": "none",
-        "image": "shopify://shop_images/Gemini_Generated_Image_qb45ohqb45ohqb45.png",
+        "image": "shopify://shop_images/Ovolite_img.png",
         "link": "",
         "link_2": "",
         "second_image_offset_top": 10,
@@ -1304,7 +1293,6 @@
   },
   "order": [
     "image_with_text_2_NRLVdk",
-    "liquid_drip_divider_Ki8Lbj",
     "image_with_text_kX9k8X",
     "liquid_drip_divider_YYNE8t",
     "16225316461d1cff80",
