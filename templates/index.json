@@ -83,7 +83,7 @@
         "link": "",
         "link_2": "",
         "second_image_offset_top": 10,
-        "title": "<h1 class=\"hero-heading\">\n  <span>We bring low fat, preservative-free, antibiotic-free protein, conveniently to your lives!</span>\n</h1>",
+        "title": "<h1 class=\"hero-heading\">\n  <span>We </span><span>bring</span> <span>low </span><span>fat,</span> <span>preservative-free</span>,<span> antibiotic-free protein</span>, <span>conveniently</span><span> to </span><span>your</span><span> lives!</span>\n</h1>",
         "sub_title": "",
         "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
         "text_size": "medium",
