@@ -1,69 +1,83 @@
-{% comment %}
-== CURVED SCROLLING TEXT DIVIDER ==
-- Editable text via theme editor
-- Scrolls horizontally as user scrolls
-- Styled to match "IT’S A MATCH(A)" aesthetic
-{% endcomment %}
-
 <section class="scroll-divider-section">
-  <div class="scroll-divider-wrapper">
-    <div class="scroll-divider-text">
-      <span>{{ section.settings.text }}</span>
-      <span>{{ section.settings.text }}</span>
-      <span>{{ section.settings.text }}</span>
-    </div>
-  </div>
+  <div class="scroll-bg-top"></div>
+  <svg class="scroll-divider-svg" viewBox="0 0 1200 200" preserveAspectRatio="xMidYMid meet">
+    <path id="scrollTextPath" fill="none" stroke="none" d="M0,150 Q600,100 1200,150" />
+    <text class="scroll-divider-text" fill="{{ section.settings.text_color }}" font-size="{{ section.settings.font_size }}">
+      <textPath href="#scrollTextPath" startOffset="0%">
+        {{ section.settings.text }} • {{ section.settings.text }} • {{ section.settings.text }}
+      </textPath>
+    </text>
+  </svg>
+  <div class="scroll-bg-bottom"></div>
 </section>
 
 <style>
 .scroll-divider-section {
-  background: {{ section.settings.bg_color }};
-  overflow: hidden;
-  padding: 60px 0;
   position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 200px;
 }
 
-.scroll-divider-wrapper {
-  position: relative;
+.scroll-bg-top,
+.scroll-bg-bottom {
+  position: absolute;
   width: 100%;
-  transform: rotate(-3deg); /* tilt for curved look */
+  height: 50%;
+  left: 0;
+  z-index: 0;
+}
+
+.scroll-bg-top {
+  top: 0;
+  background: {{ section.settings.top_bg_color }};
+}
+
+.scroll-bg-bottom {
+  bottom: 0;
+  background: {{ section.settings.bottom_bg_color }};
+}
+
+.scroll-divider-svg {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  z-index: 2;
 }
 
 .scroll-divider-text {
-  display: flex;
-  white-space: nowrap;
-  font-size: {{ section.settings.font_size }}px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: {{ section.settings.text_color }};
-  animation: scrollText 20s linear infinite;
-}
-
-.scroll-divider-text span {
-  margin-right: 4rem;
-}
-
-@keyframes scrollText {
-  from {
-    transform: translateX(0%);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* Responsive tweaks */
-@media (max-width: 768px) {
-  .scroll-divider-text {
-    font-size: calc({{ section.settings.font_size }}px * 0.7);
-  }
+  white-space: nowrap;
 }
 </style>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const textPath = document.querySelector("#scrollTextPath");
+  const text = document.querySelector(".scroll-divider-text textPath");
+
+  gsap.to(text, {
+    attr: { startOffset: "-100%" },
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".scroll-divider-section",
+      start: "top bottom",
+      end: "bottom top",
+      scrub: true
+    }
+  });
+});
+</script>
+
 {% schema %}
 {
-  "name": "Scrolling Text Divider",
+  "name": " Scroll Text Divider",
   "settings": [
     {
       "type": "text",
@@ -87,14 +101,20 @@
     },
     {
       "type": "color",
-      "id": "bg_color",
-      "label": "Background Color",
+      "id": "top_bg_color",
+      "label": "Top Background Color",
       "default": "#E5EED8"
+    },
+    {
+      "type": "color",
+      "id": "bottom_bg_color",
+      "label": "Bottom Background Color",
+      "default": "#DCE8C4"
     }
   ],
   "presets": [
     {
-      "name": "Scrolling Text Divider"
+      "name": " Scroll Text Divider"
     }
   ]
 }
