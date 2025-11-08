@@ -40,35 +40,10 @@
             "footer_link": "",
             "enable_preload_image": false
           }
-        },
-        "video_slide_yhfQCU": {
-          "type": "video_slide",
-          "settings": {
-            "video": "https://cdn.shopify.com/videos/c/o/v/fbb140fd46e3429eba459e1549dbbe38.mp4",
-            "content_in_container": false,
-            "content_position": "center middle",
-            "text_alignment": "center",
-            "text_size": "medium",
-            "text_color": "black",
-            "subheading": "",
-            "title": "New Collection",
-            "description": "<p>Tell your campaign through images</p>",
-            "image_link": "",
-            "button_text": "Shop now",
-            "button_link": "",
-            "button_style": "m-button--primary",
-            "button_size": "",
-            "show_footer": false,
-            "footer_alignment": "end",
-            "footer_text": "New Collection",
-            "footer_button": "Shop Now",
-            "footer_link": ""
-          }
         }
       },
       "block_order": [
-        "slider_item_i7Kjie",
-        "video_slide_yhfQCU"
+        "slider_item_i7Kjie"
       ],
       "custom_css": [
         ".hero-heading {color: #fff;}"
@@ -84,7 +59,7 @@
         "autorotate": true,
         "autorotate_speed": 4,
         "use_content_above": false,
-        "custom_class": "sf-home__slideshow",
+        "custom_class": "liquid-drip-masked",
         "animations": "inherit"
       }
     },
@@ -92,6 +67,7 @@
       "type": "liquid-drip-divider",
       "name": "Liquid Drip Divider",
       "settings": {
+        "mask_image_above": true,
         "top_color": "#3a8735",
         "bottom_color": "#ffffff",
         "drip_height": 100,
