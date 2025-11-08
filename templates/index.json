@@ -46,7 +46,7 @@
       "name": "Scroll Text Divider",
       "settings": {
         "text_content": "A) - IT'S A MATCH(A) - IT",
-        "repeat_count": 6,
+        "repeat_count": 10,
         "top_color": "#e8f5e9",
         "bottom_color": "#f1f8e9",
         "divider_color": "#3a8735",
@@ -57,7 +57,7 @@
         "enable_animation": true,
         "animation_direction": "right",
         "scroll_speed": 0.7,
-        "wave_style": "dramatic"
+        "wave_style": "medium"
       }
     },
     "image_with_text_kX9k8X": {
