@@ -1,0 +1,442 @@
+{% liquid
+  assign top_color = section.settings.top_color | default: '#E8F5E9'
+  assign bottom_color = section.settings.bottom_color | default: '#F1F8E9'
+  assign divider_color = section.settings.divider_color | default: '#2E7D32'
+  assign text_color = section.settings.text_color | default: '#A5D6A7'
+  assign divider_height = section.settings.divider_height | default: 120
+  assign text_size = section.settings.text_size | default: 24
+  assign scroll_speed = section.settings.scroll_speed | default: 1
+  assign text_content = section.settings.text_content | default: "A) - IT'S A MATCH(A) - IT"
+  assign wave_style = section.settings.wave_style | default: 'medium'
+  assign animation_direction = section.settings.animation_direction | default: 'right'
+  assign repeat_count = section.settings.repeat_count | default: 4
+  assign text_spacing = section.settings.text_spacing | default: 50
+  assign enable_animation = section.settings.enable_animation | default: true
+%}
+
+<div class="scroll-text-divider-wrapper" 
+     id="scroll-text-divider-{{ section.id }}"
+     data-scroll-speed="{{ scroll_speed }}"
+     data-animation-direction="{{ animation_direction }}"
+     data-enable-animation="{{ enable_animation }}"
+     style="--top-color: {{ top_color }}; --bottom-color: {{ bottom_color }}; --divider-color: {{ divider_color }}; --text-color: {{ text_color }}; --divider-height: {{ divider_height }}px; --text-size: {{ text_size }}px; --text-spacing: {{ text_spacing }}px;">
+  
+  <div class="scroll-text-divider-section">
+    <svg class="scroll-divider-svg" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      {% case wave_style %}
+        {% when 'subtle' %}
+          <path d="M0,0 L0,50 Q360,60 720,50 T1440,50 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+        {% when 'dramatic' %}
+          <path d="M0,0 L0,40 Q180,90 360,40 T720,50 T1080,40 T1440,75 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+        {% when 'organic' %}
+          <path d="M0,0 L0,55 Q120,75 240,50 T480,48 T720,45 T960,50 T1200,52 L1440,52 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+        {% else %}
+          <path d="M0,0 L0,60 Q360,80 720,50 T1440,50 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+      {% endcase %}
+    </svg>
+    
+    <div class="scroll-text-overlay">
+      <div class="scroll-text-track" data-direction="{{ animation_direction }}">
+        {% for i in (1..repeat_count) %}
+          <span class="scroll-text-item" style="margin-right: var(--text-spacing);">{{ text_content }}</span>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .scroll-text-divider-wrapper {
+    position: relative;
+    width: 100%;
+    height: var(--divider-height);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: var(--top-color);
+    line-height: 0;
+  }
+  
+  .scroll-text-divider-section {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .scroll-divider-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .scroll-text-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  
+  .scroll-text-track {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    will-change: transform;
+  }
+  
+  .scroll-text-item {
+    font-size: var(--text-size);
+    color: var(--text-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    display: inline-block;
+  }
+  
+  /* Animation for right direction */
+  .scroll-text-track[data-direction="right"] {
+    animation: scrollTextRight 20s linear infinite;
+  }
+  
+  /* Animation for left direction */
+  .scroll-text-track[data-direction="left"] {
+    animation: scrollTextLeft 20s linear infinite;
+  }
+  
+  @keyframes scrollTextRight {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+  
+  @keyframes scrollTextLeft {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  /* Pause animation when disabled */
+  .scroll-text-divider-wrapper[data-enable-animation="false"] .scroll-text-track {
+    animation: none;
+  }
+  
+  /* Responsive text size */
+  @media screen and (max-width: 768px) {
+    .scroll-text-item {
+      font-size: calc(var(--text-size) * 0.7);
+    }
+  }
+</style>
+
+{% if enable_animation %}
+  <script>
+    (function() {
+      'use strict';
+      
+      var sectionId = 'scroll-text-divider-{{ section.id }}';
+      
+      function loadGSAP(callback) {
+        if (typeof gsap !== 'undefined') {
+          callback();
+          return;
+        }
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js';
+        script.async = true;
+        script.onload = function() {
+          loadScrollTrigger(callback);
+        };
+        document.head.appendChild(script);
+      }
+      
+      function loadScrollTrigger(callback) {
+        if (typeof ScrollTrigger !== 'undefined') {
+          if (typeof gsap !== 'undefined' && typeof gsap.registerPlugin === 'function') {
+            gsap.registerPlugin(ScrollTrigger);
+          }
+          callback();
+          return;
+        }
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js';
+        script.async = true;
+        script.onload = function() {
+          if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && typeof gsap.registerPlugin === 'function') {
+            gsap.registerPlugin(ScrollTrigger);
+          }
+          callback();
+        };
+        document.head.appendChild(script);
+      }
+      
+      function setupScrollAnimation(track, speed, direction) {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+        
+        var wrapper = track.closest('.scroll-text-divider-wrapper');
+        if (!wrapper) return;
+        
+        var trackWidth = track.scrollWidth;
+        var wrapperWidth = wrapper.offsetWidth;
+        
+        // Set initial position
+        gsap.set(track, {
+          x: direction === 'right' ? -trackWidth : 0
+        });
+        
+        // Create scroll-triggered animation
+        var scrollAnimation = gsap.to(track, {
+          x: direction === 'right' ? 0 : -trackWidth,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: wrapper,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true,
+            invalidateOnRefresh: true
+          }
+        });
+        
+        // Continuous loop animation when not scrolling
+        var loopAnimation = gsap.to(track, {
+          x: direction === 'right' ? 0 : -trackWidth,
+          duration: 20 / speed,
+          ease: 'none',
+          repeat: -1,
+          paused: true
+        });
+        
+        // Control loop animation based on scroll position
+        ScrollTrigger.create({
+          trigger: wrapper,
+          start: 'top bottom',
+          end: 'bottom top',
+          onEnter: function() {
+            if (loopAnimation) loopAnimation.pause();
+          },
+          onLeave: function() {
+            if (loopAnimation) loopAnimation.resume();
+          },
+          onEnterBack: function() {
+            if (loopAnimation) loopAnimation.pause();
+          },
+          onLeaveBack: function() {
+            if (loopAnimation) loopAnimation.resume();
+          }
+        });
+      }
+      
+      function initScrollTextAnimation() {
+        var wrapper = document.getElementById(sectionId);
+        if (!wrapper) return;
+        
+        var enableAnimation = wrapper.dataset.enableAnimation === 'true';
+        var scrollSpeed = parseFloat(wrapper.dataset.scrollSpeed) || 1;
+        var direction = wrapper.dataset.animationDirection || 'right';
+        var track = wrapper.querySelector('.scroll-text-track');
+        
+        if (!track || !enableAnimation) return;
+        
+        // Load GSAP and ScrollTrigger
+        loadGSAP(function() {
+          setupScrollAnimation(track, scrollSpeed, direction);
+        });
+      }
+      
+      // Initialize when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initScrollTextAnimation);
+      } else {
+        setTimeout(initScrollTextAnimation, 100);
+      }
+    })();
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Scroll Text Divider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Text Content"
+    },
+    {
+      "type": "text",
+      "id": "text_content",
+      "label": "Text content",
+      "default": "A) - IT'S A MATCH(A) - IT",
+      "info": "Text that will scroll along the divider"
+    },
+    {
+      "type": "range",
+      "id": "repeat_count",
+      "label": "Text repeat count",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 4,
+      "info": "How many times to repeat the text for seamless scrolling"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "top_color",
+      "label": "Top section color",
+      "default": "#E8F5E9",
+      "info": "Background color above the divider"
+    },
+    {
+      "type": "color",
+      "id": "bottom_color",
+      "label": "Bottom section color",
+      "default": "#F1F8E9",
+      "info": "Background color below the divider"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "default": "#2E7D32",
+      "info": "Color of the curved divider shape"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#A5D6A7",
+      "info": "Color of the scrolling text"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "text_spacing",
+      "label": "Text spacing",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "px",
+      "info": "Space between repeated text items"
+    },
+    {
+      "type": "header",
+      "content": "Size"
+    },
+    {
+      "type": "range",
+      "id": "divider_height",
+      "label": "Divider height",
+      "min": 80,
+      "max": 300,
+      "step": 10,
+      "default": 120,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_animation",
+      "label": "Enable scroll animation",
+      "default": true,
+      "info": "Text moves as you scroll the page"
+    },
+    {
+      "type": "select",
+      "id": "animation_direction",
+      "label": "Animation direction",
+      "default": "right",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right (text moves left to right)"
+        },
+        {
+          "value": "left",
+          "label": "Left (text moves right to left)"
+        }
+      ],
+      "info": "Direction of text movement"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "label": "Scroll speed",
+      "min": 0.5,
+      "max": 3,
+      "step": 0.1,
+      "default": 1,
+      "info": "Speed multiplier for scroll animation (1 = normal speed)"
+    },
+    {
+      "type": "header",
+      "content": "Wave Style"
+    },
+    {
+      "type": "select",
+      "id": "wave_style",
+      "label": "Wave intensity",
+      "default": "medium",
+      "options": [
+        {
+          "value": "subtle",
+          "label": "Subtle"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "dramatic",
+          "label": "Dramatic"
+        },
+        {
+          "value": "organic",
+          "label": "Organic"
+        }
+      ],
+      "info": "Shape of the curved divider"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll Text Divider"
+    }
+  ]
+}
+{% endschema %}
+
