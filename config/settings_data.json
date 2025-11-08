@@ -162,12 +162,12 @@
       },
       "badge-new": {
         "settings": {
-          "background": "#49a594",
-          "background_secondary": "#f5f5f5",
+          "background": "#ffe67d",
+          "background_secondary": "#060606",
           "background_gradient": "",
-          "text": "#ffffff",
-          "subtext": "#ffffff",
-          "heading_text": "#ffffff",
+          "text": "#000000",
+          "subtext": "#000000",
+          "heading_text": "#000000",
           "button": "#ffffff",
           "button_label": "#222222",
           "outline_button_label": "#ffffff",

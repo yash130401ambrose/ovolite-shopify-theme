@@ -14,13 +14,6 @@
     "annoucement": {
       "type": "annoucement",
       "blocks": {
-        "item_dGj4GU": {
-          "type": "item",
-          "settings": {
-            "message": "Free shipping for all orders from $60+",
-            "message_link": ""
-          }
-        },
         "item_6Ycmkw": {
           "type": "item",
           "settings": {
@@ -30,7 +23,6 @@
         }
       },
       "block_order": [
-        "item_dGj4GU",
         "item_6Ycmkw"
       ],
       "custom_css": [
@@ -40,50 +32,31 @@
         "container": "container",
         "color_scheme": "badge-sale",
         "show_announcement": true,
-        "homepage_only": true,
-        "show_close": true,
+        "homepage_only": false,
+        "show_close": false,
         "show_divider": false,
-        "show_nav": true,
+        "show_nav": false,
         "autorotate": true,
         "autorotate_speed": 3
       }
     },
     "header": {
       "type": "header",
-      "blocks": {
-        "5e153016-a9d7-46c9-a10e-30d16446793d": {
-          "type": "topbar",
-          "settings": {
-            "color_scheme": "",
-            "show_divider": true,
-            "transparent_on_top": false,
-            "show_phone_numb": false,
-            "show_email": false,
-            "show_social_links": true,
-            "show_stores_page": false,
-            "show_currency_switcher": false,
-            "show_country_selector": true,
-            "show_language_switcher": true,
-            "alert_message": "<span>Open Doors To A World Of Fashion  |  <a class=\"m-link-underline\" href=\"#\">Discover More</a><span></span></span>"
-          }
-        }
-      },
-      "block_order": [
-        "5e153016-a9d7-46c9-a10e-30d16446793d"
-      ],
       "custom_css": [
         ".m-topbar a[href*=\"facebook\"] {order: 2;}",
         ".social-media-links {column-gap: 30px;}"
       ],
       "settings": {
-        "color_scheme": "",
+        "color_scheme": "badge-sale",
         "color_scheme_menu": "",
         "header_design": "logo-center-menu-left",
-        "container": "container-fluid",
+        "container": "w-full",
         "sticky_header": "on_scroll_up",
-        "transparent_on_top": false,
+        "transparent_on_top": true,
         "transparent_text_color": "#ffffff",
         "logo_text": "MINIMOG",
+        "logo": "shopify://shop_images/Full_Logo_White.svg",
+        "logo_transparent": "shopify://shop_images/Full_Logo_White.svg",
         "logo_svg": "",
         "logo_mobile_svg": "",
         "logo_transparent_svg": "",
@@ -98,7 +71,7 @@
         "search": "show_icon",
         "show_account_icon": true,
         "show_cart_icon": true,
-        "show_wishlist_icon": true,
+        "show_wishlist_icon": false,
         "show_compare_icon": false,
         "show_currency_switcher": false,
         "show_country_selector": false,
