@@ -16,13 +16,24 @@
   endcase
 %}
 
-<div class="liquid-drip-divider-section" style="--drip-height: {{ drip_height }}px; --top-color: {{ top_color }}; --bottom-color: {{ bottom_color }};">
-  <svg class="liquid-drip-svg" viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="{{ path_d }}" fill="var(--top-color)"/>
-  </svg>
+<div class="liquid-drip-divider-wrapper" style="--top-color: {{ top_color }}; --bottom-color: {{ bottom_color }};">
+  <div class="liquid-drip-divider-section" style="--drip-height: {{ drip_height }}px;">
+    <svg class="liquid-drip-svg" viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="{{ path_d }}" fill="var(--top-color)"/>
+    </svg>
+  </div>
 </div>
 
 <style>
+  .liquid-drip-divider-wrapper {
+    position: relative;
+    width: 100%;
+    background: var(--bottom-color);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
   .liquid-drip-divider-section {
     position: relative;
     width: 100%;
@@ -32,7 +43,7 @@
     overflow: hidden;
     background: var(--bottom-color);
     line-height: 0;
-    z-index: 1;
+    display: block;
   }
   
   .liquid-drip-svg {
@@ -40,17 +51,12 @@
     height: 100%;
     display: block;
     position: relative;
+    vertical-align: bottom;
   }
   
-  .liquid-drip-divider-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: var(--top-color);
-    z-index: -1;
+  .liquid-drip-svg path {
+    width: 100%;
+    height: 100%;
   }
 </style>
 
