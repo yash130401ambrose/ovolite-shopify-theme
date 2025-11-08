@@ -23,25 +23,31 @@
   
   <div class="scroll-text-divider-section">
     <svg class="scroll-divider-svg" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      {% comment %} Divider shape {% endcomment %}
       {% case wave_style %}
         {% when 'subtle' %}
-          <path d="M0,0 L0,50 Q360,60 720,50 T1440,50 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+          <path id="divider-shape-{{ section.id }}" d="M0,0 L0,50 Q360,60 720,50 T1440,50 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+          <path id="text-path-{{ section.id }}" d="M0,50 Q360,60 720,50 T1440,50" fill="none" stroke="none"/>
         {% when 'dramatic' %}
-          <path d="M0,0 L0,40 Q180,90 360,40 T720,50 T1080,40 T1440,75 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+          <path id="divider-shape-{{ section.id }}" d="M0,0 L0,40 Q180,90 360,40 T720,50 T1080,40 T1440,75 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+          <path id="text-path-{{ section.id }}" d="M0,40 Q180,90 360,40 T720,50 T1080,40 T1440,75" fill="none" stroke="none"/>
         {% when 'organic' %}
-          <path d="M0,0 L0,55 Q120,75 240,50 T480,48 T720,45 T960,50 T1200,52 L1440,52 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+          <path id="divider-shape-{{ section.id }}" d="M0,0 L0,55 Q120,75 240,50 T480,48 T720,45 T960,50 T1200,52 L1440,52 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+          <path id="text-path-{{ section.id }}" d="M0,55 Q120,75 240,50 T480,48 T720,45 T960,50 T1200,52 L1440,52" fill="none" stroke="none"/>
         {% else %}
-          <path d="M0,0 L0,60 Q360,80 720,50 T1440,50 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+          <path id="divider-shape-{{ section.id }}" d="M0,0 L0,60 Q360,80 720,50 T1440,50 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+          <path id="text-path-{{ section.id }}" d="M0,60 Q360,80 720,50 T1440,50" fill="none" stroke="none"/>
       {% endcase %}
+      
+      {% comment %} Text following the wave path {% endcomment %}
+      <text class="scroll-text-path" data-direction="{{ animation_direction }}" data-enable-animation="{{ enable_animation }}">
+        <textPath href="#text-path-{{ section.id }}" startOffset="0%">
+          {% for i in (1..repeat_count) %}
+            {{ text_content }} • 
+          {% endfor %}
+        </textPath>
+      </text>
     </svg>
-    
-    <div class="scroll-text-overlay">
-      <div class="scroll-text-track" data-direction="{{ animation_direction }}">
-        {% for i in (1..repeat_count) %}
-          <span class="scroll-text-item" style="margin-right: var(--text-spacing);">{{ text_content }}</span>
-        {% endfor %}
-      </div>
-    </div>
   </div>
 </div>
 
@@ -72,72 +78,51 @@
     z-index: 1;
   }
   
-  .scroll-text-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    overflow: hidden;
-    pointer-events: none;
-  }
-  
-  .scroll-text-track {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    will-change: transform;
-  }
-  
-  .scroll-text-item {
+  .scroll-text-path {
     font-size: var(--text-size);
-    color: var(--text-color);
+    fill: var(--text-color);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 2px;
-    white-space: nowrap;
-    display: inline-block;
+    dominant-baseline: middle;
+    text-anchor: start;
   }
   
   /* CSS animation only when scroll animation is disabled */
-  .scroll-text-divider-wrapper[data-enable-animation="false"] .scroll-text-track[data-direction="right"] {
-    animation: scrollTextRight 20s linear infinite;
+  .scroll-text-path[data-enable-animation="false"][data-direction="right"] textPath {
+    animation: scrollTextPathRight 20s linear infinite;
   }
   
-  .scroll-text-divider-wrapper[data-enable-animation="false"] .scroll-text-track[data-direction="left"] {
-    animation: scrollTextLeft 20s linear infinite;
+  .scroll-text-path[data-enable-animation="false"][data-direction="left"] textPath {
+    animation: scrollTextPathLeft 20s linear infinite;
   }
   
-  @keyframes scrollTextRight {
+  @keyframes scrollTextPathRight {
     0% {
-      transform: translateX(-100%);
+      startOffset: 0%;
     }
     100% {
-      transform: translateX(0%);
+      startOffset: 100%;
     }
   }
   
-  @keyframes scrollTextLeft {
+  @keyframes scrollTextPathLeft {
     0% {
-      transform: translateX(0%);
+      startOffset: 100%;
     }
     100% {
-      transform: translateX(-100%);
+      startOffset: 0%;
     }
   }
   
   /* No CSS animation when scroll animation is enabled - GSAP will handle it */
-  .scroll-text-divider-wrapper[data-enable-animation="true"] .scroll-text-track {
+  .scroll-text-path[data-enable-animation="true"] textPath {
     animation: none !important;
   }
   
   /* Responsive text size */
   @media screen and (max-width: 768px) {
-    .scroll-text-item {
+    .scroll-text-path {
       font-size: calc(var(--text-size) * 0.7);
     }
   }
@@ -184,28 +169,27 @@
         document.head.appendChild(script);
       }
       
-      function setupScrollAnimation(track, speed, direction) {
+      function setupScrollAnimation(textPath, speed, direction) {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
         
-        var wrapper = track.closest('.scroll-text-divider-wrapper');
+        var wrapper = textPath.closest('.scroll-text-divider-wrapper');
         if (!wrapper) return;
         
-        // Calculate the full width needed for seamless loop
-        var trackWidth = track.scrollWidth;
-        var wrapperWidth = wrapper.offsetWidth;
+        // Get the textPath element
+        var pathElement = textPath.querySelector('textPath');
+        if (!pathElement) return;
         
         // Set initial position based on direction
-        var startX = direction === 'right' ? -trackWidth : 0;
-        var endX = direction === 'right' ? 0 : -trackWidth;
+        var startOffset = direction === 'right' ? 0 : 100;
+        var endOffset = direction === 'right' ? 100 : 0;
         
         // Set initial position
-        gsap.set(track, { x: startX });
+        pathElement.setAttribute('startOffset', startOffset + '%');
         
-        // Create scroll-triggered animation - this is the PRIMARY animation
-        // It moves text based on scroll position
+        // Create scroll-triggered animation - text moves along the path
         // scrub: true means it's directly tied to scroll position
-        var scrollAnimation = gsap.to(track, {
-          x: endX,
+        var scrollAnimation = gsap.to(pathElement, {
+          attr: { startOffset: endOffset + '%' },
           ease: 'none',
           scrollTrigger: {
             trigger: wrapper,
@@ -214,13 +198,13 @@
             scrub: true, // Directly tied to scroll - no auto movement
             invalidateOnRefresh: true,
             onUpdate: function(self) {
-              // Text position is directly tied to scroll progress
+              // Text position along the path is directly tied to scroll progress
               // Progress goes from 0 to 1 as you scroll through the section
             }
           }
         });
         
-        // Text now moves ONLY based on scroll position
+        // Text now moves along the wave path ONLY based on scroll position
         // No auto-scroll or loop animation
       }
       
@@ -231,13 +215,13 @@
         var enableAnimation = wrapper.dataset.enableAnimation === 'true';
         var scrollSpeed = parseFloat(wrapper.dataset.scrollSpeed) || 1;
         var direction = wrapper.dataset.animationDirection || 'right';
-        var track = wrapper.querySelector('.scroll-text-track');
+        var textPath = wrapper.querySelector('.scroll-text-path');
         
-        if (!track || !enableAnimation) return;
+        if (!textPath || !enableAnimation) return;
         
         // Load GSAP and ScrollTrigger
         loadGSAP(function() {
-          setupScrollAnimation(track, scrollSpeed, direction);
+          setupScrollAnimation(textPath, scrollSpeed, direction);
         });
       }
       
