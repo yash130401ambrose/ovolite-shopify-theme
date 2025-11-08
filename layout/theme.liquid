@@ -74,6 +74,9 @@
     {%- if settings.animations != 'none' -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+    {%- if settings.enable_heading_animation -%}
+      <script src="{{ 'heading-animation.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
     {%- if request.design_mode -%}
       <script src="{{ 'theme-editor.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}

@@ -336,6 +336,51 @@
       },
       {
         "type": "header",
+        "content": "Heading Animation"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_heading_animation",
+        "label": "Enable Heading Animation",
+        "default": false,
+        "info": "Animate headings with class .hero-heading span using GSAP"
+      },
+      {
+        "type": "range",
+        "id": "heading_animation_duration",
+        "label": "Duration",
+        "default": 1,
+        "min": 0.1,
+        "max": 3,
+        "step": 0.1,
+        "unit": "s"
+      },
+      {
+        "type": "range",
+        "id": "heading_animation_stagger",
+        "label": "Stagger",
+        "default": 0.2,
+        "min": 0,
+        "max": 1,
+        "step": 0.1,
+        "unit": "s"
+      },
+      {
+        "type": "text",
+        "id": "heading_animation_ease",
+        "label": "Ease",
+        "default": "power3.out",
+        "info": "GSAP easing function (e.g., power3.out, power2.inOut)"
+      },
+      {
+        "type": "text",
+        "id": "heading_animation_trigger",
+        "label": "ScrollTrigger start",
+        "default": "top 80%",
+        "info": "When to trigger animation (e.g., 'top 80%', 'top center')"
+      },
+      {
+        "type": "header",
         "content": "BUTTONS"
       },
       {
