@@ -70,6 +70,9 @@
         "slider_item_i7Kjie",
         "video_slide_yhfQCU"
       ],
+      "custom_css": [
+        ".hero-heading{color: #fff}"
+      ],
       "settings": {
         "container": "w-full",
         "slideshow_height": "adapt",
