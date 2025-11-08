@@ -334,7 +334,7 @@
         "heading_hUpEYQ": {
           "type": "heading",
           "settings": {
-            "heading": "Talk about your brand",
+            "heading": "<h1 class=\"hero-heading\">\n  <span>Welcome</span>\n  <span>to</span>\n  <span>Our</span>\n  <span>Store</span>\n</h1>",
             "heading_size": "h2"
           }
         },
