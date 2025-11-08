@@ -67,8 +67,8 @@
       "type": "liquid-drip-divider",
       "name": "Liquid Drip Divider",
       "settings": {
-        "mask_image_above": true,
-        "top_color": "#3a8735",
+        "mask_image_above": false,
+        "top_color": "#1b45c7",
         "bottom_color": "#ffffff",
         "drip_height": 100,
         "wave_style": "organic"
