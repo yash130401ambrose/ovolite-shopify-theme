@@ -1,0 +1,130 @@
+{% liquid
+  assign top_color = section.settings.top_color | default: '#F5F0E8'
+  assign bottom_color = section.settings.bottom_color | default: '#FAF7F2'
+  assign drip_height = section.settings.drip_height | default: 100
+  assign wave_style = section.settings.wave_style | default: 'medium'
+  
+  case wave_style
+    when 'subtle'
+      assign path_d = 'M0,0 L0,50 C200,65 400,35 600,50 C800,65 1000,35 1200,50 L1200,120 L0,120 Z'
+    when 'dramatic'
+      assign path_d = 'M0,0 L0,40 C100,90 200,10 300,70 C400,130 500,10 600,65 C700,120 800,20 900,70 C1000,120 1100,25 1200,75 L1200,120 L0,120 Z'
+    when 'organic'
+      assign path_d = 'M0,0 L0,55 C80,75 160,35 240,50 C320,65 400,30 480,48 C560,66 640,28 720,45 C800,62 880,32 960,50 C1040,68 1120,38 1200,52 L1200,120 L0,120 Z'
+    else
+      assign path_d = 'M0,0 L0,60 C150,80 300,40 450,50 C600,60 750,30 900,45 C1050,60 1150,40 1200,50 L1200,120 L0,120 Z'
+  endcase
+%}
+
+<div class="liquid-drip-divider-section" style="--drip-height: {{ drip_height }}px; --top-color: {{ top_color }}; --bottom-color: {{ bottom_color }};">
+  <svg class="liquid-drip-svg" viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="{{ path_d }}" fill="var(--top-color)"/>
+  </svg>
+</div>
+
+<style>
+  .liquid-drip-divider-section {
+    position: relative;
+    width: 100%;
+    height: var(--drip-height);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: var(--bottom-color);
+    line-height: 0;
+    z-index: 1;
+  }
+  
+  .liquid-drip-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+  }
+  
+  .liquid-drip-divider-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: var(--top-color);
+    z-index: -1;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Liquid Drip Divider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "top_color",
+      "label": "Top section color",
+      "default": "#F5F0E8",
+      "info": "Color that appears above the divider"
+    },
+    {
+      "type": "color",
+      "id": "bottom_color",
+      "label": "Bottom section color",
+      "default": "#FAF7F2",
+      "info": "Color that appears below the divider"
+    },
+    {
+      "type": "header",
+      "content": "Size"
+    },
+    {
+      "type": "range",
+      "id": "drip_height",
+      "label": "Divider height",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "default": 100,
+      "unit": "px",
+      "info": "Height of the liquid drip divider"
+    },
+    {
+      "type": "header",
+      "content": "Wave Style"
+    },
+    {
+      "type": "select",
+      "id": "wave_style",
+      "label": "Wave intensity",
+      "default": "medium",
+      "options": [
+        {
+          "value": "subtle",
+          "label": "Subtle"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "dramatic",
+          "label": "Dramatic"
+        },
+        {
+          "value": "organic",
+          "label": "Organic"
+        }
+      ],
+      "info": "Choose the intensity of the wave pattern"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Liquid Drip Divider"
+    }
+  ]
+}
+{% endschema %}
