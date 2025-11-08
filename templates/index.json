@@ -370,6 +370,14 @@
         "animations": "inherit"
       }
     },
+    "custom_liquid_AgwDCi": {
+      "type": "custom-liquid",
+      "name": "Custom liquid",
+      "settings": {
+        "custom_liquid": "<h1 class=\"hero-heading\">\n  <span>Welcome</span>\n  <span>to</span>\n  <span>Our</span>\n  <span>Store</span>\n</h1>",
+        "custom_class": ""
+      }
+    },
     "lookbook_MB4Mr4": {
       "type": "lookbook",
       "blocks": {
@@ -1317,6 +1325,7 @@
     "162251092958fcda7c",
     "7ea56e8d-5794-4708-8812-8ee9604a3a21",
     "rich_text_pTGJ4b",
+    "custom_liquid_AgwDCi",
     "lookbook_MB4Mr4",
     "scrolling_promotion_jjrFyf",
     "collection_tabs_QE4TLj",
