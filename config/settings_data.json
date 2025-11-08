@@ -26,6 +26,7 @@
     "heading_animation_duration": 0.7,
     "heading_animation_stagger": 0.2,
     "heading_animation_ease": "power3.out",
+    "heading_animation_trigger": "top 50%",
     "btn_uppercase_text": false,
     "btn_base_size": 14,
     "btn_border_radius": 50,

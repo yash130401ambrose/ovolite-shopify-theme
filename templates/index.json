@@ -65,6 +65,7 @@
     },
     "image_with_text_kX9k8X": {
       "type": "image-with-text",
+      "custom_css": [],
       "name": "Image with text",
       "settings": {
         "heading": "",
@@ -80,6 +81,7 @@
         "show_image_reverse": false,
         "hover_effect": false,
         "image_animation": "none",
+        "image": "shopify://shop_images/Gemini_Generated_Image_qb45ohqb45ohqb45.png",
         "link": "",
         "link_2": "",
         "second_image_offset_top": 10,
