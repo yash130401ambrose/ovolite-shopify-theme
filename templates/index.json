@@ -9,58 +9,47 @@
  */
 {
   "sections": {
-    "1621243260e1af0c20": {
-      "type": "slider",
-      "blocks": {
-        "slider_item_i7Kjie": {
-          "type": "slider_item",
-          "settings": {
-            "background": "shopify://shop_images/Turquoise_Blue_Shoes_Realistic_Product_Promotion_Banner.png",
-            "content_in_container": false,
-            "content_position": "left middle",
-            "text_alignment": "left",
-            "text_size": "large",
-            "text_color": "white",
-            "subheading": "",
-            "title": "<h1 class=\"hero-heading\">\n  <span>Liquid Egg Whites </span>\n</h1>",
-            "description": "<p>Tell your campaign through images</p>",
-            "image_link": "",
-            "button_text": "Shop now",
-            "button_link": "",
-            "button_style": "m-button--primary",
-            "button_size": "",
-            "second_button_text": "",
-            "second_button_link": "",
-            "second_button_style": "m-button--primary",
-            "second_button_size": "",
-            "show_footer": false,
-            "footer_alignment": "end",
-            "footer_text": "New Collection",
-            "footer_button": "Shop Now",
-            "footer_link": "",
-            "enable_preload_image": false
-          }
-        }
-      },
-      "block_order": [
-        "slider_item_i7Kjie"
-      ],
-      "custom_css": [
-        ".hero-heading {color: #fff;}"
-      ],
+    "image_with_text_2_NRLVdk": {
+      "type": "image-with-text-2",
+      "name": "Image with text overlay",
       "settings": {
+        "color_scheme": "",
         "container": "w-full",
-        "slideshow_height": "adapt",
-        "show_overlay": false,
-        "dots_position": "right",
-        "dots_color": "dark",
-        "show_dots": true,
-        "show_arrows": false,
-        "autorotate": true,
-        "autorotate_speed": 4,
+        "hero_size": "adapt",
+        "show_overlay": true,
+        "image": "shopify://shop_images/Turquoise_Blue_Shoes_Realistic_Product_Promotion_Banner_1.png",
+        "image_link": "",
+        "parallax": false,
+        "parallax_direction": "vertical",
+        "content_in_container": false,
+        "content_position": "center middle",
+        "text_alignment": "left",
+        "text_size": "medium",
+        "text_color": "white",
+        "title": "Image with text overlay",
+        "subtitle": "",
+        "text": "<p>Use overlay text to give your customers insight into your brand. Select imagery and text that relates to your style and story.</p>",
+        "button_label": "Shop now",
+        "button_link": "",
+        "button_style": "m-button--white",
+        "button_size": "",
+        "text_alignment_mobile": "center",
         "use_content_above": false,
-        "custom_class": "liquid-drip-masked",
-        "animations": "inherit"
+        "custom_class": "liquid-drip-masked-section",
+        "animations": "inherit",
+        "enable_bg_zoom_effect": false,
+        "enable_preload_image": false
+      }
+    },
+    "liquid_drip_divider_Ki8Lbj": {
+      "type": "liquid-drip-divider",
+      "name": "Liquid Drip Divider",
+      "settings": {
+        "mask_image_above": true,
+        "top_color": "#F5F0E8",
+        "bottom_color": "#1b45c7",
+        "drip_height": 160,
+        "wave_style": "medium"
       }
     },
     "image_with_text_kX9k8X": {
@@ -1314,7 +1303,8 @@
     }
   },
   "order": [
-    "1621243260e1af0c20",
+    "image_with_text_2_NRLVdk",
+    "liquid_drip_divider_Ki8Lbj",
     "image_with_text_kX9k8X",
     "liquid_drip_divider_YYNE8t",
     "16225316461d1cff80",
