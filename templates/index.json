@@ -63,6 +63,41 @@
         "animations": "inherit"
       }
     },
+    "image_with_text_kX9k8X": {
+      "type": "image-with-text",
+      "name": "Image with text",
+      "settings": {
+        "heading": "",
+        "heading_size": "h3",
+        "subheading": "",
+        "container": "container-fluid",
+        "color_scheme": "badge-sale",
+        "item_gap": 100,
+        "item_gap_mobile": 30,
+        "layout": "left",
+        "image_column_size": "6",
+        "image_overlap": false,
+        "show_image_reverse": false,
+        "hover_effect": false,
+        "image_animation": "none",
+        "link": "",
+        "link_2": "",
+        "second_image_offset_top": 10,
+        "title": "<h1 class=\"hero-heading\">\n  <span>We bring low fat, preservative-free, antibiotic-free protein, conveniently to your lives!</span>\n</h1>",
+        "sub_title": "",
+        "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+        "text_size": "medium",
+        "content_alignment": "left",
+        "button_label": "Shop Collection",
+        "button_link": "",
+        "button_style": "m-button--link",
+        "button_size": "",
+        "padding_top": 100,
+        "padding_bottom": 50,
+        "custom_class": "",
+        "animations": "inherit"
+      }
+    },
     "liquid_drip_divider_YYNE8t": {
       "type": "liquid-drip-divider",
       "name": "Liquid Drip Divider",
@@ -71,7 +106,7 @@
         "top_color": "#1b45c7",
         "bottom_color": "#ffffff",
         "drip_height": 100,
-        "wave_style": "organic"
+        "wave_style": "dramatic"
       }
     },
     "16225316461d1cff80": {
@@ -1278,6 +1313,7 @@
   },
   "order": [
     "1621243260e1af0c20",
+    "image_with_text_kX9k8X",
     "liquid_drip_divider_YYNE8t",
     "16225316461d1cff80",
     "162251092958fcda7c",
