@@ -41,6 +41,25 @@
         "enable_preload_image": false
       }
     },
+    "scroll_text_divider_8DD3nL": {
+      "type": "scroll-text-divider",
+      "name": "Scroll Text Divider",
+      "settings": {
+        "text_content": "A) - IT'S A MATCH(A) - IT",
+        "repeat_count": 4,
+        "top_color": "#E8F5E9",
+        "bottom_color": "#F1F8E9",
+        "divider_color": "#3a8735",
+        "text_color": "#A5D6A7",
+        "text_size": 24,
+        "text_spacing": 50,
+        "divider_height": 120,
+        "enable_animation": true,
+        "animation_direction": "right",
+        "scroll_speed": 1,
+        "wave_style": "medium"
+      }
+    },
     "image_with_text_kX9k8X": {
       "type": "image-with-text",
       "custom_css": [],
@@ -1293,6 +1312,7 @@
   },
   "order": [
     "image_with_text_2_NRLVdk",
+    "scroll_text_divider_8DD3nL",
     "image_with_text_kX9k8X",
     "liquid_drip_divider_YYNE8t",
     "16225316461d1cff80",
