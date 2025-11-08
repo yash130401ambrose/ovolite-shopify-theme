@@ -1,17 +1,14 @@
 <section class="scroll-divider-section">
-  <div class="scroll-divider-bg">
-    <div class="scroll-bg-top"></div>
-    <div class="scroll-bg-bottom"></div>
+  <div class="scroll-wrapper" style="background: {{ section.settings.bg_color }}">
+    <svg class="scroll-divider-svg" viewBox="0 0 1600 200" preserveAspectRatio="xMidYMid slice">
+      <path id="scrollTextPath" fill="none" d="M0,120 Q800,60 1600,120" />
+      <text class="scroll-divider-text" fill="{{ section.settings.text_color }}" font-size="{{ section.settings.font_size }}">
+        <textPath href="#scrollTextPath" startOffset="0%">
+          {{ section.settings.text }} • {{ section.settings.text }} • {{ section.settings.text }}
+        </textPath>
+      </text>
+    </svg>
   </div>
-
-  <svg class="scroll-divider-svg" viewBox="0 0 1600 200" preserveAspectRatio="xMidYMid slice">
-    <path id="scrollTextPath" fill="none" d="M0,120 Q800,60 1600,120" />
-    <text class="scroll-divider-text" fill="{{ section.settings.text_color }}" font-size="{{ section.settings.font_size }}">
-      <textPath href="#scrollTextPath" startOffset="0%">
-        {{ section.settings.text }} • {{ section.settings.text }} • {{ section.settings.text }}
-      </textPath>
-    </text>
-  </svg>
 </section>
 
 <style>
@@ -19,38 +16,18 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 220px;
 }
 
-.scroll-divider-bg {
-  position: absolute;
+.scroll-wrapper {
+  position: relative;
   width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.scroll-bg-top, .scroll-bg-bottom {
-  position: absolute;
-  width: 100%;
-  height: 50%;
-  left: 0;
-}
-
-.scroll-bg-top {
-  top: 0;
-  background: {{ section.settings.top_bg_color }};
-}
-
-.scroll-bg-bottom {
-  bottom: 0;
-  background: {{ section.settings.bottom_bg_color }};
+  padding: 60px 0;
+  overflow: hidden;
 }
 
 .scroll-divider-svg {
-  position: relative;
   width: 100%;
-  height: 220px;
-  z-index: 2;
+  height: 200px;
 }
 
 .scroll-divider-text {
@@ -76,8 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const text = document.querySelector(".scroll-divider-text textPath");
 
+  // move left → right
   gsap.to(text, {
-    attr: { startOffset: "-100%" },
+    attr: { startOffset: "100%" },
     ease: "none",
     scrollTrigger: {
       trigger: ".scroll-divider-section",
@@ -91,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 {% schema %}
 {
-  "name": " Scroll Text Divider ",
+  "name": "Scroll Text Divider",
   "settings": [
     {
       "type": "text",
@@ -115,20 +93,14 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       "type": "color",
-      "id": "top_bg_color",
-      "label": "Top Background Color",
+      "id": "bg_color",
+      "label": "Background Color",
       "default": "#E5EED8"
-    },
-    {
-      "type": "color",
-      "id": "bottom_bg_color",
-      "label": "Bottom Background Color",
-      "default": "#DCE8C4"
     }
   ],
   "presets": [
     {
-      "name": "Curved Scroll Text Divider (Full Width)"
+      "name": "Curved Scroll Text Divider"
     }
   ]
 }
