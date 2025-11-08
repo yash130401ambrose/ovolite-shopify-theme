@@ -40,10 +40,18 @@
       {% endcase %}
       
       {% comment %} Text following the wave path {% endcomment %}
-      <text class="scroll-text-path" data-direction="{{ animation_direction }}" data-enable-animation="{{ enable_animation }}">
-        <textPath href="#text-path-{{ section.id }}" startOffset="0%">
+      <text class="scroll-text-path" data-direction="{{ animation_direction }}" data-enable-animation="{{ enable_animation }}" dy="0">
+        <textPath href="#text-path-{{ section.id }}" startOffset="0" method="align" spacing="auto">
+          {% assign full_text = text_content %}
+          {% comment %} Repeat text multiple times to fill entire path {% endcomment %}
           {% for i in (1..repeat_count) %}
-            {{ text_content }} • 
+            {{ full_text }} • 
+          {% endfor %}
+          {% for i in (1..repeat_count) %}
+            {{ full_text }} • 
+          {% endfor %}
+          {% for i in (1..repeat_count) %}
+            {{ full_text }} • 
           {% endfor %}
         </textPath>
       </text>
@@ -83,9 +91,16 @@
     fill: var(--text-color);
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 0.05em;
     dominant-baseline: middle;
     text-anchor: start;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    text-rendering: geometricPrecision;
+    shape-rendering: geometricPrecision;
+  }
+  
+  .scroll-text-path textPath {
+    letter-spacing: 0.05em;
   }
   
   /* CSS animation only when scroll animation is disabled */
@@ -179,17 +194,29 @@
         var pathElement = textPath.querySelector('textPath');
         if (!pathElement) return;
         
-        // Set initial position based on direction
-        var startOffset = direction === 'right' ? 0 : 100;
-        var endOffset = direction === 'right' ? 100 : 0;
+        // Get the actual path length to calculate proper offset
+        var svgPath = document.querySelector(pathElement.getAttribute('href'));
+        if (!svgPath) return;
         
-        // Set initial position
-        pathElement.setAttribute('startOffset', startOffset + '%');
+        var pathLength = svgPath.getTotalLength();
+        var textLength = pathElement.getComputedTextLength();
+        
+        // Calculate how many times we need to repeat to fill the path
+        // We want the text to loop seamlessly
+        var repeatNeeded = Math.ceil(pathLength / textLength) + 2;
+        
+        // Set initial position based on direction
+        // For seamless loop, we need to account for the text length
+        var startOffset = direction === 'right' ? 0 : pathLength;
+        var endOffset = direction === 'right' ? pathLength : 0;
+        
+        // Set initial position (use pixel values for smoother animation)
+        pathElement.setAttribute('startOffset', startOffset);
         
         // Create scroll-triggered animation - text moves along the path
         // scrub: true means it's directly tied to scroll position
         var scrollAnimation = gsap.to(pathElement, {
-          attr: { startOffset: endOffset + '%' },
+          attr: { startOffset: endOffset },
           ease: 'none',
           scrollTrigger: {
             trigger: wrapper,
@@ -198,8 +225,21 @@
             scrub: true, // Directly tied to scroll - no auto movement
             invalidateOnRefresh: true,
             onUpdate: function(self) {
-              // Text position along the path is directly tied to scroll progress
-              // Progress goes from 0 to 1 as you scroll through the section
+              // For seamless looping, wrap the offset when it exceeds path length
+              var currentOffset = parseFloat(pathElement.getAttribute('startOffset')) || 0;
+              if (direction === 'right') {
+                // Loop seamlessly when text goes beyond path length
+                while (currentOffset >= pathLength) {
+                  currentOffset = currentOffset - pathLength;
+                }
+                pathElement.setAttribute('startOffset', currentOffset);
+              } else {
+                // Loop seamlessly when text goes before start
+                while (currentOffset <= -pathLength) {
+                  currentOffset = currentOffset + pathLength;
+                }
+                pathElement.setAttribute('startOffset', currentOffset);
+              }
             }
           }
         });
@@ -254,11 +294,11 @@
       "type": "range",
       "id": "repeat_count",
       "label": "Text repeat count",
-      "min": 2,
-      "max": 10,
-      "step": 1,
-      "default": 4,
-      "info": "How many times to repeat the text for seamless scrolling"
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "default": 8,
+      "info": "How many times to repeat the text for seamless scrolling (higher = more coverage)"
     },
     {
       "type": "header",
