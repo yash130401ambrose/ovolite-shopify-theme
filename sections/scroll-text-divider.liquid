@@ -103,13 +103,12 @@
     display: inline-block;
   }
   
-  /* Animation for right direction */
-  .scroll-text-track[data-direction="right"] {
+  /* CSS animation only when scroll animation is disabled */
+  .scroll-text-divider-wrapper[data-enable-animation="false"] .scroll-text-track[data-direction="right"] {
     animation: scrollTextRight 20s linear infinite;
   }
   
-  /* Animation for left direction */
-  .scroll-text-track[data-direction="left"] {
+  .scroll-text-divider-wrapper[data-enable-animation="false"] .scroll-text-track[data-direction="left"] {
     animation: scrollTextLeft 20s linear infinite;
   }
   
@@ -131,9 +130,9 @@
     }
   }
   
-  /* Pause animation when disabled */
-  .scroll-text-divider-wrapper[data-enable-animation="false"] .scroll-text-track {
-    animation: none;
+  /* No CSS animation when scroll animation is enabled - GSAP will handle it */
+  .scroll-text-divider-wrapper[data-enable-animation="true"] .scroll-text-track {
+    animation: none !important;
   }
   
   /* Responsive text size */
@@ -191,54 +190,38 @@
         var wrapper = track.closest('.scroll-text-divider-wrapper');
         if (!wrapper) return;
         
+        // Calculate the full width needed for seamless loop
         var trackWidth = track.scrollWidth;
         var wrapperWidth = wrapper.offsetWidth;
         
-        // Set initial position
-        gsap.set(track, {
-          x: direction === 'right' ? -trackWidth : 0
-        });
+        // Set initial position based on direction
+        var startX = direction === 'right' ? -trackWidth : 0;
+        var endX = direction === 'right' ? 0 : -trackWidth;
         
-        // Create scroll-triggered animation
+        // Set initial position
+        gsap.set(track, { x: startX });
+        
+        // Create scroll-triggered animation - this is the PRIMARY animation
+        // It moves text based on scroll position
+        // scrub: true means it's directly tied to scroll position
         var scrollAnimation = gsap.to(track, {
-          x: direction === 'right' ? 0 : -trackWidth,
+          x: endX,
           ease: 'none',
           scrollTrigger: {
             trigger: wrapper,
             start: 'top bottom',
             end: 'bottom top',
-            scrub: true,
-            invalidateOnRefresh: true
+            scrub: true, // Directly tied to scroll - no auto movement
+            invalidateOnRefresh: true,
+            onUpdate: function(self) {
+              // Text position is directly tied to scroll progress
+              // Progress goes from 0 to 1 as you scroll through the section
+            }
           }
         });
         
-        // Continuous loop animation when not scrolling
-        var loopAnimation = gsap.to(track, {
-          x: direction === 'right' ? 0 : -trackWidth,
-          duration: 20 / speed,
-          ease: 'none',
-          repeat: -1,
-          paused: true
-        });
-        
-        // Control loop animation based on scroll position
-        ScrollTrigger.create({
-          trigger: wrapper,
-          start: 'top bottom',
-          end: 'bottom top',
-          onEnter: function() {
-            if (loopAnimation) loopAnimation.pause();
-          },
-          onLeave: function() {
-            if (loopAnimation) loopAnimation.resume();
-          },
-          onEnterBack: function() {
-            if (loopAnimation) loopAnimation.pause();
-          },
-          onLeaveBack: function() {
-            if (loopAnimation) loopAnimation.resume();
-          }
-        });
+        // Text now moves ONLY based on scroll position
+        // No auto-scroll or loop animation
       }
       
       function initScrollTextAnimation() {
