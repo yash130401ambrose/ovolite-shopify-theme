@@ -559,7 +559,7 @@
         "container": "container-fluid",
         "color_scheme": "",
         "header_alignment": "left",
-        "heading": "Beautifully functional <br>consciously crafted",
+        "heading": "<h1 class=\"hero-heading\">  <span>Welcome</span>  <span>to</span>  <span>Our</span>  <span>Store</span>\n</h1>",
         "heading_size": "h2",
         "subheading": "Hot This Week",
         "description": "",
