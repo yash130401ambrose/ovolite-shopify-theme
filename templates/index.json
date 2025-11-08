@@ -53,7 +53,7 @@
         "text_color": "#a5d6a7",
         "text_size": 58,
         "text_spacing": 50,
-        "divider_height": 120,
+        "divider_height": 160,
         "enable_animation": true,
         "animation_direction": "right",
         "scroll_speed": 1,
