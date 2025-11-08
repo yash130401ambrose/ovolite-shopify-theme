@@ -47,17 +47,17 @@
       "settings": {
         "text_content": "A) - IT'S A MATCH(A) - IT",
         "repeat_count": 4,
-        "top_color": "#E8F5E9",
-        "bottom_color": "#F1F8E9",
+        "top_color": "#e8f5e9",
+        "bottom_color": "#f1f8e9",
         "divider_color": "#3a8735",
-        "text_color": "#A5D6A7",
-        "text_size": 24,
+        "text_color": "#a5d6a7",
+        "text_size": 58,
         "text_spacing": 50,
         "divider_height": 120,
         "enable_animation": true,
         "animation_direction": "right",
         "scroll_speed": 1,
-        "wave_style": "medium"
+        "wave_style": "dramatic"
       }
     },
     "image_with_text_kX9k8X": {
