@@ -71,7 +71,7 @@
         "video_slide_yhfQCU"
       ],
       "custom_css": [
-        ".hero-heading{color: #fff}"
+        ".hero-heading {color: #fff;}"
       ],
       "settings": {
         "container": "w-full",
@@ -86,6 +86,16 @@
         "use_content_above": false,
         "custom_class": "sf-home__slideshow",
         "animations": "inherit"
+      }
+    },
+    "liquid_drip_divider_YYNE8t": {
+      "type": "liquid-drip-divider",
+      "name": "Liquid Drip Divider",
+      "settings": {
+        "top_color": "#3a8735",
+        "bottom_color": "#ffffff",
+        "drip_height": 100,
+        "wave_style": "organic"
       }
     },
     "16225316461d1cff80": {
@@ -1292,6 +1302,7 @@
   },
   "order": [
     "1621243260e1af0c20",
+    "liquid_drip_divider_YYNE8t",
     "16225316461d1cff80",
     "162251092958fcda7c",
     "7ea56e8d-5794-4708-8812-8ee9604a3a21",

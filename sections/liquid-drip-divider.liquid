@@ -3,37 +3,51 @@
   assign bottom_color = section.settings.bottom_color | default: '#FAF7F2'
   assign drip_height = section.settings.drip_height | default: 100
   assign wave_style = section.settings.wave_style | default: 'medium'
-  
-  case wave_style
-    when 'subtle'
-      assign path_d = 'M0,0 L0,50 C200,65 400,35 600,50 C800,65 1000,35 1200,50 L1200,120 L0,120 Z'
-    when 'dramatic'
-      assign path_d = 'M0,0 L0,40 C100,90 200,10 300,70 C400,130 500,10 600,65 C700,120 800,20 900,70 C1000,120 1100,25 1200,75 L1200,120 L0,120 Z'
-    when 'organic'
-      assign path_d = 'M0,0 L0,55 C80,75 160,35 240,50 C320,65 400,30 480,48 C560,66 640,28 720,45 C800,62 880,32 960,50 C1040,68 1120,38 1200,52 L1200,120 L0,120 Z'
-    else
-      assign path_d = 'M0,0 L0,60 C150,80 300,40 450,50 C600,60 750,30 900,45 C1050,60 1150,40 1200,50 L1200,120 L0,120 Z'
-  endcase
+  assign mask_image_above = section.settings.mask_image_above | default: false
 %}
 
-<div class="liquid-drip-divider-wrapper" style="--top-color: {{ top_color }}; --bottom-color: {{ bottom_color }};">
-  <div class="liquid-drip-divider-section" style="--drip-height: {{ drip_height }}px;">
-    <svg class="liquid-drip-svg" viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="{{ path_d }}" fill="var(--top-color)"/>
+{% if mask_image_above %}
+  {% comment %} Mask mode: The divider acts as a mask for the section above {% endcomment %}
+  <div class="liquid-drip-mask-wrapper" style="--drip-height: {{ drip_height }}px; --top-color: {{ top_color }}; --bottom-color: {{ bottom_color }};">
+    <div class="liquid-drip-mask liquid-drip-{{ wave_style }}" style="--drip-height: var(--drip-height);">
+      <svg class="liquid-drip-mask-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
+        {% case wave_style %}
+          {% when 'subtle' %}
+            <path d="M0,0 L0,50 Q360,60 720,50 T1440,50 L1440,0 Z" fill="white"/>
+          {% when 'dramatic' %}
+            <path d="M0,0 L0,40 Q180,90 360,40 T720,50 T1080,40 T1440,75 L1440,0 Z" fill="white"/>
+          {% when 'organic' %}
+            <path d="M0,0 L0,55 Q120,75 240,50 T480,48 T720,45 T960,50 T1200,52 L1440,52 L1440,0 Z" fill="white"/>
+          {% else %}
+            <path d="M0,0 L0,60 Q360,80 720,50 T1440,50 L1440,0 Z" fill="white"/>
+        {% endcase %}
+      </svg>
+    </div>
+  </div>
+{% else %}
+  {% comment %} Normal mode: Standard divider between sections {% endcomment %}
+  <div class="liquid-drip-divider-section" style="--drip-height: {{ drip_height }}px; --top-color: {{ top_color }}; --bottom-color: {{ bottom_color }};">
+    <svg class="liquid-drip-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
+      {% case wave_style %}
+        {% when 'subtle' %}
+          <path d="M0,0 L0,50 L1440,50 L1440,120 L0,120 Z" fill="var(--bottom-color)"/>
+          <path d="M0,50 Q360,60 720,50 T1440,50 L1440,0 L0,0 Z" fill="var(--top-color)"/>
+        {% when 'dramatic' %}
+          <path d="M0,0 L0,40 L1440,75 L1440,120 L0,120 Z" fill="var(--bottom-color)"/>
+          <path d="M0,40 Q180,90 360,40 T720,50 T1080,40 T1440,75 L1440,0 L0,0 Z" fill="var(--top-color)"/>
+        {% when 'organic' %}
+          <path d="M0,0 L0,55 L1440,52 L1440,120 L0,120 Z" fill="var(--bottom-color)"/>
+          <path d="M0,55 Q120,75 240,50 T480,48 T720,45 T960,50 T1200,52 L1440,52 L1440,0 L0,0 Z" fill="var(--top-color)"/>
+        {% else %}
+          <path d="M0,0 L0,60 L1440,50 L1440,120 L0,120 Z" fill="var(--bottom-color)"/>
+          <path d="M0,60 Q360,80 720,50 T1440,50 L1440,0 L0,0 Z" fill="var(--top-color)"/>
+      {% endcase %}
     </svg>
   </div>
-</div>
+{% endif %}
 
 <style>
-  .liquid-drip-divider-wrapper {
-    position: relative;
-    width: 100%;
-    background: var(--bottom-color);
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-  }
-  
+  /* Normal divider mode */
   .liquid-drip-divider-section {
     position: relative;
     width: 100%;
@@ -51,12 +65,60 @@
     height: 100%;
     display: block;
     position: relative;
-    vertical-align: bottom;
   }
   
-  .liquid-drip-svg path {
+  /* Mask mode for image sections above */
+  .liquid-drip-mask-wrapper {
+    position: relative;
+    width: 100%;
+    height: var(--drip-height);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: var(--bottom-color);
+    line-height: 0;
+    display: block;
+    z-index: 1;
+  }
+  
+  .liquid-drip-mask {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--drip-height);
+    pointer-events: none;
+  }
+  
+  .liquid-drip-mask-svg {
     width: 100%;
     height: 100%;
+    display: block;
+  }
+  
+  /* CSS class to add to the section above when using mask mode */
+  .liquid-drip-masked-section {
+    position: relative;
+    margin-bottom: 0 !important;
+  }
+  
+  .liquid-drip-masked-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--drip-height, 100px);
+    background: var(--bottom-color);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L0,60 Q360,80 720,50 T1440,50 L1440,0 Z' fill='white'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L0,60 Q360,80 720,50 T1440,50 L1440,0 Z' fill='white'/%3E%3C/svg%3E");
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: bottom;
+    -webkit-mask-position: bottom;
+    z-index: 1;
   }
 </style>
 
@@ -66,6 +128,17 @@
   "settings": [
     {
       "type": "header",
+      "content": "Mask Mode"
+    },
+    {
+      "type": "checkbox",
+      "id": "mask_image_above",
+      "label": "Mask image section above",
+      "default": false,
+      "info": "When enabled, the liquid drip shape will mask/clip the section above (useful for image sections). The section above will need the class 'liquid-drip-masked-section' added to it."
+    },
+    {
+      "type": "header",
       "content": "Colors"
     },
     {
@@ -73,7 +146,7 @@
       "id": "top_color",
       "label": "Top section color",
       "default": "#F5F0E8",
-      "info": "Color that appears above the divider"
+      "info": "Color that appears above the divider (or background for masked sections)"
     },
     {
       "type": "color",
@@ -121,7 +194,7 @@
         },
         {
           "value": "organic",
-          "label": "Organic"
+      "label": "Organic"
         }
       ],
       "info": "Choose the intensity of the wave pattern"
