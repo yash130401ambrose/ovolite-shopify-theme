@@ -12,14 +12,13 @@
   assign enable_animation = section.settings.enable_animation | default: true
   assign icon_size = section.settings.icon_size | default: 96
   assign icon_offset = section.settings.icon_offset | default: 52
-  assign tilt_amount = section.settings.tilt_amount | default: 3
 %}
 
 <section
   id="scroll-cards-{{ section.id }}"
   class="scroll-cards-section"
   data-enable-animation="{{ enable_animation }}"
-  style="--bg: {{ bg_color }}; --heading-color: {{ heading_color }}; --heading-opacity: {{ heading_opacity }}; --card-bg: {{ card_bg }}; --card-radius: {{ card_radius }}px; --card-width: {{ card_width }}px; --card-gap: {{ card_gap }}px; --section-padding-y: {{ section_padding_y }}px; --desc-color: {{ desc_color }}; --icon-size: {{ icon_size }}px; --icon-offset: {{ icon_offset }}px; --tilt: {{ tilt_amount }}deg;"
+  style="--bg: {{ bg_color }}; --heading-color: {{ heading_color }}; --heading-opacity: {{ heading_opacity }}; --card-bg: {{ card_bg }}; --card-radius: {{ card_radius }}px; --card-width: {{ card_width }}px; --card-gap: {{ card_gap }}px; --section-padding-y: {{ section_padding_y }}px; --desc-color: {{ desc_color }}; --icon-size: {{ icon_size }}px; --icon-offset: {{ icon_offset }}px;"
 >
   <div class="scroll-cards__container">
     <h2 class="scroll-cards__heading">{{ heading_text }}</h2>
@@ -82,7 +81,6 @@
     position: relative;
     width: 100%;
     overflow: hidden;
-    perspective: 900px; /* subtle 3D feel for tilt */
   }
 
   #scroll-cards-{{ section.id }} .scroll-cards__track {
@@ -106,8 +104,6 @@
     gap: 16px;
     box-shadow: 0 10px 24px rgba(0,0,0,.08);
     position: relative;
-    will-change: transform;
-    transform-style: preserve-3d;
   }
 
   /* Icon sits above the card, centered; animated in JS */
@@ -148,7 +144,6 @@
     (function() {
       'use strict';
       var sectionId = 'scroll-cards-{{ section.id }}';
-      var tiltAmount = {{ tilt_amount | default: 3 }}; // degrees
 
       function loadScript(src) {
         return new Promise(function(resolve, reject) {
@@ -185,7 +180,7 @@
           // End when the last card is centered in viewport
           var endX = viewportCenter - lastCenter;
 
-          // timeline controls horizontal motion (so we can use containerAnimation for icons and cards)
+          // timeline controls horizontal motion (so we can use containerAnimation for icons)
           var tl = gsap.timeline({
             scrollTrigger: {
               trigger: root,
@@ -197,28 +192,13 @@
           });
           tl.fromTo(track, { x: startX }, { x: endX, ease: 'none' });
 
-          // Icon pop-up & card tilt when card reaches around center
-          cards.forEach(function(card, idx) {
+          // Icon pop-up when each card reaches around center
+          cards.forEach(function(card) {
             var icon = card.querySelector('.scroll-card__icon');
-            if (icon) {
-              gsap.fromTo(icon,
-                { y: 20, opacity: 0, scale: 0.9 },
-                { y: 0, opacity: 1, scale: 1, duration: 0.45, ease: 'power2.out',
-                  scrollTrigger: {
-                    containerAnimation: tl,
-                    trigger: card,
-                    start: 'left center',
-                    toggleActions: 'play none none reverse'
-                  }
-                }
-              );
-            }
-
-            // Subtle tilt: alternate direction for variety
-            var fromRot = (idx % 2 === 0 ? -tiltAmount : tiltAmount);
-            gsap.fromTo(card,
-              { rotationY: fromRot, y: 12, transformOrigin: '50% 60%' },
-              { rotationY: 0, y: 0, duration: 0.6, ease: 'power2.out',
+            if (!icon) return;
+            gsap.fromTo(icon,
+              { y: 20, opacity: 0, scale: 0.9 },
+              { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out',
                 scrollTrigger: {
                   containerAnimation: tl,
                   trigger: card,
@@ -269,7 +249,6 @@
     { "type": "color", "id": "desc_color", "label": "Description color", "default": "#1a1a1a" },
     { "type": "range", "id": "icon_size", "label": "Icon size", "min": 40, "max": 200, "step": 2, "default": 96, "unit": "px" },
     { "type": "range", "id": "icon_offset", "label": "Icon vertical overlap", "min": 0, "max": 120, "step": 2, "default": 52, "unit": "px" },
-    { "type": "range", "id": "tilt_amount", "label": "Tilt amount (deg)", "min": 0, "max": 10, "step": 0.5, "default": 3, "unit": "°" },
     { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 40, "step": 1, "default": 12, "unit": "px" },
     { "type": "range", "id": "card_width", "label": "Card width", "min": 240, "max": 720, "step": 10, "default": 560, "unit": "px" },
     { "type": "range", "id": "card_gap", "label": "Gap between cards", "min": 8, "max": 80, "step": 2, "default": 32, "unit": "px" },
