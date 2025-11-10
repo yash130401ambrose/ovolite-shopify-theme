@@ -1,241 +1,449 @@
 {% liquid
-  assign section_height = section.settings.section_height | default: 80
-  assign padding_top = section.settings.padding_top | default: 40
-  assign padding_bottom = section.settings.padding_bottom | default: 40
-  assign overlay_color = section.settings.overlay_color | default: '#FAF7EF'
-  assign bg_image = section.settings.bg_image
-  assign bg_image_mobile = section.settings.bg_image_mobile | default: bg_image
-  assign heading_text = section.settings.heading_text | default: 'FOR PROFESSIONAL AND HOME USE · BAKERY · HORECA · CONFECTIONERY'
-  assign text_color = section.settings.text_color | default: '#000000'
-  assign text_weight = section.settings.text_weight | default: 900
-  assign letter_spacing = section.settings.letter_spacing | default: 0
-  assign line_height = section.settings.line_height | default: 92
-  assign font_size = section.settings.font_size | default: 10
-  assign parallax_strength = section.settings.parallax_strength | default: 20
-  assign enable_scribble = section.settings.enable_scribble | default: true
-  assign scribble_stroke = section.settings.scribble_stroke | default: '#000000'
-  assign scribble_width = section.settings.scribble_width | default: 4
-  assign scribble_duration = section.settings.scribble_duration | default: 1.5
-  assign scribble_viewbox = section.settings.scribble_viewbox | default: '0 0 600 180'
-  assign scribble_paths = section.settings.scribble_svg_paths
-  assign enable_scribble_text = section.settings.enable_scribble_text | default: false
-  assign scribble_text = section.settings.scribble_text | default: 'Ways of Using'
-  assign scribble_font_url = section.settings.scribble_font_url
-  assign scribble_font_family = section.settings.scribble_font_family | default: 'ScribbleCustom'
-  assign scribble_text_size = section.settings.scribble_text_size | default: 8
-  assign scribble_text_color = section.settings.scribble_text_color | default: '#000000'
+  assign top_color = section.settings.top_color | default: '#E8F5E9'
+  assign bottom_color = section.settings.bottom_color | default: '#F1F8E9'
+  assign divider_color = section.settings.divider_color | default: '#2E7D32'
+  assign text_color = section.settings.text_color | default: '#A5D6A7'
+  assign divider_height = section.settings.divider_height | default: 120
+  assign text_size = section.settings.text_size | default: 24
+  assign scroll_speed = section.settings.scroll_speed | default: 1
+  assign text_content = section.settings.text_content | default: "A) - IT'S A MATCH(A) - IT"
+  assign wave_style = section.settings.wave_style | default: 'medium'
+  assign animation_direction = section.settings.animation_direction | default: 'right'
+  assign repeat_count = section.settings.repeat_count | default: 4
+  assign text_spacing = section.settings.text_spacing | default: 50
+  assign enable_animation = section.settings.enable_animation | default: true
 %}
 
-<section id="cutout-hero-{{ section.id }}" class="cutout-hero" style="--overlay: {{ overlay_color }}; --text-color: {{ text_color }}; --weight: {{ text_weight }}; --letter: {{ letter_spacing }}px; --line: {{ line_height }}px; --font-size: {{ font_size }}vw; --parallax: {{ parallax_strength }}; --scribble-stroke: {{ scribble_stroke }}; --scribble-width: {{ scribble_width }}; --scribble-duration: {{ scribble_duration }}s; --vh: {{ section_height }}vh; --pt: {{ padding_top }}px; --pb: {{ padding_bottom }}px; --scribble-text-size: {{ scribble_text_size }}vw; --scribble-text-color: {{ scribble_text_color }};">
-  {% if enable_scribble_text and scribble_font_url != blank %}
-  <style>
-    @font-face {
-      font-family: '{{ scribble_font_family }}';
-      src: url('{{ scribble_font_url }}') format('woff2');
-      font-display: swap;
-    }
-  </style>
-  {% endif %}
-  <div class="cutout-hero__bg">
-    {% if bg_image %}
-      <picture>
-        {% if bg_image_mobile %}
-          <source media="(max-width: 768px)" srcset="{{ bg_image_mobile | image_url: width: 1200 }} 1x, {{ bg_image_mobile | image_url: width: 2000 }} 2x">
-        {% endif %}
-        <img src="{{ bg_image | image_url: width: 2000 }}" alt="" loading="lazy" />
-      </picture>
-    {% endif %}
+<div class="scroll-text-divider-wrapper" 
+     id="scroll-text-divider-{{ section.id }}"
+     data-scroll-speed="{{ scroll_speed }}"
+     data-animation-direction="{{ animation_direction }}"
+     data-enable-animation="{{ enable_animation }}"
+     style="--top-color: {{ top_color }}; --bottom-color: {{ bottom_color }}; --divider-color: {{ divider_color }}; --text-color: {{ text_color }}; --divider-height: {{ divider_height }}px; --text-size: {{ text_size }}px; --text-spacing: {{ text_spacing }}px;">
+  
+  <div class="scroll-text-divider-section">
+    <svg class="scroll-divider-svg" viewBox="0 0 1440 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      {% comment %} Divider shape {% endcomment %}
+      {% case wave_style %}
+        {% when 'subtle' %}
+          <path id="divider-shape-{{ section.id }}" d="M0,0 L0,50 Q360,60 720,50 T1440,50 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+          <path id="text-path-{{ section.id }}" d="M0,50 Q360,60 720,50 T1440,50" fill="none" stroke="none"/>
+        {% when 'dramatic' %}
+          <path id="divider-shape-{{ section.id }}" d="M0,0 L0,40 Q180,90 360,40 T720,50 T1080,40 T1440,75 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+          <path id="text-path-{{ section.id }}" d="M0,40 Q180,90 360,40 T720,50 T1080,40 T1440,75" fill="none" stroke="none"/>
+        {% when 'organic' %}
+          <path id="divider-shape-{{ section.id }}" d="M0,0 L0,55 Q120,75 240,50 T480,48 T720,45 T960,50 T1200,52 L1440,52 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+          <path id="text-path-{{ section.id }}" d="M0,55 Q120,75 240,50 T480,48 T720,45 T960,50 T1200,52 L1440,52" fill="none" stroke="none"/>
+        {% else %}
+          <path id="divider-shape-{{ section.id }}" d="M0,0 L0,60 Q360,80 720,50 T1440,50 L1440,120 L0,120 Z" fill="var(--divider-color)"/>
+          <path id="text-path-{{ section.id }}" d="M0,60 Q360,80 720,50 T1440,50" fill="none" stroke="none"/>
+      {% endcase %}
+      
+      {% comment %} Text following the wave path {% endcomment %}
+      <text class="scroll-text-path" data-direction="{{ animation_direction }}" data-enable-animation="{{ enable_animation }}" dy="0">
+        <textPath href="#text-path-{{ section.id }}" startOffset="0" method="align" spacing="auto">
+          {% assign full_text = text_content %}
+          {% comment %} Repeat text multiple times to fill entire path {% endcomment %}
+          {% for i in (1..repeat_count) %}
+            {{ full_text }} • 
+          {% endfor %}
+          {% for i in (1..repeat_count) %}
+            {{ full_text }} • 
+          {% endfor %}
+          {% for i in (1..repeat_count) %}
+            {{ full_text }} • 
+          {% endfor %}
+        </textPath>
+      </text>
+    </svg>
   </div>
-  <div class="cutout-hero__overlay"></div>
-  <div class="cutout-hero__content">
-    {% if enable_scribble %}
-      <div class="cutout-hero__scribble" aria-hidden="true">
-        <svg viewBox="{{ scribble_viewbox }}" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {% if scribble_paths != blank %}
-            {{ scribble_paths | raw }}
-          {% else %}
-            <path d="M15 120 C60 10, 140 200, 200 40"/>
-            <path d="M210 60 C260 -20, 340 200, 390 60"/>
-            <path d="M410 90 C470 -10, 560 220, 590 40"/>
-          {% endif %}
-        </svg>
-      </div>
-    {% endif %}
-
-    {% if enable_scribble_text %}
-      <div class="cutout-hero__scribbleText" aria-hidden="true">
-        <svg viewBox="0 0 1000 220" preserveAspectRatio="xMinYMin meet">
-          <text x="0" y="160" font-family="{{ scribble_font_family }}" font-size="100" fill="none" stroke="var(--scribble-text-color)" stroke-width="3" vector-effect="non-scaling-stroke">{{ scribble_text }}</text>
-        </svg>
-      </div>
-    {% endif %}
-
-    <div class="cutout-hero__titleWrap"><h1 class="cutout-hero__title">{{ heading_text }}</h1></div>
-  </div>
-</section>
+</div>
 
 <style>
-  #cutout-hero-{{ section.id }} {
+  .scroll-text-divider-wrapper {
     position: relative;
     width: 100%;
-    min-height: 320px;
-    height: var(--vh);
-    padding-top: var(--pt);
-    padding-bottom: var(--pb);
-    overflow: hidden;
-    background: #fff;
-  }
-  #cutout-hero-{{ section.id }} .cutout-hero__bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
-  #cutout-hero-{{ section.id }} .cutout-hero__bg img { width: 100%; height: 100%; object-fit: cover; transform: translateY(0); will-change: transform; }
-  #cutout-hero-{{ section.id }} .cutout-hero__overlay { position: absolute; inset: 0; background: var(--overlay); z-index: 1; pointer-events: none; }
-
-  #cutout-hero-{{ section.id }} .cutout-hero__content { position: relative; z-index: 2; width: 100%; height: calc(100% - var(--pt) - var(--pb)); display: grid; place-items: center; padding: 2vw; }
-
-  #cutout-hero-{{ section.id }} .cutout-hero__titleWrap { width: 100%; }
-  #cutout-hero-{{ section.id }} .cutout-hero__title {
+    height: var(--divider-height);
     margin: 0;
-    text-align: center;
-    font-weight: var(--weight);
-    letter-spacing: var(--letter);
-    line-height: var(--line);
-    font-size: var(--font-size);
-    text-transform: uppercase;
-    color: transparent;
-    -webkit-text-stroke: 0px transparent;
-    background-image: {% if bg_image %}url('{{ bg_image | image_url: width: 2400 }}'){% else %}none{% endif %};
-    background-size: cover;
-    background-position: center center;
-    -webkit-background-clip: text; background-clip: text;
-    will-change: font-size;
+    padding: 0;
+    overflow: hidden;
+    background: var(--top-color);
+    line-height: 0;
   }
-
-  /* Scribble overlay paths */
-  #cutout-hero-{{ section.id }} .cutout-hero__scribble { position: absolute; top: 0; left: 0; width: min(40vw, 600px); pointer-events: none; z-index: 3; }
-  #cutout-hero-{{ section.id }} .cutout-hero__scribble svg { width: 100%; height: auto; }
-  #cutout-hero-{{ section.id }} .cutout-hero__scribble path { stroke: var(--scribble-stroke); stroke-width: var(--scribble-width); fill: none; stroke-linecap: round; }
-
-  /* Scribble text as font */
-  #cutout-hero-{{ section.id }} .cutout-hero__scribbleText { position: absolute; top: 0; left: 0; width: min(44vw, 700px); z-index: 4; pointer-events: none; }
-  #cutout-hero-{{ section.id }} .cutout-hero__scribbleText svg { width: 100%; height: auto; }
-  #cutout-hero-{{ section.id }} .cutout-hero__scribbleText text { stroke-dasharray: 1600; stroke-dashoffset: 1600; }
-
-  @media (max-width: 768px) {
-    #cutout-hero-{{ section.id }} { --font-size: 14vw; --line: 62px; }
-    #cutout-hero-{{ section.id }} .cutout-hero__scribble { width: min(60vw, 420px); }
-    #cutout-hero-{{ section.id }} .cutout-hero__scribbleText { width: min(70vw, 520px); }
+  
+  .scroll-text-divider-section {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .scroll-divider-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .scroll-text-path {
+    font-size: var(--text-size);
+    fill: var(--text-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    dominant-baseline: middle;
+    text-anchor: start;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    text-rendering: geometricPrecision;
+    shape-rendering: geometricPrecision;
+  }
+  
+  .scroll-text-path textPath {
+    letter-spacing: 0.05em;
+  }
+  
+  /* CSS animation only when scroll animation is disabled */
+  .scroll-text-path[data-enable-animation="false"][data-direction="right"] textPath {
+    animation: scrollTextPathRight 20s linear infinite;
+  }
+  
+  .scroll-text-path[data-enable-animation="false"][data-direction="left"] textPath {
+    animation: scrollTextPathLeft 20s linear infinite;
+  }
+  
+  @keyframes scrollTextPathRight {
+    0% {
+      startOffset: 0%;
+    }
+    100% {
+      startOffset: 100%;
+    }
+  }
+  
+  @keyframes scrollTextPathLeft {
+    0% {
+      startOffset: 100%;
+    }
+    100% {
+      startOffset: 0%;
+    }
+  }
+  
+  /* No CSS animation when scroll animation is enabled - GSAP will handle it */
+  .scroll-text-path[data-enable-animation="true"] textPath {
+    animation: none !important;
+  }
+  
+  /* Responsive text size */
+  @media screen and (max-width: 768px) {
+    .scroll-text-path {
+      font-size: calc(var(--text-size) * 0.7);
+    }
   }
 </style>
 
-<script>
-  (function(){
-    var root = document.getElementById('cutout-hero-{{ section.id }}');
-    if(!root) return;
-    function load(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.async=true;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
-
-    function init(){
-      var bgImg = root.querySelector('.cutout-hero__bg img');
-      var title = root.querySelector('.cutout-hero__title');
-      var titleWrap = root.querySelector('.cutout-hero__titleWrap');
-      var scribblePaths = root.querySelectorAll('.cutout-hero__scribble path');
-      var scribbleText = root.querySelector('.cutout-hero__scribbleText text');
-
-      function fitTitle(){
-        if(!title || !titleWrap) return;
-        // Automatically size font to fit container height (rough approximation)
-        var containerH = titleWrap.clientHeight;
-        var titleH = title.scrollHeight;
-        if (titleH <= 0) return;
-        var computedFS = parseFloat(getComputedStyle(title).fontSize);
-        var scale = containerH / titleH;
-        if (scale < 0.98 || scale > 1.05) {
-          title.style.fontSize = (computedFS * Math.min(1.2, Math.max(0.6, scale))) + 'px';
-          // re-evaluate once
-          titleH = title.scrollHeight;
-          scale = containerH / titleH;
-          title.style.fontSize = (parseFloat(getComputedStyle(title).fontSize) * Math.min(1.1, Math.max(0.8, scale))) + 'px';
+{% if enable_animation %}
+  <script>
+    (function() {
+      'use strict';
+      
+      var sectionId = 'scroll-text-divider-{{ section.id }}';
+      
+      function loadGSAP(callback) {
+        if (typeof gsap !== 'undefined') {
+          callback();
+          return;
         }
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js';
+        script.async = true;
+        script.onload = function() {
+          loadScrollTrigger(callback);
+        };
+        document.head.appendChild(script);
       }
-
-      function setup(){
-        if(typeof gsap==='undefined' || typeof ScrollTrigger==='undefined'){ return; }
-        gsap.registerPlugin(ScrollTrigger);
-        // Parallax background
-        if(bgImg){
-          gsap.to(bgImg, { yPercent: -1 * ({{ parallax_strength | default: 20 }}), ease: 'none', scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: true } });
+      
+      function loadScrollTrigger(callback) {
+        if (typeof ScrollTrigger !== 'undefined') {
+          if (typeof gsap !== 'undefined' && typeof gsap.registerPlugin === 'function') {
+            gsap.registerPlugin(ScrollTrigger);
+          }
+          callback();
+          return;
         }
-        // Parallax inside cutout text
-        if(title){
-          gsap.to(title, { backgroundPositionY: function(){return ({{ parallax_strength | default: 20 }}*5)+'px';}, ease: 'none', scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: true } });
-        }
-        // SVG path scribble
-        if(scribblePaths && scribblePaths.length){
-          scribblePaths.forEach(function(p){
-            var len = p.getTotalLength ? p.getTotalLength() : 600;
-            p.style.strokeDasharray = len;
-            p.style.strokeDashoffset = len;
-            gsap.to(p, { strokeDashoffset: 0, duration: {{ scribble_duration | default: 1.5 }}, ease: 'power2.out', scrollTrigger: { trigger: root, start: 'top 80%', once: true }});
-          });
-        }
-        // Scribble text draw
-        if(scribbleText){
-          var lenT = 1600;
-          scribbleText.style.strokeDasharray = lenT;
-          scribbleText.style.strokeDashoffset = lenT;
-          gsap.to(scribbleText, { strokeDashoffset: 0, duration: {{ scribble_duration | default: 1.5 }}, ease: 'power2.out', scrollTrigger: { trigger: root, start: 'top 80%', once: true }});
-        }
-        fitTitle();
-        window.addEventListener('resize', fitTitle);
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js';
+        script.async = true;
+        script.onload = function() {
+          if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && typeof gsap.registerPlugin === 'function') {
+            gsap.registerPlugin(ScrollTrigger);
+          }
+          callback();
+        };
+        document.head.appendChild(script);
       }
-
-      if(typeof gsap==='undefined'){
-        load('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js').then(function(){return load('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js');}).then(setup).catch(function(){});
+      
+      function setupScrollAnimation(textPath, speed, direction) {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+        
+        var wrapper = textPath.closest('.scroll-text-divider-wrapper');
+        if (!wrapper) return;
+        
+        // Get the textPath element
+        var pathElement = textPath.querySelector('textPath');
+        if (!pathElement) return;
+        
+        // Get the actual path length to calculate proper offset
+        var svgPath = document.querySelector(pathElement.getAttribute('href'));
+        if (!svgPath) return;
+        
+        var pathLength = svgPath.getTotalLength();
+        var textLength = pathElement.getComputedTextLength();
+        
+        // Calculate how many times we need to repeat to fill the path
+        // We want the text to loop seamlessly
+        var repeatNeeded = Math.ceil(pathLength / textLength) + 2;
+        
+        // Set initial position based on direction
+        // For seamless loop, we need to account for the text length
+        var startOffset = direction === 'right' ? 0 : pathLength;
+        var endOffset = direction === 'right' ? pathLength : 0;
+        
+        // Set initial position (use pixel values for smoother animation)
+        pathElement.setAttribute('startOffset', startOffset);
+        
+        // Create scroll-triggered animation - text moves along the path
+        // scrub: true means it's directly tied to scroll position
+        var scrollAnimation = gsap.to(pathElement, {
+          attr: { startOffset: endOffset },
+          ease: 'none',
+          scrollTrigger: {
+            trigger: wrapper,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true, // Directly tied to scroll - no auto movement
+            invalidateOnRefresh: true,
+            onUpdate: function(self) {
+              // For seamless looping, wrap the offset when it exceeds path length
+              var currentOffset = parseFloat(pathElement.getAttribute('startOffset')) || 0;
+              if (direction === 'right') {
+                // Loop seamlessly when text goes beyond path length
+                while (currentOffset >= pathLength) {
+                  currentOffset = currentOffset - pathLength;
+                }
+                pathElement.setAttribute('startOffset', currentOffset);
+              } else {
+                // Loop seamlessly when text goes before start
+                while (currentOffset <= -pathLength) {
+                  currentOffset = currentOffset + pathLength;
+                }
+                pathElement.setAttribute('startOffset', currentOffset);
+              }
+            }
+          }
+        });
+        
+        // Text now moves along the wave path ONLY based on scroll position
+        // No auto-scroll or loop animation
+      }
+      
+      function initScrollTextAnimation() {
+        var wrapper = document.getElementById(sectionId);
+        if (!wrapper) return;
+        
+        var enableAnimation = wrapper.dataset.enableAnimation === 'true';
+        var scrollSpeed = parseFloat(wrapper.dataset.scrollSpeed) || 1;
+        var direction = wrapper.dataset.animationDirection || 'right';
+        var textPath = wrapper.querySelector('.scroll-text-path');
+        
+        if (!textPath || !enableAnimation) return;
+        
+        // Load GSAP and ScrollTrigger
+        loadGSAP(function() {
+          setupScrollAnimation(textPath, scrollSpeed, direction);
+        });
+      }
+      
+      // Initialize when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initScrollTextAnimation);
       } else {
-        if(typeof ScrollTrigger==='undefined'){
-          load('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js').then(setup);
-        } else { setup(); }
+        setTimeout(initScrollTextAnimation, 100);
       }
-    }
-
-    if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', init); } else { init(); }
-  })();
-</script>
+    })();
+  </script>
+{% endif %}
 
 {% schema %}
 {
-  "name": "Cutout Parallax Hero",
+  "name": "Scroll Text Divider",
   "settings": [
-    {"type":"image_picker","id":"bg_image","label":"Background image (desktop)"},
-    {"type":"image_picker","id":"bg_image_mobile","label":"Background image (mobile)"},
-    {"type":"color","id":"overlay_color","label":"Overlay color","default":"#FAF7EF"},
-    {"type":"range","id":"section_height","label":"Section height (vh)","min":40,"max":120,"step":5,"default":80,"unit":"vh"},
-    {"type":"range","id":"padding_top","label":"Padding top","min":0,"max":200,"step":4,"default":40,"unit":"px"},
-    {"type":"range","id":"padding_bottom","label":"Padding bottom","min":0,"max":200,"step":4,"default":40,"unit":"px"},
-    {"type":"textarea","id":"heading_text","label":"Cutout heading","default":"FOR PROFESSIONAL AND HOME USE · BAKERY · HORECA · CONFECTIONERY"},
-    {"type":"color","id":"text_color","label":"Fallback text color (rarely used)","default":"#000000"},
-    {"type":"select","id":"text_weight","label":"Font weight","options":[{"value":"700","label":"Bold 700"},{"value":"800","label":"Extra-bold 800"},{"value":"900","label":"Black 900"}],"default":"900"},
-    {"type":"range","id":"font_size","label":"Font size (vw)","min":6,"max":16,"step":0.5,"default":10,"unit":"vw"},
-    {"type":"range","id":"line_height","label":"Line height (px)","min":50,"max":140,"step":2,"default":92,"unit":"px"},
-    {"type":"range","id":"letter_spacing","label":"Letter spacing (px)","min":-2,"max":6,"step":0.5,"default":0,"unit":"px"},
-    {"type":"range","id":"parallax_strength","label":"Parallax strength","min":0,"max":40,"step":2,"default":20},
-
-    {"type":"header","content":"Scribble Paths (optional)"},
-    {"type":"checkbox","id":"enable_scribble","label":"Show scribble path overlay","default":true},
-    {"type":"color","id":"scribble_stroke","label":"Scribble stroke color","default":"#000000"},
-    {"type":"range","id":"scribble_width","label":"Scribble stroke width","min":1,"max":10,"step":1,"default":4,"unit":"px"},
-    {"type":"range","id":"scribble_duration","label":"Scribble draw duration (s)","min":0.5,"max":6,"step":0.1,"default":1.5,"unit":"s"},
-    {"type":"text","id":"scribble_viewbox","label":"Scribble SVG viewBox","default":"0 0 600 180","info":"Format: minX minY width height"},
-    {"type":"textarea","id":"scribble_svg_paths","label":"Custom scribble <path> markup","info":"Paste one or more <path ... /> elements. They will inherit stroke settings above.","default":"<path d='M15 120 C60 10, 140 200, 200 40'/>"},
-
-    {"type":"header","content":"Scribble Text (optional)"},
-    {"type":"checkbox","id":"enable_scribble_text","label":"Use scribble text (custom font)","default":false},
-    {"type":"text","id":"scribble_text","label":"Scribble text","default":"Ways of Using"},
-    {"type":"url","id":"scribble_font_url","label":"Scribble font .woff2 URL"},
-    {"type":"text","id":"scribble_font_family","label":"Scribble font family name","default":"ScribbleCustom"},
-    {"type":"range","id":"scribble_text_size","label":"Scribble text size (vw)","min":2,"max":18,"step":0.5,"default":8,"unit":"vw"},
-    {"type":"color","id":"scribble_text_color","label":"Scribble text color","default":"#000000"}
+    {
+      "type": "header",
+      "content": "Text Content"
+    },
+    {
+      "type": "text",
+      "id": "text_content",
+      "label": "Text content",
+      "default": "A) - IT'S A MATCH(A) - IT",
+      "info": "Text that will scroll along the divider"
+    },
+    {
+      "type": "range",
+      "id": "repeat_count",
+      "label": "Text repeat count",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "default": 8,
+      "info": "How many times to repeat the text for seamless scrolling (higher = more coverage)"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "top_color",
+      "label": "Top section color",
+      "default": "#E8F5E9",
+      "info": "Background color above the divider"
+    },
+    {
+      "type": "color",
+      "id": "bottom_color",
+      "label": "Bottom section color",
+      "default": "#F1F8E9",
+      "info": "Background color below the divider"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider color",
+      "default": "#2E7D32",
+      "info": "Color of the curved divider shape"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#A5D6A7",
+      "info": "Color of the scrolling text"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "text_spacing",
+      "label": "Text spacing",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "px",
+      "info": "Space between repeated text items"
+    },
+    {
+      "type": "header",
+      "content": "Size"
+    },
+    {
+      "type": "range",
+      "id": "divider_height",
+      "label": "Divider height",
+      "min": 80,
+      "max": 300,
+      "step": 10,
+      "default": 120,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Animation"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_animation",
+      "label": "Enable scroll animation",
+      "default": true,
+      "info": "Text moves as you scroll the page"
+    },
+    {
+      "type": "select",
+      "id": "animation_direction",
+      "label": "Animation direction",
+      "default": "right",
+      "options": [
+        {
+          "value": "right",
+          "label": "Right (text moves left to right)"
+        },
+        {
+          "value": "left",
+          "label": "Left (text moves right to left)"
+        }
+      ],
+      "info": "Direction of text movement"
+    },
+    {
+      "type": "range",
+      "id": "scroll_speed",
+      "label": "Scroll speed",
+      "min": 0.5,
+      "max": 3,
+      "step": 0.1,
+      "default": 1,
+      "info": "Speed multiplier for scroll animation (1 = normal speed)"
+    },
+    {
+      "type": "header",
+      "content": "Wave Style"
+    },
+    {
+      "type": "select",
+      "id": "wave_style",
+      "label": "Wave intensity",
+      "default": "medium",
+      "options": [
+        {
+          "value": "subtle",
+          "label": "Subtle"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "dramatic",
+          "label": "Dramatic"
+        },
+        {
+          "value": "organic",
+          "label": "Organic"
+        }
+      ],
+      "info": "Shape of the curved divider"
+    }
   ],
   "presets": [
-    {"name":"Cutout Parallax Hero"}
+    {
+      "name": "Scroll Text Divider"
+    }
   ]
 }
 {% endschema %}
+
