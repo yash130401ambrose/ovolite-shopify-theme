@@ -46,9 +46,11 @@
       "name": "Scroll Text Divider",
       "settings": {
         "text": "IT’S A MATCH(A)",
-        "font_size": 72,
+        "font_size": 120,
         "text_color": "#a5d6a7",
-        "bg_color": "#e5eed8"
+        "ribbon_color": "#204c2a",
+        "top_bg_color": "#e5eed8",
+        "bottom_bg_color": "#dce8c4"
       }
     },
     "image_with_text_kX9k8X": {
@@ -239,7 +241,7 @@
         "autorotate": false,
         "show_navigation": false,
         "show_pagination": true,
-        "star_color": "#000",
+        "star_color": "#000000",
         "item_color_scheme": "",
         "padding_top": 50,
         "padding_bottom": 50,
