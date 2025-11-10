@@ -1,23 +1,26 @@
 <section class="stage-container">
   <div data-marquee class="marquee">
     <div class="marquee-inner">
-      
+
       <!-- Background Wave -->
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1440 442" width="100%" class="marquee-bg-svg">
-        <path fill="{{ section.settings.ribbon_color }}" d="M-71 371.6C126.3 260 593.5 65.8 934.5 80.8C1313 98 1507 160 1700 180L1700 442L-71 442Z" />
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1440 450" width="100%" class="marquee-bg-svg">
+        <path fill="{{ section.settings.ribbon_color }}"
+          d="M-50 330C200 250 550 180 900 200C1150 215 1350 260 1500 290L1500 450L-50 450Z" />
       </svg>
 
       <!-- Text Wave -->
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1440 293" width="100%" class="marquee-text-svg">
-        <path id="textWave" d="M0 200C350 120 700 280 1440 200" fill="none" />
-        <text fill="{{ section.settings.text_color }}" font-size="{{ section.settings.font_size }}" font-weight="800" letter-spacing="2" text-anchor="middle">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1440 450" width="100%" class="marquee-text-svg">
+        <path id="textWave"
+          d="M-50 295C200 220 550 230 900 250C1150 265 1350 280 1500 300"
+          fill="none" />
+        <text fill="{{ section.settings.text_color }}" font-size="{{ section.settings.font_size }}" font-weight="800"
+          letter-spacing="2" text-anchor="middle" dominant-baseline="middle">
           <textPath href="#textWave" startOffset="50%">
             {{ section.settings.text }} • {{ section.settings.text }} • {{ section.settings.text }}
           </textPath>
         </text>
       </svg>
 
-      <div class="marquee-overlay"></div>
     </div>
   </div>
 </section>
@@ -25,15 +28,15 @@
 <style>
 .stage-container {
   position: relative;
-  overflow: hidden;
   width: 100%;
-  height: 300px;
+  overflow: hidden;
+  height: 320px;
 }
 
 .marquee {
-  position: relative;
   width: 100%;
   height: 100%;
+  position: relative;
   overflow: hidden;
 }
 
@@ -73,16 +76,15 @@ text {
 }
 </style>
 
-<!-- GSAP horizontal scroll -->
+<!-- GSAP continuous marquee scroll -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const textPath = document.querySelector(".marquee-text-svg textPath");
-  
   gsap.to(textPath, {
     attr: { startOffset: "150%" },
-    repeat: -1,
     duration: 20,
+    repeat: -1,
     ease: "none"
   });
 });
@@ -90,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 {% schema %}
 {
-  "name": "Matcha Wave Ribbon",
+  "name": "Matcha Ribbon Divider ",
   "settings": [
     {
       "type": "text",
@@ -120,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ],
   "presets": [
-    { "name": "Matcha Wave Ribbon (Exact Replica)" }
+    { "name": "Matcha Ribbon Divider (Exact Replica)" }
   ]
 }
 {% endschema %}
