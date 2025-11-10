@@ -93,8 +93,8 @@
       "type": "cutout-parallax-hero",
       "name": "Cutout Parallax Hero",
       "settings": {
-        "bg_image": "shopify://shop_images/Ovolite_img_02.png",
-        "overlay_color": "#faf7ef",
+        "bg_image": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
+        "overlay_color": "#ffffff",
         "section_height": 80,
         "padding_top": 80,
         "padding_bottom": 120,
