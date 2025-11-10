@@ -1,103 +1,96 @@
-<section class="scroll-divider-section">
-  <!-- Split background -->
-  <div class="scroll-bg-top"></div>
-  <div class="scroll-bg-bottom"></div>
+<section class="stage-container">
+  <div data-marquee class="marquee">
+    <div class="marquee-inner">
+      
+      <!-- Background Wave -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1440 442" width="100%" class="marquee-bg-svg">
+        <path fill="{{ section.settings.ribbon_color }}" d="M-71 371.6C126.3 260 593.5 65.8 934.5 80.8C1313 98 1507 160 1700 180L1700 442L-71 442Z" />
+      </svg>
 
-  <!-- Smooth curved ribbon and text -->
-  <svg class="scroll-divider-svg" viewBox="0 0 1600 300" preserveAspectRatio="xMidYMid slice">
-    <!-- Smooth wide ribbon band -->
-    <path id="ribbon-path" 
-      d="M0,180 Q400,110 800,180 T1600,180 L1600,230 Q1200,160 800,230 T0,230 Z"
-      fill="{{ section.settings.ribbon_color }}" />
+      <!-- Text Wave -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1440 293" width="100%" class="marquee-text-svg">
+        <path id="textWave" d="M0 200C350 120 700 280 1440 200" fill="none" />
+        <text fill="{{ section.settings.text_color }}" font-size="{{ section.settings.font_size }}" font-weight="800" letter-spacing="2" text-anchor="middle">
+          <textPath href="#textWave" startOffset="50%">
+            {{ section.settings.text }} • {{ section.settings.text }} • {{ section.settings.text }}
+          </textPath>
+        </text>
+      </svg>
 
-    <!-- Text path slightly above ribbon center -->
-    <path id="text-path" 
-      d="M0,190 Q400,120 800,190 T1600,190" 
-      fill="none" />
-
-    <text class="scroll-divider-text" fill="{{ section.settings.text_color }}" font-size="{{ section.settings.font_size }}"
-      font-weight="800" letter-spacing="2" text-anchor="middle">
-      <textPath href="#text-path" startOffset="50%">
-        {{ section.settings.text }} • {{ section.settings.text }} • {{ section.settings.text }}
-      </textPath>
-    </text>
-  </svg>
+      <div class="marquee-overlay"></div>
+    </div>
+  </div>
 </section>
 
 <style>
-.scroll-divider-section {
+.stage-container {
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 280px;
+  height: 300px;
 }
 
-/* Split background colors */
-.scroll-bg-top,
-.scroll-bg-bottom {
-  position: absolute;
-  width: 100%;
-  height: 50%;
-  left: 0;
-  z-index: 0;
-}
-
-.scroll-bg-top {
-  top: 0;
-  background: {{ section.settings.top_bg_color }};
-}
-
-.scroll-bg-bottom {
-  bottom: 0;
-  background: {{ section.settings.bottom_bg_color }};
-}
-
-/* SVG and text */
-.scroll-divider-svg {
-  width: 100%;
-  height: 280px;
+.marquee {
   position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.marquee-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.marquee-bg-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 1;
+}
+
+.marquee-text-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
   z-index: 2;
 }
 
-.scroll-divider-text {
+text {
   text-transform: uppercase;
   white-space: nowrap;
-  dominant-baseline: middle;
 }
 
 @media (max-width: 768px) {
-  .scroll-divider-text {
+  text {
     font-size: calc({{ section.settings.font_size }}px * 0.7);
   }
 }
 </style>
 
-<!-- GSAP scroll animation -->
+<!-- GSAP horizontal scroll -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  gsap.registerPlugin(ScrollTrigger);
-  const text = document.querySelector(".scroll-divider-text textPath");
-
-  // Smooth scroll left → right
-  gsap.to(text, {
+  const textPath = document.querySelector(".marquee-text-svg textPath");
+  
+  gsap.to(textPath, {
     attr: { startOffset: "150%" },
-    ease: "none",
-    scrollTrigger: {
-      trigger: ".scroll-divider-section",
-      start: "top bottom",
-      end: "bottom top",
-      scrub: true
-    }
+    repeat: -1,
+    duration: 20,
+    ease: "none"
   });
 });
 </script>
 
 {% schema %}
 {
-  "name": "Curved Scroll Divider ",
+  "name": "Matcha Wave Ribbon",
   "settings": [
     {
       "type": "text",
@@ -124,24 +117,10 @@ document.addEventListener("DOMContentLoaded", () => {
       "id": "ribbon_color",
       "label": "Ribbon Color",
       "default": "#204C2A"
-    },
-    {
-      "type": "color",
-      "id": "top_bg_color",
-      "label": "Top Background Color",
-      "default": "#E5EED8"
-    },
-    {
-      "type": "color",
-      "id": "bottom_bg_color",
-      "label": "Bottom Background Color",
-      "default": "#DCE8C4"
     }
   ],
   "presets": [
-    {
-      "name": "Curved Scroll Divider (Final Smooth Ribbon)"
-    }
+    { "name": "Matcha Wave Ribbon (Exact Replica)" }
   ]
 }
 {% endschema %}
