@@ -1,0 +1,236 @@
+{% liquid
+  assign bg_color = section.settings.bg_color | default: '#eef5ea'
+  assign heading_text = section.settings.heading_text | default: 'WHAT MAKES US SPECIAL'
+  assign heading_color = section.settings.heading_color | default: '#0b0b0b'
+  assign heading_opacity = section.settings.heading_opacity | default: 0.1
+  assign card_bg = section.settings.card_bg | default: '#b9cfa9'
+  assign card_radius = section.settings.card_radius | default: 12
+  assign card_width = section.settings.card_width | default: 560
+  assign card_gap = section.settings.card_gap | default: 32
+  assign section_padding_y = section.settings.section_padding_y | default: 80
+  assign enable_animation = section.settings.enable_animation | default: true
+%}
+
+<section
+  id="scroll-cards-{{ section.id }}"
+  class="scroll-cards-section"
+  data-enable-animation="{{ enable_animation }}"
+  style="--bg: {{ bg_color }}; --heading-color: {{ heading_color }}; --heading-opacity: {{ heading_opacity }}; --card-bg: {{ card_bg }}; --card-radius: {{ card_radius }}px; --card-width: {{ card_width }}px; --card-gap: {{ card_gap }}px; --section-padding-y: {{ section_padding_y }}px;"
+>
+  <div class="scroll-cards__container">
+    <div class="scroll-cards__heading">{{ heading_text }}</div>
+
+    <div class="scroll-cards__viewport">
+      <div class="scroll-cards__track">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'card' -%}
+            <div class="scroll-card" {{ block.shopify_attributes }}>
+              {%- if block.settings.icon != blank -%}
+                <div class="scroll-card__icon">
+                  {{ block.settings.icon | image_url: width: 120 | image_tag: widths: '120,240', alt: block.settings.title | escape }}
+                </div>
+              {%- endif -%}
+              {%- if block.settings.title != blank -%}
+                <h3 class="scroll-card__title">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div class="scroll-card__text">{{ block.settings.text }}</div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #scroll-cards-{{ section.id }} {
+    position: relative;
+    background: var(--bg);
+    padding: var(--section-padding-y) 0;
+    overflow: hidden;
+  }
+
+  #scroll-cards-{{ section.id }} .scroll-cards__container {
+    position: relative;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+
+  #scroll-cards-{{ section.id }} .scroll-cards__heading {
+    position: absolute;
+    top: 50%;
+    left: 5vw;
+    transform: translateY(-50%);
+    font-size: clamp(36px, 8vw, 120px);
+    font-weight: 600;
+    line-height: 1.05;
+    color: var(--heading-color);
+    opacity: var(--heading-opacity);
+    pointer-events: none;
+    white-space: pre-wrap;
+    z-index: 1;
+  }
+
+  #scroll-cards-{{ section.id }} .scroll-cards__viewport {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  #scroll-cards-{{ section.id }} .scroll-cards__track {
+    position: relative;
+    display: inline-flex;
+    gap: var(--card-gap);
+    align-items: stretch;
+    will-change: transform;
+    padding: 8px 5vw; /* breathing room at edges */
+    z-index: 2;
+  }
+
+  #scroll-cards-{{ section.id }} .scroll-card {
+    flex: 0 0 var(--card-width);
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 28px clamp(16px, 3vw, 32px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.06);
+  }
+
+  #scroll-cards-{{ section.id }} .scroll-card__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  #scroll-cards-{{ section.id }} .scroll-card__title {
+    margin: 0;
+    text-align: center;
+    font-weight: 800;
+    font-size: clamp(22px, 3vw, 40px);
+    letter-spacing: .02em;
+    color: #fff;
+  }
+
+  #scroll-cards-{{ section.id }} .scroll-card__text {
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.6;
+    color: rgba(0,0,0,.78);
+  }
+
+  @media (max-width: 768px) {
+    #scroll-cards-{{ section.id }} { --card-width: 300px; --card-gap: 16px; }
+    #scroll-cards-{{ section.id }} .scroll-cards__heading { left: 4vw; font-size: clamp(28px, 14vw, 64px); }
+  }
+</style>
+
+{% if enable_animation %}
+  <script>
+    (function() {
+      'use strict';
+      var sectionId = 'scroll-cards-{{ section.id }}';
+
+      function loadScript(src) {
+        return new Promise(function(resolve, reject) {
+          var s = document.createElement('script');
+          s.src = src;
+          s.async = true;
+          s.onload = resolve;
+          s.onerror = reject;
+          document.head.appendChild(s);
+        });
+      }
+
+      function init() {
+        var root = document.getElementById(sectionId);
+        if (!root) return;
+        var track = root.querySelector('.scroll-cards__track');
+        var viewport = root.querySelector('.scroll-cards__viewport');
+        if (!track || !viewport) return;
+
+        function setup() {
+          var trackWidth = track.scrollWidth;
+          var viewportWidth = viewport.clientWidth;
+          var distance = Math.max(0, trackWidth - viewportWidth);
+
+          // Start off-screen left so it scrolls left->right as you scroll down
+          gsap.set(track, { x: -distance });
+
+          ScrollTrigger.create({
+            trigger: root,
+            start: 'top center',
+            end: 'bottom top',
+            scrub: true,
+            onUpdate: function(self) {
+              // Map scroll progress to X from -distance to 0 (left -> right)
+              var x = gsap.utils.mapRange(0, 1, -distance, 0, self.progress);
+              gsap.to(track, { x: x, ease: 'none', overwrite: true, duration: 0 });
+            }
+          });
+        }
+
+        if (typeof gsap === 'undefined') {
+          loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js').then(function(){
+            return loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js');
+          }).then(function(){
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+              gsap.registerPlugin(ScrollTrigger);
+              setup();
+            }
+          }).catch(function(){/* ignore */});
+        } else {
+          if (typeof ScrollTrigger === 'undefined') {
+            loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js').then(function(){
+              gsap.registerPlugin(ScrollTrigger); setup();
+            });
+          } else {
+            gsap.registerPlugin(ScrollTrigger); setup();
+          }
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else { init(); }
+    })();
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Scroll Cards",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background color", "default": "#EEF5EA" },
+    { "type": "text", "id": "heading_text", "label": "Background heading", "default": "WHAT MAKES US\nSPECIAL" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#0B0B0B" },
+    { "type": "range", "id": "heading_opacity", "label": "Heading opacity", "min": 0, "max": 1, "step": 0.1, "default": 0.1 },
+    { "type": "color", "id": "card_bg", "label": "Card background", "default": "#B9CFA9" },
+    { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 40, "step": 1, "default": 12, "unit": "px" },
+    { "type": "range", "id": "card_width", "label": "Card width", "min": 240, "max": 720, "step": 10, "default": 560, "unit": "px" },
+    { "type": "range", "id": "card_gap", "label": "Gap between cards", "min": 8, "max": 80, "step": 2, "default": 32, "unit": "px" },
+    { "type": "range", "id": "section_padding_y", "label": "Section vertical padding", "min": 20, "max": 200, "step": 4, "default": 80, "unit": "px" },
+    { "type": "checkbox", "id": "enable_animation", "label": "Enable scroll animation", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "MORE\nCAFFEINE" },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Scroll Cards", "blocks": [ {"type": "card"}, {"type": "card"}, {"type": "card"} ] }
+  ]
+}
+{% endschema %}
