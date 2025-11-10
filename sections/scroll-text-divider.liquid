@@ -1,13 +1,16 @@
 <section class="scroll-divider-section">
-  <div class="scroll-ribbon">
-    <div class="scroll-ribbon-top"></div>
-    <div class="scroll-ribbon-bottom"></div>
-  </div>
+  <!-- Split background -->
+  <div class="scroll-bg-top"></div>
+  <div class="scroll-bg-bottom"></div>
 
+  <!-- Curved ribbon & text -->
   <svg class="scroll-divider-svg" viewBox="0 0 1600 200" preserveAspectRatio="xMidYMid slice">
-    <path id="scrollTextPath" fill="none" d="M0,120 Q800,60 1600,120" />
+    <!-- Ribbon shape -->
+    <path id="ribbon-path" fill="{{ section.settings.ribbon_color }}" d="M0,120 Q800,60 1600,120 L1600,160 Q800,100 0,160Z" />
+    <!-- Text path (slightly above center of ribbon) -->
+    <path id="text-path" fill="none" d="M0,120 Q800,60 1600,120" />
     <text class="scroll-divider-text" fill="{{ section.settings.text_color }}" font-size="{{ section.settings.font_size }}">
-      <textPath href="#scrollTextPath" startOffset="0%">
+      <textPath href="#text-path" startOffset="0%">
         {{ section.settings.text }} • {{ section.settings.text }} • {{ section.settings.text }}
       </textPath>
     </text>
@@ -22,45 +25,38 @@
   height: 220px;
 }
 
-/* === RIBBON BACKGROUND === */
-.scroll-ribbon {
+/* Split BG */
+.scroll-bg-top,
+.scroll-bg-bottom {
   position: absolute;
   width: 100%;
-  height: 100%;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
+  height: 50%;
+  left: 0;
+  z-index: 0;
 }
-
-.scroll-ribbon-top,
-.scroll-ribbon-bottom {
-  flex: 1;
-  width: 100%;
-}
-
-.scroll-ribbon-top {
+.scroll-bg-top {
+  top: 0;
   background: {{ section.settings.top_bg_color }};
 }
-
-.scroll-ribbon-bottom {
+.scroll-bg-bottom {
+  bottom: 0;
   background: {{ section.settings.bottom_bg_color }};
 }
 
-/* === TEXT LAYER === */
+/* SVG Layer */
 .scroll-divider-svg {
-  position: relative;
-  z-index: 2;
   width: 100%;
   height: 220px;
+  position: relative;
+  z-index: 2;
 }
 
+/* Text styling */
 .scroll-divider-text {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
   white-space: nowrap;
-  width: 100%;
-  text-anchor: middle;
 }
 
 @media (max-width: 768px) {
@@ -78,9 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const text = document.querySelector(".scroll-divider-text textPath");
 
-  // move from left → right
   gsap.to(text, {
-    attr: { startOffset: "100%" },
+    attr: { startOffset: "100%" }, // left → right scroll
     ease: "none",
     scrollTrigger: {
       trigger: ".scroll-divider-section",
@@ -94,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 {% schema %}
 {
-  "name": " Scroll Text Divider ",
+  "name": "Ribbon Scroll Divider",
   "settings": [
     {
       "type": "text",
@@ -118,6 +113,12 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     {
       "type": "color",
+      "id": "ribbon_color",
+      "label": "Ribbon Color",
+      "default": "#204C2A"
+    },
+    {
+      "type": "color",
       "id": "top_bg_color",
       "label": "Top Background Color",
       "default": "#E5EED8"
@@ -131,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ],
   "presets": [
     {
-      "name": "Curved Scroll Text Divider (Ribbon)"
+      "name": "Curved Ribbon Scroll Divider"
     }
   ]
 }
