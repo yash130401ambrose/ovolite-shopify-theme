@@ -47,10 +47,9 @@
       "settings": {
         "text": "IT’S A MATCH(A)",
         "font_size": 120,
+        "speed": 20,
         "text_color": "#a5d6a7",
-        "ribbon_color": "#204c2a",
-        "top_bg_color": "#e5eed8",
-        "bottom_bg_color": "#dce8c4"
+        "ribbon_color": "#204c2a"
       }
     },
     "image_with_text_kX9k8X": {
@@ -147,6 +146,51 @@
         "padding_bottom": 50,
         "custom_class": "",
         "animations": "inherit"
+      }
+    },
+    "scroll_cards_GUDwiE": {
+      "type": "scroll-cards",
+      "blocks": {
+        "card_wcCT7L": {
+          "type": "card",
+          "settings": {
+            "icon": "shopify://shop_images/5.png",
+            "title": "MORECAFFEINE",
+            "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>"
+          }
+        },
+        "card_iMtLct": {
+          "type": "card",
+          "settings": {
+            "title": "MORE\nCAFFEINE",
+            "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>"
+          }
+        },
+        "card_XNeKdD": {
+          "type": "card",
+          "settings": {
+            "title": "MORE\nCAFFEINE",
+            "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "card_wcCT7L",
+        "card_iMtLct",
+        "card_XNeKdD"
+      ],
+      "name": "Scroll Cards",
+      "settings": {
+        "bg_color": "#EEF5EA",
+        "heading_text": "WHAT MAKES US SPECIAL",
+        "heading_color": "#0B0B0B",
+        "heading_opacity": 0.1,
+        "card_bg": "#B9CFA9",
+        "card_radius": 12,
+        "card_width": 560,
+        "card_gap": 48,
+        "section_padding_y": 200,
+        "enable_animation": true
       }
     },
     "testimonials_aGFqdw": {
@@ -256,6 +300,7 @@
     "image_with_text_kX9k8X",
     "liquid_drip_divider_YYNE8t",
     "new_featured_product_ijtU9i",
+    "scroll_cards_GUDwiE",
     "testimonials_aGFqdw"
   ]
 }
