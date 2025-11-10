@@ -2,23 +2,23 @@
   <div data-marquee class="marquee">
     <div class="marquee-inner">
       
-      <!-- Background Wave -->
+      <!-- Background Curve -->
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1440 442" width="100%" style="overflow: visible;" class="marquee-bg-svg">
-        <path stroke="{{ section.settings.ribbon_color }}" stroke-width="160"
-          d="M-71 371.6C126.3 260 593.5 65.8 934.5 80.8C1313 98 1497 136 1572 200" />
+        <path stroke="{{ section.settings.ribbon_color }}" stroke-width="160" d="M0 260C400 180 900 100 1440 200" />
       </svg>
 
-      <!-- Text Wave -->
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1440 293" width="100%" style="overflow: visible;" data-marquee-svg class="marquee-text-svg">
-        <path d="M-68 300C173 173 515.5 193.7 937.2 1254.5 1 1468 183.3 1543 246.9" id="curve" />
-        <text width="100%" style="transform: translate3d(0,0,0);">
-          <textPath style="transform: translate3d(0,0,0);" alignment-baseline="top" href="#curve" startOffset="-52%">
-            {{ section.settings.text }} • {{ section.settings.text }} • {{ section.settings.text }}
+      <!-- Text on Curve -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 1440 200" width="100%" style="overflow: visible;" data-marquee-svg class="marquee-text-svg">
+        <defs>
+          <path id="text-curve" d="M0,160 C400,120 900,80 1440,160" />
+        </defs>
+        <text width="100%">
+          <textPath href="#text-curve" startOffset="0%">
+            {{ section.settings.text }} • {{ section.settings.text }} • {{ section.settings.text }} • {{ section.settings.text }}
           </textPath>
         </text>
       </svg>
 
-      <div class="marquee-overlay"></div>
     </div>
   </div>
 </section>
@@ -28,10 +28,10 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 360px;
+  height: 300px;
 }
 
-/* === MARQUEE STRUCTURE === */
+/* MARQUEE STRUCTURE */
 .marquee {
   z-index: 2;
   width: 100%;
@@ -55,24 +55,24 @@
   overflow: visible;
 }
 
-/* === BACKGROUND BAND === */
+/* BACKGROUND BAND */
 .marquee-bg-svg {
   z-index: 0;
   width: 100%;
+  position: relative;
 }
 
-/* === TEXT PATH === */
+/* TEXT PATH */
 .marquee-text-svg {
   z-index: 1;
   grid-area: 1 / 1 / 1 / 1;
-  margin-top: 8.5em;
+  margin-top: 4em;
 }
 
 .marquee-text-svg text {
   fill: {{ section.settings.text_color }};
   font-size: {{ section.settings.font_size }}px;
   font-weight: 800;
-  letter-spacing: 2px;
   text-transform: uppercase;
   white-space: nowrap;
 }
@@ -84,31 +84,33 @@
 }
 </style>
 
-<!-- GSAP Animation (continuous marquee motion) -->
+<!-- GSAP Continuous Motion -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const textPath = document.querySelector(".marquee-text-svg textPath");
   if (!textPath) return;
 
-  // Continuous marquee animation identical to Matcha
-  gsap.to(textPath, {
-    attr: { startOffset: "150%" },
-    duration: {{ section.settings.speed }},
-    ease: "none",
-    repeat: -1
-  });
+  gsap.fromTo(textPath, 
+    { attr: { startOffset: "0%" } }, 
+    { 
+      attr: { startOffset: "100%" }, 
+      duration: {{ section.settings.speed }}, 
+      ease: "none", 
+      repeat: -1 
+    }
+  );
 });
 </script>
 
 {% schema %}
 {
-  "name": "Matcha Ribbon Divider",
+  "name": "Curved Ribbon Divider",
   "settings": [
     {
       "type": "text",
       "id": "text",
-      "label": "Divider Text",
+      "label": "Ribbon Text",
       "default": "IT’S A MATCH(A)"
     },
     {
@@ -141,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   ],
   "presets": [
-    { "name": "Matcha Ribbon Divider (Exact Replica)" }
+    { "name": "Curved Ribbon Divider (Fixed)" }
   ]
 }
 {% endschema %}
