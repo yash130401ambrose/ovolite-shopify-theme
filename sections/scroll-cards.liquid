@@ -7,36 +7,39 @@
   assign card_radius = section.settings.card_radius | default: 12
   assign card_width = section.settings.card_width | default: 560
   assign card_gap = section.settings.card_gap | default: 32
+  assign desc_color = section.settings.desc_color | default: '#1a1a1a'
   assign section_padding_y = section.settings.section_padding_y | default: 80
   assign enable_animation = section.settings.enable_animation | default: true
+  assign icon_size = section.settings.icon_size | default: 96
+  assign icon_offset = section.settings.icon_offset | default: 52
 %}
 
 <section
   id="scroll-cards-{{ section.id }}"
   class="scroll-cards-section"
   data-enable-animation="{{ enable_animation }}"
-  style="--bg: {{ bg_color }}; --heading-color: {{ heading_color }}; --heading-opacity: {{ heading_opacity }}; --card-bg: {{ card_bg }}; --card-radius: {{ card_radius }}px; --card-width: {{ card_width }}px; --card-gap: {{ card_gap }}px; --section-padding-y: {{ section_padding_y }}px;"
+  style="--bg: {{ bg_color }}; --heading-color: {{ heading_color }}; --heading-opacity: {{ heading_opacity }}; --card-bg: {{ card_bg }}; --card-radius: {{ card_radius }}px; --card-width: {{ card_width }}px; --card-gap: {{ card_gap }}px; --section-padding-y: {{ section_padding_y }}px; --desc-color: {{ desc_color }}; --icon-size: {{ icon_size }}px; --icon-offset: {{ icon_offset }}px;"
 >
   <div class="scroll-cards__container">
-    <div class="scroll-cards__heading">{{ heading_text }}</div>
+    <h2 class="scroll-cards__heading">{{ heading_text }}</h2>
 
     <div class="scroll-cards__viewport">
       <div class="scroll-cards__track">
         {%- for block in section.blocks -%}
           {%- if block.type == 'card' -%}
-            <div class="scroll-card" {{ block.shopify_attributes }}>
+            <article class="scroll-card" {{ block.shopify_attributes }}>
               {%- if block.settings.icon != blank -%}
                 <div class="scroll-card__icon">
-                  {{ block.settings.icon | image_url: width: 120 | image_tag: widths: '120,240', alt: block.settings.title | escape }}
+                  {{ block.settings.icon | image_url: width: 240 | image_tag: widths: '120,180,240', alt: block.settings.title | escape }}
                 </div>
               {%- endif -%}
               {%- if block.settings.title != blank -%}
                 <h3 class="scroll-card__title">{{ block.settings.title }}</h3>
               {%- endif -%}
               {%- if block.settings.text != blank -%}
-                <div class="scroll-card__text">{{ block.settings.text }}</div>
+                <div class="scroll-card__text rte">{{ block.settings.text }}</div>
               {%- endif -%}
-            </div>
+            </article>
           {%- endif -%}
         {%- endfor -%}
       </div>
@@ -65,7 +68,7 @@
     left: 5vw;
     transform: translateY(-50%);
     font-size: clamp(36px, 8vw, 120px);
-    font-weight: 600;
+    font-weight: 700; /* h2 feel */
     line-height: 1.05;
     color: var(--heading-color);
     opacity: var(--heading-opacity);
@@ -86,7 +89,7 @@
     gap: var(--card-gap);
     align-items: stretch;
     will-change: transform;
-    padding: 8px 5vw; /* breathing room at edges */
+    padding: calc(var(--icon-offset) + 32px) 5vw 40px; /* top padding based on icon overlap */
     z-index: 2;
   }
 
@@ -94,25 +97,30 @@
     flex: 0 0 var(--card-width);
     background: var(--card-bg);
     border-radius: var(--card-radius);
-    padding: 28px clamp(16px, 3vw, 32px);
+    padding: 32px clamp(16px, 3vw, 36px) 28px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 14px;
-    box-shadow: 0 8px 20px rgba(0,0,0,.06);
+    gap: 16px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.08);
+    position: relative;
   }
 
+  /* Icon sits above the card, centered; animated in JS */
   #scroll-cards-{{ section.id }} .scroll-card__icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 6px;
+    position: absolute;
+    top: calc(var(--icon-offset) * -1);
+    left: 50%;
+    transform: translate(-50%, 20px) scale(.9);
+    opacity: 0;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,.12));
   }
+  #scroll-cards-{{ section.id }} .scroll-card__icon img { width: var(--icon-size); height: auto; }
 
   #scroll-cards-{{ section.id }} .scroll-card__title {
-    margin: 0;
+    margin: 36px 0 0;
     text-align: center;
-    font-weight: 800;
+    font-weight: 800; /* h3 */
     font-size: clamp(22px, 3vw, 40px);
     letter-spacing: .02em;
     color: #fff;
@@ -120,9 +128,9 @@
 
   #scroll-cards-{{ section.id }} .scroll-card__text {
     text-align: center;
-    font-size: 14px;
+    font-size: clamp(14px, 1.4vw, 18px); /* body font */
     line-height: 1.6;
-    color: rgba(0,0,0,.78);
+    color: var(--desc-color);
   }
 
   @media (max-width: 768px) {
@@ -171,21 +179,34 @@
           var startX = viewportWidth - firstLeft + 40; // push entire track to the right
           // End when the last card is centered in viewport
           var endX = viewportCenter - lastCenter;
-          var totalMove = Math.abs(endX - startX);
 
-          gsap.set(track, { x: startX });
-
-          // Pin section and scrub through the horizontal motion
-          ScrollTrigger.create({
-            trigger: root,
-            start: 'top top',
-            end: '+=' + (totalMove + 400),
-            pin: true,
-            scrub: true,
-            onUpdate: function(self) {
-              var x = gsap.utils.mapRange(0, 1, startX, endX, self.progress);
-              gsap.to(track, { x: x, ease: 'none', overwrite: true, duration: 0 });
+          // timeline controls horizontal motion (so we can use containerAnimation for icons)
+          var tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: root,
+              start: 'top top',
+              end: '+=' + (Math.abs(endX - startX) + 500),
+              pin: true,
+              scrub: true
             }
+          });
+          tl.fromTo(track, { x: startX }, { x: endX, ease: 'none' });
+
+          // Icon pop-up when each card reaches around center
+          cards.forEach(function(card) {
+            var icon = card.querySelector('.scroll-card__icon');
+            if (!icon) return;
+            gsap.fromTo(icon,
+              { y: 20, opacity: 0, scale: 0.9 },
+              { y: 0, opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out',
+                scrollTrigger: {
+                  containerAnimation: tl,
+                  trigger: card,
+                  start: 'left center',
+                  toggleActions: 'play none none reverse'
+                }
+              }
+            );
           });
         }
 
@@ -225,6 +246,9 @@
     { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#0B0B0B" },
     { "type": "range", "id": "heading_opacity", "label": "Heading opacity", "min": 0, "max": 1, "step": 0.1, "default": 0.1 },
     { "type": "color", "id": "card_bg", "label": "Card background", "default": "#B9CFA9" },
+    { "type": "color", "id": "desc_color", "label": "Description color", "default": "#1a1a1a" },
+    { "type": "range", "id": "icon_size", "label": "Icon size", "min": 40, "max": 200, "step": 2, "default": 96, "unit": "px" },
+    { "type": "range", "id": "icon_offset", "label": "Icon vertical overlap", "min": 0, "max": 120, "step": 2, "default": 52, "unit": "px" },
     { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 40, "step": 1, "default": 12, "unit": "px" },
     { "type": "range", "id": "card_width", "label": "Card width", "min": 240, "max": 720, "step": 10, "default": 560, "unit": "px" },
     { "type": "range", "id": "card_gap", "label": "Gap between cards", "min": 8, "max": 80, "step": 2, "default": 32, "unit": "px" },
