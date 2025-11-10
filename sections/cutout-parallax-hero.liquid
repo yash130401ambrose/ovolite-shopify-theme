@@ -1,0 +1,170 @@
+{% liquid
+  assign section_height = section.settings.section_height | default: 80
+  assign overlay_color = section.settings.overlay_color | default: '#FAF7EF'
+  assign bg_image = section.settings.bg_image
+  assign bg_image_mobile = section.settings.bg_image_mobile | default: bg_image
+  assign heading_text = section.settings.heading_text | default: 'FOR PROFESSIONAL AND HOME USE · BAKERY · HORECA · CONFECTIONERY'
+  assign text_color = section.settings.text_color | default: '#000000'
+  assign text_weight = section.settings.text_weight | default: 900
+  assign letter_spacing = section.settings.letter_spacing | default: 0
+  assign line_height = section.settings.line_height | default: 92
+  assign font_size = section.settings.font_size | default: 10
+  assign parallax_strength = section.settings.parallax_strength | default: 20
+  assign enable_scribble = section.settings.enable_scribble | default: true
+  assign scribble_stroke = section.settings.scribble_stroke | default: '#000000'
+  assign scribble_width = section.settings.scribble_width | default: 4
+  assign scribble_duration = section.settings.scribble_duration | default: 1.5
+  assign scribble_viewbox = section.settings.scribble_viewbox | default: '0 0 600 180'
+  assign scribble_paths = section.settings.scribble_svg_paths
+%}
+
+<section id="cutout-hero-{{ section.id }}" class="cutout-hero" style="--overlay: {{ overlay_color }}; --text-color: {{ text_color }}; --weight: {{ text_weight }}; --letter: {{ letter_spacing }}px; --line: {{ line_height }}px; --font-size: {{ font_size }}vw; --parallax: {{ parallax_strength }}; --scribble-stroke: {{ scribble_stroke }}; --scribble-width: {{ scribble_width }}; --scribble-duration: {{ scribble_duration }}s; --vh: {{ section_height }}vh;">
+  <div class="cutout-hero__bg">
+    {% if bg_image %}
+      <picture>
+        {% if bg_image_mobile %}
+          <source media="(max-width: 768px)" srcset="{{ bg_image_mobile | image_url: width: 1200 }} 1x, {{ bg_image_mobile | image_url: width: 2000 }} 2x">
+        {% endif %}
+        <img src="{{ bg_image | image_url: width: 2000 }}" alt="" loading="lazy" />
+      </picture>
+    {% endif %}
+  </div>
+  <div class="cutout-hero__overlay"></div>
+  <div class="cutout-hero__content">
+    {% if enable_scribble %}
+      <div class="cutout-hero__scribble" aria-hidden="true">
+        <svg viewBox="{{ scribble_viewbox }}" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {% if scribble_paths != blank %}
+            {{ scribble_paths | raw }}
+          {% else %}
+            <!-- Default scribble strokes; replace via settings -->
+            <path d="M15 120 C60 10, 140 200, 200 40"/>
+            <path d="M210 60 C260 -20, 340 200, 390 60"/>
+            <path d="M410 90 C470 -10, 560 220, 590 40"/>
+          {% endif %}
+        </svg>
+      </div>
+    {% endif %}
+    <h1 class="cutout-hero__title">{{ heading_text }}</h1>
+  </div>
+</section>
+
+<style>
+  #cutout-hero-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    height: var(--vh);
+    overflow: hidden;
+    background: #fff;
+  }
+  #cutout-hero-{{ section.id }} .cutout-hero__bg {
+    position: absolute; inset: 0; z-index: 0; overflow: hidden;
+  }
+  #cutout-hero-{{ section.id }} .cutout-hero__bg img { width: 100%; height: 100%; object-fit: cover; transform: translateY(0); will-change: transform; }
+
+  #cutout-hero-{{ section.id }} .cutout-hero__overlay {
+    position: absolute; inset: 0; background: var(--overlay); z-index: 1; pointer-events: none;
+  }
+
+  #cutout-hero-{{ section.id }} .cutout-hero__content { position: relative; z-index: 2; width: 100%; height: 100%; display: grid; place-items: center; padding: 4vw; }
+
+  #cutout-hero-{{ section.id }} .cutout-hero__title {
+    margin: 0;
+    text-align: center;
+    font-weight: var(--weight);
+    letter-spacing: var(--letter);
+    line-height: var(--line);
+    font-size: var(--font-size);
+    text-transform: uppercase;
+    color: transparent;
+    -webkit-text-stroke: 0px transparent;
+    background-image: {% if bg_image %}url('{{ bg_image | image_url: width: 2400 }}'){% else %}none{% endif %};
+    background-size: cover;
+    background-position: center center;
+    -webkit-background-clip: text; background-clip: text;
+  }
+
+  /* Optional scribble layer (animated stroke) */
+  #cutout-hero-{{ section.id }} .cutout-hero__scribble { position: absolute; top: 0; left: 0; width: min(40vw, 600px); pointer-events: none; z-index: 3; }
+  #cutout-hero-{{ section.id }} .cutout-hero__scribble svg { width: 100%; height: auto; }
+  #cutout-hero-{{ section.id }} .cutout-hero__scribble path { stroke: var(--scribble-stroke); stroke-width: var(--scribble-width); fill: none; stroke-linecap: round; }
+
+  @media (max-width: 768px) {
+    #cutout-hero-{{ section.id }} { --font-size: 14vw; --line: 62px; height: calc(var(--vh) + 10vh); }
+    #cutout-hero-{{ section.id }} .cutout-hero__scribble { width: min(60vw, 420px); }
+  }
+</style>
+
+<script>
+  (function(){
+    var root = document.getElementById('cutout-hero-{{ section.id }}');
+    if(!root) return;
+    function load(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.async=true;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+
+    function init(){
+      var bgImg = root.querySelector('.cutout-hero__bg img');
+      var title = root.querySelector('.cutout-hero__title');
+      var scribblePaths = root.querySelectorAll('.cutout-hero__scribble path');
+
+      function setup(){
+        if(typeof gsap==='undefined' || typeof ScrollTrigger==='undefined'){ return; }
+        gsap.registerPlugin(ScrollTrigger);
+        // Parallax background (behind)
+        if(bgImg){
+          gsap.to(bgImg, { yPercent: -1 * ({{ parallax_strength | default: 20 }}), ease: 'none', scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: true } });
+        }
+        // Parallax inside cutout text (background-position change)
+        if(title){
+          gsap.to(title, { backgroundPositionY: function(){return ({{ parallax_strength | default: 20 }}*5)+'px';}, ease: 'none', scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: true } });
+        }
+        // Scribble write-on animation
+        if(scribblePaths && scribblePaths.length){
+          scribblePaths.forEach(function(p){
+            var len = p.getTotalLength ? p.getTotalLength() : 300;
+            p.style.strokeDasharray = len;
+            p.style.strokeDashoffset = len;
+            gsap.to(p, { strokeDashoffset: 0, duration: {{ scribble_duration | default: 1.5 }}, ease: 'power2.out', scrollTrigger: { trigger: root, start: 'top 80%', once: true }});
+          });
+        }
+      }
+
+      if(typeof gsap==='undefined'){
+        load('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js').then(function(){return load('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js');}).then(setup).catch(function(){});
+      } else {
+        if(typeof ScrollTrigger==='undefined'){
+          load('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js').then(setup);
+        } else { setup(); }
+      }
+    }
+
+    if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', init); } else { init(); }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Cutout Parallax Hero",
+  "settings": [
+    {"type":"image_picker","id":"bg_image","label":"Background image (desktop)"},
+    {"type":"image_picker","id":"bg_image_mobile","label":"Background image (mobile)"},
+    {"type":"color","id":"overlay_color","label":"Overlay color","default":"#FAF7EF"},
+    {"type":"range","id":"section_height","label":"Section height (vh)","min":40,"max":120,"step":5,"default":80,"unit":"vh"},
+    {"type":"textarea","id":"heading_text","label":"Cutout heading","default":"FOR PROFESSIONAL AND HOME USE · BAKERY · HORECA · CONFECTIONERY"},
+    {"type":"color","id":"text_color","label":"Fallback text color (rarely used)","default":"#000000"},
+    {"type":"select","id":"text_weight","label":"Font weight","options":[{"value":"700","label":"Bold 700"},{"value":"800","label":"Extra-bold 800"},{"value":"900","label":"Black 900"}],"default":"900"},
+    {"type":"range","id":"font_size","label":"Font size (vw)","min":6,"max":16,"step":0.5,"default":10,"unit":"vw"},
+    {"type":"range","id":"line_height","label":"Line height (px)","min":50,"max":140,"step":2,"default":92,"unit":"px"},
+    {"type":"range","id":"letter_spacing","label":"Letter spacing (px)","min":-2,"max":6,"step":0.5,"default":0,"unit":"px"},
+    {"type":"range","id":"parallax_strength","label":"Parallax strength","min":0,"max":40,"step":2,"default":20},
+    {"type":"checkbox","id":"enable_scribble","label":"Show scribble writing overlay","default":true},
+    {"type":"color","id":"scribble_stroke","label":"Scribble stroke color","default":"#000000"},
+    {"type":"range","id":"scribble_width","label":"Scribble stroke width","min":1,"max":10,"step":1,"default":4,"unit":"px"},
+    {"type":"range","id":"scribble_duration","label":"Scribble draw duration (s)","min":0.5,"max":6,"step":0.1,"default":1.5,"unit":"s"},
+    {"type":"text","id":"scribble_viewbox","label":"Scribble SVG viewBox","default":"0 0 600 180","info":"Format: minX minY width height"},
+    {"type":"textarea","id":"scribble_svg_paths","label":"Custom scribble <path> markup","info":"Paste one or more <path ... /> elements. They will inherit stroke settings above.","default":"<path d='M15 120 C60 10, 140 200, 200 40'/>"}
+  ],
+  "presets": [
+    {"name":"Cutout Parallax Hero"}
+  ]
+}
+{% endschema %}
