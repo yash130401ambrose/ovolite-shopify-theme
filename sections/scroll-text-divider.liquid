@@ -3,18 +3,20 @@
   <div class="scroll-bg-top"></div>
   <div class="scroll-bg-bottom"></div>
 
-  <!-- SVG ribbon and text -->
+  <!-- Smooth curved ribbon and text -->
   <svg class="scroll-divider-svg" viewBox="0 0 1600 300" preserveAspectRatio="xMidYMid slice">
-    <!-- Wave-shaped ribbon band -->
-    <path id="ribbon-path"
-      d="M0,180 Q400,100 800,180 T1600,180 L1600,230 Q1200,150 800,230 T0,230 Z"
+    <!-- Smooth wide ribbon band -->
+    <path id="ribbon-path" 
+      d="M0,180 Q400,110 800,180 T1600,180 L1600,230 Q1200,160 800,230 T0,230 Z"
       fill="{{ section.settings.ribbon_color }}" />
 
-    <!-- Text path inside ribbon -->
-    <path id="text-path" d="M0,185 Q400,110 800,185 T1600,185" fill="none" />
+    <!-- Text path slightly above ribbon center -->
+    <path id="text-path" 
+      d="M0,190 Q400,120 800,190 T1600,190" 
+      fill="none" />
 
-    <text class="scroll-divider-text" fill="{{ section.settings.text_color }}"
-      font-size="{{ section.settings.font_size }}" font-weight="800" letter-spacing="2" text-anchor="middle">
+    <text class="scroll-divider-text" fill="{{ section.settings.text_color }}" font-size="{{ section.settings.font_size }}"
+      font-weight="800" letter-spacing="2" text-anchor="middle">
       <textPath href="#text-path" startOffset="50%">
         {{ section.settings.text }} • {{ section.settings.text }} • {{ section.settings.text }}
       </textPath>
@@ -30,7 +32,7 @@
   height: 280px;
 }
 
-/* Split Backgrounds */
+/* Split background colors */
 .scroll-bg-top,
 .scroll-bg-bottom {
   position: absolute;
@@ -50,7 +52,7 @@
   background: {{ section.settings.bottom_bg_color }};
 }
 
-/* SVG and Text */
+/* SVG and text */
 .scroll-divider-svg {
   width: 100%;
   height: 280px;
@@ -71,7 +73,7 @@
 }
 </style>
 
-<!-- GSAP animation -->
+<!-- GSAP scroll animation -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
@@ -79,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
   gsap.registerPlugin(ScrollTrigger);
   const text = document.querySelector(".scroll-divider-text textPath");
 
-  // Move left → right with scroll
+  // Smooth scroll left → right
   gsap.to(text, {
     attr: { startOffset: "150%" },
     ease: "none",
@@ -95,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 {% schema %}
 {
-  "name": "Curved SVG Scroll Divider",
+  "name": "Curved Scroll Divider ",
   "settings": [
     {
       "type": "text",
@@ -138,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ],
   "presets": [
     {
-      "name": "Curved SVG Scroll Divider (Wave Ribbon)"
+      "name": "Curved Scroll Divider (Final Smooth Ribbon)"
     }
   ]
 }
