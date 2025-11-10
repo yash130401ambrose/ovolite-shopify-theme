@@ -41,17 +41,6 @@
         "enable_preload_image": false
       }
     },
-    "scroll_text_divider_8DD3nL": {
-      "type": "scroll-text-divider",
-      "name": "Scroll Text Divider",
-      "settings": {
-        "text": "IT’S A MATCH(A)",
-        "font_size": 120,
-        "speed": 20,
-        "text_color": "#a5d6a7",
-        "ribbon_color": "#204c2a"
-      }
-    },
     "image_with_text_kX9k8X": {
       "type": "image-with-text",
       "custom_css": [],
@@ -187,7 +176,7 @@
         "heading_opacity": 0.1,
         "card_bg": "#1b45c7",
         "card_radius": 12,
-        "card_width": 560,
+        "card_width": 530,
         "card_gap": 48,
         "section_padding_y": 200,
         "enable_animation": true
@@ -296,7 +285,6 @@
   },
   "order": [
     "image_with_text_2_NRLVdk",
-    "scroll_text_divider_8DD3nL",
     "image_with_text_kX9k8X",
     "liquid_drip_divider_YYNE8t",
     "new_featured_product_ijtU9i",
