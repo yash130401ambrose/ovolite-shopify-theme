@@ -109,13 +109,13 @@
         "scribble_stroke": "#000000",
         "scribble_width": 4,
         "scribble_duration": 1.5,
-        "scribble_viewbox": "-90 -80 500 600",
+        "scribble_viewbox": "",
         "scribble_svg_paths": "",
         "enable_scribble_text": true,
         "scribble_text": "Ways of Using",
         "scribble_font_url": "",
         "scribble_font_family": "ScribbleCustom",
-        "scribble_text_size": 8,
+        "scribble_text_size": 11.5,
         "scribble_text_color": "#000000"
       }
     },
