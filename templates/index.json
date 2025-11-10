@@ -172,7 +172,7 @@
       "settings": {
         "bg_color": "#ecf1ff",
         "heading_text": "WHAT MAKES US SPECIAL",
-        "heading_color": "#0b0b0b",
+        "heading_color": "#000000",
         "heading_opacity": 0.1,
         "card_bg": "#1b45c7",
         "card_radius": 12,
