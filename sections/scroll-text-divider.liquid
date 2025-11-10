@@ -3,15 +3,16 @@
   <div class="scroll-bg-top"></div>
   <div class="scroll-bg-bottom"></div>
 
-  <!-- Curved ribbon and text -->
-  <svg class="scroll-divider-svg" viewBox="0 0 1600 200" preserveAspectRatio="xMidYMid slice">
-    <!-- Thick curved ribbon -->
-    <path id="ribbon-path" fill="{{ section.settings.ribbon_color }}" d="M0,120 Q800,60 1600,120 L1600,160 Q800,100 0,160Z" />
+  <!-- Curved ribbon with embedded text -->
+  <svg class="scroll-divider-svg" viewBox="0 0 1600 300" preserveAspectRatio="xMidYMid slice">
+    <!-- Wider curved ribbon band -->
+    <path id="ribbon-path" fill="{{ section.settings.ribbon_color }}"
+      d="M0,160 Q800,80 1600,160 L1600,200 Q800,120 0,200Z" />
 
-    <!-- Text along same curve (centered inside ribbon) -->
-    <path id="text-path" fill="none" d="M0,130 Q800,70 1600,130" />
+    <!-- Text path, centered within the ribbon -->
+    <path id="text-path" fill="none" d="M0,165 Q800,90 1600,165" />
 
-    <text class="scroll-divider-text" fill="{{ section.settings.text_color }}" font-size="{{ section.settings.font_size }}" text-anchor="middle">
+    <text class="scroll-divider-text" fill="{{ section.settings.text_color }}" font-size="{{ section.settings.font_size }}">
       <textPath href="#text-path" startOffset="50%">
         {{ section.settings.text }} • {{ section.settings.text }} • {{ section.settings.text }}
       </textPath>
@@ -24,10 +25,10 @@
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 220px;
+  height: 260px;
 }
 
-/* Background Split */
+/* Split background colors */
 .scroll-bg-top,
 .scroll-bg-bottom {
   position: absolute;
@@ -47,20 +48,21 @@
   background: {{ section.settings.bottom_bg_color }};
 }
 
-/* SVG & Ribbon */
+/* SVG layer */
 .scroll-divider-svg {
   width: 100%;
-  height: 220px;
+  height: 260px;
   position: relative;
   z-index: 2;
 }
 
-/* Text inside ribbon */
+/* Text styling */
 .scroll-divider-text {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
   white-space: nowrap;
+  text-anchor: middle;
   dominant-baseline: middle;
 }
 
@@ -71,18 +73,16 @@
 }
 </style>
 
-<!-- GSAP Animation -->
+<!-- GSAP scroll animation -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   gsap.registerPlugin(ScrollTrigger);
-
   const text = document.querySelector(".scroll-divider-text textPath");
 
-  // move from left → right
   gsap.to(text, {
-    attr: { startOffset: "150%" },
+    attr: { startOffset: "150%" }, // left → right scroll
     ease: "none",
     scrollTrigger: {
       trigger: ".scroll-divider-section",
@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ],
   "presets": [
     {
-      "name": "Curved Scroll Divider (Text Inside Ribbon)"
+      "name": "Curved Scroll Divider (Embedded Ribbon)"
     }
   ]
 }
