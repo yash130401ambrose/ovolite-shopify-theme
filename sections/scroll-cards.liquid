@@ -156,21 +156,34 @@
         if (!track || !viewport) return;
 
         function setup() {
-          var trackWidth = track.scrollWidth;
+          var cards = track.querySelectorAll('.scroll-card');
+          if (!cards.length) return;
+          var first = cards[0];
+          var last = cards[cards.length - 1];
+
+          // measurements
           var viewportWidth = viewport.clientWidth;
-          var distance = Math.max(0, trackWidth - viewportWidth);
+          var firstLeft = first.offsetLeft; // inside track
+          var lastCenter = last.offsetLeft + last.offsetWidth / 2; // inside track
+          var viewportCenter = viewportWidth / 2;
 
-          // Start off-screen left so it scrolls left->right as you scroll down
-          gsap.set(track, { x: -distance });
+          // Start with cards off to the right so heading shows first
+          var startX = viewportWidth - firstLeft + 40; // push entire track to the right
+          // End when the last card is centered in viewport
+          var endX = viewportCenter - lastCenter;
+          var totalMove = Math.abs(endX - startX);
 
+          gsap.set(track, { x: startX });
+
+          // Pin section and scrub through the horizontal motion
           ScrollTrigger.create({
             trigger: root,
-            start: 'top center',
-            end: 'bottom top',
+            start: 'top top',
+            end: '+=' + (totalMove + 400),
+            pin: true,
             scrub: true,
             onUpdate: function(self) {
-              // Map scroll progress to X from -distance to 0 (left -> right)
-              var x = gsap.utils.mapRange(0, 1, -distance, 0, self.progress);
+              var x = gsap.utils.mapRange(0, 1, startX, endX, self.progress);
               gsap.to(track, { x: x, ease: 'none', overwrite: true, duration: 0 });
             }
           });
