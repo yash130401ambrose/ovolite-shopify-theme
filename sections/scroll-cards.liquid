@@ -77,20 +77,21 @@
 
   .scroll-cards__heading {
     position: absolute;
-    top: 50%;
+    top: clamp(32px, 18vh, 160px);
     left: 5vw;
-    transform: translateY(-50%);
-    font-size: clamp(36px, 8vw, 120px);
+    transform: none;
+    font-size: clamp(32px, 7vw, 96px);
     font-weight: 700;
     line-height: 1.05;
     color: var(--heading-color);
-    opacity: 0.95;
+    opacity: 0.28;
     white-space: pre-wrap;
     pointer-events: none;
-    z-index: 8;
+    z-index: 1;
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.08em;
+    mix-blend-mode: normal;
   }
 
   /* shared center icon */
@@ -141,9 +142,9 @@
     display: inline-flex;
     gap: var(--card-gap);
     align-items: stretch;
-    padding: calc(var(--icon-size) + 64px) 6vw 40px;
+    padding: calc(var(--icon-size) + 48px) 6vw 56px;
     will-change: transform;
-    z-index: 4;
+    z-index: 3;
   }
 
   .scroll-card {
@@ -156,22 +157,20 @@
     justify-content: center;
     align-items: center;
     gap: 16px;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
     min-height: var(--card-height);
     position: relative;
     text-align: center;
     transform-origin: center;
-    transform: translate3d(0, 80px, 0) scale(0.92);
-    opacity: 0.35;
-    filter: blur(1px);
-    transition: transform 0.45s ease, opacity 0.28s ease, box-shadow 0.45s ease, filter 0.3s ease;
+    transform: translate3d(0, 40px, 0) scale(0.95);
+    opacity: 0.65;
+    transition: transform 0.4s ease, opacity 0.25s ease, box-shadow 0.4s ease;
   }
 
   .scroll-card.is-active {
     box-shadow: 0 26px 64px rgba(0, 0, 0, 0.16);
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-    filter: blur(0);
+    transform: translate3d(0, -12px, 0) scale(1);
   }
 
   .scroll-card__title {
@@ -186,7 +185,8 @@
     color: var(--desc-color);
     font-size: clamp(15px, 1.4vw, 18px);
     line-height: 1.6;
-    max-width: 480px;
+    max-width: 520px;
+    opacity: 1;
   }
 
   .scroll-card:focus-within {
@@ -214,7 +214,7 @@
 
   @media (max-width: 768px) {
     #scroll-cards-{{ section.id }} { --card-width: 320px; --card-gap: 16px; }
-    .scroll-cards__heading { left: 4vw; font-size: clamp(28px, 14vw, 64px); letter-spacing: 0.05em; }
+    .scroll-cards__heading { left: 4vw; font-size: clamp(28px, 14vw, 64px); letter-spacing: 0.05em; opacity: 0.4; }
     .scroll-cards__viewport::before,
     .scroll-cards__viewport::after { width: 25vw; opacity: 0.6; }
     .scroll-card { padding: 28px 18px; min-height: calc(var(--card-height) * 0.8); }
@@ -266,20 +266,21 @@
     cards.forEach(function(card) {
       var center = card.offsetLeft + card.offsetWidth / 2 + currentX;
       var distance = Math.abs(viewportCenter - center);
-      var ratio = Math.min(distance / (viewportWidth * 0.6), 1);
-      var scale = gsap.utils.interpolate(1, 0.88, ratio);
-      var opacity = gsap.utils.interpolate(1, 0.45, ratio);
-      var translateY = gsap.utils.interpolate(0, 80, ratio);
+      var ratio = Math.min(distance / (viewportWidth * 0.58), 1);
+      var scale = gsap.utils.interpolate(1, 0.9, ratio);
+      var opacity = gsap.utils.interpolate(1, 0.55, ratio);
+      var translateY = gsap.utils.interpolate(-12, 46, ratio);
+      var translateX = gsap.utils.interpolate(0, 60, ratio) * (center > viewportCenter ? 1 : -1);
       gsap.to(card, {
         scale: scale,
         opacity: opacity,
+        x: translateX,
         y: translateY,
         duration: immediate ? 0 : 0.25,
         overwrite: true,
         ease: 'power2.out'
       });
-      card.style.filter = 'blur(' + (ratio * 1.2).toFixed(2) + 'px)';
-      if (ratio < 0.28) {
+      if (ratio < 0.3) {
         card.classList.add('is-active');
       } else {
         card.classList.remove('is-active');
