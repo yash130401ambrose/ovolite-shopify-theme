@@ -1,9 +1,8 @@
 {% liquid
   assign bg_color = section.settings.bg_color | default: '#eef5ea'
   assign heading_text = section.settings.heading_text | default: 'WHAT MAKES US SPECIAL'
-  assign heading_color_setting = section.settings.heading_color | default: '#0b0b0b'
-  assign heading_opacity = section.settings.heading_opacity | default: 0.1
-  assign heading_full_white = section.settings.heading_full_white | default: false
+  assign heading_color = section.settings.heading_color | default: '#ffffff'
+  assign heading_opacity = section.settings.heading_opacity | default: 1
   assign card_bg = section.settings.card_bg | default: '#ffffff'
   assign card_radius = section.settings.card_radius | default: 16
   assign card_width = section.settings.card_width | default: 720
@@ -21,8 +20,8 @@
   class="scroll-cards-section"
   data-enable-animation="{{ enable_animation }}"
   style="--bg: {{ bg_color }};
-         --heading-color: {% if heading_full_white %}#ffffff{% else %}{{ heading_color_setting }}{% endif %};
-         --heading-opacity: {% if heading_full_white %}1{% else %}{{ heading_opacity }}{% endif %};
+         --heading-color: {{ heading_color }};
+         --heading-opacity: {{ heading_opacity }};
          --card-bg: {{ card_bg }};
          --card-radius: {{ card_radius }}px;
          --card-width: {{ card_width }}px;
@@ -131,6 +130,7 @@
     filter: drop-shadow(0 6px 16px rgba(0,0,0,.14));
     z-index: 5;
   }
+
   #scroll-cards-{{ section.id }} .scroll-card__icon img {
     width: var(--icon-size);
     height: auto;
@@ -256,10 +256,9 @@
   "name": "Scroll Cards",
   "settings": [
     { "type": "color", "id": "bg_color", "label": "Background color", "default": "#EEF5EA" },
-    { "type": "text", "id": "heading_text", "label": "Background heading", "default": "WHAT MAKES US\\nSPECIAL" },
-    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#0B0B0B" },
-    { "type": "range", "id": "heading_opacity", "label": "Heading opacity", "min": 0, "max": 1, "step": 0.1, "default": 0.1 },
-    { "type": "checkbox", "id": "heading_full_white", "label": "Force pure white heading (100% opacity and front layer)", "default": false },
+    { "type": "text", "id": "heading_text", "label": "Heading text", "default": "WHAT MAKES US\\nSPECIAL" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#FFFFFF" },
+    { "type": "range", "id": "heading_opacity", "label": "Heading opacity", "min": 0, "max": 1, "step": 0.1, "default": 1 },
     { "type": "color", "id": "card_bg", "label": "Card background color", "default": "#FFFFFF" },
     { "type": "color", "id": "desc_color", "label": "Description text color", "default": "#1A1A1A" },
     { "type": "range", "id": "card_height", "label": "Card height (px)", "min": 300, "max": 900, "step": 10, "default": 520, "unit": "px" },
