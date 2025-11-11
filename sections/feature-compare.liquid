@@ -96,6 +96,12 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       border-collapse: collapse;
     }
 
+    :root {
+      --fc-anim-duration: {{ section.settings.row_animation_duration | default: 0.6 }}s;
+      --fc-icon-anim-duration: {{ section.settings.icon_animation_duration | default: 0.4 }}s;
+      --fc-row-delay-step: {{ section.settings.row_delay_step | default: 0.1 }}s;
+    }
+
     .fc-row {
       display: grid;
       grid-template-columns: 1fr 100px 100px;
@@ -105,7 +111,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       border-bottom: 1px solid rgba(0, 0, 0, 0.08);
       opacity: 1;
       transform: none;
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: opacity var(--fc-anim-duration) ease, transform var(--fc-anim-duration) ease;
     }
 
     @media (max-width: 600px) {
@@ -115,12 +121,17 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
 
     .fc-row[data-animate] {
       opacity: 0;
-      transform: translateY(24px);
     }
+
+    .fc-row.fc-anim--slide-up[data-animate] { transform: translateY(24px); }
+    .fc-row.fc-anim--slide-left[data-animate] { transform: translateX(-40px); }
+    .fc-row.fc-anim--slide-right[data-animate] { transform: translateX(40px); }
+    .fc-row.fc-anim--zoom[data-animate] { transform: scale(0.94); }
+    .fc-row.fc-anim--fade[data-animate] { transform: none; }
 
     .play .fc-row[data-animate] {
       opacity: 1;
-      transform: translateY(0);
+      transform: translate3d(0,0,0);
     }
 
     .fc-benefit {
@@ -132,15 +143,15 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     }
 
     .fc-icon-wrap {
-      width: 48px;
-      height: 36px;
+      width: clamp(44px, 5vw, 52px);
+      height: clamp(32px, 4vw, 40px);
       border-radius: 8px;
       background: #E6EDFF;
       display: flex;
       align-items: center;
       justify-content: center;
       transform: translateY(0);
-      transition: transform 0.45s cubic-bezier(.2,.9,.3,1), box-shadow 0.45s ease;
+      transition: transform var(--fc-anim-duration) cubic-bezier(.2,.9,.3,1), box-shadow var(--fc-anim-duration) ease;
     }
 
     /* Animated Icons */
@@ -155,8 +166,12 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       box-shadow: 0 8px 18px rgba(0, 64, 255, 0.12);
     }
 
-    .play .fc-check { animation: pop 0.45s cubic-bezier(.2,.9,.3,1) forwards; }
-    .play .fc-cross { animation: shake 0.45s cubic-bezier(.2,.9,.3,1) forwards; }
+    .play .fc-check {
+      animation: pop var(--fc-icon-anim-duration) cubic-bezier(.2,.9,.3,1) forwards;
+    }
+    .play .fc-cross {
+      animation: shake var(--fc-icon-anim-duration) cubic-bezier(.2,.9,.3,1) forwards;
+    }
 
     @keyframes pop {
       0% { transform: scale(0.2); opacity: 0; }
@@ -213,9 +228,13 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
           <div class="fc-col">{{ section.settings.right_label }}</div>
         </div>
 
+        {% assign animation_style = section.settings.row_animation_style | default: 'slide-up' %}
         {% for block in section.blocks %}
-          {% assign delay = forloop.index0 | times: 0.08 %}
-          <div class="fc-row" data-animate style="transition-delay: {{ delay | round: 2 }}s;">
+        {% assign delay = forloop.index0 | times: section.settings.row_delay_step | default: 0.1 %}
+          {% capture row_style %}
+            transition-delay: {{ delay | round: 2 }}s;
+          {% endcapture %}
+          <div class="fc-row fc-anim--{{ animation_style }}" data-animate style="{{ row_style | strip }}">
             <div class="fc-benefit">{{ block.settings.benefit }}</div>
             <div class="fc-col">
               <div class="fc-icon-wrap">
@@ -253,6 +272,12 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     (function(){
       const section = document.getElementById('feature-compare-{{ section.id }}');
       if (!section) return;
+      const config = {
+        duration: parseFloat(getComputedStyle(section).getPropertyValue('--fc-anim-duration')) || {{ section.settings.row_animation_duration | default: 0.6 }},
+        delayStep: {{ section.settings.row_delay_step | default: 0.1 }},
+        iconDuration: {{ section.settings.icon_animation_duration | default: 0.4 }}
+      };
+
       const observer = new IntersectionObserver((entries)=>{
         entries.forEach(entry=>{
           if(entry.isIntersecting){
@@ -279,7 +304,17 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#0040FF" },
       { "type": "color", "id": "text_color", "label": "Text Color", "default": "#0A0A0A" },
       { "type": "color", "id": "accent_color", "label": "Accent (Tick) Color", "default": "#0040FF" },
-      { "type": "color", "id": "card_color", "label": "Left Card Background", "default": "#F5F8FF" }
+      { "type": "color", "id": "card_color", "label": "Left Card Background", "default": "#F5F8FF" },
+      { "type": "select", "id": "row_animation_style", "label": "Row animation style", "default": "slide-up", "options": [
+        { "label": "Slide up", "value": "slide-up" },
+        { "label": "Fade in", "value": "fade" },
+        { "label": "Zoom in", "value": "zoom" },
+        { "label": "Slide left", "value": "slide-left" },
+        { "label": "Slide right", "value": "slide-right" }
+      ] },
+      { "type": "range", "id": "row_animation_duration", "label": "Row animation duration (s)", "min": 0.2, "max": 1.5, "step": 0.1, "default": 0.6 },
+      { "type": "range", "id": "icon_animation_duration", "label": "Icon animation duration (s)", "min": 0.2, "max": 1.2, "step": 0.1, "default": 0.4 },
+      { "type": "range", "id": "row_delay_step", "label": "Delay between rows (s)", "min": 0, "max": 0.5, "step": 0.1, "default": 0.1 }
     ],
     "blocks": [
       {
