@@ -65,7 +65,8 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
 
 .m-section-{{ section.id }} .m-richtext__title {
   display: inline-block;
-  white-space: nowrap;
+  white-space: normal;
+  word-break: break-word;
   overflow: visible;
 }
 
@@ -73,7 +74,7 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
 .m-section-{{ section.id }} .heading--typewriter {
   overflow: hidden;
   border-right: 2px solid rgba(0,0,0,0.8);
-  white-space: nowrap;
+  white-space: normal;
   box-sizing: border-box;
   display:inline-block;
   vertical-align: middle;
@@ -95,7 +96,7 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
 }
 
 /* --- Letter Fade (staggered) --- */
-.m-section-{{ section.id }} .heading--letter-fade { display:inline-block; white-space:nowrap; }
+.m-section-{{ section.id }} .heading--letter-fade { display:inline-block; white-space:normal; }
 .m-section-{{ section.id }} .heading--letter-fade .char {
   display:inline-block;
   opacity:0;
