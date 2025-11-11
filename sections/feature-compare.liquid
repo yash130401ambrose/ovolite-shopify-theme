@@ -32,7 +32,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     .fc-image-card {
       background: {{ section.settings.card_color }};
       border-radius: 12px;
-      padding: 30px;
+      padding: clamp(24px, 5vw, 36px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -49,19 +49,23 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
 
     /* Smiley/Icon */
     .fc-smiley {
-      position: absolute;
-      top: -35px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 80px;
+      width: clamp(72px, 8vw, 110px);
+      height: clamp(72px, 8vw, 110px);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       background: white;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      margin: 0 auto clamp(20px, 4vw, 32px);
       animation: floaty 4s ease-in-out infinite;
+    }
+
+    .feature-compare-section__icon-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: clamp(16px, 5vw, 28px);
     }
 
     .fc-smiley img {
@@ -71,8 +75,8 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     }
 
     @keyframes floaty {
-      0%, 100% { transform: translate(-50%, 0); }
-      50% { transform: translate(-50%, -6px); }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
     }
 
     /* Right Content */
@@ -225,11 +229,6 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
   <div class="fc-container">
     <!-- Left Side -->
     <div class="fc-image-card">
-      <div class="fc-smiley">
-        {% if section.settings.icon_image != blank %}
-          <img src="{{ section.settings.icon_image | img_url: '150x' }}" alt="Icon" />
-        {% endif %}
-      </div>
       {% if section.settings.left_image != blank %}
         <img src="{{ section.settings.left_image | img_url: '800x' }}" alt="Feature image" />
       {% endif %}
@@ -237,6 +236,13 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
 
     <!-- Right Side -->
     <div class="fc-content">
+      {% if section.settings.icon_image != blank %}
+        <div class="feature-compare-section__icon-wrapper">
+          <div class="fc-smiley">
+            <img src="{{ section.settings.icon_image | img_url: '200x' }}" alt="Feature icon" />
+          </div>
+        </div>
+      {% endif %}
       <h2 class="fc-title">{{ section.settings.heading }}</h2>
       <div class="fc-sub">{{ section.settings.subtext }}</div>
 
