@@ -22,7 +22,7 @@
     "custom_heading_font": "",
     "custom_heading_weight": "400",
     "type_header_base_size": 36,
-    "enable_heading_animation": true,
+    "enable_heading_animation": false,
     "heading_animation_duration": 0.7,
     "heading_animation_stagger": 0.2,
     "heading_animation_ease": "power3.out",
