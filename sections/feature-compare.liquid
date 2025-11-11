@@ -1,0 +1,221 @@
+{% comment %}
+✅ Feature Compare Section (Fixed Schema Name)
+Fully working, animated check/cross & smiley icon
+{% endcomment %}
+
+<section id="feature-compare-{{ section.id }}" class="feature-compare-section">
+  <style>
+    #feature-compare-{{ section.id }} {
+      --accent: {{ section.settings.accent_color }};
+      --muted: {{ section.settings.muted_color }};
+      padding: 48px 20px;
+      box-sizing: border-box;
+    }
+    .fc-container {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    @media (max-width: 900px) {
+      .fc-container { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    .fc-image-card {
+      background: var(--muted);
+      border-radius: 8px;
+      padding: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    }
+    .fc-image-card img { width: 100%; border-radius: 6px; object-fit: cover; }
+
+    .fc-smiley {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      animation: floaty 3.5s ease-in-out infinite;
+    }
+    @keyframes floaty {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(6deg); }
+    }
+
+    .fc-content { text-align: left; }
+    .fc-eyebrow {
+      font-size: 13px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .fc-title {
+      font-size: 38px;
+      margin: 0 0 14px;
+      color: #0a3a0f;
+      font-weight: 700;
+    }
+    .fc-sub { color: #2f5a34; margin-bottom: 26px; }
+
+    .fc-row {
+      display: grid;
+      grid-template-columns: 1fr 100px 100px;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    @media (max-width: 640px) {
+      .fc-row { grid-template-columns: 1fr 70px 70px; }
+      .fc-title { font-size: 28px; }
+    }
+
+    .fc-benefit { color: #234; font-size: 15px; }
+    .fc-col { display: flex; align-items: center; justify-content: center; }
+
+    .fc-icon-wrap {
+      width: 56px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      background: #eaf4e8;
+    }
+
+    .fc-check, .fc-cross {
+      width: 22px; height: 22px;
+      display: inline-block;
+      transform-origin: center;
+    }
+    .play .fc-check { animation: pop 0.7s cubic-bezier(.2,.9,.3,1); }
+    .play .fc-cross { animation: shake 0.7s cubic-bezier(.2,.9,.3,1); }
+
+    @keyframes pop {
+      0% { transform: scale(.2) rotate(-15deg); opacity: 0; }
+      60% { transform: scale(1.12) rotate(6deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0); }
+    }
+    @keyframes shake {
+      0% { transform: translateX(0) rotate(0); opacity: 0; }
+      25% { transform: translateX(-6px) rotate(-8deg); opacity: 1; }
+      50% { transform: translateX(6px) rotate(8deg); }
+      100% { transform: translateX(0) rotate(0); }
+    }
+  </style>
+
+  <div class="fc-container">
+    <div class="fc-image-card">
+      <div class="fc-smiley">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="11" fill="transparent"/>
+          <circle cx="8.5" cy="10" r="1.2" fill="#6DB267"/>
+          <circle cx="15.5" cy="10" r="1.2" fill="#6DB267"/>
+          <path d="M8 15c1.5 1.4 3.5 1.6 6 0" stroke="#6DB267" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <img src="{{ section.settings.image | img_url: '800x' }}" alt="{{ section.settings.image_alt | escape }}">
+    </div>
+
+    <div class="fc-content">
+      <div class="fc-eyebrow">{{ section.settings.eyebrow }}</div>
+      <h2 class="fc-title">{{ section.settings.heading }}</h2>
+      <div class="fc-sub">{{ section.settings.subtext }}</div>
+
+      <div class="fc-row" style="border-bottom:2px solid rgba(0,0,0,0.08)">
+        <div></div>
+        <div class="fc-col">{{ section.settings.col_left }}</div>
+        <div class="fc-col">{{ section.settings.col_right }}</div>
+      </div>
+
+      {% for block in section.blocks %}
+        <div class="fc-row">
+          <div class="fc-benefit">{{ block.settings.text }}</div>
+          <div class="fc-col">
+            <div class="fc-icon-wrap">
+              {% if block.settings.left %}
+              <svg class="fc-check" viewBox="0 0 24 24" fill="none">
+                <path d="M6 12.5l3 3 8-8" stroke="#225B2A" stroke-width="2.2" stroke-linecap="round"/>
+              </svg>
+              {% else %}
+              <svg class="fc-cross" viewBox="0 0 24 24" fill="none">
+                <path d="M6 6l12 12M6 18L18 6" stroke="#777" stroke-width="2.2" stroke-linecap="round"/>
+              </svg>
+              {% endif %}
+            </div>
+          </div>
+          <div class="fc-col">
+            <div class="fc-icon-wrap">
+              {% if block.settings.right %}
+              <svg class="fc-check" viewBox="0 0 24 24" fill="none">
+                <path d="M6 12.5l3 3 8-8" stroke="#225B2A" stroke-width="2.2" stroke-linecap="round"/>
+              </svg>
+              {% else %}
+              <svg class="fc-cross" viewBox="0 0 24 24" fill="none">
+                <path d="M6 6l12 12M6 18L18 6" stroke="#777" stroke-width="2.2" stroke-linecap="round"/>
+              </svg>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const s = document.getElementById('feature-compare-{{ section.id }}');
+      if (!s) return;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            s.classList.add('play');
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+      observer.observe(s);
+    })();
+  </script>
+
+  {% schema %}
+  {
+    "name": "Feature Compare",
+    "settings": [
+      { "type": "image_picker", "id": "image", "label": "Left image" },
+      { "type": "text", "id": "image_alt", "label": "Image alt text" },
+      { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Benefits" },
+      { "type": "text", "id": "heading", "label": "Heading", "default": "More for you. See the difference." },
+      { "type": "textarea", "id": "subtext", "label": "Sub text", "default": "Compare benefits side by side." },
+      { "type": "text", "id": "col_left", "label": "Left column label", "default": "More" },
+      { "type": "text", "id": "col_right", "label": "Right column label", "default": "Regular Matcha" },
+      { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#6DB267" },
+      { "type": "color", "id": "muted_color", "label": "Muted background", "default": "#f0f7f1" }
+    ],
+    "blocks": [
+      {
+        "type": "benefit",
+        "name": "Benefit",
+        "settings": [
+          { "type": "text", "id": "text", "label": "Benefit text", "default": "Low in carbs" },
+          { "type": "checkbox", "id": "left", "label": "Left side ✓", "default": true },
+          { "type": "checkbox", "id": "right", "label": "Right side ✓", "default": false }
+        ]
+      }
+    ],
+    "presets": [{ "name": "Feature Compare", "category": "Image + Text" }]
+  }
+  {% endschema %}
+</section>
