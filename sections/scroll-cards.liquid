@@ -8,11 +8,13 @@
   assign card_radius = section.settings.card_radius | default: 16
   assign card_width = section.settings.card_width | default: 720
   assign card_gap = section.settings.card_gap | default: 32
-  assign card_height = section.settings.card_height | default: 520
+  assign card_height = section.settings.card_height | default: 320
   assign section_padding_y = section.settings.section_padding_y | default: 80
   assign icon_size = section.settings.icon_size | default: 96
   assign enable_animation = section.settings.enable_animation | default: true
   assign shared_icon = section.settings.shared_icon
+  assign card_icon_size = section.settings.card_icon_size | default: 64
+  assign card_icon_gap = section.settings.card_icon_gap | default: 24
 %}
 
 <section
@@ -45,7 +47,13 @@
       <div class="scroll-cards__track">
         {% for block in section.blocks %}
           {% if block.type == 'card' %}
+            {% assign block_icon = block.settings.card_icon | default: shared_icon %}
             <article class="scroll-card" {{ block.shopify_attributes }}>
+              {% if block_icon != blank %}
+                <div class="scroll-card__icon">
+                  {{ block_icon | image_url: width: 160 | image_tag: class: 'scroll-card__icon-image', alt: block.settings.icon_alt | default: block.settings.title }}
+                </div>
+              {% endif %}
               {% if block.settings.title != blank %}
                 <h3 class="scroll-card__title">{{ block.settings.title }}</h3>
               {% endif %}
@@ -151,14 +159,14 @@
     flex: 0 0 var(--card-width);
     background: var(--card-bg);
     border-radius: var(--card-radius);
-    padding: 48px 36px;
+    padding: clamp(32px, 5vw, 48px) clamp(24px, 4vw, 36px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 16px;
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
-    min-height: var(--card-height);
+    min-height: clamp(220px, var(--card-height), 480px);
     position: relative;
     text-align: center;
     transform-origin: center;
@@ -175,7 +183,7 @@
 
   .scroll-card__title {
     font-weight: 700;
-    font-size: clamp(22px, 3vw, 36px);
+    font-size: clamp(20px, 2.6vw, 34px);
     color: var(--card-title-color);
     line-height: 1.3;
     margin: 0;
@@ -185,8 +193,23 @@
     color: var(--desc-color);
     font-size: clamp(15px, 1.4vw, 18px);
     line-height: 1.6;
-    max-width: 520px;
+    max-width: min(520px, 90%);
     opacity: 1;
+  }
+
+  .scroll-card__icon {
+    width: clamp(48px, var(--card-icon-size), 96px);
+    height: clamp(48px, var(--card-icon-size), 96px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: clamp(16px, var(--card-icon-gap), 28px);
+  }
+
+  .scroll-card__icon-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
   }
 
   .scroll-card:focus-within {
@@ -213,11 +236,14 @@
   }
 
   @media (max-width: 768px) {
-    #scroll-cards-{{ section.id }} { --card-width: 320px; --card-gap: 16px; }
+    #scroll-cards-{{ section.id }} { --card-width: min(320px, 80vw); --card-gap: clamp(12px, 6vw, 24px); }
     .scroll-cards__heading { left: 4vw; font-size: clamp(28px, 14vw, 64px); letter-spacing: 0.05em; opacity: 0.4; }
     .scroll-cards__viewport::before,
     .scroll-cards__viewport::after { width: 25vw; opacity: 0.6; }
-    .scroll-card { padding: 28px 18px; min-height: calc(var(--card-height) * 0.8); }
+    .scroll-card {
+      padding: clamp(24px, 8vw, 32px) clamp(18px, 6vw, 22px);
+      min-height: clamp(220px, calc(var(--card-height) * 0.72), 420px);
+    }
   }
 </style>
 
@@ -466,7 +492,9 @@
     { "type": "color", "id": "desc_color", "label": "Description text color", "default": "#1A1A1A" },
     { "type": "color", "id": "card_bg", "label": "Card background color", "default": "#FFFFFF" },
     { "type": "image_picker", "id": "shared_icon", "label": "Shared center icon (same for all cards)" },
-    { "type": "range", "id": "card_height", "label": "Card height (px)", "min": 300, "max": 700, "step": 10, "default": 350, "unit": "px" },
+    { "type": "range", "id": "card_icon_size", "label": "Card icon size", "min": 32, "max": 120, "step": 4, "default": 72, "unit": "px" },
+    { "type": "range", "id": "card_icon_gap", "label": "Space below icon", "min": 8, "max": 40, "step": 2, "default": 20, "unit": "px" },
+    { "type": "range", "id": "card_height", "label": "Card height (px)", "min": 200, "max": 680, "step": 10, "default": 320, "unit": "px" },
     { "type": "range", "id": "icon_size", "label": "Shared icon size (px)", "min": 40, "max": 200, "step": 2, "default": 96, "unit": "px" },
     { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 40, "step": 1, "default": 16, "unit": "px" },
     { "type": "range", "id": "card_width", "label": "Card width", "min": 240, "max": 920, "step": 10, "default": 720, "unit": "px" },
@@ -480,7 +508,9 @@
       "name": "Card",
       "settings": [
         { "type": "text", "id": "title", "label": "Card title", "default": "MORE\\nCAFFEINE" },
-        { "type": "richtext", "id": "text", "label": "Description text", "default": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>" }
+        { "type": "richtext", "id": "text", "label": "Description text", "default": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>" },
+        { "type": "image_picker", "id": "card_icon", "label": "Card icon (optional)" },
+        { "type": "text", "id": "icon_alt", "label": "Icon alt text" }
       ]
     }
   ],
