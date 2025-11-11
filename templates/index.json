@@ -312,6 +312,81 @@
         "custom_class": "",
         "animations": "inherit"
       }
+    },
+    "feature_compare_cfdaRM": {
+      "type": "feature-compare",
+      "blocks": {
+        "benefit_LbW89g": {
+          "type": "benefit",
+          "settings": {
+            "benefit": "Low in Carbs",
+            "left_has": true,
+            "right_has": false
+          }
+        },
+        "benefit_AUHCTh": {
+          "type": "benefit",
+          "settings": {
+            "benefit": "Low in Carbs",
+            "left_has": true,
+            "right_has": false
+          }
+        },
+        "benefit_fkgJqY": {
+          "type": "benefit",
+          "settings": {
+            "benefit": "Low in Carbs",
+            "left_has": true,
+            "right_has": false
+          }
+        },
+        "benefit_3MGQVT": {
+          "type": "benefit",
+          "settings": {
+            "benefit": "Low in Carbs",
+            "left_has": true,
+            "right_has": false
+          }
+        },
+        "benefit_rW7PJ4": {
+          "type": "benefit",
+          "settings": {
+            "benefit": "Low in Carbs",
+            "left_has": true,
+            "right_has": false
+          }
+        },
+        "benefit_ftebHM": {
+          "type": "benefit",
+          "settings": {
+            "benefit": "Low in Carbs",
+            "left_has": true,
+            "right_has": false
+          }
+        }
+      },
+      "block_order": [
+        "benefit_LbW89g",
+        "benefit_AUHCTh",
+        "benefit_fkgJqY",
+        "benefit_3MGQVT",
+        "benefit_rW7PJ4",
+        "benefit_ftebHM"
+      ],
+      "name": "Feature Compare Ovolite",
+      "settings": {
+        "left_image": "shopify://shop_images/1.Ovolite_Listing_1.jpg",
+        "icon_image": "shopify://shop_images/5.png",
+        "left_logo": "shopify://shop_images/Adaptive_Logo_Black.svg",
+        "right_label": "Regular Matcha",
+        "heading": "More for you. See the difference.",
+        "subtext": "Compare your product benefits side by side.",
+        "bg_color": "#FFFFFF",
+        "heading_color": "#0040FF",
+        "text_color": "#0A0A0A",
+        "accent_color": "#0040FF",
+        "card_color": "#F5F8FF"
+      }
     }
   },
   "order": [
@@ -322,6 +397,7 @@
     "scroll_cards_GUDwiE",
     "testimonials_aGFqdw",
     "liquid_drip_divider_pMCczy",
-    "blog_posts_QhW4rx"
+    "blog_posts_QhW4rx",
+    "feature_compare_cfdaRM"
   ]
 }
