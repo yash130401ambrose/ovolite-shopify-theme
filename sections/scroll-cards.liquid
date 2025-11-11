@@ -161,14 +161,17 @@
     position: relative;
     text-align: center;
     transform-origin: center;
-    transform: none;
-    opacity: 1;
-    transition: transform 0.4s ease, opacity 0.25s ease, box-shadow 0.4s ease;
+    transform: translate3d(0, 80px, 0) scale(0.92);
+    opacity: 0.35;
+    filter: blur(1px);
+    transition: transform 0.45s ease, opacity 0.28s ease, box-shadow 0.45s ease, filter 0.3s ease;
   }
 
   .scroll-card.is-active {
     box-shadow: 0 26px 64px rgba(0, 0, 0, 0.16);
     opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
   }
 
   .scroll-card__title {
@@ -263,16 +266,19 @@
     cards.forEach(function(card) {
       var center = card.offsetLeft + card.offsetWidth / 2 + currentX;
       var distance = Math.abs(viewportCenter - center);
-      var ratio = Math.min(distance / (viewportWidth * 0.65), 1);
+      var ratio = Math.min(distance / (viewportWidth * 0.6), 1);
       var scale = gsap.utils.interpolate(1, 0.88, ratio);
       var opacity = gsap.utils.interpolate(1, 0.45, ratio);
+      var translateY = gsap.utils.interpolate(0, 80, ratio);
       gsap.to(card, {
         scale: scale,
         opacity: opacity,
+        y: translateY,
         duration: immediate ? 0 : 0.25,
         overwrite: true,
         ease: 'power2.out'
       });
+      card.style.filter = 'blur(' + (ratio * 1.2).toFixed(2) + 'px)';
       if (ratio < 0.28) {
         card.classList.add('is-active');
       } else {
