@@ -413,7 +413,11 @@
         "heading_color": "#0040ff",
         "text_color": "#0a0a0a",
         "accent_color": "#0040ff",
-        "card_color": "#f5f8ff"
+        "card_color": "#f5f8ff",
+        "row_animation_style": "slide-up",
+        "row_animation_duration": 1,
+        "icon_animation_duration": 0.4,
+        "row_delay_step": 0.1
       }
     }
   },
