@@ -103,11 +103,24 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       gap: 20px;
       padding: 14px 0;
       border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
 
     @media (max-width: 600px) {
       .fc-row { grid-template-columns: 1fr 80px 80px; gap: 10px; }
       .fc-title { font-size: 32px; }
+    }
+
+    .fc-row[data-animate] {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    .play .fc-row[data-animate] {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .fc-benefit {
@@ -126,6 +139,8 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       display: flex;
       align-items: center;
       justify-content: center;
+      transform: translateY(0);
+      transition: transform 0.45s cubic-bezier(.2,.9,.3,1), box-shadow 0.45s ease;
     }
 
     /* Animated Icons */
@@ -135,8 +150,13 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       transform-origin: center;
     }
 
-    .play .fc-check { animation: pop 0.6s cubic-bezier(.2,.9,.3,1); }
-    .play .fc-cross { animation: shake 0.6s cubic-bezier(.2,.9,.3,1); }
+    .play .fc-row[data-animate] .fc-icon-wrap {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 18px rgba(0, 64, 255, 0.12);
+    }
+
+    .play .fc-check { animation: pop 0.45s cubic-bezier(.2,.9,.3,1) forwards; }
+    .play .fc-cross { animation: shake 0.45s cubic-bezier(.2,.9,.3,1) forwards; }
 
     @keyframes pop {
       0% { transform: scale(0.2); opacity: 0; }
@@ -194,7 +214,8 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
         </div>
 
         {% for block in section.blocks %}
-          <div class="fc-row">
+          {% assign delay = forloop.index0 | times: 0.08 %}
+          <div class="fc-row" data-animate style="transition-delay: {{ delay | round: 2 }}s;">
             <div class="fc-benefit">{{ block.settings.benefit }}</div>
             <div class="fc-col">
               <div class="fc-icon-wrap">
