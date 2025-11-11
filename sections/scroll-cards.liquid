@@ -4,11 +4,11 @@
   assign heading_color_setting = section.settings.heading_color | default: '#0b0b0b'
   assign heading_opacity = section.settings.heading_opacity | default: 0.1
   assign heading_full_white = section.settings.heading_full_white | default: false
-  assign card_bg = section.settings.card_bg | default: '#b9cfa9'
-  assign card_radius = section.settings.card_radius | default: 12
+  assign card_bg = section.settings.card_bg | default: '#ffffff'
+  assign card_radius = section.settings.card_radius | default: 16
   assign card_width = section.settings.card_width | default: 720
   assign card_gap = section.settings.card_gap | default: 32
-  assign card_min_height = section.settings.card_min_height | default: 440
+  assign card_height = section.settings.card_height | default: 520
   assign desc_color = section.settings.desc_color | default: '#1a1a1a'
   assign section_padding_y = section.settings.section_padding_y | default: 80
   assign enable_animation = section.settings.enable_animation | default: true
@@ -20,37 +20,47 @@
   id="scroll-cards-{{ section.id }}"
   class="scroll-cards-section"
   data-enable-animation="{{ enable_animation }}"
-  style="--bg: {{ bg_color }}; --heading-color: {% if heading_full_white %}#ffffff{% else %}{{ heading_color_setting }}{% endif %}; --heading-opacity: {% if heading_full_white %}1{% else %}{{ heading_opacity }}{% endif %}; --card-bg: {{ card_bg }}; --card-radius: {{ card_radius }}px; --card-width: {{ card_width }}px; --card-gap: {{ card_gap }}px; --card-min-height: {{ card_min_height }}px; --section-padding-y: {{ section_padding_y }}px; --desc-color: {{ desc_color }}; --icon-size: {{ icon_size }}px; --icon-offset: {{ icon_offset }}px;"
+  style="--bg: {{ bg_color }};
+         --heading-color: {% if heading_full_white %}#ffffff{% else %}{{ heading_color_setting }}{% endif %};
+         --heading-opacity: {% if heading_full_white %}1{% else %}{{ heading_opacity }}{% endif %};
+         --card-bg: {{ card_bg }};
+         --card-radius: {{ card_radius }}px;
+         --card-width: {{ card_width }}px;
+         --card-gap: {{ card_gap }}px;
+         --card-height: {{ card_height }}px;
+         --section-padding-y: {{ section_padding_y }}px;
+         --desc-color: {{ desc_color }};
+         --icon-size: {{ icon_size }}px;
+         --icon-offset: {{ icon_offset }}px;"
 >
   <div class="scroll-cards__container">
     <h2 class="scroll-cards__heading">{{ heading_text }}</h2>
 
     <div class="scroll-cards__viewport">
       <div class="scroll-cards__track">
-        {%- for block in section.blocks -%}
-          {%- if block.type == 'card' -%}
+        {% for block in section.blocks %}
+          {% if block.type == 'card' %}
             <article class="scroll-card" {{ block.shopify_attributes }}>
-              {%- if block.settings.icon != blank -%}
+              {% if block.settings.icon != blank %}
                 <div class="scroll-card__icon">
                   {{ block.settings.icon | image_url: width: 240 | image_tag: widths: '120,180,240', alt: block.settings.title | escape }}
                 </div>
-              {%- endif -%}
-              {%- if block.settings.title != blank -%}
+              {% endif %}
+              {% if block.settings.title != blank %}
                 <h3 class="scroll-card__title">{{ block.settings.title }}</h3>
-              {%- endif -%}
-              {%- if block.settings.text != blank -%}
+              {% endif %}
+              {% if block.settings.text != blank %}
                 <div class="scroll-card__text rte">{{ block.settings.text }}</div>
-              {%- endif -%}
+              {% endif %}
             </article>
-          {%- endif -%}
-        {%- endfor -%}
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* Section root */
   #scroll-cards-{{ section.id }} {
     position: relative;
     background: var(--bg);
@@ -65,7 +75,6 @@
     margin: 0 auto;
   }
 
-  /* Large background heading - now can be forced white and put above cards */
   #scroll-cards-{{ section.id }} .scroll-cards__heading {
     position: absolute;
     top: 50%;
@@ -76,15 +85,12 @@
     line-height: 1.05;
     color: var(--heading-color);
     opacity: var(--heading-opacity);
-    pointer-events: none;
     white-space: pre-wrap;
-    z-index: 6; /* placed above the track/cards when full-white is used */
+    pointer-events: none;
+    z-index: 6;
     margin: 0;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Viewport & track */
   #scroll-cards-{{ section.id }} .scroll-cards__viewport {
     position: relative;
     width: 100%;
@@ -98,25 +104,24 @@
     align-items: stretch;
     will-change: transform;
     padding: calc(var(--icon-offset) + 32px) 5vw 40px;
-    z-index: 2; /* lower than heading so heading can sit on top when forced white */
+    z-index: 2;
   }
 
-  /* Card styles */
   #scroll-cards-{{ section.id }} .scroll-card {
     flex: 0 0 var(--card-width);
     background: var(--card-bg);
     border-radius: var(--card-radius);
-    padding: 36px clamp(20px, 3vw, 48px) 32px;
+    padding: 40px 32px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 18px;
-    box-shadow: 0 12px 28px rgba(0,0,0,.09);
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 12px 28px rgba(0,0,0,.1);
+    min-height: var(--card-height);
     position: relative;
-    min-height: var(--card-min-height); /* controlled by schema setting */
   }
 
-  /* Icon: overlapping the top of the card */
   #scroll-cards-{{ section.id }} .scroll-card__icon {
     position: absolute;
     top: calc(var(--icon-offset) * -1);
@@ -124,22 +129,22 @@
     transform: translate(-50%, 20px) scale(.95);
     opacity: 0;
     filter: drop-shadow(0 6px 16px rgba(0,0,0,.14));
-    z-index: 5; /* below heading (6) but above cards */
+    z-index: 5;
   }
-  #scroll-cards-{{ section.id }} .scroll-card__icon img { width: var(--icon-size); height: auto; display: block; }
+  #scroll-cards-{{ section.id }} .scroll-card__icon img {
+    width: var(--icon-size);
+    height: auto;
+    display: block;
+  }
 
-  /* Title inside card - kept bold for emphasis */
   #scroll-cards-{{ section.id }} .scroll-card__title {
-    margin: 48px 0 0;
+    margin-top: calc(var(--icon-size) / 3);
     text-align: center;
     font-weight: 800;
     font-size: clamp(22px, 3vw, 40px);
-    letter-spacing: .02em;
-    color: #fff;
-    line-height: 1.05;
+    color: #000;
   }
 
-  /* Description / body text */
   #scroll-cards-{{ section.id }} .scroll-card__text {
     text-align: center;
     font-size: clamp(15px, 1.4vw, 18px);
@@ -147,122 +152,103 @@
     color: var(--desc-color);
   }
 
-  /* Responsive adjustments */
-  @media (max-width: 1200px) {
-    /* softer scale for mid screens */
-    #scroll-cards-{{ section.id }} { --card-width: calc(var(--card-width) * 0.9); }
-    #scroll-cards-{{ section.id }} .scroll-card { min-height: calc(var(--card-min-height) * 0.92); }
-  }
-
-  @media (max-width: 1024px) {
-    #scroll-cards-{{ section.id }} { --card-width: calc(var(--card-width) * 0.85); }
-    #scroll-cards-{{ section.id }} .scroll-card { min-height: calc(var(--card-min-height) * 0.85); }
-  }
-
   @media (max-width: 768px) {
     #scroll-cards-{{ section.id }} { --card-width: 320px; --card-gap: 16px; }
     #scroll-cards-{{ section.id }} .scroll-cards__heading { left: 4vw; font-size: clamp(28px, 14vw, 64px); }
-    #scroll-cards-{{ section.id }} .scroll-card { padding: 28px 18px 24px; min-height: 260px; }
-    #scroll-cards-{{ section.id }} .scroll-card__title { margin-top: 34px; font-size: clamp(18px, 5vw, 28px); }
+    #scroll-cards-{{ section.id }} .scroll-card { padding: 28px 18px; min-height: calc(var(--card-height) * 0.8); }
   }
 </style>
 
 {% if enable_animation %}
-  <script>
-    (function() {
-      'use strict';
-      var sectionId = 'scroll-cards-{{ section.id }}';
+<script>
+(function() {
+  'use strict';
+  var sectionId = 'scroll-cards-{{ section.id }}';
 
-      function loadScript(src) {
-        return new Promise(function(resolve, reject) {
-          var s = document.createElement('script');
-          s.src = src;
-          s.async = true;
-          s.onload = resolve;
-          s.onerror = reject;
-          document.head.appendChild(s);
-        });
-      }
+  function loadScript(src) {
+    return new Promise(function(resolve, reject) {
+      var s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
 
-      function init() {
-        var root = document.getElementById(sectionId);
-        if (!root) return;
-        var track = root.querySelector('.scroll-cards__track');
-        var viewport = root.querySelector('.scroll-cards__viewport');
-        if (!track || !viewport) return;
+  function init() {
+    var root = document.getElementById(sectionId);
+    if (!root) return;
+    var track = root.querySelector('.scroll-cards__track');
+    var viewport = root.querySelector('.scroll-cards__viewport');
+    if (!track || !viewport) return;
 
-        function setup() {
-          var cards = track.querySelectorAll('.scroll-card');
-          if (!cards.length) return;
-          var first = cards[0];
-          var last = cards[cards.length - 1];
+    function setup() {
+      var cards = track.querySelectorAll('.scroll-card');
+      if (!cards.length) return;
+      var first = cards[0];
+      var last = cards[cards.length - 1];
 
-          // measurements
-          var viewportWidth = viewport.clientWidth;
-          var firstLeft = first.offsetLeft; // inside track
-          var lastCenter = last.offsetLeft + last.offsetWidth / 2; // inside track
-          var viewportCenter = viewportWidth / 2;
+      var viewportWidth = viewport.clientWidth;
+      var firstLeft = first.offsetLeft;
+      var lastCenter = last.offsetLeft + last.offsetWidth / 2;
+      var viewportCenter = viewportWidth / 2;
 
-          // Start with cards off to the right so heading shows first
-          var startX = viewportWidth - firstLeft + 40; // push entire track to the right
-          // End when the last card is centered in viewport
-          var endX = viewportCenter - lastCenter;
+      var startX = viewportWidth - firstLeft + 40;
+      var endX = viewportCenter - lastCenter;
 
-          // timeline controls horizontal motion (so we can use containerAnimation for icons)
-          var tl = gsap.timeline({
+      var tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: root,
+          start: 'top top',
+          end: '+=' + (Math.abs(endX - startX) + 500),
+          pin: true,
+          scrub: true
+        }
+      });
+      tl.fromTo(track, { x: startX }, { x: endX, ease: 'none' });
+
+      cards.forEach(function(card) {
+        var icon = card.querySelector('.scroll-card__icon');
+        if (!icon) return;
+        gsap.fromTo(icon,
+          { y: 20, opacity: 0, scale: 0.95 },
+          { y: 0, opacity: 1, scale: 1, duration: 0.45, ease: 'power2.out',
             scrollTrigger: {
-              trigger: root,
-              start: 'top top',
-              end: '+=' + (Math.abs(endX - startX) + 500),
-              pin: true,
-              scrub: true
+              containerAnimation: tl,
+              trigger: card,
+              start: 'left center',
+              toggleActions: 'play none none reverse'
             }
-          });
-          tl.fromTo(track, { x: startX }, { x: endX, ease: 'none' });
-
-          // Icon pop-up when each card reaches around center
-          cards.forEach(function(card) {
-            var icon = card.querySelector('.scroll-card__icon');
-            if (!icon) return;
-            gsap.fromTo(icon,
-              { y: 20, opacity: 0, scale: 0.95 },
-              { y: 0, opacity: 1, scale: 1, duration: 0.45, ease: 'power2.out',
-                scrollTrigger: {
-                  containerAnimation: tl,
-                  trigger: card,
-                  start: 'left center',
-                  toggleActions: 'play none none reverse'
-                }
-              }
-            );
-          });
-        }
-
-        if (typeof gsap === 'undefined') {
-          loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js').then(function(){
-            return loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js');
-          }).then(function(){
-            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-              gsap.registerPlugin(ScrollTrigger);
-              setup();
-            }
-          }).catch(function(){/* ignore load errors */});
-        } else {
-          if (typeof ScrollTrigger === 'undefined') {
-            loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js').then(function(){
-              gsap.registerPlugin(ScrollTrigger); setup();
-            });
-          } else {
-            gsap.registerPlugin(ScrollTrigger); setup();
           }
-        }
-      }
+        );
+      });
+    }
 
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-      } else { init(); }
-    })();
-  </script>
+    if (typeof gsap === 'undefined') {
+      loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js')
+      .then(function(){
+        return loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js');
+      })
+      .then(function(){
+        gsap.registerPlugin(ScrollTrigger);
+        setup();
+      });
+    } else {
+      if (typeof ScrollTrigger === 'undefined') {
+        loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js')
+        .then(function(){ gsap.registerPlugin(ScrollTrigger); setup(); });
+      } else {
+        gsap.registerPlugin(ScrollTrigger); setup();
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
+})();
+</script>
 {% endif %}
 
 {% schema %}
@@ -273,15 +259,15 @@
     { "type": "text", "id": "heading_text", "label": "Background heading", "default": "WHAT MAKES US\\nSPECIAL" },
     { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#0B0B0B" },
     { "type": "range", "id": "heading_opacity", "label": "Heading opacity", "min": 0, "max": 1, "step": 0.1, "default": 0.1 },
-    { "type": "checkbox", "id": "heading_full_white", "label": "Force full white heading (100% opacity and brought to front)", "default": false },
-    { "type": "color", "id": "card_bg", "label": "Card background", "default": "#B9CFA9" },
-    { "type": "color", "id": "desc_color", "label": "Description color", "default": "#1a1a1a" },
+    { "type": "checkbox", "id": "heading_full_white", "label": "Force pure white heading (100% opacity and front layer)", "default": false },
+    { "type": "color", "id": "card_bg", "label": "Card background color", "default": "#FFFFFF" },
+    { "type": "color", "id": "desc_color", "label": "Description text color", "default": "#1A1A1A" },
+    { "type": "range", "id": "card_height", "label": "Card height (px)", "min": 300, "max": 900, "step": 10, "default": 520, "unit": "px" },
     { "type": "range", "id": "icon_size", "label": "Icon size", "min": 40, "max": 200, "step": 2, "default": 96, "unit": "px" },
     { "type": "range", "id": "icon_offset", "label": "Icon vertical overlap", "min": 0, "max": 140, "step": 2, "default": 52, "unit": "px" },
-    { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 40, "step": 1, "default": 12, "unit": "px" },
+    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 40, "step": 1, "default": 16, "unit": "px" },
     { "type": "range", "id": "card_width", "label": "Card width", "min": 240, "max": 920, "step": 10, "default": 720, "unit": "px" },
     { "type": "range", "id": "card_gap", "label": "Gap between cards", "min": 8, "max": 80, "step": 2, "default": 32, "unit": "px" },
-    { "type": "range", "id": "card_min_height", "label": "Card minimum height (px)", "min": 220, "max": 900, "step": 10, "default": 440, "unit": "px" },
     { "type": "range", "id": "section_padding_y", "label": "Section vertical padding", "min": 20, "max": 300, "step": 4, "default": 80, "unit": "px" },
     { "type": "checkbox", "id": "enable_animation", "label": "Enable scroll animation", "default": true }
   ],
@@ -292,7 +278,7 @@
       "settings": [
         { "type": "image_picker", "id": "icon", "label": "Icon image" },
         { "type": "text", "id": "title", "label": "Title", "default": "MORE\\nCAFFEINE" },
-        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>" }
+        { "type": "richtext", "id": "text", "label": "Description text", "default": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>" }
       ]
     }
   ],
