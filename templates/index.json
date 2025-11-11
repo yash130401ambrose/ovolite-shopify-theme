@@ -404,8 +404,8 @@
       "name": "Feature Compare Ovolite",
       "settings": {
         "left_image": "shopify://shop_images/1.Ovolite_Listing_1.jpg",
-        "icon_image": "shopify://shop_images/5.png",
-        "left_logo": "shopify://shop_images/Adaptive_Logo_Black.svg",
+        "icon_image": "shopify://shop_images/1.Ovolite_Listing_1.jpg",
+        "left_logo": "shopify://shop_images/1.Ovolite_Listing_1.jpg",
         "right_label": "Regular EggWhite",
         "heading": "More for you. See the difference.",
         "subtext": "Compare your product benefits side by side.",
@@ -414,10 +414,12 @@
         "text_color": "#0a0a0a",
         "accent_color": "#0040ff",
         "card_color": "#f5f8ff",
-        "row_animation_style": "slide-up",
+        "icon_wrap_width": 53,
+        "icon_wrap_height": 44,
+        "row_animation_style": "fade",
         "row_animation_duration": 1,
         "icon_animation_duration": 0.4,
-        "row_delay_step": 0.1
+        "row_delay_step": 0.5
       }
     }
   },
