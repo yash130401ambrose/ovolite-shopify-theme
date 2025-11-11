@@ -145,7 +145,18 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
 
 <section id="m-section-{{ section.id }}" class="{{ section_classes }}">
   <div class="{{ container }} m-section-my m-section-py">
-    {% render 'index-section-header', section_settings: section.settings %}
+    {% capture section_header %}
+      {% render 'index-section-header', section_settings: section.settings %}
+    {% endcapture %}
+    {% if section_header != blank %}
+      {% if container == 'container-full' %}
+        <div class="container">
+          {{ section_header }}
+        </div>
+      {% else %}
+        {{ section_header }}
+      {% endif %}
+    {% endif %}
 
     <div class="m-image-with-text__inner m:flex m:flex-wrap{% if section.settings.layout == 'right' %} m:flex-row-reverse{% endif %}">
       <div
