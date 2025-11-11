@@ -72,6 +72,8 @@
         "button_link": "",
         "button_style": "m-button--link",
         "button_size": "",
+        "heading_animation": "typewriter",
+        "heading_animation_duration": 5,
         "padding_top": 100,
         "padding_bottom": 50,
         "custom_class": "",
@@ -125,7 +127,6 @@
         "card_wcCT7L": {
           "type": "card",
           "settings": {
-            "icon": "shopify://shop_images/5.png",
             "title": "MORECAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>"
           }
@@ -155,11 +156,11 @@
         "bg_color": "#1b45c7",
         "heading_text": "WHAT MAKES US SPECIAL",
         "heading_color": "#ffffff",
-        "heading_opacity": 0.1,
-        "card_bg": "#ffffff",
+        "card_title_color": "#1a1a1a",
         "desc_color": "#1b45c7",
+        "card_bg": "#ffffff",
+        "card_height": 520,
         "icon_size": 96,
-        "icon_offset": 52,
         "card_radius": 12,
         "card_width": 530,
         "card_gap": 48,
