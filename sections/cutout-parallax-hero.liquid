@@ -1,287 +1,484 @@
 {% liquid
-  assign section_height = section.settings.section_height | default: 80
-  assign padding_top = section.settings.padding_top | default: 40
-  assign padding_bottom = section.settings.padding_bottom | default: 40
-  assign overlay_color = section.settings.overlay_color | default: '#FAF7EF'
-  assign bg_image = section.settings.bg_image
-  assign bg_image_mobile = section.settings.bg_image_mobile | default: bg_image
-  assign heading_text = section.settings.heading_text | default: 'FOR PROFESSIONAL AND HOME USE · BAKERY · HORECA · CONFECTIONERY'
-  assign text_color = section.settings.text_color | default: '#000000'
-  assign text_weight = section.settings.text_weight | default: 900
-  assign letter_spacing = section.settings.letter_spacing | default: 0
-  assign line_height = section.settings.line_height | default: 92
-  assign font_size = section.settings.font_size | default: 10
-  assign parallax_strength = section.settings.parallax_strength | default: 20
-  assign enable_scribble = section.settings.enable_scribble
-  assign scribble_stroke = section.settings.scribble_stroke | default: '#000000'
-  assign scribble_width = section.settings.scribble_width | default: 4
-  assign scribble_duration = section.settings.scribble_duration | default: 1.5
-  assign scribble_viewbox = section.settings.scribble_viewbox | default: '0 0 600 180'
-  assign scribble_paths = section.settings.scribble_svg_paths
-  assign enable_scribble_text = section.settings.enable_scribble_text
-  assign scribble_text = section.settings.scribble_text | default: 'Ways of Using'
-  assign scribble_font_url = section.settings.scribble_font_url
-  assign scribble_font_family = section.settings.scribble_font_family | default: 'ScribbleCustom'
-  assign scribble_text_size = section.settings.scribble_text_size | default: 8
-  assign scribble_text_color = section.settings.scribble_text_color | default: '#000000'
-  assign scribble_text_offset_x = section.settings.scribble_text_offset_x | default: -3
-  assign scribble_text_offset_y = section.settings.scribble_text_offset_y | default: -1.5
-  assign scribble_text_rotation = section.settings.scribble_text_rotation | default: -6
-  assign scribble_text_stroke_width = section.settings.scribble_text_stroke_width | default: 2
-  assign scribble_text_fill_after = section.settings.scribble_text_fill_after | default: true
-  assign scribble_mask_id = 'cutout-scribble-mask-' | append: section.id
+  assign bg_color = section.settings.bg_color | default: '#eef5ea'
+  assign heading_text = section.settings.heading_text | default: 'WHAT MAKES US SPECIAL'
+  assign heading_color = section.settings.heading_color | default: '#ffffff'
+  assign card_title_color = section.settings.card_title_color | default: '#1a1a1a'
+  assign card_bg = section.settings.card_bg | default: '#ffffff'
+  assign desc_color = section.settings.desc_color | default: '#1a1a1a'
+  assign card_radius = section.settings.card_radius | default: 16
+  assign card_width = section.settings.card_width | default: 720
+  assign card_gap = section.settings.card_gap | default: 32
+  assign card_height = section.settings.card_height | default: 520
+  assign section_padding_y = section.settings.section_padding_y | default: 80
+  assign icon_size = section.settings.icon_size | default: 96
+  assign enable_animation = section.settings.enable_animation | default: true
+  assign shared_icon = section.settings.shared_icon
 %}
 
-<section id="cutout-hero-{{ section.id }}" class="cutout-hero" style="--overlay: {{ overlay_color }}; --text-color: {{ text_color }}; --weight: {{ text_weight }}; --letter: {{ letter_spacing }}px; --line: {{ line_height }}px; --font-size: {{ font_size }}vw; --parallax: {{ parallax_strength }}; --scribble-stroke: {{ scribble_stroke }}; --scribble-width: {{ scribble_width }}; --scribble-duration: {{ scribble_duration }}s; --vh: {{ section_height }}vh; --pt: {{ padding_top }}px; --pb: {{ padding_bottom }}px; --scribble-text-size: {{ scribble_text_size }}vw; --scribble-text-color: {{ scribble_text_color }}; --scribble-text-offset-x: {{ scribble_text_offset_x }}vw; --scribble-text-offset-y: {{ scribble_text_offset_y }}vw; --scribble-text-rotation: {{ scribble_text_rotation }}deg; --scribble-subtitle-stroke-width: {{ scribble_text_stroke_width }}px;">
-  {% if enable_scribble_text and scribble_font_url != blank %}
-  <style>
-    @font-face {
-      font-family: '{{ scribble_font_family }}';
-      src: url('{{ scribble_font_url }}') format('woff2');
-      font-display: swap;
-    }
-  </style>
-  {% endif %}
-  <div class="cutout-hero__bg">
-    {% if bg_image %}
-      <picture>
-        {% if bg_image_mobile %}
-          <source media="(max-width: 768px)" srcset="{{ bg_image_mobile | image_url: width: 1200 }} 1x, {{ bg_image_mobile | image_url: width: 2000 }} 2x">
-        {% endif %}
-        <img src="{{ bg_image | image_url: width: 2000 }}" alt="" loading="lazy" />
-      </picture>
-    {% endif %}
-  </div>
-  <div class="cutout-hero__overlay"></div>
-  <div class="cutout-hero__content">
-    {% if enable_scribble %}
-      <div class="cutout-hero__scribble" aria-hidden="true">
-        <svg viewBox="{{ scribble_viewbox }}" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {% if scribble_paths != blank %}
-            {{ scribble_paths | raw }}
-          {% else %}
-            <path d="M15 120 C60 10, 140 200, 200 40"/>
-            <path d="M210 60 C260 -20, 340 200, 390 60"/>
-            <path d="M410 90 C470 -10, 560 220, 590 40"/>
-          {% endif %}
-        </svg>
+<section
+  id="scroll-cards-{{ section.id }}"
+  class="scroll-cards-section"
+  data-enable-animation="{{ enable_animation }}"
+  style="--bg: {{ bg_color }};
+         --heading-color: {{ heading_color }};
+         --desc-color: {{ desc_color }};
+         --card-title-color: {{ card_title_color }};
+         --card-bg: {{ card_bg }};
+         --card-radius: {{ card_radius }}px;
+         --card-width: {{ card_width }}px;
+         --card-gap: {{ card_gap }}px;
+         --card-height: {{ card_height }}px;
+         --section-padding-y: {{ section_padding_y }}px;
+         --icon-size: {{ icon_size }}px;"
+>
+  <div class="scroll-cards__container">
+
+    <h2 class="scroll-cards__heading">{{ heading_text }}</h2>
+
+    {% if shared_icon != blank %}
+      <div class="scroll-cards__shared-icon">
+        {{ shared_icon | image_url: width: 120 | image_tag: class: 'shared-icon-img', alt: 'Section icon' }}
       </div>
     {% endif %}
 
-    <div class="cutout-hero__titleWrap">
-      {% if enable_scribble_text %}
-        <div class="cutout-hero__subtitle">
-          <span class="cutout-hero__subtitle-hidden">{{ scribble_text }}</span>
-          <svg viewBox="0 0 1000 220" preserveAspectRatio="xMinYMin meet" role="presentation">
-            <defs>
-              <mask id="{{ scribble_mask_id }}" maskUnits="userSpaceOnUse">
-                <rect class="cutout-hero__subtitle-mask" x="0" y="0" width="0" height="220" fill="#fff"></rect>
-              </mask>
-            </defs>
-            <text
-              class="cutout-hero__subtitle-text"
-              x="0"
-              y="160"
-              font-family="{{ scribble_font_family }}"
-              stroke="currentColor"
-              fill="currentColor"
-              fill-opacity="1"
-              vector-effect="non-scaling-stroke"
-              stroke-width="var(--scribble-subtitle-stroke-width)"
-              mask="url(#{{ scribble_mask_id }})"
-            >
-              {{ scribble_text }}
-            </text>
-          </svg>
-        </div>
-      {% endif %}
-      <h1 class="cutout-hero__title">{{ heading_text }}</h1>
+    <div class="scroll-cards__viewport">
+      <div class="scroll-cards__track">
+        {% for block in section.blocks %}
+          {% if block.type == 'card' %}
+            <article class="scroll-card" {{ block.shopify_attributes }}>
+              {% if block.settings.title != blank %}
+                <h3 class="scroll-card__title">{{ block.settings.title }}</h3>
+              {% endif %}
+              {% if block.settings.text != blank %}
+                <div class="scroll-card__text rte">{{ block.settings.text }}</div>
+              {% endif %}
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  #cutout-hero-{{ section.id }} {
+  #scroll-cards-{{ section.id }} {
+    position: relative;
+    background: var(--bg);
+    padding: var(--section-padding-y) 0;
+    overflow: hidden;
+  }
+
+  .scroll-cards__container {
     position: relative;
     width: 100%;
-    min-height: 320px;
-    height: var(--vh);
-    padding-top: var(--pt);
-    padding-bottom: var(--pb);
-    overflow: hidden;
-    background: #fff;
+    max-width: 1600px;
+    margin: 0 auto;
   }
-  #cutout-hero-{{ section.id }} .cutout-hero__bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
-  #cutout-hero-{{ section.id }} .cutout-hero__bg img { width: 100%; height: 100%; object-fit: cover; transform: translateY(0); will-change: transform; }
-  #cutout-hero-{{ section.id }} .cutout-hero__overlay { position: absolute; inset: 0; background: var(--overlay); z-index: 1; pointer-events: none; }
 
-  #cutout-hero-{{ section.id }} .cutout-hero__content { position: relative; z-index: 2; width: 100%; height: calc(100% - var(--pt) - var(--pb)); display: grid; place-items: center; padding: 2vw; }
-
-  #cutout-hero-{{ section.id }} .cutout-hero__titleWrap { width: 100%; }
-  #cutout-hero-{{ section.id }} .cutout-hero__title {
+  .scroll-cards__heading {
+    position: absolute;
+    top: 50%;
+    left: 5vw;
+    transform: translateY(-50%);
+    font-size: clamp(36px, 8vw, 120px);
+    font-weight: 700;
+    line-height: 1.05;
+    color: var(--heading-color);
+    opacity: 0.95;
+    white-space: pre-wrap;
+    pointer-events: none;
+    z-index: 8;
     margin: 0;
-    text-align: center;
-    font-weight: var(--weight);
-    letter-spacing: var(--letter);
-    line-height: var(--line);
-    font-size: var(--font-size);
     text-transform: uppercase;
-    color: transparent;
-    -webkit-text-stroke: 0px transparent;
-    background-image: {% if bg_image %}url('{{ bg_image | image_url: width: 2400 }}'){% else %}none{% endif %};
-    background-size: cover;
-    background-position: center center;
-    -webkit-background-clip: text; background-clip: text;
-    will-change: font-size;
+    letter-spacing: 0.08em;
   }
 
-  /* Scribble overlay paths */
-  #cutout-hero-{{ section.id }} .cutout-hero__scribble { position: absolute; top: 0; left: 0; width: min(40vw, 600px); pointer-events: none; z-index: 3; }
-  #cutout-hero-{{ section.id }} .cutout-hero__scribble svg { width: 100%; height: auto; }
-  #cutout-hero-{{ section.id }} .cutout-hero__scribble path { stroke: var(--scribble-stroke); stroke-width: var(--scribble-width); fill: none; stroke-linecap: round; }
+  /* shared center icon */
+  .scroll-cards__shared-icon {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 6;
+  }
 
-  /* Scribble text as font */
-  #cutout-hero-{{ section.id }} .cutout-hero__subtitle { position: absolute; top: 0; left: 0; transform: translate(var(--scribble-text-offset-x), var(--scribble-text-offset-y)) rotate(var(--scribble-text-rotation)); z-index: 4; pointer-events: none; mix-blend-mode: multiply; color: var(--scribble-text-color); }
-  #cutout-hero-{{ section.id }} .cutout-hero__subtitle svg { width: clamp(220px, 26vw, 520px); height: auto; }
-  #cutout-hero-{{ section.id }} .cutout-hero__subtitle text { stroke-dasharray: 1600; stroke-dashoffset: 1600; paint-order: stroke fill; stroke-width: var(--scribble-subtitle-stroke-width); font-size: var(--scribble-text-size); }
-  #cutout-hero-{{ section.id }} .cutout-hero__subtitle-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  .scroll-cards__shared-icon .shared-icon-img {
+    width: var(--icon-size);
+    height: auto;
+    display: block;
+  }
+
+  .scroll-cards__viewport {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .scroll-cards__viewport::before,
+  .scroll-cards__viewport::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: min(14vw, 220px);
+    pointer-events: none;
+    z-index: 7;
+    opacity: 0.75;
+    transition: opacity 0.3s ease;
+  }
+
+  .scroll-cards__viewport::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--bg) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  .scroll-cards__viewport::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--bg) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  .scroll-cards__track {
+    display: inline-flex;
+    gap: var(--card-gap);
+    align-items: stretch;
+    padding: calc(var(--icon-size) + 64px) 6vw 40px;
+    will-change: transform;
+    z-index: 4;
+  }
+
+  .scroll-card {
+    flex: 0 0 var(--card-width);
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 48px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+    min-height: var(--card-height);
+    position: relative;
+    text-align: center;
+    transform-origin: center;
+    transform: none;
+    opacity: 1;
+    transition: transform 0.4s ease, opacity 0.25s ease, box-shadow 0.4s ease;
+  }
+
+  .scroll-card.is-active {
+    box-shadow: 0 26px 64px rgba(0, 0, 0, 0.16);
+    opacity: 1;
+  }
+
+  .scroll-card__title {
+    font-weight: 700;
+    font-size: clamp(22px, 3vw, 36px);
+    color: var(--card-title-color);
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .scroll-card__text {
+    color: var(--desc-color);
+    font-size: clamp(15px, 1.4vw, 18px);
+    line-height: 1.6;
+    max-width: 480px;
+  }
+
+  .scroll-card:focus-within {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  .scroll-cards-section[data-enable-animation="false"] .scroll-cards__viewport,
+  .scroll-cards-section[data-scrollcards-mobile="true"] .scroll-cards__viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .scroll-cards-section[data-enable-animation="false"] .scroll-cards__track,
+  .scroll-cards-section[data-scrollcards-mobile="true"] .scroll-cards__track {
+    padding: calc(var(--icon-size) + 40px) 12vw 40px;
+  }
+
+  .scroll-cards-section[data-enable-animation="false"] .scroll-card,
+  .scroll-cards-section[data-scrollcards-mobile="true"] .scroll-card {
+    scroll-snap-align: center;
+    transform: none;
+    opacity: 1;
+  }
 
   @media (max-width: 768px) {
-    #cutout-hero-{{ section.id }} { --font-size: 14vw; --line: 62px; }
-    #cutout-hero-{{ section.id }} .cutout-hero__scribble { width: min(60vw, 420px); }
-    #cutout-hero-{{ section.id }} .cutout-hero__subtitle svg { width: clamp(180px, 50vw, 400px); }
+    #scroll-cards-{{ section.id }} { --card-width: 320px; --card-gap: 16px; }
+    .scroll-cards__heading { left: 4vw; font-size: clamp(28px, 14vw, 64px); letter-spacing: 0.05em; }
+    .scroll-cards__viewport::before,
+    .scroll-cards__viewport::after { width: 25vw; opacity: 0.6; }
+    .scroll-card { padding: 28px 18px; min-height: calc(var(--card-height) * 0.8); }
   }
 </style>
 
+{% if enable_animation %}
 <script>
-  (function(){
-    var root = document.getElementById('cutout-hero-{{ section.id }}');
-    if(!root) return;
-    function load(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.async=true;s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+(function() {
+  'use strict';
+  var sectionId = 'scroll-cards-{{ section.id }}';
+  var GSAP_SRC = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js';
+  var SCROLL_TRIGGER_SRC = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js';
+  var rootCache = null;
 
-    function init(){
-      var bgImg = root.querySelector('.cutout-hero__bg img');
-      var title = root.querySelector('.cutout-hero__title');
-      var titleWrap = root.querySelector('.cutout-hero__titleWrap');
-      var scribblePaths = root.querySelectorAll('.cutout-hero__scribble path');
-      var scribbleText = root.querySelector('.cutout-hero__subtitle text');
-
-      function fitTitle(){
-        if(!title || !titleWrap) return;
-        // Automatically size font to fit container height (rough approximation)
-        var containerH = titleWrap.clientHeight;
-        var titleH = title.scrollHeight;
-        if (titleH <= 0) return;
-        var computedFS = parseFloat(getComputedStyle(title).fontSize);
-        var scale = containerH / titleH;
-        if (scale < 0.98 || scale > 1.05) {
-          title.style.fontSize = (computedFS * Math.min(1.2, Math.max(0.6, scale))) + 'px';
-          // re-evaluate once
-          titleH = title.scrollHeight;
-          scale = containerH / titleH;
-          title.style.fontSize = (parseFloat(getComputedStyle(title).fontSize) * Math.min(1.1, Math.max(0.8, scale))) + 'px';
+  function loadScript(src) {
+    return new Promise(function(resolve, reject) {
+      var existing = document.querySelector('script[data-src="' + src + '"]');
+      if (existing) {
+        if (existing.hasAttribute('data-loaded')) {
+          resolve();
+          return;
         }
+        existing.addEventListener('load', resolve, { once: true });
+        existing.addEventListener('error', reject, { once: true });
+        return;
       }
+      var s = document.createElement('script');
+      s.src = src;
+      s.async = true;
+      s.setAttribute('data-src', src);
+      s.onload = function() {
+        s.setAttribute('data-loaded', 'true');
+        resolve();
+      };
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
 
-      function setup(){
-        if(typeof gsap==='undefined' || typeof ScrollTrigger==='undefined'){ return; }
-        gsap.registerPlugin(ScrollTrigger);
-        // Parallax background
-        if(bgImg){
-          gsap.to(bgImg, { yPercent: -1 * ({{ parallax_strength | default: 20 }}), ease: 'none', scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: true } });
-        }
-        // Parallax inside cutout text
-        if(title){
-          gsap.to(title, { backgroundPositionY: function(){return ({{ parallax_strength | default: 20 }}*5)+'px';}, ease: 'none', scrollTrigger: { trigger: root, start: 'top bottom', end: 'bottom top', scrub: true } });
-        }
-        // SVG path scribble
-        if(scribblePaths && scribblePaths.length){
-          scribblePaths.forEach(function(p){
-            var len = p.getTotalLength ? p.getTotalLength() : 600;
-            p.style.strokeDasharray = len;
-            p.style.strokeDashoffset = len;
-            gsap.to(p, { strokeDashoffset: 0, duration: {{ scribble_duration | default: 1.5 }}, ease: 'power2.out', scrollTrigger: { trigger: root, start: 'top 80%', once: true }});
-          });
-        }
-        // Scribble text draw
-        if(scribbleText){
-          var lenT = (typeof scribbleText.getComputedTextLength === 'function') ? scribbleText.getComputedTextLength() : 1600;
-          scribbleText.style.strokeDasharray = lenT;
-          scribbleText.style.strokeDashoffset = lenT;
-          var subtitleTimeline = gsap.timeline({
-            scrollTrigger: { trigger: root, start: 'top 80%', once: true }
-          });
-          subtitleTimeline.to(scribbleText, {
-            strokeDashoffset: 0,
-            duration: {{ scribble_duration | default: 1.5 }},
-            ease: 'power2.out'
-          });
-          {% if scribble_text_fill_after %}
-            subtitleTimeline.to(scribbleText, {
-              attr: { 'fill-opacity': 1 },
-              duration: 0.4,
-              ease: 'power1.out'
-            }, '-=0.25');
-          {% endif %}
-        }
-        fitTitle();
-        window.addEventListener('resize', fitTitle);
-      }
+  function destroyExisting() {
+    if (rootCache && typeof rootCache.__scrollCardsDestroy === 'function') {
+      rootCache.__scrollCardsDestroy();
+    }
+  }
 
-      if(typeof gsap==='undefined'){
-        load('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js').then(function(){return load('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js');}).then(setup).catch(function(){});
+  function highlightCards(cards, viewportWidth, currentX, immediate) {
+    var viewportCenter = viewportWidth / 2;
+    cards.forEach(function(card) {
+      var center = card.offsetLeft + card.offsetWidth / 2 + currentX;
+      var distance = Math.abs(viewportCenter - center);
+      var ratio = Math.min(distance / (viewportWidth * 0.65), 1);
+      var scale = gsap.utils.interpolate(1, 0.88, ratio);
+      var opacity = gsap.utils.interpolate(1, 0.45, ratio);
+      gsap.to(card, {
+        scale: scale,
+        opacity: opacity,
+        duration: immediate ? 0 : 0.25,
+        overwrite: true,
+        ease: 'power2.out'
+      });
+      if (ratio < 0.28) {
+        card.classList.add('is-active');
       } else {
-        if(typeof ScrollTrigger==='undefined'){
-          load('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js').then(setup);
-        } else { setup(); }
+        card.classList.remove('is-active');
       }
+    });
+  }
+
+  function init() {
+    destroyExisting();
+    var root = document.getElementById(sectionId);
+    if (!root) return;
+    rootCache = root;
+
+    var track = root.querySelector('.scroll-cards__track');
+    var viewport = root.querySelector('.scroll-cards__viewport');
+    var heading = root.querySelector('.scroll-cards__heading');
+    if (!track || !viewport) return;
+
+    var cards = Array.from(track.querySelectorAll('.scroll-card'));
+    if (!cards.length) return;
+
+    function setup() {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      var mm = gsap.matchMedia();
+
+      function cleanupCardState() {
+        cards.forEach(function(card) {
+          gsap.killTweensOf(card);
+          card.classList.remove('is-active');
+          gsap.set(card, { clearProps: 'transform,opacity' });
+        });
+      }
+
+      root.__scrollCardsDestroy = function() {
+        if (mm) {
+          mm.kill();
+        }
+        cleanupCardState();
+        gsap.set(track, { clearProps: 'transform' });
+        if (heading) {
+          gsap.killTweensOf(heading);
+          gsap.set(heading, { clearProps: 'opacity,transform' });
+        }
+      };
+
+      mm.add('(min-width: 768px)', function() {
+        root.removeAttribute('data-scrollcards-mobile');
+        var viewportWidth = viewport.clientWidth;
+        var startX = 0;
+        var endX = 0;
+        var scrollTriggerInstance = null;
+        var resizeHandler = function() {
+          ScrollTrigger.refresh();
+        };
+
+        function computeBounds() {
+          viewportWidth = viewport.clientWidth;
+          var viewportCenter = viewportWidth / 2;
+          var firstCenter = cards[0].offsetLeft + cards[0].offsetWidth / 2;
+          var lastCenter = cards[cards.length - 1].offsetLeft + cards[cards.length - 1].offsetWidth / 2;
+          startX = viewportCenter - firstCenter;
+          endX = viewportCenter - lastCenter;
+          if (cards.length === 1) {
+            endX = startX;
+          }
+        }
+
+        computeBounds();
+        gsap.set(track, { x: startX });
+        highlightCards(cards, viewportWidth, startX, true);
+        if (heading) {
+          gsap.set(heading, { opacity: 1 });
+        }
+
+        scrollTriggerInstance = ScrollTrigger.create({
+          trigger: root,
+          start: 'top top',
+          end: function() {
+            computeBounds();
+            return '+=' + (Math.abs(endX - startX) + cards.length * 220 + viewportWidth * 0.5);
+          },
+          pin: true,
+          scrub: true,
+          invalidateOnRefresh: true,
+          onRefresh: function() {
+            computeBounds();
+            gsap.set(track, { x: startX });
+            highlightCards(cards, viewportWidth, startX, true);
+          },
+          onUpdate: function(self) {
+            var currentX = gsap.utils.interpolate(startX, endX, self.progress);
+            gsap.set(track, { x: currentX });
+            highlightCards(cards, viewportWidth, currentX);
+            if (heading) {
+              gsap.to(heading, { opacity: gsap.utils.interpolate(1, 0.35, self.progress), duration: 0.2, overwrite: true });
+            }
+          }
+        });
+
+        window.addEventListener('resize', resizeHandler);
+
+        return function() {
+          window.removeEventListener('resize', resizeHandler);
+          if (scrollTriggerInstance) {
+            scrollTriggerInstance.kill();
+            scrollTriggerInstance = null;
+          }
+          cleanupCardState();
+          gsap.set(track, { clearProps: 'transform' });
+          if (heading) {
+            gsap.killTweensOf(heading);
+            gsap.set(heading, { clearProps: 'opacity,transform' });
+          }
+          root.removeAttribute('data-scrollcards-mobile');
+        };
+      });
+
+      mm.add('(max-width: 767px)', function() {
+        root.setAttribute('data-scrollcards-mobile', 'true');
+        cleanupCardState();
+        gsap.set(track, { clearProps: 'transform' });
+        if (heading) {
+          gsap.killTweensOf(heading);
+          gsap.set(heading, { clearProps: 'opacity,transform' });
+        }
+        return function() {
+          root.removeAttribute('data-scrollcards-mobile');
+        };
+      });
     }
 
-    if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', init); } else { init(); }
-  })();
+    if (typeof gsap === 'undefined') {
+      loadScript(GSAP_SRC)
+        .then(function() { return loadScript(SCROLL_TRIGGER_SRC); })
+        .then(function() { setup(); })
+        .catch(function() { /* noop */ });
+    } else if (typeof ScrollTrigger === 'undefined') {
+      loadScript(SCROLL_TRIGGER_SRC)
+        .then(function() { setup(); })
+        .catch(function() { /* noop */ });
+    } else {
+      setup();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  if (window.Shopify && window.Shopify.designMode) {
+    document.addEventListener('shopify:section:load', function(evt) {
+      if (evt.detail && evt.detail.sectionId === '{{ section.id }}') {
+        init();
+      }
+    });
+    document.addEventListener('shopify:section:unload', function(evt) {
+      if (evt.detail && evt.detail.sectionId === '{{ section.id }}') {
+        destroyExisting();
+      }
+    });
+    document.addEventListener('shopify:section:select', function(evt) {
+      if (evt.detail && evt.detail.sectionId === '{{ section.id }}' && typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+      }
+    });
+  }
+})();
 </script>
+{% endif %}
 
 {% schema %}
 {
-  "name": "Cutout Parallax Hero",
+  "name": "Scroll Cards",
   "settings": [
-    {"type":"image_picker","id":"bg_image","label":"Background image (desktop)"},
-    {"type":"image_picker","id":"bg_image_mobile","label":"Background image (mobile)"},
-    {"type":"color","id":"overlay_color","label":"Overlay color","default":"#FAF7EF"},
-    {"type":"range","id":"section_height","label":"Section height (vh)","min":40,"max":120,"step":5,"default":80,"unit":"vh"},
-    {"type":"range","id":"padding_top","label":"Padding top","min":0,"max":200,"step":4,"default":40,"unit":"px"},
-    {"type":"range","id":"padding_bottom","label":"Padding bottom","min":0,"max":200,"step":4,"default":40,"unit":"px"},
-    {"type":"textarea","id":"heading_text","label":"Cutout heading","default":"FOR PROFESSIONAL AND HOME USE · BAKERY · HORECA · CONFECTIONERY"},
-    {"type":"color","id":"text_color","label":"Fallback text color (rarely used)","default":"#000000"},
-    {"type":"select","id":"text_weight","label":"Font weight","options":[{"value":"700","label":"Bold 700"},{"value":"800","label":"Extra-bold 800"},{"value":"900","label":"Black 900"}],"default":"900"},
-    {"type":"range","id":"font_size","label":"Font size (vw)","min":6,"max":16,"step":0.5,"default":10,"unit":"vw"},
-    {"type":"range","id":"line_height","label":"Line height (px)","min":50,"max":140,"step":2,"default":92,"unit":"px"},
-    {"type":"range","id":"letter_spacing","label":"Letter spacing (px)","min":-2,"max":6,"step":0.5,"default":0,"unit":"px"},
-    {"type":"range","id":"parallax_strength","label":"Parallax strength","min":0,"max":40,"step":2,"default":20},
-
-    {"type":"header","content":"Scribble Paths (optional)"},
-    {"type":"checkbox","id":"enable_scribble","label":"Show scribble path overlay","default":true},
-    {"type":"color","id":"scribble_stroke","label":"Scribble stroke color","default":"#000000"},
-    {"type":"range","id":"scribble_width","label":"Scribble stroke width","min":1,"max":10,"step":1,"default":4,"unit":"px"},
-    {"type":"range","id":"scribble_duration","label":"Scribble draw duration (s)","min":0.5,"max":6,"step":0.1,"default":1.5,"unit":"s"},
-    {"type":"text","id":"scribble_viewbox","label":"Scribble SVG viewBox","default":"0 0 600 180","info":"Format: minX minY width height"},
-    {"type":"textarea","id":"scribble_svg_paths","label":"Custom scribble <path> markup","info":"Paste one or more <path ... /> elements. They will inherit stroke settings above.","default":"<path d='M15 120 C60 10, 140 200, 200 40'/>"},
-
-    {"type":"header","content":"Scribble Text (optional)"},
-    {"type":"checkbox","id":"enable_scribble_text","label":"Use scribble text (custom font)","default":false},
-    {"type":"text","id":"scribble_text","label":"Scribble text","default":"Ways of Using"},
-    {"type":"url","id":"scribble_font_url","label":"Scribble font .woff2 URL"},
-    {"type":"text","id":"scribble_font_family","label":"Scribble font family name","default":"ScribbleCustom"},
-    {"type":"range","id":"scribble_text_size","label":"Scribble text size (vw)","min":2,"max":18,"step":0.5,"default":8,"unit":"vw"},
-    {"type":"color","id":"scribble_text_color","label":"Scribble text color","default":"#000000"},
-    {"type":"range","id":"scribble_text_offset_x","label":"Scribble horizontal offset (vw)","min":-20,"max":20,"step":0.5,"default":-3,"unit":"vw"},
-    {"type":"range","id":"scribble_text_offset_y","label":"Scribble vertical offset (vw)","min":-20,"max":20,"step":0.5,"default":-1.5,"unit":"vw"},
-    {"type":"range","id":"scribble_text_rotation","label":"Scribble rotation (deg)","min":-30,"max":30,"step":1,"default":-6,"unit":"deg"},
-    {"type":"range","id":"scribble_text_stroke_width","label":"Scribble stroke width (px)","min":0.5,"max":10,"step":0.5,"default":2,"unit":"px"},
-    {"type":"checkbox","id":"scribble_text_fill_after","label":"Fill scribble text after drawing","default":true}
+    { "type": "color", "id": "bg_color", "label": "Background color", "default": "#EEF5EA" },
+    { "type": "text", "id": "heading_text", "label": "Heading text", "default": "WHAT MAKES US\\nSPECIAL" },
+    { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#FFFFFF" },
+    { "type": "color", "id": "card_title_color", "label": "Card title color", "default": "#1A1A1A" },
+    { "type": "color", "id": "desc_color", "label": "Description text color", "default": "#1A1A1A" },
+    { "type": "color", "id": "card_bg", "label": "Card background color", "default": "#FFFFFF" },
+    { "type": "image_picker", "id": "shared_icon", "label": "Shared center icon (same for all cards)" },
+    { "type": "range", "id": "card_height", "label": "Card height (px)", "min": 300, "max": 900, "step": 10, "default": 520, "unit": "px" },
+    { "type": "range", "id": "icon_size", "label": "Shared icon size (px)", "min": 40, "max": 200, "step": 2, "default": 96, "unit": "px" },
+    { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 40, "step": 1, "default": 16, "unit": "px" },
+    { "type": "range", "id": "card_width", "label": "Card width", "min": 240, "max": 920, "step": 10, "default": 720, "unit": "px" },
+    { "type": "range", "id": "card_gap", "label": "Gap between cards", "min": 8, "max": 80, "step": 2, "default": 32, "unit": "px" },
+    { "type": "range", "id": "section_padding_y", "label": "Section vertical padding", "min": 20, "max": 300, "step": 4, "default": 80, "unit": "px" },
+    { "type": "checkbox", "id": "enable_animation", "label": "Enable scroll animation", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Card title", "default": "MORE\\nCAFFEINE" },
+        { "type": "richtext", "id": "text", "label": "Description text", "default": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>" }
+      ]
+    }
   ],
   "presets": [
-    {"name":"Cutout Parallax Hero"}
+    { "name": "Scroll Cards", "blocks": [ { "type": "card" }, { "type": "card" }, { "type": "card" }, { "type": "card" } ] }
   ]
 }
 {% endschema %}
