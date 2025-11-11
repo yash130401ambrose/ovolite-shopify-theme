@@ -9,10 +9,17 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     #feature-compare-{{ section.id }} {
       background-color: {{ section.settings.bg_color }};
       color: {{ section.settings.text_color }};
-      padding: 60px 20px;
+      padding: clamp(120px, 16vw, 200px) 20px clamp(56px, 10vw, 96px);
       box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
       --fc-icon-width: {{ section.settings.icon_wrap_width | default: 60 }}px;
       --fc-icon-height: {{ section.settings.icon_wrap_height | default: 48 }}px;
+      --fc-ribbon-color: {{ section.settings.ribbon_color | default: section.settings.card_color }};
+      --fc-ribbon-angle: {{ section.settings.ribbon_angle | default: -3 }}deg;
+      --fc-ribbon-width: {{ section.settings.ribbon_width | default: 420 }}px;
+      --fc-ribbon-height: {{ section.settings.ribbon_height | default: 120 }}px;
+      --fc-ribbon-top: {{ section.settings.badge_top_offset | default: 16 }}px;
     }
 
     .fc-container {
@@ -47,36 +54,63 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       object-fit: cover;
     }
 
-    /* Smiley/Icon */
-    .fc-smiley {
+    /* Overhead ribbon and icon */
+    .feature-compare-section__badge {
+      position: absolute;
+      top: var(--fc-ribbon-top);
+      left: 50%;
+      transform: translate(-50%, 0);
+      z-index: 3;
+      pointer-events: none;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    .feature-compare-section__badge-body {
+      position: relative;
+      width: min(var(--fc-ribbon-width), 90vw);
+      height: min(var(--fc-ribbon-height), 26vw);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .feature-compare-section__badge-shape {
+      position: absolute;
+      inset: 0;
+      background: var(--fc-ribbon-color);
+      border-radius: clamp(28px, 6vw, 60px);
+      transform: rotate(var(--fc-ribbon-angle));
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+      transition: transform 0.4s ease, background 0.4s ease, border-radius 0.3s ease;
+    }
+
+    .feature-compare-section__badge-icon {
+      position: relative;
       width: clamp(72px, 8vw, 110px);
       height: clamp(72px, 8vw, 110px);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: white;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-      margin: 0 auto clamp(20px, 4vw, 32px);
+      background: #fff;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
       animation: floaty 4s ease-in-out infinite;
+      pointer-events: auto;
     }
 
-    .feature-compare-section__icon-wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding-bottom: clamp(16px, 5vw, 28px);
-    }
-
-    .fc-smiley img {
-      width: 60%;
-      height: 60%;
+    .feature-compare-section__badge-icon img {
+      width: 64%;
+      height: 64%;
       object-fit: contain;
     }
 
+    .fc-smiley { display: none; }
+
     @keyframes floaty {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
+      0%, 100% { transform: translateY(-2px); }
+      50% { transform: translateY(-8px); }
     }
 
     /* Right Content */
@@ -226,6 +260,17 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     }
   </style>
 
+  {% if section.settings.icon_image != blank %}
+    <div class="feature-compare-section__badge">
+      <div class="feature-compare-section__badge-body">
+        <div class="feature-compare-section__badge-shape"></div>
+        <div class="feature-compare-section__badge-icon">
+          <img src="{{ section.settings.icon_image | img_url: '200x' }}" alt="Feature icon" />
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
   <div class="fc-container">
     <!-- Left Side -->
     <div class="fc-image-card">
@@ -236,13 +281,6 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
 
     <!-- Right Side -->
     <div class="fc-content">
-      {% if section.settings.icon_image != blank %}
-        <div class="feature-compare-section__icon-wrapper">
-          <div class="fc-smiley">
-            <img src="{{ section.settings.icon_image | img_url: '200x' }}" alt="Feature icon" />
-          </div>
-        </div>
-      {% endif %}
       <h2 class="fc-title">{{ section.settings.heading }}</h2>
       <div class="fc-sub">{{ section.settings.subtext }}</div>
 
@@ -334,6 +372,11 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       { "type": "color", "id": "text_color", "label": "Text Color", "default": "#0A0A0A" },
       { "type": "color", "id": "accent_color", "label": "Accent (Tick) Color", "default": "#0040FF" },
       { "type": "color", "id": "card_color", "label": "Left Card Background", "default": "#F5F8FF" },
+      { "type": "color", "id": "ribbon_color", "label": "Badge ribbon color", "default": "#F0F6ED" },
+      { "type": "range", "id": "ribbon_width", "label": "Ribbon width (px)", "min": 240, "max": 720, "step": 10, "default": 420, "unit": "px" },
+      { "type": "range", "id": "ribbon_height", "label": "Ribbon height (px)", "min": 80, "max": 260, "step": 10, "default": 120, "unit": "px" },
+      { "type": "range", "id": "ribbon_angle", "label": "Ribbon angle (deg)", "min": -15, "max": 15, "step": 0.5, "default": -3, "unit": "°" },
+      { "type": "range", "id": "badge_top_offset", "label": "Badge top offset (px)", "min": 0, "max": 160, "step": 4, "default": 16, "unit": "px" },
       { "type": "range", "id": "icon_wrap_width", "label": "Icon holder width (px)", "min": 32, "max": 120, "step": 1, "default": 60, "unit": "px" },
       { "type": "range", "id": "icon_wrap_height", "label": "Icon holder height (px)", "min": 28, "max": 100, "step": 1, "default": 48, "unit": "px" },
       { "type": "select", "id": "row_animation_style", "label": "Row animation style", "default": "slide-up", "options": [
