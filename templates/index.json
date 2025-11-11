@@ -414,12 +414,142 @@
         "text_color": "#0a0a0a",
         "accent_color": "#0040ff",
         "card_color": "#f5f8ff",
+        "icon_background_color": "#ffffff",
+        "icon_border_color": "#8cc279",
+        "icon_diameter": 96,
+        "badge_top_offset": 28,
         "icon_wrap_width": 53,
         "icon_wrap_height": 44,
         "row_animation_style": "fade",
         "row_animation_duration": 1,
         "icon_animation_duration": 0.4,
         "row_delay_step": 0.5
+      }
+    },
+    "animated_review_4Eb44C": {
+      "type": "animated-review",
+      "blocks": {
+        "review_a6w94f": {
+          "type": "review",
+          "settings": {
+            "title": "Super delicious!",
+            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "author": "Tina H.",
+            "show_verified": true,
+            "verified_label": "Verified",
+            "stars": "5",
+            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_text_override": "#ffffff"
+          }
+        },
+        "review_7QFpE7": {
+          "type": "review",
+          "settings": {
+            "title": "Super delicious!",
+            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "author": "Tina H.",
+            "show_verified": true,
+            "verified_label": "Verified",
+            "stars": "5",
+            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_text_override": "#ffffff"
+          }
+        },
+        "review_YHwdHa": {
+          "type": "review",
+          "settings": {
+            "title": "Super delicious!",
+            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "author": "Tina H.",
+            "show_verified": true,
+            "verified_label": "Verified",
+            "stars": "5",
+            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_text_override": "#ffffff"
+          }
+        },
+        "review_mfhEDK": {
+          "type": "review",
+          "settings": {
+            "title": "Super delicious!",
+            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "author": "Tina H.",
+            "show_verified": true,
+            "verified_label": "Verified",
+            "stars": "5",
+            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_text_override": "#ffffff"
+          }
+        },
+        "review_c96dxK": {
+          "type": "review",
+          "settings": {
+            "title": "Super delicious!",
+            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "author": "Tina H.",
+            "show_verified": true,
+            "verified_label": "Verified",
+            "stars": "5",
+            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_text_override": "#ffffff"
+          }
+        },
+        "review_9FL8eH": {
+          "type": "review",
+          "settings": {
+            "title": "Super delicious!",
+            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "author": "Tina H.",
+            "show_verified": true,
+            "verified_label": "Verified",
+            "stars": "5",
+            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_text_override": "#ffffff"
+          }
+        },
+        "review_JxGkKh": {
+          "type": "review",
+          "settings": {
+            "title": "Super delicious!",
+            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "author": "Tina H.",
+            "show_verified": true,
+            "verified_label": "Verified",
+            "stars": "5",
+            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_text_override": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "review_a6w94f",
+        "review_7QFpE7",
+        "review_YHwdHa",
+        "review_mfhEDK",
+        "review_c96dxK",
+        "review_9FL8eH",
+        "review_JxGkKh"
+      ],
+      "name": "Animated review carousel",
+      "settings": {
+        "subheading": "Don't take our word for it",
+        "heading": "More for you.\nSee the difference.",
+        "reviews_heading": "Customer reviews",
+        "overlay_color": "rgba(0,0,0,0.35)",
+        "section_background": "#0f1d0f",
+        "section_text_color": "#ffffff",
+        "icon_background_color": "#ffffff",
+        "icon_border_color": "#8cc279",
+        "icon_diameter": 96,
+        "badge_top_offset": 28,
+        "card_background": "rgba(255,255,255,0.08)",
+        "card_text_color": "#ffffff",
+        "card_active_background": "#ffffff",
+        "card_active_text_color": "#0f1d0f",
+        "star_color": "#8cc279",
+        "verified_color": "#8cc279",
+        "auto_rotate": false,
+        "auto_rotate_interval": 6
       }
     }
   },
@@ -432,6 +562,7 @@
     "testimonials_aGFqdw",
     "liquid_drip_divider_pMCczy",
     "blog_posts_QhW4rx",
-    "feature_compare_cfdaRM"
+    "feature_compare_cfdaRM",
+    "animated_review_4Eb44C"
   ]
 }
