@@ -11,6 +11,8 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       color: {{ section.settings.text_color }};
       padding: 60px 20px;
       box-sizing: border-box;
+      --fc-icon-width: {{ section.settings.icon_wrap_width | default: 60 }}px;
+      --fc-icon-height: {{ section.settings.icon_wrap_height | default: 48 }}px;
     }
 
     .fc-container {
@@ -139,12 +141,16 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     }
 
     .fc-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       text-align: center;
     }
 
     .fc-icon-wrap {
-      width: clamp(44px, 5vw, 52px);
-      height: clamp(32px, 4vw, 40px);
+      width: var(--fc-icon-width, 60px);
+      height: var(--fc-icon-height, 48px);
       border-radius: 8px;
       background: #E6EDFF;
       display: flex;
@@ -171,6 +177,23 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     }
     .play .fc-cross {
       animation: shake var(--fc-icon-anim-duration) cubic-bezier(.2,.9,.3,1) forwards;
+    }
+
+    @media (max-width: 768px) {
+      .fc-col {
+        gap: 4px;
+      }
+      .fc-icon-wrap {
+        width: max(32px, calc(var(--fc-icon-width, 60px) * 0.85));
+        height: max(24px, calc(var(--fc-icon-height, 48px) * 0.85));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .fc-icon-wrap {
+        width: max(30px, calc(var(--fc-icon-width, 60px) * 0.75));
+        height: max(22px, calc(var(--fc-icon-height, 48px) * 0.75));
+      }
     }
 
     @keyframes pop {
@@ -305,6 +328,8 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       { "type": "color", "id": "text_color", "label": "Text Color", "default": "#0A0A0A" },
       { "type": "color", "id": "accent_color", "label": "Accent (Tick) Color", "default": "#0040FF" },
       { "type": "color", "id": "card_color", "label": "Left Card Background", "default": "#F5F8FF" },
+      { "type": "range", "id": "icon_wrap_width", "label": "Icon holder width (px)", "min": 32, "max": 120, "step": 1, "default": 60, "unit": "px" },
+      { "type": "range", "id": "icon_wrap_height", "label": "Icon holder height (px)", "min": 28, "max": 100, "step": 1, "default": 48, "unit": "px" },
       { "type": "select", "id": "row_animation_style", "label": "Row animation style", "default": "slide-up", "options": [
         { "label": "Slide up", "value": "slide-up" },
         { "label": "Fade in", "value": "fade" },
