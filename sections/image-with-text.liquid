@@ -58,7 +58,90 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
 
     background-color: {{ section.settings.background_color }};
   }
-{%- endstyle -%}
+
+/* -------------------------------
+   HEADING ANIMATIONS (local)
+   ------------------------------- */
+
+.m-section-{{ section.id }} .m-richtext__title {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+/* --- Typewriter --- */
+.m-section-{{ section.id }} .heading--typewriter {
+  overflow: hidden;
+  border-right: 2px solid rgba(0,0,0,0.8);
+  white-space: nowrap;
+  box-sizing: border-box;
+  display:inline-block;
+  vertical-align: middle;
+}
+@keyframes typewriter-width-{{ section.id }} {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* --- Slide Up --- */
+.m-section-{{ section.id }} .heading--slide-up {
+  display:inline-block;
+  transform: translateY(12px);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+@keyframes slide-up-{{ section.id }} {
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- Letter Fade (staggered) --- */
+.m-section-{{ section.id }} .heading--letter-fade { display:inline-block; white-space:nowrap; }
+.m-section-{{ section.id }} .heading--letter-fade .char {
+  display:inline-block;
+  opacity:0;
+  transform: translateY(6px);
+  will-change: transform, opacity;
+}
+@keyframes letter-fade-up-{{ section.id }} {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Underline grow --- */
+.m-section-{{ section.id }} .heading--underline {
+  display:inline-block;
+  position:relative;
+  padding-bottom:6px;
+}
+.m-section-{{ section.id }} .heading--underline:after{
+  content: "";
+  position:absolute;
+  left:0;
+  bottom:0;
+  height:3px;
+  width:0%;
+  background: currentColor;
+}
+@keyframes underline-grow-{{ section.id }} {
+  to { width: 100%; }
+}
+
+/* --- Zoom in --- */
+.m-section-{{ section.id }} .heading--zoom-in {
+  display:inline-block;
+  transform: scale(0.85);
+  opacity:0;
+  will-change: transform, opacity;
+}
+@keyframes zoom-in-{{ section.id }} {
+  to { transform: scale(1); opacity:1; }
+}
+
+/* Utility to control animation duration from schema value */
+{% comment %}
+ We'll set inline style with --heading-duration variable in markup for editor control
+{% endcomment %}
+
+{% endstyle -%}
 
 <section id="m-section-{{ section.id }}" class="{{ section_classes }}">
   <div class="{{ container }} m-section-my m-section-py">
@@ -67,19 +150,12 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
     <div class="m-image-with-text__inner m:flex m:flex-wrap{% if section.settings.layout == 'right' %} m:flex-row-reverse{% endif %}">
       <div
         class="m-image-with-text__image m:column m:w-full md:m:w-1/2 lg:m:w-{{ section.settings.image_column_size }}/12{% if animated %} m-scroll-trigger animate--{{ animation_effect }}{% endif %}"
-        {% if animated %}
-          data-cascade
-          style="--animation-order: 1;"
-        {% endif %}
+        {% if animated %} data-cascade style="--animation-order: 1;" {% endif %}
       >
         <m-image-layer
           class="{{ image_wrapper_class }}"
-          {% if image_animation == 'parallax' and section.settings.image_overlap %}
-            data-enable-parallax="true"
-          {% endif %}
-          {% if section.settings.image_2 != 'blank' %}
-            style="--offset-top: {{ section.settings.second_image_offset_top }}%"
-          {% endif %}
+          {% if image_animation == 'parallax' and section.settings.image_overlap %} data-enable-parallax="true" {% endif %}
+          {% if section.settings.image_2 != 'blank' %} style="--offset-top: {{ section.settings.second_image_offset_top }}%" {% endif %}
         >
           <div class="m-image-with-text__image-first{% if section.settings.hover_effect %} m-hover-box m-hover-box--scale-up{% endif %} m:blocks-radius">
             {% if section.settings.link != blank %}<a href="{{ section.settings.link }}">{% endif %}
@@ -99,12 +175,10 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
           {% endif %}
         </m-image-layer>
       </div>
+
       <div
         class="m-image-with-text__content m:column m:w-full md:m:w-1/2 lg:m:w-{{ 12 | minus: section.settings.image_column_size }}/12 {% if animated %} m-scroll-trigger animate--{{ animation_effect }}{% endif %}"
-        {% if animated %}
-          data-cascade
-          style="--animation-order: 2;"
-        {% endif %}
+        {% if animated %} data-cascade style="--animation-order: 2;" {% endif %}
       >
         <div class="m-content-box m-richtext m-richtext--{{ section.settings.text_size }} m:w-full m:text-{{ section.settings.content_alignment }}">
           {% if section.settings.sub_title != blank %}
@@ -112,9 +186,29 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
               {{ section.settings.sub_title }}
             </p>
           {% endif %}
+
+          {% comment %}
+            Heading: wrap in a container that JS/CSS will target.
+            We apply an inline CSS variable for animation duration (seconds).
+          {% endcomment %}
+
+          {% assign heading_anim = section.settings.heading_animation | default: 'none' %}
+          {% assign heading_duration = section.settings.heading_animation_duration | default: 0.9 %}
+
           {% if section.settings.title != blank %}
-            <h3 class="m-richtext__title m-content-box__heading {{ heading_size }}">{{ section.settings.title }}</h3>
+            <h3
+              class="m-richtext__title m-content-box__heading {{ heading_size }}"
+              data-heading-anim="{{ heading_anim }}"
+              style="--heading-duration: {{ heading_duration }}s;"
+              aria-hidden="false"
+            >
+              {%- comment -%}
+                The actual text will be processed by JS to add classes/spans as needed.
+              {%- endcomment -%}
+              <span class="m-heading-inner">{{ section.settings.title }}</span>
+            </h3>
           {% endif %}
+
           {% if section.settings.text != blank %}
             <div class="m-richtext__description rte m-content-box__description {{ subtext_size }}">
               {{ section.settings.text }}
@@ -135,6 +229,106 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
     </div>
   </div>
 </section>
+
+{%- comment -%}
+  Inline script: safe, small. This handles set up for heading animations.
+  It reads data-heading-anim and applies classes and inline animation styles.
+{%- endcomment -%}
+
+<script>
+(function(){
+  function initHeadingAnimation(sectionId) {
+    var section = document.getElementById('m-section-{{ section.id }}');
+    if (!section) return;
+    var h = section.querySelector('.m-richtext__title .m-heading-inner');
+    if (!h) return;
+
+    var wrapper = h.parentNode; // h3
+    var anim = wrapper.getAttribute('data-heading-anim') || 'none';
+    var duration = getComputedStyle(wrapper).getPropertyValue('--heading-duration') || '0.9s';
+
+    // reset any previous modification (useful for editor re-render)
+    // move plain text back if needed
+    if (h.dataset.originalText) {
+      h.innerHTML = h.dataset.originalText;
+    } else {
+      h.dataset.originalText = h.innerHTML;
+    }
+
+    var text = h.textContent.trim();
+
+    // remove any animation classes first
+    wrapper.classList.remove('heading--typewriter','heading--slide-up','heading--letter-fade','heading--underline','heading--zoom-in');
+
+    if (anim === 'none') {
+      return;
+    }
+
+    if (anim === 'typewriter') {
+      // wrap text in a span that we animate width on
+      h.innerHTML = '<span class="heading--typewriter" style="display:inline-block; width:0; max-width:100%; animation: typewriter-width-{{ section.id }} ' + duration + ' steps(30,end) forwards; -webkit-animation: typewriter-width-{{ section.id }} ' + duration + ' steps(30,end) forwards;">' +
+                    '<span class="typewriter-inner">' + escapeHtml(text) + '</span></span>';
+      // caret blink via border-right already present in CSS
+      // ensure border color matches current color
+    } else if (anim === 'slide-up') {
+      wrapper.classList.add('heading--slide-up');
+      // apply animation
+      wrapper.style.animation = 'slide-up-{{ section.id }} ' + duration + ' ease forwards';
+    } else if (anim === 'letter-fade') {
+      wrapper.classList.add('heading--letter-fade');
+      // split letters into spans
+      var out = '';
+      for (var i = 0; i < text.length; i++) {
+        var ch = text[i];
+        // preserve spaces
+        if (ch === ' ') {
+          out += '<span class="char" style="display:inline-block;width:0.4em">&nbsp;</span>';
+        } else {
+          var delay = (i * 0.04);
+          out += '<span class="char" style="animation: letter-fade-up-{{ section.id }} ' + duration + ' forwards; animation-delay: ' + delay + 's;">' + escapeHtml(ch) + '</span>';
+        }
+      }
+      h.innerHTML = out;
+    } else if (anim === 'underline-grow') {
+      wrapper.classList.add('heading--underline');
+      wrapper.style.setProperty('--heading-duration', duration);
+      // set the pseudo-element animation via inline style
+      var after = wrapper.querySelector('style[data-underline]'); // noop: ensure no duplicates
+      wrapper.style.animation = '';
+      // add an animation to the pseudo element by injecting a small style block
+      var styleId = 'underline-style-{{ section.id }}';
+      if (!document.getElementById(styleId)) {
+        var s = document.createElement('style');
+        s.id = styleId;
+        s.innerHTML = '#m-section-{{ section.id }} .m-richtext__title.heading--underline:after { animation: underline-grow-{{ section.id }} ' + duration + ' ease forwards; }';
+        document.head.appendChild(s);
+      }
+      // leave text as-is
+    } else if (anim === 'zoom-in') {
+      wrapper.classList.add('heading--zoom-in');
+      wrapper.style.animation = 'zoom-in-{{ section.id }} ' + duration + ' ease forwards';
+    }
+  }
+
+  function escapeHtml(unsafe) {
+    return unsafe.replace(/[&<>"']/g, function(m) {
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[m];
+    });
+  }
+
+  // Run on DOMContentLoaded and also after window load (editor may re-render)
+  document.addEventListener('DOMContentLoaded', function(){
+    initHeadingAnimation('{{ section.id }}');
+  });
+  // Re-init when Shopify sections re-initialize (preview/editor)
+  if (window.Shopify && window.Shopify.designMode) {
+    // attempt to re-init when editor updates - safe fallback
+    document.addEventListener('shopify:section:load', function(e){ initHeadingAnimation('{{ section.id }}'); });
+    document.addEventListener('shopify:block:select', function(e){ initHeadingAnimation('{{ section.id }}'); });
+  }
+})();
+</script>
+
 {% schema %}
 {
   "name": "Image with text",
@@ -251,38 +445,14 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
       "label": "Image container width",
       "default": "6",
       "options": [
-        {
-          "value": "2",
-          "label": "16%"
-        },
-        {
-          "value": "3",
-          "label": "25%"
-        },
-        {
-          "value": "4",
-          "label": "33%"
-        },
-        {
-          "value": "5",
-          "label": "41%"
-        },
-        {
-          "value": "6",
-          "label": "50%"
-        },
-        {
-          "value": "7",
-          "label": "58%"
-        },
-        {
-          "value": "8",
-          "label": "66%"
-        },
-        {
-          "value": "9",
-          "label": "75%"
-        }
+        { "value": "2", "label": "16%" },
+        { "value": "3", "label": "25%" },
+        { "value": "4", "label": "33%" },
+        { "value": "5", "label": "41%" },
+        { "value": "6", "label": "50%" },
+        { "value": "7", "label": "58%" },
+        { "value": "8", "label": "66%" },
+        { "value": "9", "label": "75%" }
       ]
     },
     {
@@ -307,18 +477,9 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
       "id": "image_animation",
       "label": "Image animation",
       "options": [
-        {
-          "value": "none",
-          "label": "None"
-        },
-        {
-          "value": "parallax",
-          "label": "Parallax"
-        },
-        {
-          "value": "move-up-down",
-          "label": "Move up/down"
-        }
+        { "value": "none", "label": "None" },
+        { "value": "parallax", "label": "Parallax" },
+        { "value": "move-up-down", "label": "Move up/down" }
       ],
       "default": "none",
       "info": "The parallax option work only when enable show image overlap"
@@ -388,18 +549,9 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
       "id": "text_size",
       "label": "Text size",
       "options": [
-        {
-          "value": "small",
-          "label": "Small"
-        },
-        {
-          "value": "medium",
-          "label": "Medium"
-        },
-        {
-          "value": "large",
-          "label": "Large"
-        }
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
       ],
       "default": "medium"
     },
@@ -409,24 +561,13 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
       "label": "Text alignment",
       "default": "left",
       "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
       ]
     },
-    {
-      "content": "Button settings",
-      "type": "header"
-    },
+
+    { "content": "Button settings", "type": "header" },
     {
       "type": "text",
       "id": "button_label",
@@ -443,22 +584,10 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
       "id": "button_style",
       "label": "Button style",
       "options": [
-        {
-          "value": "m-button--primary",
-          "label": "Primary button"
-        },
-        {
-          "value": "m-button--secondary",
-          "label": "Secondary button"
-        },
-        {
-          "value": "m-button--white",
-          "label": "White button"
-        },
-        {
-          "value": "m-button--link",
-          "label": "Underline button"
-        }
+        { "value": "m-button--primary", "label": "Primary button" },
+        { "value": "m-button--secondary", "label": "Secondary button" },
+        { "value": "m-button--white", "label": "White button" },
+        { "value": "m-button--link", "label": "Underline button" }
       ],
       "default": "m-button--link"
     },
@@ -467,21 +596,41 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
       "id": "button_size",
       "label": "Button size",
       "options": [
-        {
-          "value": "m-button--small",
-          "label": "Button small"
-        },
-        {
-          "value": "",
-          "label": "Button medium"
-        },
-        {
-          "value": "m-button--large",
-          "label": "Button large"
-        }
+        { "value": "m-button--small", "label": "Button small" },
+        { "value": "", "label": "Button medium" },
+        { "value": "m-button--large", "label": "Button large" }
       ],
       "default": ""
     },
+
+    {
+      "type": "header",
+      "content": "Heading animation (choose one)"
+    },
+    {
+      "type": "select",
+      "id": "heading_animation",
+      "label": "Heading animation",
+      "default": "none",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "typewriter", "label": "Typewriter (char by char)" },
+        { "value": "slide-up", "label": "Slide up" },
+        { "value": "letter-fade", "label": "Letter fade (stagger)" },
+        { "value": "underline-grow", "label": "Underline grow" },
+        { "value": "zoom-in", "label": "Zoom in" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "heading_animation_duration",
+      "label": "Heading animation duration (seconds)",
+      "min": 0.2,
+      "max": 5,
+      "step": 0.1,
+      "default": 0.9
+    },
+
     {
       "type": "header",
       "content": "Section Padding"
@@ -525,34 +674,16 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
       "label": "Visible in the view animation",
       "default": "inherit",
       "options": [
-        {
-          "value": "inherit",
-          "label": "Inherit global setting"
-        },
-        {
-          "value": "fade-in",
-          "label": "Fade in"
-        },
-        {
-          "value": "fade-in-up",
-          "label": "Fade in up"
-        },
-        {
-          "value": "fade-in-left",
-          "label": "Fade in left"
-        },
-        {
-          "value": "fade-in-right",
-          "label": "Fade in right"
-        }
+        { "value": "inherit", "label": "Inherit global setting" },
+        { "value": "fade-in", "label": "Fade in" },
+        { "value": "fade-in-up", "label": "Fade in up" },
+        { "value": "fade-in-left", "label": "Fade in left" },
+        { "value": "fade-in-right", "label": "Fade in right" }
       ]
     }
   ],
   "presets": [
-    {
-      "name": "Image with text",
-      "category": "Image"
-    }
+    { "name": "Image with text", "category": "Image" }
   ]
 }
 {% endschema %}
