@@ -29,6 +29,7 @@
   assign scribble_text_rotation = section.settings.scribble_text_rotation | default: -6
   assign scribble_text_stroke_width = section.settings.scribble_text_stroke_width | default: 2
   assign scribble_text_fill_after = section.settings.scribble_text_fill_after | default: true
+  assign scribble_mask_id = 'cutout-scribble-mask-' | append: section.id
 %}
 
 <section id="cutout-hero-{{ section.id }}" class="cutout-hero" style="--overlay: {{ overlay_color }}; --text-color: {{ text_color }}; --weight: {{ text_weight }}; --letter: {{ letter_spacing }}px; --line: {{ line_height }}px; --font-size: {{ font_size }}vw; --parallax: {{ parallax_strength }}; --scribble-stroke: {{ scribble_stroke }}; --scribble-width: {{ scribble_width }}; --scribble-duration: {{ scribble_duration }}s; --vh: {{ section_height }}vh; --pt: {{ padding_top }}px; --pb: {{ padding_bottom }}px; --scribble-text-size: {{ scribble_text_size }}vw; --scribble-text-color: {{ scribble_text_color }}; --scribble-text-offset-x: {{ scribble_text_offset_x }}vw; --scribble-text-offset-y: {{ scribble_text_offset_y }}vw; --scribble-text-rotation: {{ scribble_text_rotation }}deg; --scribble-subtitle-stroke-width: {{ scribble_text_stroke_width }}px;">
@@ -67,26 +68,35 @@
       </div>
     {% endif %}
 
-    {% if enable_scribble_text %}
-      <div class="cutout-hero__subtitle">
-        <span class="cutout-hero__subtitle-hidden">{{ scribble_text }}</span>
-        <svg viewBox="0 0 1000 220" preserveAspectRatio="xMinYMin meet" role="presentation">
-          <text
-            x="0"
-            y="160"
-            font-family="{{ scribble_font_family }}"
-            stroke="currentColor"
-            fill="currentColor"
-            fill-opacity="0"
-            vector-effect="non-scaling-stroke"
-          >
-            {{ scribble_text }}
-          </text>
-        </svg>
-      </div>
-    {% endif %}
-
-    <div class="cutout-hero__titleWrap"><h1 class="cutout-hero__title">{{ heading_text }}</h1></div>
+    <div class="cutout-hero__titleWrap">
+      {% if enable_scribble_text %}
+        <div class="cutout-hero__subtitle">
+          <span class="cutout-hero__subtitle-hidden">{{ scribble_text }}</span>
+          <svg viewBox="0 0 1000 220" preserveAspectRatio="xMinYMin meet" role="presentation">
+            <defs>
+              <mask id="{{ scribble_mask_id }}" maskUnits="userSpaceOnUse">
+                <rect class="cutout-hero__subtitle-mask" x="0" y="0" width="0" height="220" fill="#fff"></rect>
+              </mask>
+            </defs>
+            <text
+              class="cutout-hero__subtitle-text"
+              x="0"
+              y="160"
+              font-family="{{ scribble_font_family }}"
+              stroke="currentColor"
+              fill="currentColor"
+              fill-opacity="1"
+              vector-effect="non-scaling-stroke"
+              stroke-width="var(--scribble-subtitle-stroke-width)"
+              mask="url(#{{ scribble_mask_id }})"
+            >
+              {{ scribble_text }}
+            </text>
+          </svg>
+        </div>
+      {% endif %}
+      <h1 class="cutout-hero__title">{{ heading_text }}</h1>
+    </div>
   </div>
 </section>
 
