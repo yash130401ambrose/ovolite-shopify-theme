@@ -2,17 +2,17 @@
   assign bg_color = section.settings.bg_color | default: '#eef5ea'
   assign heading_text = section.settings.heading_text | default: 'WHAT MAKES US SPECIAL'
   assign heading_color = section.settings.heading_color | default: '#ffffff'
-  assign heading_opacity = section.settings.heading_opacity | default: 100
+  assign card_title_color = section.settings.card_title_color | default: '#1a1a1a'
   assign card_bg = section.settings.card_bg | default: '#ffffff'
+  assign desc_color = section.settings.desc_color | default: '#1a1a1a'
   assign card_radius = section.settings.card_radius | default: 16
   assign card_width = section.settings.card_width | default: 720
   assign card_gap = section.settings.card_gap | default: 32
   assign card_height = section.settings.card_height | default: 520
-  assign desc_color = section.settings.desc_color | default: '#1a1a1a'
   assign section_padding_y = section.settings.section_padding_y | default: 80
-  assign enable_animation = section.settings.enable_animation | default: true
   assign icon_size = section.settings.icon_size | default: 96
-  assign icon_offset = section.settings.icon_offset | default: 52
+  assign enable_animation = section.settings.enable_animation | default: true
+  assign shared_icon = section.settings.shared_icon
 %}
 
 <section
@@ -21,30 +21,31 @@
   data-enable-animation="{{ enable_animation }}"
   style="--bg: {{ bg_color }};
          --heading-color: {{ heading_color }};
-         --heading-opacity: {{ heading_opacity }};
+         --desc-color: {{ desc_color }};
+         --card-title-color: {{ card_title_color }};
          --card-bg: {{ card_bg }};
          --card-radius: {{ card_radius }}px;
          --card-width: {{ card_width }}px;
          --card-gap: {{ card_gap }}px;
          --card-height: {{ card_height }}px;
          --section-padding-y: {{ section_padding_y }}px;
-         --desc-color: {{ desc_color }};
-         --icon-size: {{ icon_size }}px;
-         --icon-offset: {{ icon_offset }}px;"
+         --icon-size: {{ icon_size }}px;"
 >
   <div class="scroll-cards__container">
+
     <h2 class="scroll-cards__heading">{{ heading_text }}</h2>
+
+    {% if shared_icon != blank %}
+      <div class="scroll-cards__shared-icon">
+        {{ shared_icon | image_url: width: 120 | image_tag: class: 'shared-icon-img', alt: 'Section icon' }}
+      </div>
+    {% endif %}
 
     <div class="scroll-cards__viewport">
       <div class="scroll-cards__track">
         {% for block in section.blocks %}
           {% if block.type == 'card' %}
             <article class="scroll-card" {{ block.shopify_attributes }}>
-              {% if block.settings.icon != blank %}
-                <div class="scroll-card__icon">
-                  {{ block.settings.icon | image_url: width: 240 | image_tag: widths: '120,180,240', alt: block.settings.title | escape }}
-                </div>
-              {% endif %}
               {% if block.settings.title != blank %}
                 <h3 class="scroll-card__title">{{ block.settings.title }}</h3>
               {% endif %}
@@ -67,14 +68,14 @@
     overflow: hidden;
   }
 
-  #scroll-cards-{{ section.id }} .scroll-cards__container {
+  .scroll-cards__container {
     position: relative;
     width: 100%;
     max-width: 1600px;
     margin: 0 auto;
   }
 
-  #scroll-cards-{{ section.id }} .scroll-cards__heading {
+  .scroll-cards__heading {
     position: absolute;
     top: 50%;
     left: 5vw;
@@ -83,79 +84,78 @@
     font-weight: 700;
     line-height: 1.05;
     color: var(--heading-color);
-    opacity: var(--heading-opacity);
+    opacity: 1;
     white-space: pre-wrap;
     pointer-events: none;
-    z-index: 6;
+    z-index: 5;
     margin: 0;
   }
 
-  #scroll-cards-{{ section.id }} .scroll-cards__viewport {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  #scroll-cards-{{ section.id }} .scroll-cards__track {
-    position: relative;
-    display: inline-flex;
-    gap: var(--card-gap);
-    align-items: stretch;
-    will-change: transform;
-    padding: calc(var(--icon-offset) + 32px) 5vw 40px;
-    z-index: 2;
-  }
-
-  #scroll-cards-{{ section.id }} .scroll-card {
-    flex: 0 0 var(--card-width);
-    background: var(--card-bg);
-    border-radius: var(--card-radius);
-    padding: 40px 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    box-shadow: 0 12px 28px rgba(0,0,0,.1);
-    min-height: var(--card-height);
-    position: relative;
-  }
-
-  #scroll-cards-{{ section.id }} .scroll-card__icon {
+  /* shared center icon */
+  .scroll-cards__shared-icon {
     position: absolute;
-    top: calc(var(--icon-offset) * -1);
+    top: 0;
     left: 50%;
-    transform: translate(-50%, 20px) scale(.95);
-    opacity: 0;
-    filter: drop-shadow(0 6px 16px rgba(0,0,0,.14));
-    z-index: 5;
+    transform: translate(-50%, -50%);
+    z-index: 6;
   }
 
-  #scroll-cards-{{ section.id }} .scroll-card__icon img {
+  .scroll-cards__shared-icon .shared-icon-img {
     width: var(--icon-size);
     height: auto;
     display: block;
   }
 
-  #scroll-cards-{{ section.id }} .scroll-card__title {
-    margin-top: calc(var(--icon-size) / 3);
-    text-align: center;
-    font-weight: 800;
-    font-size: clamp(22px, 3vw, 40px);
-    color: #000;
+  .scroll-cards__viewport {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
   }
 
-  #scroll-cards-{{ section.id }} .scroll-card__text {
+  .scroll-cards__track {
+    display: inline-flex;
+    gap: var(--card-gap);
+    align-items: stretch;
+    padding: calc(var(--icon-size) + 64px) 5vw 40px;
+    will-change: transform;
+    z-index: 3;
+  }
+
+  .scroll-card {
+    flex: 0 0 var(--card-width);
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    padding: 48px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    min-height: var(--card-height);
+    position: relative;
     text-align: center;
+  }
+
+  .scroll-card__title {
+    font-weight: 700;
+    font-size: clamp(22px, 3vw, 36px);
+    color: var(--card-title-color);
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .scroll-card__text {
+    color: var(--desc-color);
     font-size: clamp(15px, 1.4vw, 18px);
     line-height: 1.6;
-    color: var(--desc-color);
+    max-width: 480px;
   }
 
   @media (max-width: 768px) {
     #scroll-cards-{{ section.id }} { --card-width: 320px; --card-gap: 16px; }
-    #scroll-cards-{{ section.id }} .scroll-cards__heading { left: 4vw; font-size: clamp(28px, 14vw, 64px); }
-    #scroll-cards-{{ section.id }} .scroll-card { padding: 28px 18px; min-height: calc(var(--card-height) * 0.8); }
+    .scroll-cards__heading { left: 4vw; font-size: clamp(28px, 14vw, 64px); }
+    .scroll-card { padding: 28px 18px; min-height: calc(var(--card-height) * 0.8); }
   }
 </style>
 
@@ -207,46 +207,36 @@
         }
       });
       tl.fromTo(track, { x: startX }, { x: endX, ease: 'none' });
-
-      cards.forEach(function(card) {
-        var icon = card.querySelector('.scroll-card__icon');
-        if (!icon) return;
-        gsap.fromTo(icon,
-          { y: 20, opacity: 0, scale: 0.95 },
-          { y: 0, opacity: 1, scale: 1, duration: 0.45, ease: 'power2.out',
-            scrollTrigger: {
-              containerAnimation: tl,
-              trigger: card,
-              start: 'left center',
-              toggleActions: 'play none none reverse'
-            }
-          }
-        );
-      });
     }
 
     if (typeof gsap === 'undefined') {
       loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js')
-      .then(function(){
+      .then(function() {
         return loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js');
       })
-      .then(function(){
+      .then(function() {
         gsap.registerPlugin(ScrollTrigger);
         setup();
       });
     } else {
       if (typeof ScrollTrigger === 'undefined') {
         loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js')
-        .then(function(){ gsap.registerPlugin(ScrollTrigger); setup(); });
+        .then(function() {
+          gsap.registerPlugin(ScrollTrigger);
+          setup();
+        });
       } else {
-        gsap.registerPlugin(ScrollTrigger); setup();
+        gsap.registerPlugin(ScrollTrigger);
+        setup();
       }
     }
   }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
-  } else { init(); }
+  } else {
+    init();
+  }
 })();
 </script>
 {% endif %}
@@ -258,12 +248,12 @@
     { "type": "color", "id": "bg_color", "label": "Background color", "default": "#EEF5EA" },
     { "type": "text", "id": "heading_text", "label": "Heading text", "default": "WHAT MAKES US\\nSPECIAL" },
     { "type": "color", "id": "heading_color", "label": "Heading color", "default": "#FFFFFF" },
-    { "type": "range", "id": "heading_opacity", "label": "Heading opacity", "min": 0, "max": 1, "step": 0.1, "default": 1 },
-    { "type": "color", "id": "card_bg", "label": "Card background color", "default": "#FFFFFF" },
+    { "type": "color", "id": "card_title_color", "label": "Card title color", "default": "#1A1A1A" },
     { "type": "color", "id": "desc_color", "label": "Description text color", "default": "#1A1A1A" },
+    { "type": "color", "id": "card_bg", "label": "Card background color", "default": "#FFFFFF" },
+    { "type": "image_picker", "id": "shared_icon", "label": "Shared center icon (same for all cards)" },
     { "type": "range", "id": "card_height", "label": "Card height (px)", "min": 300, "max": 900, "step": 10, "default": 520, "unit": "px" },
-    { "type": "range", "id": "icon_size", "label": "Icon size", "min": 40, "max": 200, "step": 2, "default": 96, "unit": "px" },
-    { "type": "range", "id": "icon_offset", "label": "Icon vertical overlap", "min": 0, "max": 140, "step": 2, "default": 52, "unit": "px" },
+    { "type": "range", "id": "icon_size", "label": "Shared icon size (px)", "min": 40, "max": 200, "step": 2, "default": 96, "unit": "px" },
     { "type": "range", "id": "card_radius", "label": "Card corner radius", "min": 0, "max": 40, "step": 1, "default": 16, "unit": "px" },
     { "type": "range", "id": "card_width", "label": "Card width", "min": 240, "max": 920, "step": 10, "default": 720, "unit": "px" },
     { "type": "range", "id": "card_gap", "label": "Gap between cards", "min": 8, "max": 80, "step": 2, "default": 32, "unit": "px" },
@@ -275,14 +265,13 @@
       "type": "card",
       "name": "Card",
       "settings": [
-        { "type": "image_picker", "id": "icon", "label": "Icon image" },
-        { "type": "text", "id": "title", "label": "Title", "default": "MORE\\nCAFFEINE" },
+        { "type": "text", "id": "title", "label": "Card title", "default": "MORE\\nCAFFEINE" },
         { "type": "richtext", "id": "text", "label": "Description text", "default": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>" }
       ]
     }
   ],
   "presets": [
-    { "name": "Scroll Cards", "blocks": [ {"type": "card"}, {"type": "card"}, {"type": "card"} ] }
+    { "name": "Scroll Cards", "blocks": [ { "type": "card" }, { "type": "card" }, { "type": "card" }, { "type": "card" } ] }
   ]
 }
 {% endschema %}
