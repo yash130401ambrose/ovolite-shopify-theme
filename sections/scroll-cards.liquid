@@ -84,11 +84,13 @@
     font-weight: 700;
     line-height: 1.05;
     color: var(--heading-color);
-    opacity: 1;
+    opacity: 0.95;
     white-space: pre-wrap;
     pointer-events: none;
-    z-index: 5;
+    z-index: 8;
     margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
 
   /* shared center icon */
@@ -112,13 +114,36 @@
     overflow: hidden;
   }
 
+  .scroll-cards__viewport::before,
+  .scroll-cards__viewport::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: min(14vw, 220px);
+    pointer-events: none;
+    z-index: 7;
+    opacity: 0.75;
+    transition: opacity 0.3s ease;
+  }
+
+  .scroll-cards__viewport::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--bg) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  .scroll-cards__viewport::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--bg) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
   .scroll-cards__track {
     display: inline-flex;
     gap: var(--card-gap);
     align-items: stretch;
-    padding: calc(var(--icon-size) + 64px) 5vw 40px;
+    padding: calc(var(--icon-size) + 64px) 6vw 40px;
     will-change: transform;
-    z-index: 3;
+    z-index: 4;
   }
 
   .scroll-card {
@@ -131,10 +156,19 @@
     justify-content: center;
     align-items: center;
     gap: 16px;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
     min-height: var(--card-height);
     position: relative;
     text-align: center;
+    transform-origin: center;
+    transform: none;
+    opacity: 1;
+    transition: transform 0.4s ease, opacity 0.25s ease, box-shadow 0.4s ease;
+  }
+
+  .scroll-card.is-active {
+    box-shadow: 0 26px 64px rgba(0, 0, 0, 0.16);
+    opacity: 1;
   }
 
   .scroll-card__title {
@@ -152,9 +186,34 @@
     max-width: 480px;
   }
 
+  .scroll-card:focus-within {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  .scroll-cards-section[data-enable-animation="false"] .scroll-cards__viewport,
+  .scroll-cards-section[data-scrollcards-mobile="true"] .scroll-cards__viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .scroll-cards-section[data-enable-animation="false"] .scroll-cards__track,
+  .scroll-cards-section[data-scrollcards-mobile="true"] .scroll-cards__track {
+    padding: calc(var(--icon-size) + 40px) 12vw 40px;
+  }
+
+  .scroll-cards-section[data-enable-animation="false"] .scroll-card,
+  .scroll-cards-section[data-scrollcards-mobile="true"] .scroll-card {
+    scroll-snap-align: center;
+    transform: none;
+    opacity: 1;
+  }
+
   @media (max-width: 768px) {
     #scroll-cards-{{ section.id }} { --card-width: 320px; --card-gap: 16px; }
-    .scroll-cards__heading { left: 4vw; font-size: clamp(28px, 14vw, 64px); }
+    .scroll-cards__heading { left: 4vw; font-size: clamp(28px, 14vw, 64px); letter-spacing: 0.05em; }
+    .scroll-cards__viewport::before,
+    .scroll-cards__viewport::after { width: 25vw; opacity: 0.6; }
     .scroll-card { padding: 28px 18px; min-height: calc(var(--card-height) * 0.8); }
   }
 </style>
@@ -164,71 +223,201 @@
 (function() {
   'use strict';
   var sectionId = 'scroll-cards-{{ section.id }}';
+  var GSAP_SRC = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js';
+  var SCROLL_TRIGGER_SRC = 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js';
+  var rootCache = null;
 
   function loadScript(src) {
     return new Promise(function(resolve, reject) {
+      var existing = document.querySelector('script[data-src="' + src + '"]');
+      if (existing) {
+        if (existing.hasAttribute('data-loaded')) {
+          resolve();
+          return;
+        }
+        existing.addEventListener('load', resolve, { once: true });
+        existing.addEventListener('error', reject, { once: true });
+        return;
+      }
       var s = document.createElement('script');
       s.src = src;
       s.async = true;
-      s.onload = resolve;
+      s.setAttribute('data-src', src);
+      s.onload = function() {
+        s.setAttribute('data-loaded', 'true');
+        resolve();
+      };
       s.onerror = reject;
       document.head.appendChild(s);
     });
   }
 
+  function destroyExisting() {
+    if (rootCache && typeof rootCache.__scrollCardsDestroy === 'function') {
+      rootCache.__scrollCardsDestroy();
+    }
+  }
+
+  function highlightCards(cards, viewportWidth, currentX, immediate) {
+    var viewportCenter = viewportWidth / 2;
+    cards.forEach(function(card) {
+      var center = card.offsetLeft + card.offsetWidth / 2 + currentX;
+      var distance = Math.abs(viewportCenter - center);
+      var ratio = Math.min(distance / (viewportWidth * 0.65), 1);
+      var scale = gsap.utils.interpolate(1, 0.88, ratio);
+      var opacity = gsap.utils.interpolate(1, 0.45, ratio);
+      gsap.to(card, {
+        scale: scale,
+        opacity: opacity,
+        duration: immediate ? 0 : 0.25,
+        overwrite: true,
+        ease: 'power2.out'
+      });
+      if (ratio < 0.28) {
+        card.classList.add('is-active');
+      } else {
+        card.classList.remove('is-active');
+      }
+    });
+  }
+
   function init() {
+    destroyExisting();
     var root = document.getElementById(sectionId);
     if (!root) return;
+    rootCache = root;
+
     var track = root.querySelector('.scroll-cards__track');
     var viewport = root.querySelector('.scroll-cards__viewport');
+    var heading = root.querySelector('.scroll-cards__heading');
     if (!track || !viewport) return;
 
+    var cards = Array.from(track.querySelectorAll('.scroll-card'));
+    if (!cards.length) return;
+
     function setup() {
-      var cards = track.querySelectorAll('.scroll-card');
-      if (!cards.length) return;
-      var first = cards[0];
-      var last = cards[cards.length - 1];
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+      gsap.registerPlugin(ScrollTrigger);
 
-      var viewportWidth = viewport.clientWidth;
-      var firstLeft = first.offsetLeft;
-      var lastCenter = last.offsetLeft + last.offsetWidth / 2;
-      var viewportCenter = viewportWidth / 2;
+      var mm = gsap.matchMedia();
 
-      var startX = viewportWidth - firstLeft + 40;
-      var endX = viewportCenter - lastCenter;
+      function cleanupCardState() {
+        cards.forEach(function(card) {
+          gsap.killTweensOf(card);
+          card.classList.remove('is-active');
+          gsap.set(card, { clearProps: 'transform,opacity' });
+        });
+      }
 
-      var tl = gsap.timeline({
-        scrollTrigger: {
+      root.__scrollCardsDestroy = function() {
+        if (mm) {
+          mm.kill();
+        }
+        cleanupCardState();
+        gsap.set(track, { clearProps: 'transform' });
+        if (heading) {
+          gsap.killTweensOf(heading);
+          gsap.set(heading, { clearProps: 'opacity,transform' });
+        }
+      };
+
+      mm.add('(min-width: 768px)', function() {
+        root.removeAttribute('data-scrollcards-mobile');
+        var viewportWidth = viewport.clientWidth;
+        var startX = 0;
+        var endX = 0;
+        var scrollTriggerInstance = null;
+        var resizeHandler = function() {
+          ScrollTrigger.refresh();
+        };
+
+        function computeBounds() {
+          viewportWidth = viewport.clientWidth;
+          var viewportCenter = viewportWidth / 2;
+          var firstCenter = cards[0].offsetLeft + cards[0].offsetWidth / 2;
+          var lastCenter = cards[cards.length - 1].offsetLeft + cards[cards.length - 1].offsetWidth / 2;
+          startX = viewportCenter - firstCenter;
+          endX = viewportCenter - lastCenter;
+          if (cards.length === 1) {
+            endX = startX;
+          }
+        }
+
+        computeBounds();
+        gsap.set(track, { x: startX });
+        highlightCards(cards, viewportWidth, startX, true);
+        if (heading) {
+          gsap.set(heading, { opacity: 1 });
+        }
+
+        scrollTriggerInstance = ScrollTrigger.create({
           trigger: root,
           start: 'top top',
-          end: '+=' + (Math.abs(endX - startX) + 500),
+          end: function() {
+            computeBounds();
+            return '+=' + (Math.abs(endX - startX) + cards.length * 220 + viewportWidth * 0.5);
+          },
           pin: true,
-          scrub: true
-        }
+          scrub: true,
+          invalidateOnRefresh: true,
+          onRefresh: function() {
+            computeBounds();
+            gsap.set(track, { x: startX });
+            highlightCards(cards, viewportWidth, startX, true);
+          },
+          onUpdate: function(self) {
+            var currentX = gsap.utils.interpolate(startX, endX, self.progress);
+            gsap.set(track, { x: currentX });
+            highlightCards(cards, viewportWidth, currentX);
+            if (heading) {
+              gsap.to(heading, { opacity: gsap.utils.interpolate(1, 0.35, self.progress), duration: 0.2, overwrite: true });
+            }
+          }
+        });
+
+        window.addEventListener('resize', resizeHandler);
+
+        return function() {
+          window.removeEventListener('resize', resizeHandler);
+          if (scrollTriggerInstance) {
+            scrollTriggerInstance.kill();
+            scrollTriggerInstance = null;
+          }
+          cleanupCardState();
+          gsap.set(track, { clearProps: 'transform' });
+          if (heading) {
+            gsap.killTweensOf(heading);
+            gsap.set(heading, { clearProps: 'opacity,transform' });
+          }
+          root.removeAttribute('data-scrollcards-mobile');
+        };
       });
-      tl.fromTo(track, { x: startX }, { x: endX, ease: 'none' });
+
+      mm.add('(max-width: 767px)', function() {
+        root.setAttribute('data-scrollcards-mobile', 'true');
+        cleanupCardState();
+        gsap.set(track, { clearProps: 'transform' });
+        if (heading) {
+          gsap.killTweensOf(heading);
+          gsap.set(heading, { clearProps: 'opacity,transform' });
+        }
+        return function() {
+          root.removeAttribute('data-scrollcards-mobile');
+        };
+      });
     }
 
     if (typeof gsap === 'undefined') {
-      loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js')
-      .then(function() {
-        return loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js');
-      })
-      .then(function() {
-        gsap.registerPlugin(ScrollTrigger);
-        setup();
-      });
+      loadScript(GSAP_SRC)
+        .then(function() { return loadScript(SCROLL_TRIGGER_SRC); })
+        .then(function() { setup(); })
+        .catch(function() { /* noop */ });
+    } else if (typeof ScrollTrigger === 'undefined') {
+      loadScript(SCROLL_TRIGGER_SRC)
+        .then(function() { setup(); })
+        .catch(function() { /* noop */ });
     } else {
-      if (typeof ScrollTrigger === 'undefined') {
-        loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js')
-        .then(function() {
-          gsap.registerPlugin(ScrollTrigger);
-          setup();
-        });
-      } else {
-        gsap.registerPlugin(ScrollTrigger);
-        setup();
-      }
+      setup();
     }
   }
 
@@ -236,6 +425,24 @@
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
+  }
+
+  if (window.Shopify && window.Shopify.designMode) {
+    document.addEventListener('shopify:section:load', function(evt) {
+      if (evt.detail && evt.detail.sectionId === '{{ section.id }}') {
+        init();
+      }
+    });
+    document.addEventListener('shopify:section:unload', function(evt) {
+      if (evt.detail && evt.detail.sectionId === '{{ section.id }}') {
+        destroyExisting();
+      }
+    });
+    document.addEventListener('shopify:section:select', function(evt) {
+      if (evt.detail && evt.detail.sectionId === '{{ section.id }}' && typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+      }
+    });
   }
 })();
 </script>
