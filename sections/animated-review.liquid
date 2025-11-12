@@ -27,7 +27,7 @@
   assign star_color = section.settings.star_color | default: '#88c165'
   assign verified_color = section.settings.verified_color | default: '#8fb97a'
   assign product_shadow = section.settings.product_shadow_color | default: 'rgba(18,25,13,0.35)'
-  assign hero_spacing = section.settings.hero_spacing | default: 'clamp(8px, 1.8vw, 24px)'
+  assign hero_spacing = section.settings.hero_spacing | default: 60
 %}
 
 <section
@@ -55,7 +55,7 @@
     --star-color: {{ star_color }};
     --verified-color: {{ verified_color }};
     --product-shadow: {{ product_shadow }};
-    --hero-spacing: {{ hero_spacing }};
+    --hero-spacing: {{ hero_spacing }}px;
   "
 >
   {% if section.settings.background_image != blank %}
@@ -585,7 +585,7 @@
     { "type": "color", "id": "star_color", "label": "Star color", "default": "#88c165" },
     { "type": "color", "id": "verified_color", "label": "Verified badge color", "default": "#8fb97a" },
     { "type": "color", "id": "product_shadow_color", "label": "Hero image shadow color", "default": "rgba(18,25,13,0.35)" },
-    { "type": "text", "id": "hero_spacing", "label": "Spacing between subheading and heading", "default": "clamp(8px, 1.8vw, 24px)", "info": "Any valid CSS margin-top value." },
+    { "type": "range", "id": "hero_spacing", "label": "Spacing between subheading and heading (px)", "min": 60, "max": 160, "step": 4, "default": 60 },
     { "type": "checkbox", "id": "auto_rotate", "label": "Automatically rotate reviews", "default": false },
     { "type": "range", "id": "auto_rotate_interval", "label": "Auto-rotate interval (seconds)", "min": 3, "max": 12, "step": 1, "default": 6 }
   ],
