@@ -4,7 +4,7 @@ Fully customizable — all text, colors, images from theme editor
 Includes custom smiley/icon upload, logo image for left column, and editable colors
 {% endcomment %}
 
-<section id="feature-compare-{{ section.id }}" class="feature-compare-section">
+<section id="feature-compare-{{ section.id }}" class="feature-compare-section" data-right-anim="{{ section.settings.right_icon_animation }}">
   <style>
     #feature-compare-{{ section.id }} {
       background-color: {{ section.settings.bg_color }};
@@ -39,54 +39,22 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
 
     /* Left Image Card */
     .fc-image-card {
-      background: none;
-      border-radius: 0;
-      padding: 0;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-      position: relative;
-      overflow: hidden;
-      box-shadow: none;
-    }
-
-    .fc-image-card img {
-      width: 100%;
-      height: auto;
-      border-radius: clamp(18px, 2.6vw, 28px);
-      object-fit: cover;
-    }
-
-    /* Top centered icon badge */
-    .feature-compare-section__badge {
-      position: absolute;
-      top: var(--fc-icon-top);
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .feature-compare-section__badge-icon {
-      position: relative;
-      width: var(--fc-icon-size);
-      height: var(--fc-icon-size);
-      border-radius: 50%;
-      border: none;
+      background: {{ section.settings.icon_area_background | default: '#F4F6EE' }};
+      border-radius: clamp(24px, 4vw, 36px);
+      padding: clamp(36px, 6vw, 72px);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: transparent;
-      box-shadow: none;
-      pointer-events: auto;
+      min-height: clamp(280px, 45vw, 520px);
     }
 
-    .feature-compare-section__badge-icon img {
-      width: 100%;
-      height: 100%;
+    .fc-image-card__icon {
+      width: clamp(120px, {{ section.settings.icon_area_size | default: 280 }}px, 380px);
+      height: auto;
       object-fit: contain;
     }
 
+    /* Top centered icon badge */
     .fc-smiley { display: none; }
 
     @keyframes floaty {
@@ -99,16 +67,16 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       text-align: left;
       display: flex;
       flex-direction: column;
-      gap: clamp(20px, 3vw, 36px);
+      gap: clamp(20px, 3vw, 32px);
     }
 
     .fc-title {
-      font-size: clamp(50px, 6vw, 78px);
+      font-size: clamp(56px, 6.5vw, 90px);
       line-height: 0.92;
       font-weight: 700;
       color: {{ section.settings.heading_color }};
       margin: 0;
-      letter-spacing: -0.015em;
+      letter-spacing: -0.02em;
     }
 
     .fc-sub {
@@ -123,7 +91,6 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
-      border-top: 1px solid rgba(79, 127, 60, 0.45);
     }
 
     :root {
@@ -137,11 +104,10 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       grid-template-columns: minmax(0, 1fr) minmax(0, 140px) minmax(0, 140px);
       align-items: center;
       gap: clamp(16px, 3vw, 32px);
-      padding: clamp(18px, 2.5vw, 26px) 0;
-      border-bottom: 1px solid rgba(36, 82, 38, 0.16);
-      opacity: 1 !important;
-      transform: none !important;
-      backdrop-filter: none;
+      padding: clamp(18px, 2.8vw, 28px) 0;
+      border-bottom: 1px solid rgba(36, 82, 38, 0.18);
+      opacity: 1;
+      transform: none;
     }
 
     @media (max-width: 600px) {
@@ -152,10 +118,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       .fc-title { font-size: clamp(36px, 10vw, 44px); }
     }
 
-    .fc-row[data-animate] {
-      opacity: 1 !important;
-      transform: none !important;
-    }
+    .fc-row[data-animate] { opacity: 1; transform: none; }
 
     .fc-row.fc-anim--slide-up[data-animate],
     .fc-row.fc-anim--slide-left[data-animate],
@@ -190,7 +153,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       min-width: clamp(88px, 11vw, 128px);
       padding: clamp(12px, 1.8vw, 18px);
       border-radius: 18px;
-      background: rgba(193, 217, 170, 0.32);
+      background: rgba(193, 217, 170, 0.24);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -217,7 +180,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     }
 
     .fc-col.is-right .fc-icon-wrap {
-      transition: transform var(--fc-anim-duration) cubic-bezier(.2,.9,.3,1), box-shadow var(--fc-anim-duration) ease, rotate 0.45s ease;
+      border: 20px solid {{ section.settings.right_icon_border_color | default: 'rgba(193, 217, 170, 0.18)' }};
     }
 
     .play .fc-row[data-animate] .fc-col.is-right .fc-icon-wrap {
@@ -254,10 +217,10 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     }
 
     @keyframes fc-shake {
-      0%, 100% { transform: translateY(-6px) rotate(0deg); }
-      20% { transform: translateY(-6px) rotate(-10deg); }
-      50% { transform: translateY(-6px) rotate(12deg); }
-      80% { transform: translateY(-6px) rotate(-8deg); }
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(-10deg); }
+      50% { transform: rotate(12deg); }
+      80% { transform: rotate(-6deg); }
     }
 
     /* Table Header */
@@ -265,7 +228,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       border-bottom: 1px solid rgba(36, 82, 38, 0.3);
       font-weight: 600;
       font-size: 15px;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: rgba(36, 82, 38, 0.65);
       padding: clamp(14px, 2vw, 20px) 0;
@@ -282,21 +245,34 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       display: block;
       margin: 0 auto;
     }
-  </style>
 
-  {% if section.settings.icon_image != blank %}
-    <div class="feature-compare-section__badge">
-      <div class="feature-compare-section__badge-icon">
-        <img src="{{ section.settings.icon_image | img_url: '200x' }}" alt="Feature icon" />
-      </div>
-    </div>
-  {% endif %}
+    /* Right icon animation styles */
+    #feature-compare-{{ section.id }}.play .fc-row.fc-row--anim-shake .fc-col.is-right .fc-icon-wrap {
+      animation: fc-shake 0.8s ease forwards;
+    }
+
+    #feature-compare-{{ section.id }}.play .fc-row.fc-row--anim-bounce .fc-col.is-right .fc-icon-wrap {
+      animation: fc-bounce 0.9s ease forwards;
+    }
+
+    #feature-compare-{{ section.id }}.play .fc-row.fc-row--anim-flip .fc-col.is-right .fc-icon-wrap {
+      animation: fc-flip 0.9s ease forwards;
+    }
+
+    #feature-compare-{{ section.id }}.play .fc-row.fc-row--anim-pulse .fc-col.is-right .fc-icon-wrap {
+      animation: fc-pulse 1s ease forwards;
+    }
+
+    #feature-compare-{{ section.id }}.play .fc-row.fc-row--anim-swing .fc-col.is-right .fc-icon-wrap {
+      animation: fc-swing 1s ease forwards;
+    }
+  </style>
 
   <div class="fc-container">
     <!-- Left Side -->
     <div class="fc-image-card">
-      {% if section.settings.left_image != blank %}
-        <img src="{{ section.settings.left_image | img_url: '800x' }}" alt="Feature image" />
+      {% if section.settings.icon_area_image != blank %}
+        <img class="fc-image-card__icon" src="{{ section.settings.icon_area_image | img_url: '600x' }}" alt="Feature icon" />
       {% endif %}
     </div>
 
@@ -322,7 +298,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
           {% capture row_style %}
             transition-delay: {{ delay | round: 2 }}s;
           {% endcapture %}
-          <div class="fc-row fc-anim--{{ animation_style }}" data-animate style="{{ row_style | strip }}">
+          <div class="fc-row fc-anim--{{ animation_style }} fc-row--anim-{{ section.settings.right_icon_animation }}" data-animate style="{{ row_style | strip }}">
             <div class="fc-benefit">{{ block.settings.benefit }}</div>
             <div class="fc-col">
               <div class="fc-icon-wrap">
@@ -337,7 +313,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
                 {% endif %}
               </div>
             </div>
-            <div class="fc-col">
+            <div class="fc-col is-right">
               <div class="fc-icon-wrap">
                 {% if block.settings.right_has %}
                   <svg class="fc-check" viewBox="0 0 24 24" fill="none">
@@ -360,6 +336,20 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     (function(){
       const section = document.getElementById('feature-compare-{{ section.id }}');
       if (!section) return;
+
+      const shouldAnimate = section.dataset.rightAnim && section.dataset.rightAnim !== 'none';
+      if (!shouldAnimate) return;
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            section.classList.add('play');
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.25 });
+
+      observer.observe(section);
     })();
   </script>
 
@@ -367,12 +357,12 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
   {
     "name": "Feature Compare Ovolite",
     "settings": [
-      { "type": "image_picker", "id": "left_image", "label": "Left Image" },
-      { "type": "image_picker", "id": "icon_image", "label": "Smiley/Icon Image" },
+      { "type": "image_picker", "id": "icon_area_image", "label": "Left icon image" },
       { "type": "image_picker", "id": "left_logo", "label": "Left Column Logo" },
       { "type": "text", "id": "right_label", "label": "Right Column Label", "default": "Regular Matcha" },
       { "type": "text", "id": "heading", "label": "Heading", "default": "More for you. See the difference." },
-      { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Compare your product benefits side by side." },
+      { "type": "color", "id": "icon_area_background", "label": "Left icon background", "default": "#F4F6EE" },
+      { "type": "range", "id": "icon_area_size", "label": "Left icon size (px)", "min": 120, "max": 360, "step": 10, "default": 240 },
       { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#FFFFFF" },
       { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#0040FF" },
       { "type": "color", "id": "text_color", "label": "Text Color", "default": "#0A0A0A" },
@@ -384,6 +374,15 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       { "type": "range", "id": "badge_top_offset", "label": "Icon vertical offset (px)", "min": 0, "max": 160, "step": 4, "default": 28, "unit": "px" },
       { "type": "range", "id": "icon_wrap_width", "label": "Icon holder width (px)", "min": 32, "max": 120, "step": 1, "default": 60, "unit": "px" },
       { "type": "range", "id": "icon_wrap_height", "label": "Icon holder height (px)", "min": 28, "max": 100, "step": 1, "default": 48, "unit": "px" },
+      { "type": "color", "id": "right_icon_border_color", "label": "Right icon border color", "default": "rgba(193, 217, 170, 0.18)" },
+      { "type": "select", "id": "right_icon_animation", "label": "Right icon animation", "default": "shake", "options": [
+        { "value": "none", "label": "None" },
+        { "value": "shake", "label": "Shake" },
+        { "value": "bounce", "label": "Bounce" },
+        { "value": "flip", "label": "Flip" },
+        { "value": "pulse", "label": "Pulse" },
+        { "value": "swing", "label": "Swing" }
+      ] },
       { "type": "select", "id": "row_animation_style", "label": "Row animation style", "default": "slide-up", "options": [
         { "label": "Slide up", "value": "slide-up" },
         { "label": "Fade in", "value": "fade" },
