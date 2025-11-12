@@ -38,6 +38,36 @@
         { "value": "flip-in", "label": "Flip In" }
       ],
       "default": "slide-up"
+    },
+    {
+      "type": "range",
+      "id": "subheading_offset_x",
+      "label": "Subheading horizontal offset (px)",
+      "min": -300,
+      "max": 300,
+      "step": 6,
+      "default": -132,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "subheading_offset_y",
+      "label": "Subheading vertical offset (px)",
+      "min": -200,
+      "max": 200,
+      "step": 8,
+      "default": -56,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "subheading_rotation",
+      "label": "Subheading rotation (deg)",
+      "min": -30,
+      "max": 30,
+      "step": 1,
+      "default": -6,
+      "unit": "°"
     }
   ],
   "presets": [
@@ -48,7 +78,15 @@
 }
 {% endschema %}
 
-<section class="focus-text-section" style="background-image:url('{{ section.settings.background_image | img_url: 'master' }}')">
+<section
+  class="focus-text-section"
+  style="
+    background-image:url('{{ section.settings.background_image | img_url: 'master' }}');
+    --focus-subheading-offset-x: {{ section.settings.subheading_offset_x | default: -140 }}px;
+    --focus-subheading-offset-y: {{ section.settings.subheading_offset_y | default: -60 }}px;
+    --focus-subheading-rotation: {{ section.settings.subheading_rotation | default: -6 }}deg;
+  "
+>
   <div class="overlay"></div>
   <div class="text-container">
     <h2 class="focus-subheading {{ section.settings.subheading_animation }}" style="font-family: {{ section.settings.subheading_font | font_face }};">
@@ -62,12 +100,12 @@
 
 <style>
 .focus-text-section {
-  position: relative;
+    position: relative;
   background-size: cover;
   background-position: center;
   padding: 120px 20px;
-  text-align: left;
-  overflow: hidden;
+  text-align: center;
+    overflow: hidden;
   color: #000;
 }
 
@@ -80,66 +118,66 @@
 .focus-text-section .text-container {
   position: relative;
   z-index: 2;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding-top: 60px;
+  text-align: center;
+  padding-top: 100px;
 }
 
 .focus-subheading {
   position: absolute;
   top: 0;
-  left: 0;
-  transform: translateY(-55%);
-  font-size: 64px;
+  left: 50%;
+  transform: translate(calc(-50% + var(--focus-subheading-offset-x)), calc(-100% + var(--focus-subheading-offset-y))) rotate(var(--focus-subheading-rotation));
+  font-size: clamp(60px, 6vw, 84px);
   font-weight: 700;
   color: #111111;
   text-transform: none;
-  letter-spacing: -0.08em;
-  line-height: 0.9;
-  margin: 0;
+  letter-spacing: -0.1em;
+  line-height: 0.85;
+    margin: 0;
   pointer-events: none;
   mix-blend-mode: multiply;
+  white-space: nowrap;
 }
 
 .focus-heading {
-  font-size: 120px;
+  font-size: clamp(96px, 10vw, 140px);
   font-weight: 900;
-  color: transparent;
+    color: transparent;
   background: url('{{ section.settings.background_image | img_url: 'master' }}') no-repeat center;
-  background-size: cover;
+    background-size: cover;
   -webkit-background-clip: text;
   background-clip: text;
   text-transform: uppercase;
   line-height: 1.05;
   word-wrap: break-word;
   max-width: 100%;
-  margin: 0;
+  margin: 0 auto;
 }
 
 /* ------------------------------
    Responsive Design
 --------------------------------*/
-@media (max-width: 1440px) {
-  .focus-heading { font-size: 102px; }
-  .focus-subheading { font-size: 56px; }
-}
-
 @media (max-width: 1024px) {
-  .focus-heading { font-size: 82px; }
-  .focus-subheading { font-size: 48px; }
+  .focus-text-section { padding: 110px 18px; }
+  .focus-text-section .text-container { padding-top: 80px; }
+  .focus-subheading { font-size: clamp(48px, 8vw, 64px); }
+  .focus-heading { font-size: clamp(72px, 9vw, 110px); }
 }
 
-@media (max-width: 768px) {
-  .focus-text-section { padding: 90px 15px; text-align: center; }
-  .focus-text-section .text-container { padding-top: 40px; }
-  .focus-heading { font-size: 58px; line-height: 1.1; }
-  .focus-subheading { font-size: 40px; transform: translateY(-45%); }
+  @media (max-width: 768px) {
+  .focus-text-section { padding: 90px 16px; }
+  .focus-text-section .text-container { padding-top: 70px; }
+  .focus-subheading { font-size: clamp(38px, 9vw, 54px); transform: translate(calc(-50% + var(--focus-subheading-offset-x)), calc(-90% + var(--focus-subheading-offset-y))) rotate(var(--focus-subheading-rotation)); }
+  .focus-heading { font-size: clamp(52px, 10vw, 90px); }
 }
 
-@media (max-width: 480px) {
-  .focus-heading { font-size: 38px; line-height: 1.2; }
-  .focus-subheading { font-size: 28px; transform: translateY(-40%); }
-  .focus-text-section { padding: 70px 10px; }
+@media (max-width: 540px) {
+  .focus-text-section { padding: 70px 12px; }
+  .focus-text-section .text-container { padding-top: 60px; }
+  .focus-subheading { font-size: clamp(34px, 12vw, 46px); }
+  .focus-heading { font-size: clamp(38px, 12vw, 64px); }
 }
 
 /* ------------------------------
