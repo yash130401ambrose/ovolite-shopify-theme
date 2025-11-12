@@ -382,6 +382,7 @@
 
   function highlightCards(cards, viewportWidth, currentX, immediate) {
     var viewportCenter = viewportWidth / 2;
+    var rank = [];
     cards.forEach(function(card) {
       var center = card.offsetLeft + card.offsetWidth / 2 + currentX;
       var distance = Math.abs(viewportCenter - center);
@@ -399,10 +400,15 @@
         overwrite: true,
         ease: 'power2.out'
       });
-      if (ratio < 0.3) {
-        card.classList.add('is-active');
+      rank.push({ card: card, distance: distance });
+    });
+    rank.sort(function(a, b) { return a.distance - b.distance; });
+    var visibleCount = Math.min(3, rank.length);
+    rank.forEach(function(entry, index) {
+      if (index < visibleCount) {
+        entry.card.classList.add('is-active');
       } else {
-        card.classList.remove('is-active');
+        entry.card.classList.remove('is-active');
       }
     });
   }
@@ -457,6 +463,8 @@
           ScrollTrigger.refresh();
         };
 
+        var gapAmount = 0;
+
         function computeBounds() {
           viewportWidth = viewport.clientWidth;
           var viewportCenter = viewportWidth / 2;
@@ -467,6 +475,8 @@
           if (cards.length === 1) {
             endX = startX;
           }
+          var style = window.getComputedStyle(track);
+          gapAmount = parseFloat(style.columnGap || style.gap || style.gridColumnGap || 0) || 0;
         }
 
         computeBounds();
@@ -481,7 +491,11 @@
           start: 'top top',
           end: function() {
             computeBounds();
-            return '+=' + (Math.abs(endX - startX) + cards.length * 220 + viewportWidth * 0.5);
+            var travel = Math.abs(endX - startX);
+            var groupCount = Math.max(cards.length - 2, 1);
+            var cardWidth = cards[0].offsetWidth;
+            var extraHold = groupCount * (cardWidth + gapAmount) * 0.85;
+            return '+=' + (travel + extraHold + viewportWidth * 0.35);
           },
           pin: true,
           scrub: true,
@@ -492,7 +506,9 @@
             highlightCards(cards, viewportWidth, startX, true);
           },
           onUpdate: function(self) {
-            var currentX = gsap.utils.interpolate(startX, endX, self.progress);
+            var progress = self.progress;
+            var easedProgress = gsap.utils.clamp(0, 1, progress);
+            var currentX = gsap.utils.interpolate(startX, endX, easedProgress);
             gsap.set(track, { x: currentX });
             highlightCards(cards, viewportWidth, currentX);
             if (heading) {
