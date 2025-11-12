@@ -25,31 +25,35 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       max-width: 1280px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: clamp(40px, 6vw, 80px);
+      align-items: flex-start;
     }
 
-    @media (max-width: 900px) {
-      .fc-container { grid-template-columns: 1fr; gap: 32px; }
+    @media (max-width: 1024px) {
+      .fc-container {
+        grid-template-columns: 1fr;
+        gap: clamp(32px, 8vw, 48px);
+      }
     }
 
     /* Left Image Card */
     .fc-image-card {
-      background: {{ section.settings.card_color }};
-      border-radius: 12px;
-      padding: clamp(24px, 5vw, 36px);
+      background: none;
+      border-radius: 0;
+      padding: 0;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      align-items: flex-start;
+      justify-content: flex-start;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      box-shadow: none;
     }
 
     .fc-image-card img {
       width: 100%;
-      border-radius: 10px;
+      height: auto;
+      border-radius: clamp(18px, 2.6vw, 28px);
       object-fit: cover;
     }
 
@@ -92,26 +96,34 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     }
 
     /* Right Content */
-    .fc-content { text-align: left; }
+    .fc-content {
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(24px, 4vw, 48px);
+    }
 
     .fc-title {
-      font-size: 42px;
+      font-size: clamp(46px, 5vw, 64px);
+      line-height: 0.96;
       font-weight: 700;
       color: {{ section.settings.heading_color }};
-      margin-bottom: 10px;
+      margin: 0;
+      letter-spacing: -0.02em;
     }
 
     .fc-sub {
-      font-size: 18px;
+      font-size: clamp(18px, 2vw, 22px);
       line-height: 1.5;
-      margin-bottom: 30px;
       color: {{ section.settings.text_color }};
+      margin: 0;
     }
 
     /* Table / Comparison */
     .fc-table {
       width: 100%;
-      border-collapse: collapse;
+      border-collapse: separate;
+      border-spacing: 0;
     }
 
     :root {
@@ -122,19 +134,22 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
 
     .fc-row {
       display: grid;
-      grid-template-columns: 1fr 100px 100px;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 140px) minmax(0, 140px);
       align-items: center;
-      gap: 20px;
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      gap: clamp(16px, 3vw, 32px);
+      padding: clamp(16px, 2.2vw, 24px) 0;
+      border-bottom: 1px solid rgba(36, 82, 38, 0.15);
       opacity: 1;
       transform: none;
       transition: opacity var(--fc-anim-duration) ease, transform var(--fc-anim-duration) ease;
     }
 
     @media (max-width: 600px) {
-      .fc-row { grid-template-columns: 1fr 80px 80px; gap: 10px; }
-      .fc-title { font-size: 32px; }
+      .fc-row {
+        grid-template-columns: 1fr 110px 110px;
+        gap: 14px;
+      }
+      .fc-title { font-size: clamp(36px, 10vw, 44px); }
     }
 
     .fc-row[data-animate] {
@@ -153,22 +168,23 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     }
 
     .fc-benefit {
-      font-size: 16px;
+      font-size: clamp(16px, 2vw, 20px);
+      color: {{ section.settings.text_color }};
     }
 
     .fc-col {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       text-align: center;
     }
 
     .fc-icon-wrap {
-      width: var(--fc-icon-width, 60px);
-      height: var(--fc-icon-height, 48px);
-      border-radius: 8px;
-      background: #E6EDFF;
+      min-width: clamp(72px, 10vw, 110px);
+      padding: clamp(10px, 1.6vw, 16px);
+      border-radius: 14px;
+      background: rgba(156, 190, 126, 0.18);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -185,7 +201,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
 
     .play .fc-row[data-animate] .fc-icon-wrap {
       transform: translateY(-6px);
-      box-shadow: 0 8px 18px rgba(0, 64, 255, 0.12);
+      box-shadow: 0 10px 24px rgba(36, 82, 38, 0.14);
     }
 
     .play .fc-check {
@@ -226,14 +242,21 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
 
     /* Table Header */
     .fc-row.header {
-      border-bottom: 2px solid {{ section.settings.accent_color }};
+      border-bottom: 2px solid rgba(36, 82, 38, 0.35);
       font-weight: 600;
       font-size: 15px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(36, 82, 38, 0.85);
+    }
+
+    .fc-row.header .fc-col {
+      justify-content: flex-start;
     }
 
     .fc-logo img {
-      max-height: 24px;
-      max-width: 100px;
+      max-height: 28px;
+      max-width: 120px;
       object-fit: contain;
     }
   </style>
