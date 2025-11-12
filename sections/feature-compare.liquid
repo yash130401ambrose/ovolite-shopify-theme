@@ -99,22 +99,22 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       text-align: left;
       display: flex;
       flex-direction: column;
-      gap: clamp(24px, 4vw, 48px);
+      gap: clamp(20px, 3vw, 36px);
     }
 
     .fc-title {
-      font-size: clamp(46px, 5vw, 64px);
-      line-height: 0.96;
+      font-size: clamp(50px, 6vw, 78px);
+      line-height: 0.92;
       font-weight: 700;
       color: {{ section.settings.heading_color }};
       margin: 0;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.015em;
     }
 
     .fc-sub {
       font-size: clamp(18px, 2vw, 22px);
       line-height: 1.5;
-      color: {{ section.settings.text_color }};
+      color: rgba(36, 82, 38, 0.7);
       margin: 0;
     }
 
@@ -123,6 +123,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       width: 100%;
       border-collapse: separate;
       border-spacing: 0;
+      border-top: 1px solid rgba(79, 127, 60, 0.45);
     }
 
     :root {
@@ -136,13 +137,11 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       grid-template-columns: minmax(0, 1fr) minmax(0, 140px) minmax(0, 140px);
       align-items: center;
       gap: clamp(16px, 3vw, 32px);
-      padding: clamp(16px, 2.2vw, 24px) 0;
-      border-bottom: 1px solid rgba(36, 82, 38, 0.15);
-      opacity: 1;
-      transform: none;
-      transition: opacity var(--fc-anim-duration) ease, transform var(--fc-anim-duration) ease;
-      scroll-snap-align: center;
-      backdrop-filter: blur(16px);
+      padding: clamp(18px, 2.5vw, 26px) 0;
+      border-bottom: 1px solid rgba(36, 82, 38, 0.16);
+      opacity: 1 !important;
+      transform: none !important;
+      backdrop-filter: none;
     }
 
     @media (max-width: 600px) {
@@ -154,23 +153,28 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     }
 
     .fc-row[data-animate] {
-      opacity: 0;
+      opacity: 1 !important;
+      transform: none !important;
     }
 
-    .fc-row.fc-anim--slide-up[data-animate] { transform: translateY(24px); }
-    .fc-row.fc-anim--slide-left[data-animate] { transform: translateX(-40px); }
-    .fc-row.fc-anim--slide-right[data-animate] { transform: translateX(40px); }
-    .fc-row.fc-anim--zoom[data-animate] { transform: scale(0.94); }
-    .fc-row.fc-anim--fade[data-animate] { transform: none; }
+    .fc-row.fc-anim--slide-up[data-animate],
+    .fc-row.fc-anim--slide-left[data-animate],
+    .fc-row.fc-anim--slide-right[data-animate],
+    .fc-row.fc-anim--zoom[data-animate],
+    .fc-row.fc-anim--fade[data-animate] {
+      transform: none !important;
+    }
 
-    .play .fc-row[data-animate] {
-      opacity: 1;
-      transform: translate3d(0,0,0);
+    .play .fc-row[data-animate] .fc-icon-wrap,
+    .play .fc-row[data-animate] .fc-col.is-right .fc-icon-wrap {
+      animation: none;
+      transform: none;
+      box-shadow: none;
     }
 
     .fc-benefit {
-      font-size: clamp(16px, 2vw, 20px);
-      color: {{ section.settings.text_color }};
+      font-size: clamp(18px, 2vw, 22px);
+      color: rgba(36, 82, 38, 0.9);
     }
 
     .fc-col {
@@ -179,18 +183,18 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       justify-content: center;
       gap: 10px;
       text-align: center;
+      color: rgba(36, 82, 38, 0.9);
     }
 
     .fc-icon-wrap {
-      min-width: clamp(72px, 10vw, 110px);
-      padding: clamp(10px, 1.6vw, 16px);
-      border-radius: 14px;
-      background: rgba(156, 190, 126, 0.18);
+      min-width: clamp(88px, 11vw, 128px);
+      padding: clamp(12px, 1.8vw, 18px);
+      border-radius: 18px;
+      background: rgba(193, 217, 170, 0.32);
       display: flex;
       align-items: center;
       justify-content: center;
-      transform: translateY(0);
-      transition: transform var(--fc-anim-duration) cubic-bezier(.2,.9,.3,1), box-shadow var(--fc-anim-duration) ease;
+      transition: none;
     }
 
     /* Animated Icons */
@@ -258,12 +262,13 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
 
     /* Table Header */
     .fc-row.header {
-      border-bottom: 2px solid rgba(36, 82, 38, 0.35);
+      border-bottom: 1px solid rgba(36, 82, 38, 0.3);
       font-weight: 600;
       font-size: 15px;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: rgba(36, 82, 38, 0.85);
+      color: rgba(36, 82, 38, 0.65);
+      padding: clamp(14px, 2vw, 20px) 0;
     }
 
     .fc-row.header .fc-col {
@@ -274,6 +279,8 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       max-height: {{ section.settings.right_icon_size | default: 36 }}px;
       max-width: {{ section.settings.right_icon_size | default: 36 }}px;
       object-fit: contain;
+      display: block;
+      margin: 0 auto;
     }
   </style>
 
@@ -353,21 +360,6 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     (function(){
       const section = document.getElementById('feature-compare-{{ section.id }}');
       if (!section) return;
-      const config = {
-        duration: parseFloat(getComputedStyle(section).getPropertyValue('--fc-anim-duration')) || {{ section.settings.row_animation_duration | default: 0.6 }},
-        delayStep: {{ section.settings.row_delay_step | default: 0.1 }},
-        iconDuration: {{ section.settings.icon_animation_duration | default: 0.4 }}
-      };
-
-      const observer = new IntersectionObserver((entries)=>{
-        entries.forEach(entry=>{
-          if(entry.isIntersecting){
-            section.classList.add('play');
-            observer.disconnect();
-          }
-        });
-      },{threshold:0.2});
-      observer.observe(section);
     })();
   </script>
 
