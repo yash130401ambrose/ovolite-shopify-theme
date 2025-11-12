@@ -27,6 +27,7 @@
   assign star_color = section.settings.star_color | default: '#88c165'
   assign verified_color = section.settings.verified_color | default: '#8fb97a'
   assign product_shadow = section.settings.product_shadow_color | default: 'rgba(18,25,13,0.35)'
+  assign hero_spacing = section.settings.hero_spacing | default: 'clamp(8px, 1.8vw, 24px)'
 %}
 
 <section
@@ -54,6 +55,7 @@
     --star-color: {{ star_color }};
     --verified-color: {{ verified_color }};
     --product-shadow: {{ product_shadow }};
+    --hero-spacing: {{ hero_spacing }};
   "
 >
   {% if section.settings.background_image != blank %}
@@ -194,14 +196,14 @@
     font-size: clamp(1rem, 1.2vw + 0.6rem, 1.6rem);
     letter-spacing: 0.12em;
     color: var(--hero-subheading-color);
-    margin: 0 0 clamp(8px, 1.8vw, 18px);
-      opacity: 0;
+    margin: 0;
+    opacity: 0;
     transform: translateY(16px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
 
     #animated-review-{{ section.id }} .animated-review__heading {
-    margin: 0;
+    margin: var(--hero-spacing) 0 0;
     font-size: clamp(3.8rem, 7vw + 1rem, 6rem);
     line-height: 0.96;
       font-weight: 700;
@@ -583,6 +585,7 @@
     { "type": "color", "id": "star_color", "label": "Star color", "default": "#88c165" },
     { "type": "color", "id": "verified_color", "label": "Verified badge color", "default": "#8fb97a" },
     { "type": "color", "id": "product_shadow_color", "label": "Hero image shadow color", "default": "rgba(18,25,13,0.35)" },
+    { "type": "text", "id": "hero_spacing", "label": "Spacing between subheading and heading", "default": "clamp(8px, 1.8vw, 24px)", "info": "Any valid CSS margin-top value." },
     { "type": "checkbox", "id": "auto_rotate", "label": "Automatically rotate reviews", "default": false },
     { "type": "range", "id": "auto_rotate_interval", "label": "Auto-rotate interval (seconds)", "min": 3, "max": 12, "step": 1, "default": 6 }
   ],
