@@ -288,25 +288,24 @@
     max-width: 420px;
     padding: clamp(26px, 3vw, 36px);
     border-radius: clamp(18px, 2.6vw, 28px);
-    border: 1px solid var(--card-base-border);
-    background: var(--card-base-bg);
-    background-image: linear-gradient(165deg, rgba(255, 255, 255, 0.05) 0%, rgba(15, 22, 14, 0.25) 100%);
+    border: 1px solid rgba(255,255,255,0.32);
+    background: rgba(255,255,255,0.12);
     color: var(--card-base-text);
     display: flex;
     flex-direction: column;
     gap: clamp(16px, 2vw, 22px);
     box-shadow: none;
-    opacity: 0.9;
+    opacity: 0.85;
     transform: translateY(0) scale(1);
-    transition: background 0.45s ease, color 0.45s ease, opacity 0.45s ease, border-color 0.45s ease;
+    transition: border-color 0.45s ease, background 0.45s ease, color 0.45s ease, opacity 0.45s ease;
     scroll-snap-align: center;
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(16px);
   }
 
   #animated-review-{{ section.id }} .animated-review__card-divider {
     height: 1px;
-    background: rgba(255,255,255,0.25);
-    opacity: 0.7;
+    background: rgba(255,255,255,0.35);
+    opacity: 0.8;
   }
   #animated-review-{{ section.id }} .animated-review__card--light .animated-review__card-divider {
     background: rgba(0,0,0,0.12);
@@ -316,6 +315,11 @@
     background: var(--card-active-bg);
     color: var(--card-active-text);
     border-color: var(--card-active-border);
+    opacity: 1;
+    backdrop-filter: blur(0);
+  }
+  #animated-review-{{ section.id }} .animated-review__card.is-active .animated-review__card-divider {
+    background: rgba(0,0,0,0.1);
     opacity: 1;
   }
   #animated-review-{{ section.id }} .animated-review__card.is-active .animated-review__card-stars {
