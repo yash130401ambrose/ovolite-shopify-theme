@@ -438,7 +438,7 @@
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_background_override": "#ffffff14",
             "card_text_override": "#ffffff"
           }
         },
@@ -451,7 +451,7 @@
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_background_override": "#ffffff14",
             "card_text_override": "#ffffff"
           }
         },
@@ -464,7 +464,7 @@
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_background_override": "#ffffff14",
             "card_text_override": "#ffffff"
           }
         },
@@ -477,7 +477,7 @@
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_background_override": "#ffffff14",
             "card_text_override": "#ffffff"
           }
         },
@@ -490,7 +490,7 @@
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_background_override": "#ffffff14",
             "card_text_override": "#ffffff"
           }
         },
@@ -503,7 +503,7 @@
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_background_override": "#ffffff14",
             "card_text_override": "#ffffff"
           }
         },
@@ -516,7 +516,7 @@
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "rgba(255,255,255,0.08)",
+            "card_background_override": "#ffffff14",
             "card_text_override": "#ffffff"
           }
         }
@@ -535,18 +535,18 @@
         "subheading": "Don't take our word for it",
         "heading": "More for you.\nSee the difference.",
         "reviews_heading": "Customer reviews",
-        "overlay_color": "rgba(0,0,0,0.35)",
+        "overlay_color": "#00000059",
         "section_background": "#0f1d0f",
         "section_text_color": "#ffffff",
         "icon_background_color": "#ffffff",
-        "icon_border_color": "#8cc279",
+        "icon_border_color": "#000000",
         "icon_diameter": 96,
         "badge_top_offset": 28,
-        "card_background": "rgba(255,255,255,0.08)",
+        "card_background": "#ffffff14",
         "card_text_color": "#ffffff",
         "card_active_background": "#ffffff",
         "card_active_text_color": "#0f1d0f",
-        "star_color": "#8cc279",
+        "star_color": "#D2861A",
         "verified_color": "#8cc279",
         "auto_rotate": false,
         "auto_rotate_interval": 6
