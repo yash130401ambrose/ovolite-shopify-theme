@@ -296,9 +296,9 @@
     flex-direction: column;
     gap: clamp(16px, 2vw, 22px);
     box-shadow: none;
-    opacity: 0.8;
-    transform: translateY(12px) scale(0.97);
-    transition: transform 0.45s ease, background 0.45s ease, color 0.45s ease, opacity 0.45s ease, border-color 0.45s ease;
+    opacity: 0.9;
+    transform: translateY(0) scale(1);
+    transition: background 0.45s ease, color 0.45s ease, opacity 0.45s ease, border-color 0.45s ease;
     scroll-snap-align: center;
     backdrop-filter: blur(6px);
   }
@@ -316,9 +316,7 @@
     background: var(--card-active-bg);
     color: var(--card-active-text);
     border-color: var(--card-active-border);
-    transform: translateY(-12px) scale(1.01);
     opacity: 1;
-    box-shadow: none;
   }
   #animated-review-{{ section.id }} .animated-review__card.is-active .animated-review__card-stars {
     color: var(--star-color);
@@ -331,6 +329,8 @@
 
     #animated-review-{{ section.id }} .animated-review__card-stars {
       display: inline-flex;
+      justify-content: center;
+      width: 100%;
       gap: 6px;
       font-size: 18px;
     color: var(--star-color);
