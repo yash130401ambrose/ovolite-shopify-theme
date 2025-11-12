@@ -98,7 +98,7 @@
         "background_image": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
         "subheading_font": "sans_serif_n4",
         "heading_animation": "fade-in",
-        "subheading_animation": "slide-up",
+        "subheading_animation": "zoom-in",
         "subheading_offset_x": -132,
         "subheading_offset_y": -56,
         "subheading_rotation": -6
