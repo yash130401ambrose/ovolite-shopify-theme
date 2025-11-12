@@ -398,7 +398,7 @@
         "badge_top_offset": 28,
         "icon_wrap_width": 53,
         "icon_wrap_height": 44,
-        "row_animation_style": "fade",
+        "row_animation_style": "slide-up",
         "row_animation_duration": 1,
         "icon_animation_duration": 0.4,
         "row_delay_step": 0.5
