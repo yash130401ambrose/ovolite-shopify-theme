@@ -80,22 +80,29 @@
 .focus-text-section .text-container {
   position: relative;
   z-index: 2;
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
+  padding-top: 60px;
 }
 
 .focus-subheading {
-  font-size: 55px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-55%);
+  font-size: 64px;
   font-weight: 700;
-  color: #000;
-  margin-bottom: 10px;
+  color: #111111;
   text-transform: none;
-  letter-spacing: -1px;
-  line-height: 1.1;
+  letter-spacing: -0.08em;
+  line-height: 0.9;
+  margin: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
 }
 
 .focus-heading {
-  font-size: 110px;
+  font-size: 120px;
   font-weight: 900;
   color: transparent;
   background: url('{{ section.settings.background_image | img_url: 'master' }}') no-repeat center;
@@ -106,30 +113,32 @@
   line-height: 1.05;
   word-wrap: break-word;
   max-width: 100%;
+  margin: 0;
 }
 
 /* ------------------------------
    Responsive Design
 --------------------------------*/
 @media (max-width: 1440px) {
-  .focus-heading { font-size: 90px; }
-  .focus-subheading { font-size: 48px; }
+  .focus-heading { font-size: 102px; }
+  .focus-subheading { font-size: 56px; }
 }
 
 @media (max-width: 1024px) {
-  .focus-heading { font-size: 70px; }
-  .focus-subheading { font-size: 38px; }
+  .focus-heading { font-size: 82px; }
+  .focus-subheading { font-size: 48px; }
 }
 
 @media (max-width: 768px) {
   .focus-text-section { padding: 90px 15px; text-align: center; }
-  .focus-heading { font-size: 50px; line-height: 1.1; }
-  .focus-subheading { font-size: 32px; margin-bottom: 15px; }
+  .focus-text-section .text-container { padding-top: 40px; }
+  .focus-heading { font-size: 58px; line-height: 1.1; }
+  .focus-subheading { font-size: 40px; transform: translateY(-45%); }
 }
 
 @media (max-width: 480px) {
-  .focus-heading { font-size: 34px; line-height: 1.2; }
-  .focus-subheading { font-size: 24px; margin-bottom: 10px; }
+  .focus-heading { font-size: 38px; line-height: 1.2; }
+  .focus-subheading { font-size: 28px; transform: translateY(-40%); }
   .focus-text-section { padding: 70px 10px; }
 }
 
