@@ -322,91 +322,91 @@
           "type": "review",
           "settings": {
             "title": "Super delicious!",
-            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "emoji": "-",
+            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
             "author": "Tina H.",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "#ffffff14",
-            "card_text_override": "#ffffff"
+            "card_theme": "dark"
           }
         },
         "review_7QFpE7": {
           "type": "review",
           "settings": {
             "title": "Super delicious!",
-            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "emoji": "-",
+            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
             "author": "Tina H.",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "#ffffff14",
-            "card_text_override": "#ffffff"
+            "card_theme": "dark"
           }
         },
         "review_YHwdHa": {
           "type": "review",
           "settings": {
             "title": "Super delicious!",
-            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "emoji": "-",
+            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
             "author": "Tina H.",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "#ffffff14",
-            "card_text_override": "#ffffff"
+            "card_theme": "dark"
           }
         },
         "review_mfhEDK": {
           "type": "review",
           "settings": {
             "title": "Super delicious!",
-            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "emoji": "-",
+            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
             "author": "Tina H.",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "#ffffff14",
-            "card_text_override": "#ffffff"
+            "card_theme": "dark"
           }
         },
         "review_c96dxK": {
           "type": "review",
           "settings": {
             "title": "Super delicious!",
-            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "emoji": "-",
+            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
             "author": "Tina H.",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "#ffffff14",
-            "card_text_override": "#ffffff"
+            "card_theme": "dark"
           }
         },
         "review_9FL8eH": {
           "type": "review",
           "settings": {
             "title": "Super delicious!",
-            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "emoji": "-",
+            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
             "author": "Tina H.",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "#ffffff14",
-            "card_text_override": "#ffffff"
+            "card_theme": "dark"
           }
         },
         "review_JxGkKh": {
           "type": "review",
           "settings": {
             "title": "Super delicious!",
-            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "emoji": "-",
+            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
             "author": "Tina H.",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
-            "card_background_override": "#ffffff14",
-            "card_text_override": "#ffffff"
+            "card_theme": "dark"
           }
         }
       },
@@ -423,40 +423,29 @@
       "settings": {
         "subheading": "Don't take our word for it",
         "heading": "More for you.\nSee the difference.",
-        "reviews_heading": "What People Are Saying",
-        "product_media": "shopify://shop_images/WhatsApp_Image_2024-08-23_at_4.28.22_PM.jpg",
-        "product_highlight_color": "#ffffff8c",
-        "product_base_color": "#071e7833",
-        "product_shadow_color": "#04104e8c",
-        "icon_image": "shopify://shop_images/1.Ovolite_Listing_1.jpg",
         "background_image": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
         "overlay_color": "#00000059",
+        "reviews_heading": "What People Are Saying",
+        "script_font_family": "'Lucida Handwriting', 'Segoe Script', cursive",
         "section_background": "#0f1d0f",
         "section_text_color": "#ffffff",
-        "icon_background_color": "#ffffff",
-        "icon_border_color": "#000000",
-        "reviews_title_color": "#ffffff",
         "heading_color": "#ffffff",
         "subheading_color": "#ffffff",
+        "reviews_title_color": "#ffffff",
         "nav_bg_color": "#091b7373",
-        "nav_border_color": "#ffffff66",
-        "nav_hover_bg_color": "#ffffff29",
-        "nav_hover_border_color": "#ffffffd9",
         "nav_icon_color": "#ffffff",
+        "nav_hover_bg_color": "#ffffff29",
         "nav_icon_hover_color": "#ffffff",
-        "icon_diameter": 96,
-        "badge_top_offset": 28,
         "card_background": "#ffffff14",
-        "card_gradient_start": "#1336bed9",
-        "card_gradient_end": "#0c20788c",
         "card_text_color": "#ffffff",
         "card_border_color": "#a3c2ff42",
-        "card_shadow_color": "#04104e73",
         "card_active_background": "#ffffff",
         "card_active_text_color": "#0f1d0f",
         "card_active_border_color": "#113dd573",
+        "card_shadow_color": "#04104e73",
         "star_color": "#d2861a",
         "verified_color": "#ffffff",
+        "product_shadow_color": "#04104e8c",
         "auto_rotate": false,
         "auto_rotate_interval": 6
       }
