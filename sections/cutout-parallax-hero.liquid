@@ -20,6 +20,8 @@
   assign scribble_paths = section.settings.scribble_svg_paths
   assign enable_scribble_text = section.settings.enable_scribble_text
   assign scribble_text = section.settings.scribble_text | default: 'Ways of Using'
+  assign scribble_text_normalized = scribble_text | replace: '<br />', '<br>' | replace: '<br/>', '<br>'
+  assign scribble_lines = scribble_text_normalized | split: '<br>'
   assign scribble_font_url = section.settings.scribble_font_url
   assign scribble_font_family = section.settings.scribble_font_family | default: 'ScribbleCustom'
   assign scribble_text_size = section.settings.scribble_text_size | default: 8
@@ -49,7 +51,7 @@
   endif
 %}
 
-<section id="cutout-hero-{{ section.id }}" class="cutout-hero" style="--overlay: {{ overlay_color }}; --text-color: {{ text_color }}; --weight: {{ text_weight }}; --letter: {{ letter_spacing }}px; --line: {{ line_height }}px; --font-size: {{ font_size }}vw; --parallax: {{ parallax_strength }}; --scribble-stroke: {{ scribble_stroke }}; --scribble-width: {{ scribble_width }}; --scribble-duration: {{ scribble_duration }}s; --vh: {{ section_height }}vh; --pt: {{ padding_top }}px; --pb: {{ padding_bottom }}px; --scribble-text-size: {{ scribble_text_size }}vw; --scribble-text-color: {{ scribble_text_color }}; --scribble-text-offset-x: {{ scribble_text_offset_x }}vw; --scribble-text-offset-y: {{ scribble_text_offset_y }}vw; --scribble-text-rotation: {{ scribble_text_rotation }}deg; --scribble-subtitle-stroke-width: {{ scribble_text_stroke_width }}px; --scribble-font-stack: {{ scribble_font_stack }};">
+<section id="cutout-hero-{{ section.id }}" class="cutout-hero" style="--overlay: {{ overlay_color }}; --text-color: {{ text_color }}; --weight: {{ text_weight }}; --letter: {{ letter_spacing }}px; --line: {{ line_height }}px; --font-size: {{ font_size }}vw; --parallax: {{ parallax_strength }}; --scribble-stroke: {{ scribble_stroke }}; --scribble-width: {{ scribble_width }}; --scribble-duration: {{ scribble_duration }}s; --vh: {{ section_height }}vh; --pt: {{ padding_top }}px; --pb: {{ padding_bottom }}px; --scribble-text-size: {{ scribble_text_size }}vw; --scribble-text-color: {{ scribble_text_color }}; --scribble-text-offset-x: {{ scribble_text_offset_x }}vw; --scribble-text-offset-y: {{ scribble_text_offset_y }}vw; --scribble-text-rotation: {{ scribble_text_rotation }}deg; --scribble-subtitle-stroke-width: {{ scribble_text_stroke_width }}px; --scribble-font-stack: {{ scribble_font_stack }}; --scribble-text-animation-duration: calc(var(--scribble-duration) * 1.8);">
   {% if enable_scribble_text and scribble_font_url != blank %}
   <style>
     @font-face {
@@ -88,7 +90,7 @@
     <div class="cutout-hero__titleWrap">
       {% if enable_scribble_text %}
         <div class="cutout-hero__subtitle">
-          <span class="cutout-hero__subtitle-hidden">{{ scribble_text }}</span>
+          <span class="cutout-hero__subtitle-hidden">{{ scribble_text_normalized | strip_html }}</span>
           <svg viewBox="0 0 1000 220" preserveAspectRatio="xMinYMin meet" role="presentation">
             <text
               class="cutout-hero__subtitle-text"
@@ -100,7 +102,9 @@
               vector-effect="non-scaling-stroke"
               stroke-width="var(--scribble-subtitle-stroke-width)"
             >
-              {{ scribble_text }}
+              {% for line in scribble_lines %}
+                <tspan x="0" {% if forloop.first %}y="160"{% else %}dy="1.1em"{% endif %}>{{ line | strip }}</tspan>
+              {% endfor %}
             </text>
           </svg>
         </div>
@@ -183,8 +187,8 @@
     font-size: var(--scribble-text-size);
     font-family: var(--scribble-font-stack, 'Brush Script MT', 'Segoe Script', cursive);
     animation:
-      scribbleTextDraw var(--scribble-duration) ease forwards,
-      scribbleTextFill 0.4s ease forwards calc(var(--scribble-duration) - 0.1s);
+      scribbleTextDraw var(--scribble-text-animation-duration) ease forwards,
+      scribbleTextFill 0.6s ease forwards calc(var(--scribble-text-animation-duration) - 0.2s);
   }
   #cutout-hero-{{ section.id }} .cutout-hero__subtitle-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
