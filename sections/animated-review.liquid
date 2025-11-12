@@ -439,24 +439,24 @@
     var originalCards = cards.slice();
     var visibleCount = Math.min(3, originalCards.length);
     var centerOffset = Math.floor(visibleCount / 2);
-    var hasLoop = track && originalCards.length > visibleCount;
+    var hasLoop = track && originalCards.length > 1;
 
-      if (hasLoop) {
+    if (hasLoop) {
       originalCards.slice(-visibleCount).forEach(function(card) {
         var clone = card.cloneNode(true);
-          clone.classList.add('animated-review__card--clone');
-          track.insertBefore(clone, track.firstChild);
-        });
+        clone.classList.add('animated-review__card--clone');
+        track.insertBefore(clone, track.firstChild);
+      });
       originalCards.slice(0, visibleCount).forEach(function(card) {
         var clone = card.cloneNode(true);
-          clone.classList.add('animated-review__card--clone');
-          track.appendChild(clone);
-        });
+        clone.classList.add('animated-review__card--clone');
+        track.appendChild(clone);
+      });
       cards = Array.from(root.querySelectorAll('.animated-review__card'));
-      }
+    }
 
     var totalOriginal = originalCards.length;
-      activeIndex = hasLoop ? visibleCount + centerOffset : Math.min(centerOffset, cards.length - 1);
+    activeIndex = hasLoop ? visibleCount + centerOffset : Math.min(centerOffset, cards.length - 1);
 
       function highlightActive() {
       cards.forEach(function(card, idx) {
