@@ -63,7 +63,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       top: var(--fc-icon-top);
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 5;
+      z-index: 2;
       pointer-events: none;
     }
 
@@ -72,19 +72,18 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       width: var(--fc-icon-size);
       height: var(--fc-icon-size);
       border-radius: 50%;
-      border: 4px solid var(--fc-icon-border);
+      border: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--fc-icon-bg);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
-      animation: floaty 4s ease-in-out infinite;
+      background: transparent;
+      box-shadow: none;
       pointer-events: auto;
     }
 
     .feature-compare-section__badge-icon img {
-      width: 70%;
-      height: 70%;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
     }
 
