@@ -80,23 +80,12 @@
         "animations": "inherit"
       }
     },
-    "liquid_drip_divider_YYNE8t": {
-      "type": "liquid-drip-divider",
-      "name": "Liquid Drip Divider",
-      "settings": {
-        "mask_image_above": false,
-        "top_color": "#1b45c7",
-        "bottom_color": "#ffffff",
-        "drip_height": 100,
-        "wave_style": "dramatic"
-      }
-    },
     "cutout_parallax_hero_MPYWeY": {
       "type": "cutout-parallax-hero",
       "name": "Cutout Parallax Hero",
       "settings": {
         "bg_image": "shopify://shop_images/Ovolite_img.png",
-        "overlay_color": "#ffffff",
+        "overlay_color": "#1b45c7",
         "section_height": 120,
         "padding_top": 40,
         "padding_bottom": 40,
@@ -106,7 +95,7 @@
         "font_size": 10,
         "line_height": 92,
         "letter_spacing": 0,
-        "parallax_strength": 20,
+        "parallax_strength": 40,
         "enable_scribble": false,
         "scribble_stroke": "#000000",
         "scribble_width": 4,
@@ -118,10 +107,10 @@
         "scribble_font_choice": "marker",
         "scribble_font_url": "",
         "scribble_font_family": "ScribbleCustom",
-        "scribble_text_size": 8,
-        "scribble_text_color": "#000000",
-        "scribble_text_offset_x": -3,
-        "scribble_text_offset_y": -1.5,
+        "scribble_text_size": 16.5,
+        "scribble_text_color": "#ffffff",
+        "scribble_text_offset_x": 12,
+        "scribble_text_offset_y": 13,
         "scribble_text_rotation": -6,
         "scribble_text_stroke_width": 2
       }
@@ -476,7 +465,6 @@
   "order": [
     "image_with_text_2_NRLVdk",
     "image_with_text_kX9k8X",
-    "liquid_drip_divider_YYNE8t",
     "cutout_parallax_hero_MPYWeY",
     "scroll_cards_GUDwiE",
     "liquid_drip_divider_pMCczy",
