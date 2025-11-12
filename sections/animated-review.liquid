@@ -183,9 +183,9 @@
     #animated-review-{{ section.id }} .animated-review__inner {
       position: relative;
       z-index: 2;
-    max-width: 1100px;
+      max-width: 100%;
       margin: 0 auto;
-    padding: clamp(140px, 14vw, 200px) 24px clamp(90px, 11vw, 140px);
+      padding: clamp(140px, 14vw, 200px) 4vw clamp(90px, 11vw, 140px);
       text-align: center;
     }
 
@@ -285,7 +285,7 @@
     #animated-review-{{ section.id }} .animated-review__card {
     flex: 0 0 calc((100% - (var(--card-gap) * 2)) / 3);
     min-width: clamp(240px, 28vw, 340px);
-    max-width: 360px;
+    max-width: 420px;
     padding: clamp(26px, 3vw, 36px);
     border-radius: clamp(18px, 2.6vw, 28px);
     border: 1px solid var(--card-base-border);
@@ -295,10 +295,10 @@
     display: flex;
     flex-direction: column;
     gap: clamp(16px, 2vw, 22px);
-    box-shadow: 0 32px 70px var(--card-shadow);
+    box-shadow: none;
     opacity: 0.8;
     transform: translateY(12px) scale(0.97);
-    transition: transform 0.45s ease, box-shadow 0.45s ease, background 0.45s ease, color 0.45s ease, opacity 0.45s ease, border-color 0.45s ease;
+    transition: transform 0.45s ease, background 0.45s ease, color 0.45s ease, opacity 0.45s ease, border-color 0.45s ease;
     scroll-snap-align: center;
     backdrop-filter: blur(6px);
   }
@@ -318,7 +318,7 @@
     border-color: var(--card-active-border);
     transform: translateY(-12px) scale(1.01);
     opacity: 1;
-    box-shadow: 0 55px 110px rgba(18, 24, 12, 0.35);
+    box-shadow: none;
   }
   #animated-review-{{ section.id }} .animated-review__card.is-active .animated-review__card-stars {
     color: var(--star-color);
