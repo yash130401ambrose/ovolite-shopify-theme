@@ -126,106 +126,6 @@
         "scribble_text_fill_after": true
       }
     },
-    "testimonials_aGFqdw": {
-      "type": "testimonials",
-      "blocks": {
-        "testimonial_FtrAMV": {
-          "type": "testimonial",
-          "settings": {
-            "title": "Love it so much",
-            "description": "<p>\"Short dress in a printed viscose weave with a round neckline, opening with a button at the back of the Seams with small frill trims at the waist and on the sleeves and skirt. Unlined.\"</p>",
-            "footer": "<p>Dean D. US</p>",
-            "image_text": "",
-            "image_link": "",
-            "product": ""
-          }
-        },
-        "testimonial_JLXYEn": {
-          "type": "testimonial",
-          "settings": {
-            "title": "Love it so much",
-            "description": "<p>\"Short dress in a printed viscose weave with a round neckline, opening with a button at the back of the Seams with small frill trims at the waist and on the sleeves and skirt. Unlined.\"</p>",
-            "footer": "<p>Dean D. US</p>",
-            "image_text": "",
-            "image_link": "",
-            "product": ""
-          }
-        },
-        "testimonial_DzdyDn": {
-          "type": "testimonial",
-          "settings": {
-            "title": "Love it so much",
-            "description": "<p>\"Short dress in a printed viscose weave with a round neckline, opening with a button at the back of the Seams with small frill trims at the waist and on the sleeves and skirt. Unlined.\"</p>",
-            "footer": "<p>Dean D. US</p>",
-            "image_text": "",
-            "image_link": "",
-            "product": ""
-          }
-        },
-        "testimonial_RNeFmw": {
-          "type": "testimonial",
-          "settings": {
-            "title": "Love it so much",
-            "description": "<p>\"Short dress in a printed viscose weave with a round neckline, opening with a button at the back of the Seams with small frill trims at the waist and on the sleeves and skirt. Unlined.\"</p>",
-            "footer": "<p>Dean D. US</p>",
-            "image_text": "",
-            "image_link": "",
-            "product": ""
-          }
-        },
-        "testimonial_wmRNG9": {
-          "type": "testimonial",
-          "settings": {
-            "title": "Love it so much",
-            "description": "<p>\"Short dress in a printed viscose weave with a round neckline, opening with a button at the back of the Seams with small frill trims at the waist and on the sleeves and skirt. Unlined.\"</p>",
-            "footer": "<p>Dean D. US</p>",
-            "image_text": "",
-            "image_link": "",
-            "product": ""
-          }
-        },
-        "testimonial_tpVTyz": {
-          "type": "testimonial",
-          "settings": {
-            "title": "Love it so much",
-            "description": "<p>\"Short dress in a printed viscose weave with a round neckline, opening with a button at the back of the Seams with small frill trims at the waist and on the sleeves and skirt. Unlined.\"</p>",
-            "footer": "<p>Dean D. US</p>",
-            "image_text": "",
-            "image_link": "",
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_FtrAMV",
-        "testimonial_JLXYEn",
-        "testimonial_DzdyDn",
-        "testimonial_RNeFmw",
-        "testimonial_wmRNG9",
-        "testimonial_tpVTyz"
-      ],
-      "name": "Testimonials",
-      "settings": {
-        "heading": "What People Are Saying",
-        "heading_size": "h3",
-        "subheading": "",
-        "description": "",
-        "header_alignment": "center",
-        "container": "w-full",
-        "color_scheme": "",
-        "design": "testimonials-1",
-        "show_stars": true,
-        "autorotate": false,
-        "show_navigation": false,
-        "show_pagination": true,
-        "star_color": "#000000",
-        "item_color_scheme": "",
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "custom_class": "",
-        "animations": "inherit"
-      }
-    },
     "scroll_cards_GUDwiE": {
       "type": "scroll-cards",
       "blocks": {
@@ -578,7 +478,6 @@
     "image_with_text_kX9k8X",
     "liquid_drip_divider_YYNE8t",
     "cutout_parallax_hero_MPYWeY",
-    "testimonials_aGFqdw",
     "scroll_cards_GUDwiE",
     "liquid_drip_divider_pMCczy",
     "blog_posts_QhW4rx",
