@@ -6,14 +6,14 @@
 {% endcomment %}
 
 {% liquid
-  assign section_bg = section.settings.section_background | default: '#071f8f'
+  assign section_bg = section.settings.section_background | default: '#4b5d32'
   assign section_text = section.settings.section_text_color | default: '#ffffff'
-  assign card_bg = section.settings.card_background | default: '#0c249c'
-  assign card_text = section.settings.card_text_color | default: '#f0f4ff'
+  assign card_bg = section.settings.card_background | default: '#2f3c24'
+  assign card_text = section.settings.card_text_color | default: '#f5f8ed'
   assign card_active_bg = section.settings.card_active_background | default: '#ffffff'
-  assign card_active_text = section.settings.card_active_text_color | default: '#0a1f78'
-  assign star_color = section.settings.star_color | default: '#82b3ff'
-  assign verified_color = section.settings.verified_color | default: '#82b3ff'
+  assign card_active_text = section.settings.card_active_text_color | default: '#1f3b20'
+  assign star_color = section.settings.star_color | default: '#7fc55c'
+  assign verified_color = section.settings.verified_color | default: '#7fc55c'
 %}
 
 <section
@@ -29,23 +29,23 @@
     --ar-star-color: {{ star_color }};
     --ar-verified-color: {{ verified_color }};
     --ar-icon-bg: {{ section.settings.icon_background_color | default: '#ffffff' }};
-    --ar-icon-border: {{ section.settings.icon_border_color | default: section_text }};
+    --ar-icon-border: {{ section.settings.icon_border_color | default: '#ffffff' }};
     --ar-icon-size: {{ section.settings.icon_diameter | default: 96 }}px;
     --ar-icon-top: {{ section.settings.badge_top_offset | default: 28 }}px;
-    --ar-product-highlight: {{ section.settings.product_highlight_color | default: 'rgba(255,255,255,0.55)' }};
-    --ar-product-base: {{ section.settings.product_base_color | default: 'rgba(7,30,120,0.2)' }};
-    --ar-product-shadow: {{ section.settings.product_shadow_color | default: 'rgba(4,16,78,0.55)' }};
-    --ar-nav-bg: {{ section.settings.nav_bg_color | default: 'rgba(9,27,115,0.45)' }};
-    --ar-nav-border: {{ section.settings.nav_border_color | default: 'rgba(255,255,255,0.4)' }};
-    --ar-nav-hover-bg: {{ section.settings.nav_hover_bg_color | default: 'rgba(255,255,255,0.16)' }};
-    --ar-nav-hover-border: {{ section.settings.nav_hover_border_color | default: 'rgba(255,255,255,0.85)' }};
-    --ar-nav-icon: {{ section.settings.nav_icon_color | default: '#ffffff' }};
-    --ar-nav-hover-icon: {{ section.settings.nav_icon_hover_color | default: '#ffffff' }};
-    --ar-card-border: {{ section.settings.card_border_color | default: 'rgba(163,194,255,0.26)' }};
-    --ar-card-shadow: {{ section.settings.card_shadow_color | default: 'rgba(4,16,78,0.45)' }};
-    --ar-card-active-border: {{ section.settings.card_active_border_color | default: 'rgba(17,61,213,0.45)' }};
-    --ar-card-gradient-start: {{ section.settings.card_gradient_start | default: 'rgba(19,54,190,0.85)' }};
-    --ar-card-gradient-end: {{ section.settings.card_gradient_end | default: 'rgba(12,32,120,0.55)' }};
+    --ar-product-highlight: {{ section.settings.product_highlight_color | default: 'rgba(255,255,255,0.45)' }};
+    --ar-product-base: {{ section.settings.product_base_color | default: 'rgba(62,79,43,0.25)' }};
+    --ar-product-shadow: {{ section.settings.product_shadow_color | default: 'rgba(30,42,22,0.45)' }};
+    --ar-nav-bg: {{ section.settings.nav_bg_color | default: 'rgba(255,255,255,0.92)' }};
+    --ar-nav-border: {{ section.settings.nav_border_color | default: 'rgba(255,255,255,0.92)' }};
+    --ar-nav-hover-bg: {{ section.settings.nav_hover_bg_color | default: 'rgba(255,255,255,0.85)' }};
+    --ar-nav-hover-border: {{ section.settings.nav_hover_border_color | default: 'rgba(255,255,255,0.92)' }};
+    --ar-nav-icon: {{ section.settings.nav_icon_color | default: '#2d4a2a' }};
+    --ar-nav-hover-icon: {{ section.settings.nav_icon_hover_color | default: '#1d361c' }};
+    --ar-card-border: {{ section.settings.card_border_color | default: 'rgba(255,255,255,0.18)' }};
+    --ar-card-shadow: {{ section.settings.card_shadow_color | default: 'rgba(23,33,17,0.45)' }};
+    --ar-card-active-border: {{ section.settings.card_active_border_color | default: 'rgba(120,160,90,0.45)' }};
+    --ar-card-gradient-start: {{ section.settings.card_gradient_start | default: 'rgba(58,76,37,0.85)' }};
+    --ar-card-gradient-end: {{ section.settings.card_gradient_end | default: 'rgba(36,49,27,0.65)' }};
   "
 >
   {% if section.settings.background_image != blank %}
@@ -53,7 +53,7 @@
       {{ section.settings.background_image | image_url: width: 2400 | image_tag: loading: 'lazy', class: 'animated-review__bg-image' }}
     </div>
   {% endif %}
-    <div class="animated-review__overlay" aria-hidden="true" style="background: {{ section.settings.overlay_color | default: 'rgba(5,14,64,0.55)' }}"></div>
+    <div class="animated-review__overlay" aria-hidden="true" style="background: {{ section.settings.overlay_color | default: 'rgba(33,45,26,0.65)' }}"></div>
 
   {% if section.settings.icon_image != blank %}
     <div class="animated-review__badge">
@@ -650,7 +650,7 @@
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "More for you.\nSee the difference."
+      "default": "DON'T TAKE OUR WORD FOR IT"
     },
     {
       "type": "text",
@@ -667,19 +667,19 @@
       "type": "color",
       "id": "product_highlight_color",
       "label": "Product placeholder highlight color",
-      "default": "rgba(255,255,255,0.55)"
+      "default": "rgba(255,255,255,0.45)"
     },
     {
       "type": "color",
       "id": "product_base_color",
       "label": "Product placeholder base color",
-      "default": "rgba(7,30,120,0.2)"
+      "default": "rgba(62,79,43,0.25)"
     },
     {
       "type": "color",
       "id": "product_shadow_color",
       "label": "Product placeholder shadow color",
-      "default": "rgba(4,16,78,0.55)"
+      "default": "rgba(30,42,22,0.45)"
     },
     {
       "type": "image_picker",
@@ -695,13 +695,13 @@
       "type": "color",
       "id": "overlay_color",
       "label": "Background overlay color",
-      "default": "rgba(5,14,64,0.55)"
+      "default": "rgba(33,45,26,0.65)"
     },
     {
       "type": "color",
       "id": "section_background",
       "label": "Section background color",
-      "default": "#071f8f"
+      "default": "#4b5d32"
     },
     {
       "type": "color",
@@ -743,37 +743,37 @@
       "type": "color",
       "id": "nav_bg_color",
       "label": "Arrow background color",
-      "default": "rgba(9,27,115,0.45)"
+      "default": "rgba(255,255,255,0.92)"
     },
     {
       "type": "color",
       "id": "nav_border_color",
       "label": "Arrow border color",
-      "default": "rgba(255,255,255,0.4)"
+      "default": "rgba(255,255,255,0.92)"
     },
     {
       "type": "color",
       "id": "nav_hover_bg_color",
       "label": "Arrow hover background color",
-      "default": "rgba(255,255,255,0.16)"
+      "default": "rgba(255,255,255,0.85)"
     },
     {
       "type": "color",
       "id": "nav_hover_border_color",
       "label": "Arrow hover border color",
-      "default": "rgba(255,255,255,0.85)"
+      "default": "rgba(255,255,255,0.92)"
     },
     {
       "type": "color",
       "id": "nav_icon_color",
       "label": "Arrow icon color",
-      "default": "#ffffff"
+      "default": "#2d4a2a"
     },
     {
       "type": "color",
       "id": "nav_icon_hover_color",
       "label": "Arrow icon hover color",
-      "default": "#ffffff"
+      "default": "#1d361c"
     },
     {
       "type": "range",
@@ -799,37 +799,37 @@
       "type": "color",
       "id": "card_background",
       "label": "Review card background",
-      "default": "#0c249c"
+      "default": "#2f3c24"
     },
     {
       "type": "color",
       "id": "card_gradient_start",
       "label": "Card gradient start color",
-      "default": "rgba(19,54,190,0.85)"
+      "default": "rgba(58,76,37,0.85)"
     },
     {
       "type": "color",
       "id": "card_gradient_end",
       "label": "Card gradient end color",
-      "default": "rgba(12,32,120,0.55)"
+      "default": "rgba(36,49,27,0.65)"
     },
     {
       "type": "color",
       "id": "card_text_color",
       "label": "Review card text color",
-      "default": "#f0f4ff"
+      "default": "#f5f8ed"
     },
     {
       "type": "color",
       "id": "card_border_color",
       "label": "Card border color",
-      "default": "rgba(163,194,255,0.26)"
+      "default": "rgba(255,255,255,0.18)"
     },
     {
       "type": "color",
       "id": "card_shadow_color",
       "label": "Card shadow color",
-      "default": "rgba(4,16,78,0.45)"
+      "default": "rgba(23,33,17,0.45)"
     },
     {
       "type": "color",
@@ -841,25 +841,25 @@
       "type": "color",
       "id": "card_active_text_color",
       "label": "Active review text color",
-      "default": "#0a1f78"
+      "default": "#1f3b20"
     },
     {
       "type": "color",
       "id": "card_active_border_color",
       "label": "Active card border color",
-      "default": "rgba(17,61,213,0.45)"
+      "default": "rgba(120,160,90,0.45)"
     },
     {
       "type": "color",
       "id": "star_color",
       "label": "Star color",
-      "default": "#ffffff"
+      "default": "#7fc55c"
     },
     {
       "type": "color",
       "id": "verified_color",
       "label": "Verified badge color",
-      "default": "#ffffff"
+      "default": "#7fc55c"
     },
     {
       "type": "checkbox",
@@ -929,13 +929,13 @@
           "type": "color",
           "id": "card_background_override",
           "label": "Card background override",
-          "default": "#0c249c"
+          "default": "#2f3c24"
         },
         {
           "type": "color",
           "id": "card_text_override",
           "label": "Card text color override",
-          "default": "#f0f4ff"
+          "default": "#f5f8ed"
         }
       ]
     }
@@ -946,9 +946,36 @@
       "name": "Animated review carousel",
       "category": "Testimonials",
       "blocks": [
-        { "type": "review" },
-        { "type": "review" },
-        { "type": "review" }
+        {
+          "type": "review",
+          "settings": {
+            "title": "Super delicious!",
+            "review_text": "Super delicious with ice cubes, water and oat-almond milk.",
+            "author": "Tina H.",
+            "card_background_override": "#2f3c24",
+            "card_text_override": "#f5f8ed"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "title": "Risk of addiction 🥹",
+            "review_text": "The Iced Matcha Latte is so delicious, with a truly creamy consistency.",
+            "author": "Sandra D.",
+            "card_background_override": "#2f3c24",
+            "card_text_override": "#f5f8ed"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "title": "The best Matcha.",
+            "review_text": "This matcha has a sweet and tangy raspberry flavor. Perfect for breakfast or lunch.",
+            "author": "Sandra W.",
+            "card_background_override": "#2f3c24",
+            "card_text_override": "#f5f8ed"
+          }
+        }
       ]
     }
   ]
