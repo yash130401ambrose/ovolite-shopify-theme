@@ -209,7 +209,8 @@
     #animated-review-{{ section.id }} .animated-review__inner {
       position: relative;
       z-index: 2;
-      max-width: 1260px;
+      width: 100%;
+      max-width: 100%;
       margin: 0 auto;
       padding: clamp(160px, 18vw, 220px) 24px clamp(80px, 12vw, 140px);
       text-align: center;
@@ -324,7 +325,8 @@
       overflow: hidden;
       display: block;
       padding: 4px 0 8px;
-      max-width: min(1100px, 100%);
+      width: 100%;
+      max-width: 100%;
       margin: 0 auto;
     }
 
@@ -475,7 +477,7 @@
 
       const slider = section.querySelector('.animated-review__slider');
       const track = section.querySelector('.animated-review__track');
-      const cards = Array.from(section.querySelectorAll('.animated-review__card'));
+      let cards = Array.from(section.querySelectorAll('.animated-review__card'));
       const prevBtn = section.querySelector('[data-animated-review-nav="prev"]');
       const nextBtn = section.querySelector('[data-animated-review-nav="next"]');
       const animatedElements = Array.from(section.querySelectorAll('[data-animate]'));
@@ -502,40 +504,101 @@
 
       if (!slider || cards.length === 0) return;
 
-      function getMaxOffset() {
-        if (!track) return 0;
-        const trackWidth = track.scrollWidth;
-        return Math.max(0, trackWidth - slider.clientWidth);
+      const originalCards = cards.slice();
+      const visibleCount = Math.min(3, originalCards.length);
+      const centerOffset = Math.floor(visibleCount / 2);
+      const hasLoop = track && originalCards.length > visibleCount;
+
+      if (hasLoop) {
+        originalCards.slice(-visibleCount).forEach((card) => {
+          const clone = card.cloneNode(true);
+          clone.classList.add('animated-review__card--clone');
+          track.insertBefore(clone, track.firstChild);
+        });
+        originalCards.slice(0, visibleCount).forEach((card) => {
+          const clone = card.cloneNode(true);
+          clone.classList.add('animated-review__card--clone');
+          track.appendChild(clone);
+        });
+        cards = Array.from(section.querySelectorAll('.animated-review__card'));
       }
 
-      function updateTrackPosition(offset, animate = true) {
+      const totalOriginal = originalCards.length;
+      activeIndex = hasLoop ? visibleCount + centerOffset : Math.min(centerOffset, cards.length - 1);
+
+      function highlightActive() {
+        cards.forEach((card, idx) => card.classList.toggle('is-active', idx === activeIndex));
+      }
+
+      function applyTransform(offset, animate = true) {
         if (!track) return;
-        track.style.transition = animate ? 'transform 0.6s cubic-bezier(.24, .8, .3, 1)' : 'none';
+        track.style.transition = animate && !prefersReducedMotion ? 'transform 0.6s cubic-bezier(.24,.8,.3,1)' : 'none';
         track.style.transform = `translateX(${-offset}px)`;
       }
 
-      function setActive(index, animateTrack = true) {
-        activeIndex = (index + cards.length) % cards.length;
-        cards.forEach((card, idx) => card.classList.toggle('is-active', idx === activeIndex));
-        if (!track) return;
+      function focusIndex(index, animate = true) {
+        if (cards.length === 0) return;
+
+        if (hasLoop) {
+          activeIndex = index;
+        } else {
+          activeIndex = Math.max(0, Math.min(index, cards.length - 1));
+        }
+
+        highlightActive();
+
+        if (!hasLoop || !track) return;
+
         const target = cards[activeIndex];
-        const targetCenter = target.offsetLeft + target.clientWidth / 2;
-        const desiredOffset = targetCenter - slider.clientWidth / 2;
-        const maxOffset = getMaxOffset();
-        const boundedOffset = Math.max(0, Math.min(desiredOffset, maxOffset));
-        updateTrackPosition(boundedOffset, animateTrack && !prefersReducedMotion);
+        if (!target) return;
+
+        const offset = target.offsetLeft + target.clientWidth / 2 - slider.clientWidth / 2;
+        applyTransform(offset, animate);
+      }
+
+      function normalizeLoop() {
+        if (!hasLoop || !track) return;
+
+        const total = totalOriginal;
+        let adjusted = false;
+
+        if (activeIndex >= total + visibleCount) {
+          activeIndex -= total;
+          adjusted = true;
+        } else if (activeIndex < visibleCount) {
+          activeIndex += total;
+          adjusted = true;
+        }
+
+        if (adjusted) {
+          const target = cards[activeIndex];
+          if (!target) return;
+          const offset = target.offsetLeft + target.clientWidth / 2 - slider.clientWidth / 2;
+          applyTransform(offset, false);
+          highlightActive();
+        }
+      }
+
+      if (hasLoop && track) {
+        track.addEventListener('transitionend', () => {
+          track.style.transition = 'none';
+          normalizeLoop();
+          requestAnimationFrame(() => {
+            track.style.transition = 'transform 0.6s cubic-bezier(.24,.8,.3,1)';
+          });
+        });
       }
 
       if (prevBtn) {
         prevBtn.addEventListener('click', () => {
-          setActive(activeIndex - 1);
+          focusIndex(activeIndex - 1);
           restartAutoRotate();
         });
       }
 
       if (nextBtn) {
         nextBtn.addEventListener('click', () => {
-          setActive(activeIndex + 1);
+          focusIndex(activeIndex + 1);
           restartAutoRotate();
         });
       }
@@ -544,7 +607,7 @@
         if (!autoRotate || prefersReducedMotion) return;
         window.clearInterval(autoRotateTimer);
         autoRotateTimer = window.setInterval(() => {
-          setActive(activeIndex + 1);
+          focusIndex(activeIndex + 1);
         }, autoRotateInterval);
       }
 
@@ -564,10 +627,10 @@
       section.addEventListener('focusout', startAutoRotate);
 
       window.addEventListener('resize', () => {
-        setActive(activeIndex, false);
+        focusIndex(activeIndex, false);
       });
 
-      setActive(activeIndex, false);
+      focusIndex(activeIndex, false);
       startAutoRotate();
     });
   </script>
