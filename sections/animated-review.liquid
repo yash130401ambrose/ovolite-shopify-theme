@@ -32,6 +32,18 @@
     --ar-icon-border: {{ section.settings.icon_border_color | default: section_text }};
     --ar-icon-size: {{ section.settings.icon_diameter | default: 96 }}px;
     --ar-icon-top: {{ section.settings.badge_top_offset | default: 28 }}px;
+    --ar-product-highlight: {{ section.settings.product_highlight_color | default: 'rgba(255,255,255,0.55)' }};
+    --ar-product-base: {{ section.settings.product_base_color | default: 'rgba(7,30,120,0.2)' }};
+    --ar-product-shadow: {{ section.settings.product_shadow_color | default: 'rgba(4,16,78,0.55)' }};
+    --ar-nav-bg: {{ section.settings.nav_bg_color | default: 'rgba(9,27,115,0.45)' }};
+    --ar-nav-border: {{ section.settings.nav_border_color | default: 'rgba(255,255,255,0.4)' }};
+    --ar-nav-hover-bg: {{ section.settings.nav_hover_bg_color | default: 'rgba(255,255,255,0.16)' }};
+    --ar-nav-hover-border: {{ section.settings.nav_hover_border_color | default: 'rgba(255,255,255,0.85)' }};
+    --ar-card-border: {{ section.settings.card_border_color | default: 'rgba(163,194,255,0.26)' }};
+    --ar-card-shadow: {{ section.settings.card_shadow_color | default: 'rgba(4,16,78,0.45)' }};
+    --ar-card-active-border: {{ section.settings.card_active_border_color | default: 'rgba(17,61,213,0.45)' }};
+    --ar-card-gradient-start: {{ section.settings.card_gradient_start | default: 'rgba(19,54,190,0.85)' }};
+    --ar-card-gradient-end: {{ section.settings.card_gradient_end | default: 'rgba(12,32,120,0.55)' }};
   "
 >
   {% if section.settings.background_image != blank %}
@@ -47,7 +59,7 @@
         {{ section.settings.icon_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: section.settings.icon_image.alt | default: 'Section icon' }}
       </div>
     </div>
-  {% endif %}
+    {% endif %}
 
   <div class="animated-review__inner">
     {% if section.settings.subheading != blank %}
@@ -91,7 +103,7 @@
     {% if section.blocks.size > 0 %}
       <div class="animated-review__slider" role="list">
         <div class="animated-review__track">
-          {% for block in section.blocks %}
+        {% for block in section.blocks %}
             {% assign stars = block.settings.stars | default: '5' | plus: 0 %}
             {% assign card_bg_override = block.settings.card_background_override %}
             {% assign card_text_override = block.settings.card_text_override %}
@@ -129,10 +141,10 @@
                     </svg>
                     <span>{{ block.settings.verified_label | default: 'Verified' }}</span>
                   </span>
-                {% endif %}
-              </div>
+            {% endif %}
+          </div>
             </article>
-          {% endfor %}
+        {% endfor %}
         </div>
       </div>
     {% endif %}
@@ -237,13 +249,13 @@
       width: clamp(220px, 26vw, 360px);
       aspect-ratio: 1 / 1;
       border-radius: clamp(140px, 18vw, 220px);
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.55), rgba(7,30,120,0.2));
-      border: 1px solid rgba(156,191,255,0.4);
-      box-shadow: 0 40px 90px rgba(4,16,78,0.55);
+      background: radial-gradient(circle at 32% 32%, var(--ar-product-highlight), var(--ar-product-base));
+      border: none;
+      box-shadow: 0 40px 90px var(--ar-product-shadow);
       object-fit: cover;
       display: grid;
       place-items: center;
-      color: rgba(231,238,255,0.88);
+      color: rgba(231,238,255,0.9);
       padding: 12px;
       animation: ar-product-float 6s ease-in-out infinite;
     }
@@ -256,12 +268,12 @@
 
     #animated-review-{{ section.id }} .animated-review__reviews-header {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
       gap: 18px;
-      margin-bottom: clamp(28px, 4vw, 46px);
-      text-align: left;
+      margin-bottom: clamp(32px, 5vw, 52px);
     }
 
     #animated-review-{{ section.id }} .animated-review__reviews-title {
@@ -272,18 +284,18 @@
     }
 
     #animated-review-{{ section.id }} .animated-review__nav {
-      display: flex;
+      display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 14px;
-      margin-left: auto;
     }
 
     #animated-review-{{ section.id }} .animated-review__nav-btn {
       width: 54px;
       height: 54px;
       border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,0.4);
-      background: rgba(9,27,115,0.45);
+      border: 1.5px solid var(--ar-nav-border);
+      background: var(--ar-nav-bg);
       color: inherit;
       cursor: pointer;
       display: inline-flex;
@@ -294,21 +306,23 @@
 
     #animated-review-{{ section.id }} .animated-review__nav-btn:hover,
     #animated-review-{{ section.id }} .animated-review__nav-btn:focus-visible {
-      background: rgba(255,255,255,0.16);
-      border-color: rgba(255,255,255,0.85);
+      background: var(--ar-nav-hover-bg);
+      border-color: var(--ar-nav-hover-border);
       transform: translateY(-2px);
       outline: none;
     }
 
     #animated-review-{{ section.id }} .animated-review__slider {
       position: relative;
-      overflow-x: auto;
+      overflow-x: hidden;
       overflow-y: visible;
       scroll-snap-type: x mandatory;
       display: block;
       scrollbar-width: none;
       -ms-overflow-style: none;
-      padding: 2px;
+      padding: 4px 0 8px;
+      max-width: 100%;
+      margin: 0 auto;
     }
 
     #animated-review-{{ section.id }} .animated-review__slider::-webkit-scrollbar {
@@ -317,26 +331,28 @@
 
     #animated-review-{{ section.id }} .animated-review__track {
       display: flex;
-      gap: clamp(20px, 3vw, 34px);
+      justify-content: center;
+      gap: clamp(18px, 2.6vw, 30px);
       padding-bottom: 10px;
+      will-change: transform;
     }
 
     #animated-review-{{ section.id }} .animated-review__card {
-      flex: 0 0 clamp(280px, 32vw, 420px);
+      flex: 0 0 clamp(260px, 30vw, 360px);
       background: var(--card-bg-override, var(--ar-card-bg));
       color: var(--card-text-override, var(--ar-card-text));
-      border: 1px solid rgba(163,194,255,0.26);
+      border: 1px solid var(--ar-card-border);
       border-radius: 26px;
       padding: clamp(26px, 3.2vw, 38px);
       display: flex;
       flex-direction: column;
       gap: clamp(16px, 2.2vw, 24px);
-      box-shadow: 0 28px 70px rgba(4,16,78,0.45);
+      box-shadow: 0 28px 70px var(--ar-card-shadow);
       transition: transform 0.45s ease, box-shadow 0.45s ease, background 0.45s ease, color 0.45s ease, border-color 0.45s ease;
       scroll-snap-align: center;
       position: relative;
       pointer-events: auto;
-      background-image: linear-gradient(145deg, rgba(19,54,190,0.85), rgba(12,32,120,0.55));
+      background-image: linear-gradient(145deg, var(--ar-card-gradient-start), var(--ar-card-gradient-end));
     }
 
     #animated-review-{{ section.id }} .animated-review__card::after {
@@ -344,7 +360,7 @@
       position: absolute;
       inset: 0;
       border-radius: inherit;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
       pointer-events: none;
     }
 
@@ -352,8 +368,8 @@
       background: var(--ar-card-active-bg);
       color: var(--ar-card-active-text);
       transform: translateY(-18px) scale(1.02);
-      box-shadow: 0 45px 90px rgba(4,16,78,0.28);
-      border-color: rgba(17,61,213,0.45);
+      box-shadow: 0 45px 90px var(--ar-card-shadow);
+      border-color: var(--ar-card-active-border);
     }
 
     #animated-review-{{ section.id }} .animated-review__card-stars {
@@ -583,6 +599,24 @@
       "label": "Product GIF or image"
     },
     {
+      "type": "color",
+      "id": "product_highlight_color",
+      "label": "Product placeholder highlight color",
+      "default": "rgba(255,255,255,0.55)"
+    },
+    {
+      "type": "color",
+      "id": "product_base_color",
+      "label": "Product placeholder base color",
+      "default": "rgba(7,30,120,0.2)"
+    },
+    {
+      "type": "color",
+      "id": "product_shadow_color",
+      "label": "Product placeholder shadow color",
+      "default": "rgba(4,16,78,0.55)"
+    },
+    {
       "type": "image_picker",
       "id": "icon_image",
       "label": "Top icon"
@@ -596,19 +630,19 @@
       "type": "color",
       "id": "overlay_color",
       "label": "Background overlay color",
-      "default": "rgba(13,27,13,0.55)"
+      "default": "rgba(5,14,64,0.55)"
     },
     {
       "type": "color",
       "id": "section_background",
       "label": "Section background color",
-      "default": "#0d1b0d"
+      "default": "#071f8f"
     },
     {
       "type": "color",
       "id": "section_text_color",
       "label": "Section text color",
-      "default": "#f5f7f2"
+      "default": "#ffffff"
     },
     {
       "type": "color",
@@ -621,6 +655,30 @@
       "id": "icon_border_color",
       "label": "Icon border color",
       "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "nav_bg_color",
+      "label": "Arrow background color",
+      "default": "rgba(9,27,115,0.45)"
+    },
+    {
+      "type": "color",
+      "id": "nav_border_color",
+      "label": "Arrow border color",
+      "default": "rgba(255,255,255,0.4)"
+    },
+    {
+      "type": "color",
+      "id": "nav_hover_bg_color",
+      "label": "Arrow hover background color",
+      "default": "rgba(255,255,255,0.16)"
+    },
+    {
+      "type": "color",
+      "id": "nav_hover_border_color",
+      "label": "Arrow hover border color",
+      "default": "rgba(255,255,255,0.85)"
     },
     {
       "type": "range",
@@ -646,13 +704,37 @@
       "type": "color",
       "id": "card_background",
       "label": "Review card background",
-      "default": "#1e2c1f"
+      "default": "#0c249c"
+    },
+    {
+      "type": "color",
+      "id": "card_gradient_start",
+      "label": "Card gradient start color",
+      "default": "rgba(19,54,190,0.85)"
+    },
+    {
+      "type": "color",
+      "id": "card_gradient_end",
+      "label": "Card gradient end color",
+      "default": "rgba(12,32,120,0.55)"
     },
     {
       "type": "color",
       "id": "card_text_color",
       "label": "Review card text color",
       "default": "#f0f4ff"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card border color",
+      "default": "rgba(163,194,255,0.26)"
+    },
+    {
+      "type": "color",
+      "id": "card_shadow_color",
+      "label": "Card shadow color",
+      "default": "rgba(4,16,78,0.45)"
     },
     {
       "type": "color",
@@ -665,6 +747,12 @@
       "id": "card_active_text_color",
       "label": "Active review text color",
       "default": "#0a1f78"
+    },
+    {
+      "type": "color",
+      "id": "card_active_border_color",
+      "label": "Active card border color",
+      "default": "rgba(17,61,213,0.45)"
     },
     {
       "type": "color",
@@ -746,7 +834,7 @@
           "type": "color",
           "id": "card_background_override",
           "label": "Card background override",
-          "default": "#102da6"
+          "default": "#0c249c"
         },
         {
           "type": "color",
