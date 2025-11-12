@@ -8,12 +8,12 @@
 {% liquid
   assign section_bg = section.settings.section_background | default: '#071f8f'
   assign section_text = section.settings.section_text_color | default: '#ffffff'
-  assign card_bg = section.settings.card_background | default: '#102da6'
-  assign card_text = section.settings.card_text_color | default: '#f5f8ff'
+  assign card_bg = section.settings.card_background | default: '#0c249c'
+  assign card_text = section.settings.card_text_color | default: '#f0f4ff'
   assign card_active_bg = section.settings.card_active_background | default: '#ffffff'
   assign card_active_text = section.settings.card_active_text_color | default: '#0a1f78'
-  assign star_color = section.settings.star_color | default: '#8cc279'
-  assign verified_color = section.settings.verified_color | default: '#8cc279'
+  assign star_color = section.settings.star_color | default: '#82b3ff'
+  assign verified_color = section.settings.verified_color | default: '#82b3ff'
 %}
 
 <section
@@ -237,9 +237,9 @@
       width: clamp(220px, 26vw, 360px);
       aspect-ratio: 1 / 1;
       border-radius: clamp(140px, 18vw, 220px);
-      background: radial-gradient(circle at 32% 32%, rgba(255,255,255,0.35), rgba(7,31,143,0.12));
-      border: 1px solid rgba(255,255,255,0.18);
-      box-shadow: 0 40px 90px rgba(6,18,89,0.45);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.55), rgba(7,30,120,0.2));
+      border: 1px solid rgba(156,191,255,0.4);
+      box-shadow: 0 40px 90px rgba(4,16,78,0.55);
       object-fit: cover;
       display: grid;
       place-items: center;
@@ -325,18 +325,18 @@
       flex: 0 0 clamp(280px, 32vw, 420px);
       background: var(--card-bg-override, var(--ar-card-bg));
       color: var(--card-text-override, var(--ar-card-text));
-      border: 1px solid rgba(255,255,255,0.18);
+      border: 1px solid rgba(163,194,255,0.26);
       border-radius: 26px;
       padding: clamp(26px, 3.2vw, 38px);
       display: flex;
       flex-direction: column;
       gap: clamp(16px, 2.2vw, 24px);
-      box-shadow: 0 28px 70px rgba(6,12,64,0.55);
+      box-shadow: 0 28px 70px rgba(4,16,78,0.45);
       transition: transform 0.45s ease, box-shadow 0.45s ease, background 0.45s ease, color 0.45s ease, border-color 0.45s ease;
       scroll-snap-align: center;
       position: relative;
       pointer-events: auto;
-      background-image: linear-gradient(135deg, rgba(16,45,166,0.82), rgba(12,32,120,0.62));
+      background-image: linear-gradient(145deg, rgba(19,54,190,0.85), rgba(12,32,120,0.55));
     }
 
     #animated-review-{{ section.id }} .animated-review__card::after {
@@ -344,7 +344,7 @@
       position: absolute;
       inset: 0;
       border-radius: inherit;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
       pointer-events: none;
     }
 
@@ -352,8 +352,8 @@
       background: var(--ar-card-active-bg);
       color: var(--ar-card-active-text);
       transform: translateY(-18px) scale(1.02);
-      box-shadow: 0 45px 90px rgba(6,12,64,0.35);
-      border-color: rgba(7,31,143,0.4);
+      box-shadow: 0 45px 90px rgba(4,16,78,0.28);
+      border-color: rgba(17,61,213,0.45);
     }
 
     #animated-review-{{ section.id }} .animated-review__card-stars {
@@ -652,7 +652,7 @@
       "type": "color",
       "id": "card_text_color",
       "label": "Review card text color",
-      "default": "#ecf4e8"
+      "default": "#f0f4ff"
     },
     {
       "type": "color",
@@ -664,19 +664,19 @@
       "type": "color",
       "id": "card_active_text_color",
       "label": "Active review text color",
-      "default": "#1f3f1f"
+      "default": "#0a1f78"
     },
     {
       "type": "color",
       "id": "star_color",
       "label": "Star color",
-      "default": "#8cc279"
+      "default": "#82b3ff"
     },
     {
       "type": "color",
       "id": "verified_color",
       "label": "Verified badge color",
-      "default": "#8cc279"
+      "default": "#82b3ff"
     },
     {
       "type": "checkbox",
@@ -752,7 +752,7 @@
           "type": "color",
           "id": "card_text_override",
           "label": "Card text color override",
-          "default": "#f5f8ff"
+          "default": "#f0f4ff"
         }
       ]
     }
