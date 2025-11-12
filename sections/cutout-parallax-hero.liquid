@@ -4,40 +4,58 @@
   "settings": [
     {
       "type": "image_picker",
-      "id": "background_image",
-      "label": "Background Image"
+      "id": "text_mask_image",
+      "label": "Heading mask image",
+      "info": "Optional texture or mask applied to the main heading text."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f4f4f4"
+    },
+    {
+      "type": "color",
+      "id": "heading_fill_color",
+      "label": "Heading fill color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#111111"
+    },
+    {
+      "type": "text",
+      "id": "subheading_text",
+      "label": "Subheading text",
+      "default": "Ways of Using"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_text",
+      "label": "Heading text",
+      "default": "FOR PROFESSIONAL AND HOME USE · BAKERY · HORECA · CONFECTIONERY"
     },
     {
       "type": "font_picker",
       "id": "subheading_font",
-      "label": "Subheading Font",
+      "label": "Subheading font",
       "default": "helvetica_n4"
     },
     {
       "type": "select",
       "id": "heading_animation",
-      "label": "Heading Animation",
+      "label": "Heading animation",
       "options": [
-        { "value": "fade-in", "label": "Fade In" },
-        { "value": "slide-up", "label": "Slide Up" },
-        { "value": "zoom-in", "label": "Zoom In" },
-        { "value": "rotate-in", "label": "Rotate In" },
-        { "value": "flip-in", "label": "Flip In" }
+        { "value": "fade-in", "label": "Fade in" },
+        { "value": "slide-up", "label": "Slide up" },
+        { "value": "zoom-in", "label": "Zoom in" },
+        { "value": "rotate-in", "label": "Rotate in" },
+        { "value": "flip-in", "label": "Flip in" }
       ],
       "default": "fade-in"
-    },
-    {
-      "type": "select",
-      "id": "subheading_animation",
-      "label": "Subheading Animation",
-      "options": [
-        { "value": "fade-in", "label": "Fade In" },
-        { "value": "slide-up", "label": "Slide Up" },
-        { "value": "zoom-in", "label": "Zoom In" },
-        { "value": "rotate-in", "label": "Rotate In" },
-        { "value": "flip-in", "label": "Flip In" }
-      ],
-      "default": "slide-up"
     },
     {
       "type": "range",
@@ -81,38 +99,56 @@
 <section
   class="focus-text-section"
   style="
-    background-image:url('{{ section.settings.background_image | img_url: 'master' }}');
+    background-color: {{ section.settings.background_color | default: '#f4f4f4' }};
     --focus-subheading-offset-x: {{ section.settings.subheading_offset_x | default: -140 }}px;
     --focus-subheading-offset-y: {{ section.settings.subheading_offset_y | default: -60 }}px;
     --focus-subheading-rotation: {{ section.settings.subheading_rotation | default: -6 }}deg;
+    --focus-subheading-color: {{ section.settings.subheading_color | default: '#111111' }};
+    --focus-heading-fill-color: {{ section.settings.heading_fill_color | default: '#111111' }};
+    {% if section.settings.text_mask_image != blank %}
+      --focus-heading-mask: url('{{ section.settings.text_mask_image | img_url: 'master' }}');
+    {% endif %}
   "
 >
-  <div class="overlay"></div>
   <div class="text-container">
-    <h2 class="focus-subheading {{ section.settings.subheading_animation }}" style="font-family: {{ section.settings.subheading_font | font_face }};">
-      Ways of Using
+    <h2
+      class="focus-subheading"
+      style="font-family: {{ section.settings.subheading_font | font_family }};"
+    >
+      <span class="focus-subheading__text">{{ section.settings.subheading_text | escape }}</span>
+      <svg
+        class="focus-subheading__scribble"
+        viewBox="0 0 1000 200"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden="true"
+      >
+        <text
+          class="focus-subheading__scribble-text"
+          x="50%"
+          y="50%"
+          dominant-baseline="middle"
+          text-anchor="middle"
+          pathLength="1000"
+        >
+          {{ section.settings.subheading_text | escape }}
+        </text>
+      </svg>
     </h2>
-    <h1 class="focus-heading {{ section.settings.heading_animation }}">
-      FOR PROFESSIONAL <br> AND HOME USE · BAKERY · HORECA · CONFECTIONERY
+    <h1 class="focus-heading {{ section.settings.heading_animation }}{% if section.settings.text_mask_image != blank %} has-mask{% endif %}">
+      <span>{{ section.settings.heading_text | default: 'FOR PROFESSIONAL AND HOME USE · BAKERY · HORECA · CONFECTIONERY' | newline_to_br }}</span>
     </h1>
   </div>
 </section>
 
 <style>
+{{ section.settings.subheading_font | font_face: font_display: 'swap' }}
+
 .focus-text-section {
-    position: relative;
-  background-size: cover;
-  background-position: center;
+  position: relative;
   padding: 120px 20px;
   text-align: center;
-    overflow: hidden;
-  color: #000;
-}
-
-.focus-text-section .overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.3);
+  overflow: hidden;
+  color: var(--focus-heading-fill-color, #111111);
 }
 
 .focus-text-section .text-container {
@@ -128,32 +164,83 @@
   position: absolute;
   top: 0;
   left: 50%;
+  translate: calc(-50% + var(--focus-subheading-offset-x)) calc(-100% + var(--focus-subheading-offset-y));
   transform: translate(calc(-50% + var(--focus-subheading-offset-x)), calc(-100% + var(--focus-subheading-offset-y))) rotate(var(--focus-subheading-rotation));
+  rotate: var(--focus-subheading-rotation);
   font-size: clamp(60px, 6vw, 84px);
   font-weight: 700;
-  color: #111111;
+  color: var(--focus-subheading-color, #111111);
   text-transform: none;
   letter-spacing: -0.1em;
   line-height: 0.85;
-    margin: 0;
+  margin: 0;
   pointer-events: none;
-  mix-blend-mode: multiply;
   white-space: nowrap;
+}
+
+.focus-subheading__text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.focus-subheading__scribble {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.focus-subheading__scribble-text {
+  font-family: {{ section.settings.subheading_font | font_family }};
+  font-size: 1em;
+  letter-spacing: -0.1em;
+  fill: transparent;
+  stroke: var(--focus-subheading-color, #111111);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation:
+    scribbleDraw 2.2s ease forwards,
+    scribbleFill 0.5s ease forwards 2.1s;
 }
 
 .focus-heading {
   font-size: clamp(96px, 10vw, 140px);
   font-weight: 900;
-    color: transparent;
-  background: url('{{ section.settings.background_image | img_url: 'master' }}') no-repeat center;
-    background-size: cover;
-  -webkit-background-clip: text;
-  background-clip: text;
+  color: var(--focus-heading-fill-color, #111111);
   text-transform: uppercase;
   line-height: 1.05;
   word-wrap: break-word;
   max-width: 100%;
   margin: 0 auto;
+}
+
+.focus-heading span {
+  display: inline-block;
+  color: inherit;
+  background: none;
+}
+
+.focus-heading.has-mask span {
+  color: transparent;
+  background-color: var(--focus-heading-fill-color, #111111);
+  -webkit-mask-image: var(--focus-heading-mask);
+  mask-image: var(--focus-heading-mask);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
 
 /* ------------------------------
@@ -166,10 +253,14 @@
   .focus-heading { font-size: clamp(72px, 9vw, 110px); }
 }
 
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
   .focus-text-section { padding: 90px 16px; }
   .focus-text-section .text-container { padding-top: 70px; }
-  .focus-subheading { font-size: clamp(38px, 9vw, 54px); transform: translate(calc(-50% + var(--focus-subheading-offset-x)), calc(-90% + var(--focus-subheading-offset-y))) rotate(var(--focus-subheading-rotation)); }
+  .focus-subheading {
+    font-size: clamp(38px, 9vw, 54px);
+    translate: calc(-50% + var(--focus-subheading-offset-x)) calc(-90% + var(--focus-subheading-offset-y));
+    transform: translate(calc(-50% + var(--focus-subheading-offset-x)), calc(-90% + var(--focus-subheading-offset-y))) rotate(var(--focus-subheading-rotation));
+  }
   .focus-heading { font-size: clamp(52px, 10vw, 90px); }
 }
 
@@ -193,8 +284,8 @@
   to { opacity: 1; }
 }
 @keyframes slideUp {
-  from { transform: translateY(40px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from { transform: translate3d(0, 40px, 0); opacity: 0; }
+  to { transform: translate3d(0, 0, 0); opacity: 1; }
 }
 @keyframes zoomIn {
   from { transform: scale(0.8); opacity: 0; }
@@ -207,5 +298,21 @@
 @keyframes flipIn {
   from { transform: rotateY(90deg); opacity: 0; }
   to { transform: rotateY(0); opacity: 1; }
+}
+
+@keyframes scribbleDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes scribbleFill {
+  to { fill: var(--focus-subheading-color, #111111); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .focus-subheading__scribble-text {
+    animation: none;
+    stroke-dashoffset: 0;
+    fill: var(--focus-subheading-color, #111111);
+  }
 }
 </style>
