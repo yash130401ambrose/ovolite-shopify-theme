@@ -110,7 +110,7 @@
         "scribble_text_size": 12,
         "scribble_text_color": "#ffffff",
         "scribble_text_offset_x": 12,
-        "scribble_text_offset_y": 1.5,
+        "scribble_text_offset_y": 6,
         "scribble_text_rotation": -6,
         "scribble_text_stroke_width": 4
       }
