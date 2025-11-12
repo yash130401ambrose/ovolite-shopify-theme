@@ -292,7 +292,7 @@
       ],
       "name": "Feature Compare Ovolite",
       "settings": {
-        "left_image": "shopify://shop_images/1.Ovolite_Listing_1.jpg",
+        "left_image": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
         "icon_image": "shopify://shop_images/1.Ovolite_Listing_1.jpg",
         "left_logo": "shopify://shop_images/1.Ovolite_Listing_1.jpg",
         "right_label": "Regular EggWhite",
@@ -446,6 +446,8 @@
         "star_color": "#d2861a",
         "verified_color": "#ffffff",
         "product_shadow_color": "#04104e8c",
+        "hero_spacing": 60,
+        "hero_spacer_height": 120,
         "auto_rotate": false,
         "auto_rotate_interval": 6
       }
