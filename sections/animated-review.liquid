@@ -67,12 +67,16 @@
 
   <div class="animated-review__inner">
     <div class="animated-review__hero">
-      {% if section.settings.subheading != blank %}
-        <p class="animated-review__subheading" data-animate>{{ section.settings.subheading }}</p>
-      {% endif %}
+    {% if section.settings.subheading != blank %}
+      <p class="animated-review__subheading" data-animate>{{ section.settings.subheading }}</p>
+    {% endif %}
 
-      {% if section.settings.heading != blank %}
-        <h2 class="animated-review__heading" data-animate>{{ section.settings.heading | newline_to_br }}</h2>
+    {% if section.settings.heading != blank %}
+      <h2 class="animated-review__heading" data-animate>{{ section.settings.heading | newline_to_br }}</h2>
+    {% endif %}
+
+      {% if section.settings.hero_spacer_height > 0 %}
+        <div class="animated-review__hero-spacer" style="height: {{ section.settings.hero_spacer_height }}px"></div>
       {% endif %}
     </div>
 
@@ -197,10 +201,10 @@
     letter-spacing: 0.12em;
     color: var(--hero-subheading-color);
     margin: 0;
-    opacity: 0;
+      opacity: 0;
     transform: translateY(16px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
 
     #animated-review-{{ section.id }} .animated-review__heading {
     margin: var(--hero-spacing) 0 0;
@@ -215,8 +219,12 @@
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
 
+  #animated-review-{{ section.id }} .animated-review__hero-spacer {
+    width: 100%;
+  }
+
   #animated-review-{{ section.id }} .animated-review__navWrap {
-    display: grid;
+      display: grid;
     justify-items: center;
     gap: clamp(12px, 2vw, 20px);
     margin-top: clamp(-36px, -4vw, -22px);
@@ -586,6 +594,7 @@
     { "type": "color", "id": "verified_color", "label": "Verified badge color", "default": "#8fb97a" },
     { "type": "color", "id": "product_shadow_color", "label": "Hero image shadow color", "default": "rgba(18,25,13,0.35)" },
     { "type": "range", "id": "hero_spacing", "label": "Spacing between subheading and heading (px)", "min": 60, "max": 160, "step": 4, "default": 60 },
+    { "type": "range", "id": "hero_spacer_height", "label": "Spacer height below hero text (px)", "min": 0, "max": 240, "step": 8, "default": 120 },
     { "type": "checkbox", "id": "auto_rotate", "label": "Automatically rotate reviews", "default": false },
     { "type": "range", "id": "auto_rotate_interval", "label": "Auto-rotate interval (seconds)", "min": 3, "max": 12, "step": 1, "default": 6 }
   ],
