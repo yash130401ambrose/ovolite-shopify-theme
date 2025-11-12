@@ -127,7 +127,10 @@
 
   #cutout-hero-{{ section.id }} .cutout-hero__content { position: relative; z-index: 2; width: 100%; height: calc(100% - var(--pt) - var(--pb)); display: grid; place-items: center; padding: 2vw; }
 
-  #cutout-hero-{{ section.id }} .cutout-hero__titleWrap { width: 100%; }
+  #cutout-hero-{{ section.id }} .cutout-hero__titleWrap {
+    position: relative;
+    width: 100%;
+  }
   #cutout-hero-{{ section.id }} .cutout-hero__title {
     margin: 0;
     text-align: center;
@@ -138,6 +141,8 @@
     text-transform: uppercase;
     color: var(--text-color);
     will-change: font-size;
+    position: relative;
+    z-index: 1;
   }
 
   #cutout-hero-{{ section.id }} .cutout-hero__title--masked {
@@ -162,7 +167,7 @@
     left: 0;
     transform: translate(var(--scribble-text-offset-x), var(--scribble-text-offset-y)) rotate(var(--scribble-text-rotation));
     transform-origin: top left;
-    z-index: 4;
+    z-index: 2;
     pointer-events: none;
     mix-blend-mode: multiply;
     color: var(--scribble-text-color);
