@@ -213,11 +213,11 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     }
 
     .fc-col.is-right .fc-icon-wrap {
-      transition: transform var(--fc-anim-duration) cubic-bezier(.2,.9,.3,1), box-shadow var(--fc-anim-duration) ease, rotate 0.35s ease;
+      transition: transform var(--fc-anim-duration) cubic-bezier(.2,.9,.3,1), box-shadow var(--fc-anim-duration) ease, rotate 0.45s ease;
     }
 
     .play .fc-row[data-animate] .fc-col.is-right .fc-icon-wrap {
-      animation: fc-shake var(--fc-icon-anim-duration) ease forwards;
+      animation: fc-shake var(--fc-icon-anim-duration, 0.7s) ease forwards;
     }
 
     @media (max-width: 768px) {
@@ -251,9 +251,9 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
 
     @keyframes fc-shake {
       0%, 100% { transform: translateY(-6px) rotate(0deg); }
-      25% { transform: translateY(-6px) rotate(-6deg); }
-      50% { transform: translateY(-6px) rotate(6deg); }
-      75% { transform: translateY(-6px) rotate(-3deg); }
+      20% { transform: translateY(-6px) rotate(-10deg); }
+      50% { transform: translateY(-6px) rotate(12deg); }
+      80% { transform: translateY(-6px) rotate(-8deg); }
     }
 
     /* Table Header */
