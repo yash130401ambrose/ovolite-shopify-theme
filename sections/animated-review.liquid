@@ -73,15 +73,11 @@
       <h2 class="animated-review__heading" data-animate>{{ section.settings.heading | newline_to_br }}</h2>
     {% endif %}
 
+    {% if section.settings.product_media != blank %}
       <div class="animated-review__mediaWrap" data-animate>
-      {% if section.settings.product_media != blank %}
-          {{ section.settings.product_media | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1000, 1200', class: 'animated-review__product-media', alt: section.settings.product_media.alt | default: 'Product media' }}
-      {% else %}
-        <div class="animated-review__product-placeholder">
-            <span>{{ 'Product placeholder' }}</span>
-        </div>
-      {% endif %}
+        {{ section.settings.product_media | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1000, 1200', class: 'animated-review__product-media', alt: section.settings.product_media.alt | default: 'Product media' }}
       </div>
+    {% endif %}
     </div>
 
     <div class="animated-review__navWrap">
@@ -225,33 +221,22 @@
 
   #animated-review-{{ section.id }} .animated-review__mediaWrap {
     position: relative;
-      display: flex;
-      justify-content: center;
+    display: flex;
+    justify-content: center;
     margin-top: clamp(10px, 2vw, 24px);
-      opacity: 0;
+    opacity: 0;
     transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
 
-    #animated-review-{{ section.id }} .animated-review__product-media,
-    #animated-review-{{ section.id }} .animated-review__product-placeholder {
+  #animated-review-{{ section.id }} .animated-review__product-media {
     width: clamp(260px, 32vw, 460px);
     max-width: 520px;
     border-radius: clamp(26px, 6vw, 40px);
     box-shadow: 0 60px 120px var(--product-shadow);
-      object-fit: cover;
+    object-fit: cover;
     overflow: hidden;
-      animation: ar-product-float 6s ease-in-out infinite;
-    }
-
-  #animated-review-{{ section.id }} .animated-review__product-placeholder {
-    display: grid;
-    place-items: center;
-    background: rgba(255,255,255,0.08);
-    color: rgba(255,255,255,0.65);
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-      font-size: 0.85rem;
+    animation: ar-product-float 6s ease-in-out infinite;
   }
 
   #animated-review-{{ section.id }} .animated-review__navWrap {
