@@ -63,7 +63,7 @@
         "link": "",
         "link_2": "",
         "second_image_offset_top": 10,
-        "title": "We bring low fat, <br>preservative-free, <br>antibiotic-free protein, <br>conveniently to your lives!",
+        "title": "<h1 class=\"hero-heading\">\n  <span>We bring low fat,</span><br>\n  <span>preservative-free,</span><br>\n  <span>antibiotic-free protein,</span><br>\n  <span>conveniently to your lives!</span>\n</h1>",
         "sub_title": "",
         "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
         "text_size": "medium",
@@ -72,7 +72,7 @@
         "button_link": "",
         "button_style": "m-button--link",
         "button_size": "",
-        "heading_animation": "slide-up",
+        "heading_animation": "none",
         "heading_animation_duration": 0.6,
         "padding_top": 100,
         "padding_bottom": 50,
@@ -102,7 +102,6 @@
         "padding_bottom": 40,
         "heading_text": "USED IN GYMS \nHOMES\nEVERYWHERE",
         "text_color": "#000000",
-        "heading_font_choice": "sans",
         "text_weight": "900",
         "font_size": 10,
         "line_height": 92,
@@ -124,8 +123,7 @@
         "scribble_text_offset_x": -3,
         "scribble_text_offset_y": -1.5,
         "scribble_text_rotation": -6,
-        "scribble_text_stroke_width": 2,
-        "scribble_text_fill_after": true
+        "scribble_text_stroke_width": 2
       }
     },
     "scroll_cards_GUDwiE": {
