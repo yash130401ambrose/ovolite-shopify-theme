@@ -6,14 +6,14 @@
 {% endcomment %}
 
 {% liquid
-  assign section_bg = section.settings.section_background | default: '#4b5d32'
+  assign section_bg = section.settings.section_background | default: '#4a5a34'
   assign section_text = section.settings.section_text_color | default: '#ffffff'
-  assign card_bg = section.settings.card_background | default: '#2f3c24'
-  assign card_text = section.settings.card_text_color | default: '#f5f8ed'
+  assign card_bg = section.settings.card_background | default: 'rgba(35,45,27,0.78)'
+  assign card_text = section.settings.card_text_color | default: '#f3f7eb'
   assign card_active_bg = section.settings.card_active_background | default: '#ffffff'
-  assign card_active_text = section.settings.card_active_text_color | default: '#1f3b20'
-  assign star_color = section.settings.star_color | default: '#7fc55c'
-  assign verified_color = section.settings.verified_color | default: '#7fc55c'
+  assign card_active_text = section.settings.card_active_text_color | default: '#314926'
+  assign star_color = section.settings.star_color | default: '#85c35d'
+  assign verified_color = section.settings.verified_color | default: '#85c35d'
 %}
 
 <section
@@ -29,23 +29,23 @@
     --ar-star-color: {{ star_color }};
     --ar-verified-color: {{ verified_color }};
     --ar-icon-bg: {{ section.settings.icon_background_color | default: '#ffffff' }};
-    --ar-icon-border: {{ section.settings.icon_border_color | default: '#ffffff' }};
+    --ar-icon-border: {{ section.settings.icon_border_color | default: 'transparent' }};
     --ar-icon-size: {{ section.settings.icon_diameter | default: 96 }}px;
-    --ar-icon-top: {{ section.settings.badge_top_offset | default: 28 }}px;
-    --ar-product-highlight: {{ section.settings.product_highlight_color | default: 'rgba(255,255,255,0.45)' }};
-    --ar-product-base: {{ section.settings.product_base_color | default: 'rgba(62,79,43,0.25)' }};
-    --ar-product-shadow: {{ section.settings.product_shadow_color | default: 'rgba(30,42,22,0.45)' }};
-    --ar-nav-bg: {{ section.settings.nav_bg_color | default: 'rgba(255,255,255,0.92)' }};
-    --ar-nav-border: {{ section.settings.nav_border_color | default: 'rgba(255,255,255,0.92)' }};
-    --ar-nav-hover-bg: {{ section.settings.nav_hover_bg_color | default: 'rgba(255,255,255,0.85)' }};
-    --ar-nav-hover-border: {{ section.settings.nav_hover_border_color | default: 'rgba(255,255,255,0.92)' }};
-    --ar-nav-icon: {{ section.settings.nav_icon_color | default: '#2d4a2a' }};
-    --ar-nav-hover-icon: {{ section.settings.nav_icon_hover_color | default: '#1d361c' }};
-    --ar-card-border: {{ section.settings.card_border_color | default: 'rgba(255,255,255,0.18)' }};
-    --ar-card-shadow: {{ section.settings.card_shadow_color | default: 'rgba(23,33,17,0.45)' }};
-    --ar-card-active-border: {{ section.settings.card_active_border_color | default: 'rgba(120,160,90,0.45)' }};
-    --ar-card-gradient-start: {{ section.settings.card_gradient_start | default: 'rgba(58,76,37,0.85)' }};
-    --ar-card-gradient-end: {{ section.settings.card_gradient_end | default: 'rgba(36,49,27,0.65)' }};
+    --ar-icon-top: {{ section.settings.badge_top_offset | default: 20 }}px;
+    --ar-product-highlight: {{ section.settings.product_highlight_color | default: 'rgba(255,255,255,0.35)' }};
+    --ar-product-base: {{ section.settings.product_base_color | default: 'rgba(62,79,43,0.18)' }};
+    --ar-product-shadow: {{ section.settings.product_shadow_color | default: 'rgba(19,26,15,0.35)' }};
+    --ar-nav-bg: {{ section.settings.nav_bg_color | default: '#ffffff' }};
+    --ar-nav-border: {{ section.settings.nav_border_color | default: '#ffffff' }};
+    --ar-nav-hover-bg: {{ section.settings.nav_hover_bg_color | default: '#f7f7f7' }};
+    --ar-nav-hover-border: {{ section.settings.nav_hover_border_color | default: '#ffffff' }};
+    --ar-nav-icon: {{ section.settings.nav_icon_color | default: '#1f3920' }};
+    --ar-nav-hover-icon: {{ section.settings.nav_icon_hover_color | default: '#132514' }};
+    --ar-card-border: {{ section.settings.card_border_color | default: 'rgba(250,255,245,0.32)' }};
+    --ar-card-shadow: {{ section.settings.card_shadow_color | default: 'rgba(14,18,12,0.26)' }};
+    --ar-card-active-border: {{ section.settings.card_active_border_color | default: 'rgba(122,167,91,0.45)' }};
+    --ar-card-gradient-start: {{ section.settings.card_gradient_start | default: 'rgba(34,45,27,0.85)' }};
+    --ar-card-gradient-end: {{ section.settings.card_gradient_end | default: 'rgba(24,33,20,0.78)' }};
   "
 >
   {% if section.settings.background_image != blank %}
@@ -53,7 +53,7 @@
       {{ section.settings.background_image | image_url: width: 2400 | image_tag: loading: 'lazy', class: 'animated-review__bg-image' }}
     </div>
   {% endif %}
-    <div class="animated-review__overlay" aria-hidden="true" style="background: {{ section.settings.overlay_color | default: 'rgba(33,45,26,0.65)' }}"></div>
+    <div class="animated-review__overlay" aria-hidden="true" style="background: {{ section.settings.overlay_color | default: 'linear-gradient(180deg, rgba(22,28,19,0.52) 0%, rgba(43,55,33,0.82) 55%, rgba(51,65,39,0.85) 100%)' }}"></div>
 
   {% if section.settings.icon_image != blank %}
     <div class="animated-review__badge">
@@ -217,11 +217,12 @@
     }
 
     #animated-review-{{ section.id }} .animated-review__subheading {
-      font-size: clamp(0.9rem, 1vw + 0.5rem, 1.15rem);
-      font-weight: 600;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      margin-bottom: 18px;
+      font-family: {{ section.settings.script_font_family | default: "'Lucida Handwriting', 'Segoe Script', cursive" }};
+      font-size: clamp(1.05rem, 1.4vw + 0.6rem, 1.6rem);
+      letter-spacing: 0.08em;
+      font-weight: 400;
+      text-transform: none;
+      margin-bottom: clamp(18px, 4vw, 32px);
       opacity: 0;
       transform: translateY(12px);
       transition: opacity 0.6s ease, transform 0.6s ease;
@@ -229,11 +230,12 @@
     }
 
     #animated-review-{{ section.id }} .animated-review__heading {
-      font-size: clamp(2.4rem, 3vw + 1rem, 3.8rem);
-      line-height: 1.05;
+      font-size: clamp(3.6rem, 6vw + 1rem, 6rem);
+      line-height: 1;
       font-weight: 700;
-      margin: 0 auto clamp(32px, 5vw, 52px);
-      max-width: 16ch;
+      letter-spacing: -0.015em;
+      margin: 0 auto clamp(26px, 4vw, 44px);
+      max-width: 12ch;
       opacity: 0;
       transform: translateY(24px);
       transition: opacity 0.7s ease, transform 0.7s ease;
@@ -243,7 +245,7 @@
     #animated-review-{{ section.id }} .animated-review__product {
       display: flex;
       justify-content: center;
-      margin-bottom: clamp(48px, 8vw, 80px);
+      margin-bottom: clamp(42px, 7vw, 72px);
       opacity: 0;
       transform: translateY(32px);
       transition: opacity 0.7s ease, transform 0.7s ease;
@@ -251,18 +253,25 @@
 
     #animated-review-{{ section.id }} .animated-review__product-media,
     #animated-review-{{ section.id }} .animated-review__product-placeholder {
-      width: clamp(220px, 26vw, 360px);
-      aspect-ratio: 1 / 1;
-      border-radius: clamp(140px, 18vw, 220px);
-      background: radial-gradient(circle at 32% 32%, var(--ar-product-highlight), var(--ar-product-base));
-      border: none;
-      box-shadow: 0 40px 90px var(--ar-product-shadow);
+      width: clamp(280px, 34vw, 520px);
+      max-width: 560px;
+      border-radius: clamp(24px, 6vw, 42px);
+      background: none;
+      border: 0;
+      box-shadow: 0 60px 120px var(--ar-product-shadow);
       object-fit: cover;
+      display: block;
+      animation: ar-product-float 6s ease-in-out infinite;
+    }
+
+    #animated-review-{{ section.id }} .animated-review__product-placeholder {
+      background: radial-gradient(circle at 45% 40%, var(--ar-product-highlight) 0%, rgba(47,63,32,0.42) 55%, rgba(30,44,23,0.78) 100%);
       display: grid;
       place-items: center;
-      color: rgba(231,238,255,0.9);
-      padding: 12px;
-      animation: ar-product-float 6s ease-in-out infinite;
+      color: rgba(240,244,230,0.92);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
     }
 
     #animated-review-{{ section.id }} .animated-review__product-placeholder span {
@@ -277,13 +286,14 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      gap: 18px;
+      gap: clamp(14px, 2vw, 24px);
       margin-bottom: clamp(32px, 5vw, 52px);
     }
 
     #animated-review-{{ section.id }} .animated-review__reviews-title {
-      font-size: clamp(1.2rem, 1vw + 1rem, 1.5rem);
-      letter-spacing: 0.08em;
+      font-size: clamp(1.6rem, 2.2vw + 0.6rem, 2.4rem);
+      font-weight: 700;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
       margin: 0;
       color: {{ section.settings.reviews_title_color | default: '#ffffff' }};
@@ -297,10 +307,10 @@
     }
 
     #animated-review-{{ section.id }} .animated-review__nav-btn {
-      width: 54px;
-      height: 54px;
+      width: clamp(68px, 5.8vw, 82px);
+      height: clamp(68px, 5.8vw, 82px);
       border-radius: 50%;
-      border: 1.5px solid var(--ar-nav-border);
+      border: 1px solid var(--ar-nav-border);
       background: var(--ar-nav-bg);
       color: var(--ar-nav-icon);
       cursor: pointer;
@@ -308,6 +318,7 @@
       align-items: center;
       justify-content: center;
       transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+      box-shadow: 0 24px 65px rgba(13,18,9,0.26);
     }
 
     #animated-review-{{ section.id }} .animated-review__nav-btn:hover,
@@ -315,7 +326,7 @@
       background: var(--ar-nav-hover-bg);
       border-color: var(--ar-nav-hover-border);
       color: var(--ar-nav-hover-icon);
-      transform: translateY(-2px);
+      transform: translateY(-4px);
       outline: none;
     }
 
@@ -351,12 +362,12 @@
       display: flex;
       flex-direction: column;
       gap: clamp(16px, 2.2vw, 24px);
-      box-shadow: 0 28px 70px var(--ar-card-shadow);
+      box-shadow: 0 32px 65px var(--ar-card-shadow);
       transition: transform 0.45s ease, box-shadow 0.45s ease, background 0.45s ease, color 0.45s ease, border-color 0.45s ease;
       scroll-snap-align: center;
       position: relative;
       pointer-events: auto;
-      background-image: linear-gradient(145deg, var(--ar-card-gradient-start), var(--ar-card-gradient-end));
+      background-image: linear-gradient(165deg, var(--ar-card-gradient-start), var(--ar-card-gradient-end));
     }
 
     #animated-review-{{ section.id }} .animated-review__card::after {
@@ -382,19 +393,21 @@
       font-size: 18px;
       color: var(--ar-star-color);
       letter-spacing: 4px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
     }
 
     #animated-review-{{ section.id }} .animated-review__card-title {
-      font-size: clamp(1.4rem, 1.2vw + 1rem, 2.2rem);
+      font-size: clamp(1.6rem, 1.5vw + 1rem, 2.3rem);
       font-weight: 700;
       margin: 0;
       color: inherit;
+      line-height: 1.1;
     }
 
     #animated-review-{{ section.id }} .animated-review__card-body {
       margin: 0;
-      font-size: clamp(1rem, 0.9vw + 0.8rem, 1.3rem);
-      line-height: 1.55;
+      font-size: clamp(1.1rem, 1vw + 0.75rem, 1.4rem);
+      line-height: 1.6;
       color: inherit;
     }
 
@@ -429,7 +442,7 @@
 
     @keyframes ar-product-float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-16px); }
+      50% { transform: translateY(-12px); }
     }
 
     #animated-review-{{ section.id }} .animated-review__inner[data-visible="true"] .animated-review__subheading,
@@ -644,19 +657,25 @@
       "type": "text",
       "id": "subheading",
       "label": "Subheading",
-      "default": "Don't take our word for it"
+      "default": "Premium Matcha Taste"
     },
     {
       "type": "textarea",
       "id": "heading",
       "label": "Heading",
-      "default": "DON'T TAKE OUR WORD FOR IT"
+      "default": "Clean.\nGreen.\nGoodness."
     },
     {
       "type": "text",
       "id": "reviews_heading",
       "label": "Reviews heading",
-      "default": "Customer reviews"
+      "default": "DON'T TAKE OUR WORD FOR IT"
+    },
+    {
+      "type": "text",
+      "id": "script_font_family",
+      "label": "Subheading font stack",
+      "default": "'Lucida Handwriting', 'Segoe Script', cursive"
     },
     {
       "type": "image_picker",
