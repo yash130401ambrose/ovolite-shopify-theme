@@ -407,171 +407,138 @@
     }
   </style>
 
-  <script>
+<script>
   (function() {
     var root = document.getElementById('animated-review-{{ section.id }}');
     if (!root) return;
 
     var slider = root.querySelector('.animated-review__slider');
-    var track = root.querySelector('.animated-review__track');
-    var cards = Array.from(root.querySelectorAll('.animated-review__card'));
+    if (!slider) return;
+
+    var track = slider.querySelector('.animated-review__track');
+    if (!track) return;
+
+    var cards = Array.from(track.children);
+    if (!cards.length) return;
+
     var prevBtn = root.querySelector('[data-animated-review-nav="prev"]');
     var nextBtn = root.querySelector('[data-animated-review-nav="next"]');
     var animatedElements = Array.from(root.querySelectorAll('[data-animate]'));
     var autoRotate = {{ section.settings.auto_rotate | json }};
     var autoRotateInterval = {{ section.settings.auto_rotate_interval | default: 6 | times: 1000 }};
     var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var activeIndex = cards.length ? Math.min(Math.floor(cards.length / 2), cards.length - 1) : 0;
+
+    var centerIndex = Math.floor(cards.length / 2);
+    var isAnimating = false;
     var autoRotateTimer = null;
 
-    var inner = root.querySelector('.animated-review__inner');
-      if (inner) {
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-              inner.setAttribute('data-visible', 'true');
-            animatedElements.forEach(function(el) { el.setAttribute('data-visible', 'true'); });
-              observer.disconnect();
-            }
-          });
-        }, { threshold: 0.25 });
-        observer.observe(inner);
-      }
-
-      if (!slider || cards.length === 0) return;
-
-    var originalCards = cards.slice();
-    var visibleCount = Math.min(3, originalCards.length);
-    var centerOffset = Math.floor(visibleCount / 2);
-    var hasLoop = track && originalCards.length > 1;
-
-    if (hasLoop) {
-      originalCards.slice(-visibleCount).forEach(function(card) {
-        var clone = card.cloneNode(true);
-        clone.classList.add('animated-review__card--clone');
-        track.insertBefore(clone, track.firstChild);
+    function highlight() {
+      cards.forEach(function(card, idx) {
+        card.classList.toggle('is-active', idx === centerIndex);
       });
-      originalCards.slice(0, visibleCount).forEach(function(card) {
-        var clone = card.cloneNode(true);
-        clone.classList.add('animated-review__card--clone');
-        track.appendChild(clone);
-      });
-      cards = Array.from(root.querySelectorAll('.animated-review__card'));
     }
 
-    var totalOriginal = originalCards.length;
-    activeIndex = hasLoop ? visibleCount + centerOffset : Math.min(centerOffset, cards.length - 1);
+    function getGap() {
+      var style = window.getComputedStyle(track);
+      return parseFloat(style.gap) || 0;
+    }
 
-      function highlightActive() {
-      cards.forEach(function(card, idx) {
-        card.classList.toggle('is-active', idx === activeIndex);
-      });
-      }
+    function getStepDistance() {
+      var centerCard = cards[centerIndex];
+      if (!centerCard) return 0;
+      return centerCard.offsetWidth + getGap();
+    }
 
-    function applyTransform(offset, animate) {
-        if (!track) return;
-      track.style.transition = (animate && !prefersReducedMotion) ? 'transform 0.6s cubic-bezier(.24,.8,.3,1)' : 'none';
-      track.style.transform = 'translateX(' + (-offset) + 'px)';
-      }
+    function shift(direction) {
+      if (cards.length <= 1 || isAnimating) return;
+      var distance = getStepDistance();
+      if (!distance) return;
 
-    function focusIndex(index, animate) {
-        if (cards.length === 0) return;
+      isAnimating = true;
+      track.style.transition = 'transform 0.6s cubic-bezier(.24,.8,.3,1)';
+      track.style.transform = 'translateX(' + (-direction * distance) + 'px)';
 
-        if (hasLoop) {
-          activeIndex = index;
+      var handleTransitionEnd = function() {
+        track.style.transition = 'none';
+        track.style.transform = 'translateX(0)';
+
+        if (direction > 0) {
+          var first = cards.shift();
+          track.appendChild(first);
+          cards = Array.from(track.children);
         } else {
-          activeIndex = Math.max(0, Math.min(index, cards.length - 1));
+          var last = cards.pop();
+          track.insertBefore(last, track.firstChild);
+          cards = Array.from(track.children);
         }
 
-        highlightActive();
+        highlight();
+        isAnimating = false;
+      };
 
-        if (!hasLoop || !track) return;
+      track.addEventListener('transitionend', handleTransitionEnd, { once: true });
+    }
 
-      var target = cards[activeIndex];
-        if (!target) return;
+    function shiftPrev() {
+      shift(-1);
+      restartAutoRotate();
+    }
 
-      var offset = target.offsetLeft + target.clientWidth / 2 - slider.clientWidth / 2;
-        applyTransform(offset, animate);
-      }
+    function shiftNext() {
+      shift(1);
+      restartAutoRotate();
+    }
 
-      function normalizeLoop() {
-        if (!hasLoop || !track) return;
+    prevBtn && prevBtn.addEventListener('click', shiftPrev);
+    nextBtn && nextBtn.addEventListener('click', shiftNext);
 
-      var adjusted = false;
-
-      if (activeIndex >= totalOriginal + visibleCount) {
-        activeIndex -= totalOriginal;
-          adjusted = true;
-        } else if (activeIndex < visibleCount) {
-        activeIndex += totalOriginal;
-          adjusted = true;
-        }
-
-        if (adjusted) {
-        var target = cards[activeIndex];
-          if (!target) return;
-        var offset = target.offsetLeft + target.clientWidth / 2 - slider.clientWidth / 2;
-          applyTransform(offset, false);
-          highlightActive();
-        }
-      }
-
-      if (hasLoop && track) {
-      track.addEventListener('transitionend', function() {
-          track.style.transition = 'none';
-          normalizeLoop();
-        requestAnimationFrame(function() {
-            track.style.transition = 'transform 0.6s cubic-bezier(.24,.8,.3,1)';
-          });
-        });
-      }
-
-      if (prevBtn) {
-      prevBtn.addEventListener('click', function() {
-        focusIndex(activeIndex - 1, true);
-          restartAutoRotate();
-        });
-      }
-
-      if (nextBtn) {
-      nextBtn.addEventListener('click', function() {
-        focusIndex(activeIndex + 1, true);
-          restartAutoRotate();
-        });
-      }
-
-      function startAutoRotate() {
-        if (!autoRotate || prefersReducedMotion) return;
-        window.clearInterval(autoRotateTimer);
+    function startAutoRotate() {
+      if (!autoRotate || prefersReducedMotion) return;
+      stopAutoRotate();
       autoRotateTimer = window.setInterval(function() {
-        focusIndex(activeIndex + 1, true);
-        }, autoRotateInterval);
-      }
+        shift(1);
+      }, autoRotateInterval);
+    }
 
-      function stopAutoRotate() {
+    function stopAutoRotate() {
+      if (autoRotateTimer) {
         window.clearInterval(autoRotateTimer);
         autoRotateTimer = null;
       }
+    }
 
-      function restartAutoRotate() {
-        stopAutoRotate();
-        startAutoRotate();
-      }
+    function restartAutoRotate() {
+      stopAutoRotate();
+      startAutoRotate();
+    }
 
     root.addEventListener('mouseenter', stopAutoRotate);
     root.addEventListener('mouseleave', startAutoRotate);
     root.addEventListener('focusin', stopAutoRotate);
     root.addEventListener('focusout', startAutoRotate);
 
-    window.addEventListener('resize', function() {
-        focusIndex(activeIndex, false);
-      });
+    var inner = root.querySelector('.animated-review__inner');
+    if (inner) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            inner.setAttribute('data-visible', 'true');
+            animatedElements.forEach(function(el) { el.setAttribute('data-visible', 'true'); });
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.25 });
+      observer.observe(inner);
+    }
 
-    highlightActive();
-      focusIndex(activeIndex, false);
-      startAutoRotate();
+    window.addEventListener('resize', function() {
+      highlight();
+    });
+
+    highlight();
+    startAutoRotate();
   })();
-  </script>
+</script>
 
 {% schema %}
 {
