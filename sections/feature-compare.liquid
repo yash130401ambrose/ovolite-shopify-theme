@@ -190,6 +190,14 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       transition: none;
     }
 
+    .fc-col.has-check .fc-icon-wrap {
+      background: {{ section.settings.true_icon_background | default: 'rgba(193, 217, 170, 0.24)' }};
+    }
+
+    .fc-col.has-cross .fc-icon-wrap {
+      background: transparent;
+    }
+
     /* Animated Icons */
     .fc-check, .fc-cross {
       width: 20px;
@@ -210,7 +218,6 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
     }
 
     .fc-col.is-right .fc-icon-wrap {
-      border: 20px solid {{ section.settings.right_icon_border_color | default: 'rgba(193, 217, 170, 0.18)' }};
     }
 
     .play .fc-row[data-animate] .fc-col.is-right .fc-icon-wrap {
@@ -331,7 +338,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
           {% endcapture %}
           <div class="fc-row fc-anim--{{ animation_style }} fc-row--anim-{{ section.settings.right_icon_animation }}" data-animate style="{{ row_style | strip }}">
             <div class="fc-benefit">{{ block.settings.benefit }}</div>
-            <div class="fc-col">
+            <div class="fc-col {% if block.settings.left_has %}has-check{% else %}has-cross{% endif %}">
               <div class="fc-icon-wrap">
                 {% if block.settings.left_has %}
                   <svg class="fc-check" viewBox="0 0 24 24" fill="none">
@@ -344,7 +351,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
                 {% endif %}
               </div>
             </div>
-            <div class="fc-col is-right">
+            <div class="fc-col is-right {% if block.settings.right_has %}has-check{% else %}has-cross{% endif %}">
               <div class="fc-icon-wrap">
                 {% if block.settings.right_has %}
                   <svg class="fc-check" viewBox="0 0 24 24" fill="none">
@@ -409,7 +416,7 @@ Includes custom smiley/icon upload, logo image for left column, and editable col
       { "type": "range", "id": "badge_top_offset", "label": "Icon vertical offset (px)", "min": 0, "max": 160, "step": 4, "default": 28, "unit": "px" },
       { "type": "range", "id": "icon_wrap_width", "label": "Icon holder width (px)", "min": 32, "max": 120, "step": 1, "default": 60, "unit": "px" },
       { "type": "range", "id": "icon_wrap_height", "label": "Icon holder height (px)", "min": 28, "max": 100, "step": 1, "default": 48, "unit": "px" },
-      { "type": "color", "id": "right_icon_border_color", "label": "Right icon border color", "default": "rgba(193, 217, 170, 0.18)" },
+      { "type": "color", "id": "true_icon_background", "label": "True icon background", "default": "rgba(193, 217, 170, 0.24)" },
       { "type": "select", "id": "right_icon_animation", "label": "Right icon animation", "default": "shake", "options": [
         { "value": "none", "label": "None" },
         { "value": "shake", "label": "Shake" },
