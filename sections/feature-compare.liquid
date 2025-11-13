@@ -261,10 +261,18 @@
       #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__icon-image {
         animation: none;
         transition: none;
+        opacity: 1 !important;
+        animation-play-state: running;
+        transform: none !important;
       }
       #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__pill:hover .feature-compare-ovolite__icon-image {
         transform: none;
         filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.08));
+      }
+      #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__icon--check {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none;
       }
     }
 
@@ -313,15 +321,53 @@
       animation-name: fc-icon-pop;
     }
 
-    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row] {
+    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__row[data-fc-row] {
+      --fc-icon-delay: 0s;
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row] .feature-compare-ovolite__icon--check {
       opacity: 0;
-      transform: translateY(32px);
+      transform: translateY(16px);
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
-    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row].is-visible {
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row].is-visible .feature-compare-ovolite__icon--check {
       opacity: 1;
-      transform: translateY(0);
+      transform: none;
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row] .feature-compare-ovolite__icon-image {
+      opacity: 0;
+      animation-delay: var(--fc-icon-delay, 0s);
+      animation-play-state: paused;
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row].is-visible .feature-compare-ovolite__icon-image {
+      opacity: 1;
+      animation-play-state: running;
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row] .feature-compare-ovolite__icon--check svg {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row] .feature-compare-ovolite__icon--check dotlottie-wc {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      display: block;
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row].is-visible .feature-compare-ovolite__icon--check svg {
+      opacity: 1;
+      transform: none;
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row].is-visible .feature-compare-ovolite__icon--check dotlottie-wc {
+      opacity: 1;
+      transform: none;
     }
 
     @keyframes fc-icon-float {
@@ -432,7 +478,7 @@
         {% if section.blocks.size > 0 %}
           {% for block in section.blocks %}
             {% assign row_delay = forloop.index0 | times: 0.08 %}
-            <div class="feature-compare-ovolite__row" role="row" data-fc-row style="transition-delay: {{ row_delay | round: 2 }}s;" {{ block.shopify_attributes }}>
+            <div class="feature-compare-ovolite__row" role="row" data-fc-row style="--fc-icon-delay: {{ row_delay | round: 2 }}s;" {{ block.shopify_attributes }}>
               <div class="feature-compare-ovolite__cell" role="cell">
                 <span class="feature-compare-ovolite__benefit">{{ block.settings.benefit | escape }}</span>
               </div>
