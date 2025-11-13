@@ -38,11 +38,12 @@
                 assign title = block.settings.title
                 assign body = block.settings.body
                 assign icon = block.settings.icon
+                assign icon_size = block.settings.icon_size | default: 84
                 assign accent = block.settings.accent_color
                 assign link = block.settings.link
                 assign link_label = block.settings.link_label
               %}
-              <article class="bm-card" style="{% if accent %}--bm-card-accent: {{ accent }};{% endif %}" {{ block.shopify_attributes }}>
+              <article class="bm-card" style="{% if accent %}--bm-card-accent: {{ accent }};{% endif %} --bm-badge-size: {{ icon_size }}px;" {{ block.shopify_attributes }}>
                 <div class="bm-card__inner">
                   {% if icon != blank %}
                     <div class="bm-card__icon">
@@ -74,7 +75,7 @@
   #{{ section_id }} {
     position: relative;
     overflow: hidden;
-    padding: clamp(48px, 12vw, 160px) 0;
+    padding: clamp(32px, 8vw, 120px) 0;
     background: var(--bm-bg);
     color: var(--bm-text);
     transition: background-color 0.6s ease;
@@ -93,7 +94,7 @@
     z-index: 2;
     display: grid;
     gap: clamp(32px, 4vw, 64px);
-    min-height: clamp(520px, 74vh, 1100px);
+    min-height: clamp(520px, 80vh, 1100px);
   }
   #{{ section_id }} .bm-scroll__eyebrow {
     text-transform: uppercase;
@@ -106,7 +107,9 @@
   }
   #{{ section_id }} .bm-scroll__heading-wrap {
     position: absolute;
-    inset: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: grid;
     place-items: center;
     z-index: 1;
@@ -122,7 +125,10 @@
     pointer-events: none;
   }
   #{{ section_id }} .bm-scroll__viewport {
-    position: relative;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     overflow: visible;
     width: 100%;
     min-height: clamp(360px, 42vw, 620px);
@@ -157,17 +163,25 @@
     gap: clamp(14px, 1.6vw, 20px);
   }
   #{{ section_id }} .bm-card__icon {
-    width: clamp(56px, 6vw, 80px);
-    height: clamp(56px, 6vw, 80px);
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -55%);
+    width: var(--bm-badge-size, 84px);
+    height: var(--bm-badge-size, 84px);
     border-radius: 50%;
     display: grid;
     place-items: center;
-    background: rgba(255,255,255,0.75);
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+    background: rgba(255,255,255,0.9);
+    box-shadow:
+      0 8px 24px rgba(0,0,0,0.12),
+      inset 0 0 0 2px rgba(0,0,0,0.05);
+    overflow: hidden;
   }
   #{{ section_id }} .bm-card__icon img {
-    max-width: 60%;
-    height: auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   #{{ section_id }} .bm-card__label {
     font-size: clamp(13px, 1.3vw, 15px);
@@ -178,7 +192,7 @@
   }
   #{{ section_id }} .bm-card__title {
     margin: 0;
-    font-size: clamp(24px, 2.8vw, 34px);
+    font-size: clamp(28px, 3.4vw, 44px);
     line-height: 1.1;
     text-transform: uppercase;
   }
@@ -473,6 +487,16 @@
           "id": "label",
           "label": "Card label",
           "default": "More caffeine"
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "label": "Badge icon size",
+          "min": 40,
+          "max": 140,
+          "step": 2,
+          "default": 84,
+          "unit": "px"
         },
         {
           "type": "text",
