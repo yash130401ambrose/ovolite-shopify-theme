@@ -4,7 +4,7 @@
   assign heading_color = section.settings.heading_color | default: '#0d0d0d'
   assign subheading_color = section.settings.subheading_color | default: '#2c2c2c'
   assign note_color = section.settings.note_color | default: '#2f6a3e'
-  assign card_bg = section.settings.card_bg | default: '#ffffff'
+  assign card_bg = section.settings.card_bg | default: 'rgba(255,255,255,0)'
   assign section_padding_y = section.settings.section_padding_y | default: 80
   assign gap_between_rows = section.settings.row_gap | default: 72
 %}
@@ -33,7 +33,7 @@
           <p class="ep-energy__label">{{ section.settings.energy_heading }}</p>
         {% endif %}
         <div class="ep-energy__metrics">
-          <div class="ep-energy__metric ep-energy__metric--primary">
+          <div class="ep-energy__metric ep-energy__metric--primary" style="--ep-value-size: {{ section.settings.energy_primary_value_size | default: 64 }}; --ep-unit-size: {{ section.settings.energy_primary_unit_size | default: 28 }}">
             {% if section.settings.energy_primary_value != blank %}
               <span class="ep-energy__metric-number">{{ section.settings.energy_primary_value }}</span>
             {% endif %}
@@ -42,7 +42,7 @@
             {% endif %}
           </div>
           <span class="ep-energy__metrics-dot">•</span>
-          <div class="ep-energy__metric ep-energy__metric--secondary">
+          <div class="ep-energy__metric ep-energy__metric--secondary" style="--ep-value-size: {{ section.settings.energy_secondary_value_size | default: 64 }}; --ep-unit-size: {{ section.settings.energy_secondary_unit_size | default: 28 }}">
             {% if section.settings.energy_secondary_value != blank %}
               <span class="ep-energy__metric-number">{{ section.settings.energy_secondary_value }}</span>
             {% endif %}
@@ -58,12 +58,12 @@
 
       <div class="ep-nutrition-card">
         {% if section.settings.nutrition_heading != blank %}
-          <p class="ep-nutrition-card__heading">{{ section.settings.nutrition_heading }}</p>
+          <p class="ep-nutrition-card__heading" style="--ep-nutrition-heading-size: {{ section.settings.nutrition_heading_size | default: 20 }}px">{{ section.settings.nutrition_heading }}</p>
         {% endif %}
         <ul class="ep-nutrition-card__list">
           {% for block in section.blocks %}
             {% if block.type == 'metric' %}
-              <li class="ep-nutrition-card__item" {{ block.shopify_attributes }}>
+              <li class="ep-nutrition-card__item" style="--ep-row-label-size: {{ block.settings.metric_label_size | default: 16 }}px; --ep-row-value-size: {{ block.settings.metric_value_size | default: 16 }}px" {{ block.shopify_attributes }}>
                 <span class="ep-nutrition-card__label">{{ block.settings.metric_label }}</span>
                 <span class="ep-nutrition-card__value">{{ block.settings.metric_value }}</span>
               </li>
@@ -76,18 +76,18 @@
     <div class="ep-bottom">
       <div class="ep-tagline">
         {% if section.settings.tagline_primary != blank %}
-          <p class="ep-tagline__primary">{{ section.settings.tagline_primary }}</p>
+          <p class="ep-tagline__primary" style="--ep-tagline-primary-size: {{ section.settings.tagline_primary_size | default: 36 }}px">{{ section.settings.tagline_primary }}</p>
         {% endif %}
         {% if section.settings.tagline_secondary != blank %}
-          <p class="ep-tagline__secondary">{{ section.settings.tagline_secondary }}</p>
+          <p class="ep-tagline__secondary" style="--ep-tagline-secondary-size: {{ section.settings.tagline_secondary_size | default: 26 }}px">{{ section.settings.tagline_secondary }}</p>
         {% endif %}
       </div>
 
       {% if section.settings.note_left != blank %}
-        <span class="ep-floating-note ep-floating-note--left">{{ section.settings.note_left }}</span>
+        <span class="ep-floating-note ep-floating-note--left" style="--ep-note-size: {{ section.settings.note_left_size | default: 18 }}px">{{ section.settings.note_left }}</span>
       {% endif %}
       {% if section.settings.note_right != blank %}
-        <span class="ep-floating-note ep-floating-note--right">{{ section.settings.note_right }}</span>
+        <span class="ep-floating-note ep-floating-note--right" style="--ep-note-size: {{ section.settings.note_right_size | default: 18 }}px">{{ section.settings.note_right }}</span>
       {% endif %}
 
       <div class="ep-payment-logos">
@@ -98,7 +98,7 @@
                 {{ block.settings.logo_image | image_url: width: 220 | image_tag: class: 'ep-payment-logos__image', alt: block.settings.logo_alt | default: block.settings.logo_label }}
               {% endif %}
               {% if block.settings.logo_label != blank %}
-                <span class="ep-payment-logos__label">{{ block.settings.logo_label }}</span>
+                <span class="ep-payment-logos__label" style="--ep-logo-label-size: {{ block.settings.logo_label_size | default: 14 }}px">{{ block.settings.logo_label }}</span>
               {% endif %}
             </div>
           {% endif %}
@@ -157,7 +157,7 @@
   }
 
   #energy-payment-{{ section.id }} .ep-energy__label {
-    font-size: clamp(32px, 5.6vw, 92px);
+    font-size: clamp(24px, 4.8vw, {{ section.settings.energy_heading_size | default: 60 }}px);
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -179,7 +179,7 @@
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric-number {
-    font-size: clamp(64px, 9vw, 124px);
+    font-size: clamp(42px, 6vw, var(--ep-value-size, 72px));
     font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--ep-accent);
@@ -191,7 +191,7 @@
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric-unit {
-    font-size: clamp(26px, 4.1vw, 56px);
+    font-size: clamp(18px, 3vw, var(--ep-unit-size, 32px));
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -217,7 +217,7 @@
 
   #energy-payment-{{ section.id }} .ep-energy__caption {
     margin: 0;
-    font-size: clamp(16px, 2vw, 20px);
+    font-size: clamp(14px, 2vw, {{ section.settings.energy_caption_size | default: 18 }}px);
     color: var(--ep-subheading);
     max-width: clamp(280px, 40vw, 420px);
     line-height: 1.5;
@@ -228,15 +228,17 @@
     border: 1px solid color-mix(in srgb, var(--ep-heading) 16%, transparent);
     border-radius: 12px;
     background: var(--ep-card-bg);
-    padding: clamp(18px, 3vw, 28px);
-    box-shadow: 0 20px 40px rgba(14, 32, 20, 0.1);
+    padding: clamp(16px, 2.6vw, 24px);
+    box-shadow: 0 20px 40px rgba(14, 32, 20, 0.07);
     display: flex;
     flex-direction: column;
     gap: clamp(16px, 3vw, 28px);
+    width: fit-content;
+    max-width: 100%;
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__heading {
-    font-size: clamp(18px, 2.4vw, 24px);
+    font-size: clamp(16px, 2.2vw, var(--ep-nutrition-heading-size, 20px));
     font-weight: 600;
     margin: 0;
     letter-spacing: 0.08em;
@@ -254,12 +256,16 @@
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__item {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr;
     justify-content: space-between;
-    align-items: center;
-    font-size: clamp(15px, 1.9vw, 18px);
+    gap: clamp(12px, 5vw, 36px);
+    align-items: baseline;
+    font-size: clamp(12px, 1.8vw, 18px);
     padding: clamp(10px, 1.6vw, 14px) clamp(4px, 1vw, 8px);
     border-top: 1px solid color-mix(in srgb, var(--ep-heading) 15%, transparent);
+    width: fit-content;
+    max-width: 100%;
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__item:first-child {
@@ -271,12 +277,14 @@
     color: var(--ep-heading);
     letter-spacing: 0.12em;
     text-transform: uppercase;
+    font-size: clamp(11px, 1.6vw, var(--ep-row-label-size, 15px));
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__value {
     font-weight: 600;
     color: var(--ep-heading);
     letter-spacing: 0.06em;
+    font-size: clamp(11px, 1.6vw, var(--ep-row-value-size, 15px));
   }
 
   #energy-payment-{{ section.id }} .ep-bottom {
@@ -308,7 +316,7 @@
 
   #energy-payment-{{ section.id }} .ep-floating-note {
     position: absolute;
-    font-size: clamp(14px, 3vw, 24px);
+    font-size: clamp(12px, 2.8vw, var(--ep-note-size, 18px));
     font-weight: 500;
     color: var(--ep-note);
     font-family: 'Handlee', 'Comic Sans MS', cursive;
@@ -357,7 +365,7 @@
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__label {
-    font-size: clamp(13px, 2.8vw, 16px);
+    font-size: clamp(11px, 2.4vw, var(--ep-logo-label-size, 14px));
     font-weight: 600;
     color: var(--ep-heading);
   }
@@ -441,24 +449,35 @@
     { "type": "color", "id": "heading_color", "label": "Primary text color", "default": "#191919" },
     { "type": "color", "id": "subheading_color", "label": "Secondary text color", "default": "#2e332e" },
     { "type": "color", "id": "note_color", "label": "Floating note color", "default": "#34693a" },
-    { "type": "color", "id": "card_bg", "label": "Card background color", "default": "#ffffff" },
+    { "type": "color", "id": "card_bg", "label": "Table background color (use transparency for none)", "default": "rgba(0,0,0,0)" },
     { "type": "range", "id": "section_padding_y", "label": "Section vertical padding", "min": 32, "max": 240, "step": 4, "default": 96, "unit": "px" },
     { "type": "range", "id": "row_gap", "label": "Gap between top and bottom blocks", "min": 32, "max": 160, "step": 4, "default": 72, "unit": "px" },
 
     { "type": "image_picker", "id": "energy_icon", "label": "Energy icon" },
     { "type": "text", "id": "energy_heading", "label": "Energy heading", "default": "ENERGY VALUE" },
+    { "type": "range", "id": "energy_heading_size", "label": "Heading font size", "min": 20, "max": 120, "step": 2, "default": 72, "unit": "px" },
     { "type": "text", "id": "energy_primary_value", "label": "Primary value (e.g. 632)", "default": "632" },
+    { "type": "range", "id": "energy_primary_value_size", "label": "Primary value font size", "min": 20, "max": 160, "step": 2, "default": 112, "unit": "px" },
     { "type": "text", "id": "energy_primary_unit", "label": "Primary unit (e.g. kJ)", "default": "kJ" },
+    { "type": "range", "id": "energy_primary_unit_size", "label": "Primary unit font size", "min": 12, "max": 96, "step": 2, "default": 42, "unit": "px" },
     { "type": "text", "id": "energy_secondary_value", "label": "Secondary value (e.g. 151)", "default": "151" },
+    { "type": "range", "id": "energy_secondary_value_size", "label": "Secondary value font size", "min": 20, "max": 160, "step": 2, "default": 112, "unit": "px" },
     { "type": "text", "id": "energy_secondary_unit", "label": "Secondary unit (e.g. KCAL)", "default": "kcal" },
+    { "type": "range", "id": "energy_secondary_unit_size", "label": "Secondary unit font size", "min": 12, "max": 96, "step": 2, "default": 42, "unit": "px" },
     { "type": "textarea", "id": "energy_caption", "label": "Energy caption", "default": "With glucomannan – clinically proven to support weight loss, ideal for your conscious lifestyle." },
+    { "type": "range", "id": "energy_caption_size", "label": "Caption font size", "min": 10, "max": 28, "step": 1, "default": 16, "unit": "px" },
 
     { "type": "text", "id": "nutrition_heading", "label": "Nutrition card heading", "default": "MACROS" },
+    { "type": "range", "id": "nutrition_heading_size", "label": "Nutrition heading font size", "min": 12, "max": 40, "step": 1, "default": 18, "unit": "px" },
 
     { "type": "text", "id": "tagline_primary", "label": "Tagline primary", "default": "Don’t just crave it." },
+    { "type": "range", "id": "tagline_primary_size", "label": "Tagline primary font size", "min": 16, "max": 80, "step": 2, "default": 48, "unit": "px" },
     { "type": "text", "id": "tagline_secondary", "label": "Tagline secondary", "default": "Get it." },
+    { "type": "range", "id": "tagline_secondary_size", "label": "Tagline secondary font size", "min": 14, "max": 60, "step": 2, "default": 36, "unit": "px" },
     { "type": "textarea", "id": "note_left", "label": "Floating note (left)", "default": "3–5 Days\nDelivery" },
-    { "type": "textarea", "id": "note_right", "label": "Floating note (right)", "default": "Free Shipping over\n£40.00" }
+    { "type": "range", "id": "note_left_size", "label": "Left note font size", "min": 12, "max": 36, "step": 1, "default": 20, "unit": "px" },
+    { "type": "textarea", "id": "note_right", "label": "Floating note (right)", "default": "Free Shipping over\n£40.00" },
+    { "type": "range", "id": "note_right_size", "label": "Right note font size", "min": 12, "max": 36, "step": 1, "default": 20, "unit": "px" }
   ],
   "blocks": [
     {
@@ -466,7 +485,9 @@
       "name": "Nutrition metric",
       "settings": [
         { "type": "text", "id": "metric_label", "label": "Metric label", "default": "Fat" },
-        { "type": "text", "id": "metric_value", "label": "Metric value", "default": "10.2 g" }
+        { "type": "range", "id": "metric_label_size", "label": "Label font size", "min": 10, "max": 32, "step": 1, "default": 16, "unit": "px" },
+        { "type": "text", "id": "metric_value", "label": "Metric value", "default": "10.2 g" },
+        { "type": "range", "id": "metric_value_size", "label": "Value font size", "min": 10, "max": 32, "step": 1, "default": 16, "unit": "px" }
       ]
     },
     {
@@ -476,6 +497,7 @@
         { "type": "image_picker", "id": "logo_image", "label": "Logo image" },
         { "type": "text", "id": "logo_label", "label": "Logo label" },
         { "type": "text", "id": "logo_alt", "label": "Logo alt text" },
+        { "type": "range", "id": "logo_label_size", "label": "Logo label font size", "min": 10, "max": 28, "step": 1, "default": 14, "unit": "px" },
         { "type": "range", "id": "logo_size", "label": "Logo circle size", "min": 64, "max": 200, "step": 4, "default": 128, "unit": "px" }
       ]
     }
