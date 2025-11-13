@@ -64,9 +64,13 @@ m-section m-image-with-text {{ section.settings.custom_class }} m-section-{{ sec
    ------------------------------- */
 
 .m-section-{{ section.id }} .m-richtext__title {
-  display: inline-block;
-  white-space: nowrap;
-  overflow: visible;
+  display: block;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.m-section-{{ section.id }} .m-richtext__title .m-heading-inner {
+  display: inline;
 }
 
 /* --- Typewriter --- */
