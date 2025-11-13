@@ -190,7 +190,7 @@
         "gap_mobile": 16,
         "use_scroll_mobile": false,
         "padding_top": 50,
-        "padding_bottom": 50,
+        "padding_bottom": 100,
         "enable_preload_image": false,
         "custom_class": ""
       }
