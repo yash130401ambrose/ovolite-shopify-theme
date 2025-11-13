@@ -93,7 +93,7 @@
     z-index: 2;
     display: grid;
     gap: clamp(32px, 4vw, 64px);
-    min-height: clamp(420px, 72vh, 900px);
+    min-height: clamp(520px, 74vh, 1100px);
   }
   #{{ section_id }} .bm-scroll__eyebrow {
     text-transform: uppercase;
@@ -125,7 +125,7 @@
     position: relative;
     overflow: visible;
     width: 100%;
-    min-height: clamp(260px, 36vw, 520px);
+    min-height: clamp(360px, 42vw, 620px);
     display: grid;
     place-items: center;
     z-index: 2; /* above heading to hide it */
@@ -136,29 +136,29 @@
     gap: var(--bm-gap);
     will-change: transform;
     transform: translate3d(120vw, 0, 0);
-    opacity: 0;
+    opacity: 1;
     z-index: 2;
   }
   #{{ section_id }} .bm-card {
-    flex: 0 0 clamp(240px, 26vw, 340px);
+    flex: 0 0 clamp(320px, 34vw, 520px);
     position: relative;
     background: color-mix(in srgb, var(--bm-card-accent, rgba(255,255,255,0.92)) 60%, white 40%);
     border-radius: var(--bm-radius);
     box-shadow:
       0 28px 60px -36px rgba(0, 0, 0, 0.45),
       0 18px 32px -20px rgba(18, 18, 18, 0.25);
-    padding: clamp(24px, 3vw, 40px);
+    padding: clamp(28px, 3.6vw, 56px);
     color: #0F1C16;
     backdrop-filter: blur(6px);
     transition: transform 0.45s ease, box-shadow 0.45s ease;
   }
   #{{ section_id }} .bm-card__inner {
     display: grid;
-    gap: clamp(12px, 1.4vw, 16px);
+    gap: clamp(14px, 1.6vw, 20px);
   }
   #{{ section_id }} .bm-card__icon {
-    width: clamp(44px, 5vw, 64px);
-    height: clamp(44px, 5vw, 64px);
+    width: clamp(56px, 6vw, 80px);
+    height: clamp(56px, 6vw, 80px);
     border-radius: 50%;
     display: grid;
     place-items: center;
@@ -170,7 +170,7 @@
     height: auto;
   }
   #{{ section_id }} .bm-card__label {
-    font-size: clamp(12px, 1.2vw, 14px);
+    font-size: clamp(13px, 1.3vw, 15px);
     text-transform: uppercase;
     letter-spacing: 0.18em;
     font-weight: 600;
@@ -178,13 +178,13 @@
   }
   #{{ section_id }} .bm-card__title {
     margin: 0;
-    font-size: clamp(20px, 2.4vw, 28px);
+    font-size: clamp(24px, 2.8vw, 34px);
     line-height: 1.1;
     text-transform: uppercase;
   }
   #{{ section_id }} .bm-card__body {
     margin: 0;
-    font-size: clamp(14px, 1.4vw, 16px);
+    font-size: clamp(16px, 1.5vw, 18px);
     line-height: 1.4;
     color: rgba(15, 28, 22, 0.8);
   }
@@ -307,7 +307,10 @@
       var stg = parseFloat(getComputedStyle(section).getPropertyValue('--bm-delay')) || {{ animation_delay }};
 
       // Pin the section while cards slide across the heading
-      var tl = gsap.timeline({
+      // Pure scroll-controlled movement: pin and scrub, no opacity or other animations
+      gsap.to(track, {
+        x: targetOffset,
+        ease: 'none',
         scrollTrigger: {
           trigger: section,
           start: 'top top',
@@ -317,27 +320,6 @@
           anticipatePin: 1
         }
       });
-
-      // 1) fade bg subtly as we scroll
-      tl.to(section, { 
-        backgroundColor: getComputedStyle(section).getPropertyValue('--bm-bg-end') || '{{ bg_color_end }}',
-        ease: 'none',
-        duration: 0.3
-      }, 0);
-
-      // 2) slide track from fully offscreen right until the 3-card group centers on the heading
-      tl.fromTo(track,
-        { x: viewportWidth * 1.15, opacity: 0 },
-        { x: targetOffset, opacity: 1, ease: 'power2.out', duration: 0.6 }
-      , 0.05);
-
-      // 3) lift cards slightly and stagger-in while scrubbing
-      tl.from(cards, {
-        y: 80,
-        opacity: 0,
-        stagger: { each: stg, ease: 'power2.out' },
-        duration: 0.4
-      }, 0.05);
     }
 
     function ready(fn) {
