@@ -3,6 +3,12 @@
   assign section_padding_bottom = section.settings.padding_bottom | default: 80
   assign text_alignment = section.settings.text_alignment | default: 'left'
   assign left_image = section.settings.image
+  assign use_lottie_checks = section.settings.use_lottie_checks
+  assign lottie_src = section.settings.lottie_src
+  assign lottie_size = section.settings.lottie_size | default: 32
+  if use_lottie_checks and lottie_src == blank
+    assign use_lottie_checks = false
+  endif
   assign image_alt_text = section.settings.image_alt
   if image_alt_text == blank and left_image != blank
     assign image_alt_text = left_image.alt
@@ -17,6 +23,9 @@
   class="feature-compare-ovolite"
   data-align="{{ text_alignment }}"
 >
+  {% if use_lottie_checks %}
+    <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
+  {% endif %}
   <style>
     #feature-compare-ovolite-{{ section.id }} {
       --fc-heading-color: {{ section.settings.heading_color | default: '#618049' }};
@@ -34,13 +43,19 @@
     }
 
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__inner {
-      max-width: {{ section.settings.max_width | default: 1200 }}px;
-      margin: 0 auto;
+      width: 100%;
+      {% if section.settings.enable_max_width %}
+        max-width: {{ section.settings.max_width | default: 1400 }}px;
+        margin-inline: auto;
+      {% else %}
+        max-width: none;
+        margin-inline: 0;
+      {% endif %}
       display: grid;
       grid-template-columns: minmax(0, 0.4fr) minmax(0, 0.6fr);
       gap: clamp(32px, 5vw, 72px);
       align-items: stretch;
-      padding-inline: clamp(16px, 4vw, 48px);
+      padding-inline: clamp(0px, 4vw, 48px);
     }
 
     @media screen and (max-width: 1023px) {
@@ -276,9 +291,19 @@
                 <span class="feature-compare-ovolite__pill" aria-hidden="true">
                   {% if block.settings.left_state == 'check' %}
                     <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check">
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5.5 12.5L10 17l8.5-8.5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
+                      {% if use_lottie_checks %}
+                        <dotlottie-wc
+                          src="{{ lottie_src }}"
+                          style="width: {{ lottie_size }}px; height: {{ lottie_size }}px;"
+                          autoplay
+                          loop
+                          aria-hidden="true"
+                        ></dotlottie-wc>
+                      {% else %}
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M5.5 12.5L10 17l8.5-8.5" stroke="{{ section.settings.check_color | default: '#3F6B3B' }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      {% endif %}
                     </span>
                   {% else %}
                     <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--cross">
@@ -296,9 +321,19 @@
                 <span class="feature-compare-ovolite__pill" aria-hidden="true">
                   {% if block.settings.right_state == 'check' %}
                     <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check">
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5.5 12.5L10 17l8.5-8.5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
+                      {% if use_lottie_checks %}
+                        <dotlottie-wc
+                          src="{{ lottie_src }}"
+                          style="width: {{ lottie_size }}px; height: {{ lottie_size }}px;"
+                          autoplay
+                          loop
+                          aria-hidden="true"
+                        ></dotlottie-wc>
+                      {% else %}
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M5.5 12.5L10 17l8.5-8.5" stroke="{{ section.settings.check_color | default: '#3F6B3B' }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      {% endif %}
                     </span>
                   {% else %}
                     <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--cross">
@@ -322,9 +357,19 @@
             <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator feature-compare-ovolite__cell--check" role="cell">
               <span class="feature-compare-ovolite__pill" aria-hidden="true">
                 <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5.5 12.5L10 17l8.5-8.5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  {% if use_lottie_checks %}
+                    <dotlottie-wc
+                      src="{{ lottie_src }}"
+                      style="width: {{ lottie_size }}px; height: {{ lottie_size }}px;"
+                      autoplay
+                      loop
+                      aria-hidden="true"
+                    ></dotlottie-wc>
+                  {% else %}
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5.5 12.5L10 17l8.5-8.5" stroke="{{ section.settings.check_color | default: '#3F6B3B' }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  {% endif %}
                 </span>
               </span>
             </div>
@@ -436,6 +481,12 @@
       "default": 96
     },
     {
+      "type": "checkbox",
+      "id": "enable_max_width",
+      "label": "Limit content width on large screens",
+      "default": false
+    },
+    {
       "type": "range",
       "id": "max_width",
       "label": "Content max width",
@@ -524,6 +575,28 @@
       "id": "cross_color",
       "label": "Cross icon color",
       "default": "rgba(50, 81, 45, 0.55)"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_lottie_checks",
+      "label": "Animate check icon with Lottie",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "lottie_src",
+      "label": "Lottie file URL",
+      "info": "Paste a .json or .lottie animation URL for the check icon."
+    },
+    {
+      "type": "range",
+      "id": "lottie_size",
+      "label": "Lottie icon size",
+      "min": 16,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "default": 28
     }
   ],
   "blocks": [
