@@ -3,6 +3,8 @@
   assign section_padding_bottom = section.settings.padding_bottom | default: 80
   assign text_alignment = section.settings.text_alignment | default: 'left'
   assign left_image = section.settings.image
+  assign left_column_width = section.settings.left_column_width | default: 40
+  assign right_column_width = 100 | minus: left_column_width
   assign use_lottie_checks = section.settings.use_lottie_checks
   assign lottie_src = section.settings.lottie_src
   assign lottie_size = section.settings.lottie_size | default: 32
@@ -52,8 +54,8 @@
         margin-inline: 0;
       {% endif %}
       display: grid;
-      grid-template-columns: minmax(0, 0.4fr) minmax(0, 0.6fr);
-      gap: clamp(32px, 5vw, 72px);
+      grid-template-columns: minmax(0, {{ left_column_width }}%) minmax(0, {{ right_column_width }}%);
+      gap: clamp(24px, 4vw, 64px);
       align-items: stretch;
       padding-inline: clamp(0px, 4vw, 48px);
     }
@@ -66,11 +68,18 @@
 
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__media {
       position: relative;
-      min-height: clamp(320px, 60vh, 560px);
+      min-height: {{ section.settings.media_min_height | default: 520 }}px;
+      height: 100%;
       overflow: hidden;
       border-radius: {{ section.settings.media_border_radius | default: 0 }}px;
       background-color: {{ section.settings.image_fallback_color | default: '#E6EDDA' }};
       display: flex;
+    }
+
+    @media screen and (max-width: 1023px) {
+      #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__media {
+        min-height: {{ section.settings.media_min_height_mobile | default: 360 }}px;
+      }
     }
 
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__image {
@@ -107,6 +116,7 @@
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__heading {
       margin: 0;
       color: var(--fc-heading-color);
+      font-family: var(--font-heading-family, inherit);
       font-size: clamp(42px, 5vw, 68px);
       line-height: 0.95;
       font-weight: 700;
@@ -116,6 +126,7 @@
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__subheading {
       margin: 0;
       color: var(--fc-subheading-color);
+      font-family: var(--font-heading-family, inherit);
       font-size: clamp(24px, 3.5vw, 36px);
       font-weight: 600;
       line-height: 1.1;
@@ -123,6 +134,7 @@
 
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__description {
       color: var(--fc-body-color);
+      font-family: var(--font-body-family, inherit);
       font-size: clamp(16px, 2vw, 18px);
       line-height: 1.55;
       max-width: {{ section.settings.content_max_width | default: 620 }}px;
@@ -171,6 +183,7 @@
 
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__benefit {
       color: var(--fc-body-color);
+      font-family: var(--font-body-family, inherit);
       font-size: clamp(17px, 2.4vw, 20px);
       font-weight: 500;
     }
@@ -206,6 +219,7 @@
 
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__label {
       color: var(--fc-body-color);
+      font-family: var(--font-body-family, inherit);
       font-size: clamp(15px, 2vw, 16px);
       font-weight: 500;
       text-align: center;
@@ -252,7 +266,7 @@
           | image_tag: class: 'feature-compare-ovolite__image', loading: 'lazy', sizes: '(min-width: 1024px) 40vw, 100vw', alt: image_alt_text
         }}
       {% else %}
-        <span>No image selected</span>
+        <span>Left column image</span>
       {% endif %}
     </div>
     <div class="feature-compare-ovolite__content">
@@ -396,7 +410,7 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Left image"
+      "label": "Left column image"
     },
     {
       "type": "text",
@@ -488,6 +502,16 @@
     },
     {
       "type": "range",
+      "id": "left_column_width",
+      "label": "Left column width (%)",
+      "min": 30,
+      "max": 50,
+      "step": 1,
+      "unit": "%",
+      "default": 40
+    },
+    {
+      "type": "range",
       "id": "max_width",
       "label": "Content max width",
       "min": 960,
@@ -515,6 +539,26 @@
       "step": 2,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "range",
+      "id": "media_min_height",
+      "label": "Left column minimum height (desktop)",
+      "min": 320,
+      "max": 820,
+      "step": 20,
+      "unit": "px",
+      "default": 520
+    },
+    {
+      "type": "range",
+      "id": "media_min_height_mobile",
+      "label": "Left column minimum height (mobile)",
+      "min": 240,
+      "max": 640,
+      "step": 20,
+      "unit": "px",
+      "default": 360
     },
     {
       "type": "color",
