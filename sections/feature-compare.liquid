@@ -46,18 +46,13 @@
 
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__inner {
       width: 100%;
-      {% if section.settings.enable_max_width %}
-        max-width: {{ section.settings.max_width | default: 1400 }}px;
-        margin-inline: auto;
-      {% else %}
-        max-width: none;
-        margin-inline: 0;
-      {% endif %}
+      max-width: {{ section.settings.max_width | default: 1180 }}px;
+      margin-inline: auto;
       display: grid;
       grid-template-columns: minmax(0, {{ left_column_width }}%) minmax(0, {{ right_column_width }}%);
       gap: clamp(24px, 4vw, 64px);
       align-items: stretch;
-      padding-inline: clamp(0px, 4vw, 48px);
+      padding-inline: clamp(16px, 4vw, 48px);
     }
 
     @media screen and (max-width: 1023px) {
@@ -74,6 +69,7 @@
       border-radius: {{ section.settings.media_border_radius | default: 0 }}px;
       background-color: {{ section.settings.image_fallback_color | default: '#E6EDDA' }};
       display: flex;
+      align-self: stretch;
     }
 
     @media screen and (max-width: 1023px) {
@@ -86,6 +82,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center;
       display: block;
     }
 
@@ -493,12 +490,6 @@
       "step": 4,
       "unit": "px",
       "default": 96
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_max_width",
-      "label": "Limit content width on large screens",
-      "default": false
     },
     {
       "type": "range",
