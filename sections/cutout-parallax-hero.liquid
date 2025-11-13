@@ -30,6 +30,8 @@
   assign scribble_text_offset_y = section.settings.scribble_text_offset_y | default: -8
   assign scribble_text_rotation = section.settings.scribble_text_rotation | default: -6
   assign scribble_text_stroke_width = section.settings.scribble_text_stroke_width | default: 2
+  assign scribble_text_viewbox = section.settings.scribble_text_viewbox | default: '0 0 1000 220'
+  assign scribble_text_duration = section.settings.scribble_text_duration | default: 2.7
   assign has_bg_image = false
   if bg_image != blank
     assign has_bg_image = true
@@ -51,7 +53,7 @@
   endif
 %}
 
-<section id="cutout-hero-{{ section.id }}" class="cutout-hero" style="--overlay: {{ overlay_color }}; --text-color: {{ text_color }}; --weight: {{ text_weight }}; --letter: {{ letter_spacing }}px; --line: {{ line_height }}px; --font-size: {{ font_size }}vw; --parallax: {{ parallax_strength }}; --scribble-stroke: {{ scribble_stroke }}; --scribble-width: {{ scribble_width }}; --scribble-duration: {{ scribble_duration }}s; --vh: {{ section_height }}vh; --pt: {{ padding_top }}px; --pb: {{ padding_bottom }}px; --scribble-text-size: {{ scribble_text_size }}vw; --scribble-text-color: {{ scribble_text_color }}; --scribble-text-offset-x: {{ scribble_text_offset_x }}vw; --scribble-text-offset-y: {{ scribble_text_offset_y }}vw; --scribble-text-rotation: {{ scribble_text_rotation }}deg; --scribble-subtitle-stroke-width: {{ scribble_text_stroke_width }}px; --scribble-font-stack: {{ scribble_font_stack }}; --scribble-text-animation-duration: calc(var(--scribble-duration) * 1.8);">
+<section id="cutout-hero-{{ section.id }}" class="cutout-hero" style="--overlay: {{ overlay_color }}; --text-color: {{ text_color }}; --weight: {{ text_weight }}; --letter: {{ letter_spacing }}px; --line: {{ line_height }}px; --font-size: {{ font_size }}vw; --parallax: {{ parallax_strength }}; --scribble-stroke: {{ scribble_stroke }}; --scribble-width: {{ scribble_width }}; --scribble-duration: {{ scribble_duration }}s; --vh: {{ section_height }}vh; --pt: {{ padding_top }}px; --pb: {{ padding_bottom }}px; --scribble-text-size: {{ scribble_text_size }}vw; --scribble-text-color: {{ scribble_text_color }}; --scribble-text-offset-x: {{ scribble_text_offset_x }}vw; --scribble-text-offset-y: {{ scribble_text_offset_y }}vw; --scribble-text-rotation: {{ scribble_text_rotation }}deg; --scribble-subtitle-stroke-width: {{ scribble_text_stroke_width }}px; --scribble-font-stack: {{ scribble_font_stack }}; --scribble-text-animation-duration: {{ scribble_text_duration }}s;">
   {% if enable_scribble_text and scribble_font_url != blank %}
   <style>
     @font-face {
@@ -91,7 +93,7 @@
       {% if enable_scribble_text %}
         <div class="cutout-hero__subtitle">
           <span class="cutout-hero__subtitle-hidden">{{ scribble_text_normalized | strip_html }}</span>
-          <svg viewBox="0 0 1000 220" preserveAspectRatio="xMinYMin meet" role="presentation">
+          <svg viewBox="{{ scribble_text_viewbox }}" preserveAspectRatio="xMinYMin meet" role="presentation">
             <text
               class="cutout-hero__subtitle-text"
               x="0"
@@ -318,7 +320,9 @@
     {"type":"range","id":"scribble_text_offset_x","label":"Scribble horizontal offset (vw)","min":-20,"max":20,"step":0.5,"default":-6,"unit":"vw"},
     {"type":"range","id":"scribble_text_offset_y","label":"Scribble vertical offset (vw)","min":-20,"max":20,"step":0.5,"default":-8,"unit":"vw"},
     {"type":"range","id":"scribble_text_rotation","label":"Scribble rotation (deg)","min":-30,"max":30,"step":1,"default":-6,"unit":"deg"},
-    {"type":"range","id":"scribble_text_stroke_width","label":"Scribble stroke width (px)","min":0.5,"max":10,"step":0.5,"default":2,"unit":"px"}
+    {"type":"range","id":"scribble_text_stroke_width","label":"Scribble stroke width (px)","min":0.5,"max":10,"step":0.5,"default":2,"unit":"px"},
+    {"type":"text","id":"scribble_text_viewbox","label":"Scribble text viewBox","default":"0 0 1000 220","info":"Adjust width and height if the scribble text is clipped. Format: minX minY width height"},
+    {"type":"range","id":"scribble_text_duration","label":"Scribble text draw duration (s)","min":0.3,"max":10,"step":0.1,"default":2.7,"unit":"s"}
   ],
   "presets": [
     {"name":"Cutout Parallax Hero"}
