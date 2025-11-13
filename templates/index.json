@@ -450,7 +450,7 @@
         "background_image": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
         "overlay_color": "#00000059",
         "reviews_heading": "What People Are Saying",
-        "script_font_family": "'Lucida Handwriting', 'Segoe Script', cursive",
+        "script_font_family": "",
         "section_background": "#0f1d0f",
         "section_text_color": "#ffffff",
         "heading_color": "#ffffff",
@@ -467,12 +467,12 @@
         "card_active_text_color": "#0f1d0f",
         "card_active_border_color": "#113dd573",
         "card_shadow_color": "#04104e73",
-        "star_color": "#d2861a",
+        "star_color": "#1b45c7",
         "verified_color": "#ffffff",
         "product_shadow_color": "#04104e8c",
         "hero_spacing": 60,
         "hero_spacer_height": 120,
-        "auto_rotate": false,
+        "auto_rotate": true,
         "auto_rotate_interval": 6
       }
     },
