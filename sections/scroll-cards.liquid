@@ -82,7 +82,7 @@
   #scroll-cards-{{ section.id }} {
     position: relative;
     background: var(--bg);
-    padding: var(--section-padding-y) 0;
+    padding: calc(var(--section-padding-y) * 0.35) 0 calc(var(--section-padding-y) * 1.1);
     overflow: hidden;
   }
 
@@ -297,6 +297,8 @@
       --card-gap: clamp(16px, 8vw, 24px);
       --card-icon-size: clamp(40px, 10vw, 68px);
       --card-icon-gap: clamp(12px, 5vw, 20px);
+      padding-top: clamp(20px, calc(var(--section-padding-y) * 0.4), 48px);
+      padding-bottom: clamp(64px, calc(var(--section-padding-y) * 1.05), 120px);
     }
 
     .scroll-cards__container {
@@ -339,8 +341,8 @@
 
   @media (max-width: 480px) {
     .scroll-cards-section {
-      padding-top: clamp(48px, 14vw, 72px);
-      padding-bottom: clamp(56px, 18vw, 88px);
+      padding-top: clamp(32px, 12vw, 56px);
+      padding-bottom: clamp(72px, 20vw, 108px);
     }
 
     .scroll-cards__heading {
