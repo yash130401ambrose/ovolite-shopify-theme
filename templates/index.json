@@ -426,7 +426,8 @@
         "payment_logo_zedzQt": {
           "type": "payment_logo",
           "settings": {
-            "logo_label": "",
+            "logo_image": "shopify://shop_images/1_88045ad9-cf79-484a-82cb-98600133231e.png",
+            "logo_label": "Fitness & Bodybuilding",
             "logo_alt": "",
             "logo_label_size": 14,
             "logo_size": 180
@@ -435,7 +436,8 @@
         "payment_logo_ngBdrN": {
           "type": "payment_logo",
           "settings": {
-            "logo_label": "",
+            "logo_image": "shopify://shop_images/3_3271b80a-e5e1-4af0-8b32-d525aca54063.png",
+            "logo_label": "Busy Lifestyle",
             "logo_alt": "",
             "logo_label_size": 12,
             "logo_size": 180
@@ -444,7 +446,8 @@
         "payment_logo_7g6RkV": {
           "type": "payment_logo",
           "settings": {
-            "logo_label": "",
+            "logo_image": "shopify://shop_images/2_46880ec2-be8f-4ba9-9ce1-92948a667c94.png",
+            "logo_label": "Weight Management",
             "logo_alt": "",
             "logo_label_size": 14,
             "logo_size": 180
@@ -453,7 +456,8 @@
         "payment_logo_zjXrcy": {
           "type": "payment_logo",
           "settings": {
-            "logo_label": "",
+            "logo_image": "shopify://shop_images/5_4c2404c3-46cb-45ea-a7b2-a2496c80d1fd.png",
+            "logo_label": "Easy Protein Intake",
             "logo_alt": "",
             "logo_label_size": 14,
             "logo_size": 180
@@ -462,7 +466,8 @@
         "payment_logo_ykehTC": {
           "type": "payment_logo",
           "settings": {
-            "logo_label": "",
+            "logo_image": "shopify://shop_images/4_4744d162-93f0-486f-b02b-61395ef415f3.png",
+            "logo_label": "Mess-Free Cooking",
             "logo_alt": "",
             "logo_label_size": 14,
             "logo_size": 180
