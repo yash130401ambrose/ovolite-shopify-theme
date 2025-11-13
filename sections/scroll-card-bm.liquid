@@ -93,6 +93,7 @@
     z-index: 2;
     display: grid;
     gap: clamp(32px, 4vw, 64px);
+    min-height: clamp(420px, 72vh, 900px);
   }
   #{{ section_id }} .bm-scroll__eyebrow {
     text-transform: uppercase;
@@ -104,13 +105,11 @@
     opacity: 0.7;
   }
   #{{ section_id }} .bm-scroll__heading-wrap {
-    position: sticky;
-    top: 50vh;
-    transform: translateY(-50%);
-    z-index: 1;
+    position: absolute;
+    inset: 0;
     display: grid;
     place-items: center;
-    min-height: clamp(180px, 30vw, 320px);
+    z-index: 1;
   }
   #{{ section_id }} .bm-scroll__heading {
     margin: 0;
@@ -126,7 +125,9 @@
     position: relative;
     overflow: visible;
     width: 100%;
-    min-height: clamp(240px, 26vw, 420px);
+    min-height: clamp(260px, 36vw, 520px);
+    display: grid;
+    place-items: center;
     z-index: 2; /* above heading to hide it */
   }
   #{{ section_id }} .bm-scroll__cards {
