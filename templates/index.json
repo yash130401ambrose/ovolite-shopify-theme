@@ -477,22 +477,28 @@
         "metric_bBYdBN": {
           "type": "metric",
           "settings": {
-            "metric_label": "Fat",
-            "metric_value": "10.2 g"
+            "metric_label": "The Caleries in Ovolite Egg White",
+            "metric_label_size": 16,
+            "metric_value": "10.2 g",
+            "metric_value_size": 16
           }
         },
         "metric_wK7NkP": {
           "type": "metric",
           "settings": {
-            "metric_label": "Fat",
-            "metric_value": "10.2 g"
+            "metric_label": "The Caleries in Ovolite Egg White",
+            "metric_label_size": 16,
+            "metric_value": "10.2 g",
+            "metric_value_size": 16
           }
         },
         "metric_Km4eLP": {
           "type": "metric",
           "settings": {
-            "metric_label": "Fat",
-            "metric_value": "10.2 g"
+            "metric_label": "The Caleries in Ovolite Egg White",
+            "metric_label_size": 16,
+            "metric_value": "10.2 g",
+            "metric_value_size": 16
           }
         },
         "payment_logo_MJwnWN": {
@@ -500,6 +506,7 @@
           "settings": {
             "logo_label": "",
             "logo_alt": "",
+            "logo_label_size": 14,
             "logo_size": 128
           }
         },
@@ -508,6 +515,7 @@
           "settings": {
             "logo_label": "",
             "logo_alt": "",
+            "logo_label_size": 14,
             "logo_size": 128
           }
         },
@@ -516,6 +524,7 @@
           "settings": {
             "logo_label": "",
             "logo_alt": "",
+            "logo_label_size": 14,
             "logo_size": 128
           }
         },
@@ -524,6 +533,7 @@
           "settings": {
             "logo_label": "",
             "logo_alt": "",
+            "logo_label_size": 14,
             "logo_size": 128
           }
         }
@@ -544,20 +554,31 @@
         "heading_color": "#191919",
         "subheading_color": "#2e332e",
         "note_color": "#34693a",
-        "card_bg": "#ffffff",
+        "card_bg": "rgba(0,0,0,0)",
         "section_padding_y": 96,
         "row_gap": 72,
         "energy_heading": "ENERGY VALUE",
+        "energy_heading_size": 56,
         "energy_primary_value": "632",
+        "energy_primary_value_size": 58,
         "energy_primary_unit": "kJ",
+        "energy_primary_unit_size": 96,
         "energy_secondary_value": "151",
+        "energy_secondary_value_size": 34,
         "energy_secondary_unit": "kcal",
+        "energy_secondary_unit_size": 36,
         "energy_caption": "With glucomannan – clinically proven to support weight loss, ideal for your conscious lifestyle.",
+        "energy_caption_size": 16,
         "nutrition_heading": "MACROS",
+        "nutrition_heading_size": 18,
         "tagline_primary": "Don’t just crave it.",
+        "tagline_primary_size": 48,
         "tagline_secondary": "Get it.",
+        "tagline_secondary_size": 36,
         "note_left": "3–5 Days\nDelivery",
-        "note_right": "Free Shipping over\n£40.00"
+        "note_left_size": 20,
+        "note_right": "Free Shipping over\n£40.00",
+        "note_right_size": 20
       }
     }
   },
