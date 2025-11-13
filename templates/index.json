@@ -68,7 +68,7 @@
         "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
         "text_size": "medium",
         "content_alignment": "left",
-        "button_label": "Shop Collection",
+        "button_label": "Shop Now",
         "button_link": "",
         "button_style": "m-button--link",
         "button_size": "",
