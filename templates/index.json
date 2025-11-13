@@ -50,7 +50,7 @@
         "heading_size": "h3",
         "subheading": "",
         "container": "container-fluid",
-        "color_scheme": "badge-sale",
+        "color_scheme": "default",
         "item_gap": 100,
         "item_gap_mobile": 30,
         "layout": "left",
@@ -80,6 +80,17 @@
         "animations": "inherit"
       }
     },
+    "liquid_drip_divider_B8YCmR": {
+      "type": "liquid-drip-divider",
+      "name": "Liquid Drip Divider",
+      "settings": {
+        "mask_image_above": false,
+        "top_color": "#ffffff",
+        "bottom_color": "#1b45c7",
+        "drip_height": 100,
+        "wave_style": "dramatic"
+      }
+    },
     "cutout_parallax_hero_MPYWeY": {
       "type": "cutout-parallax-hero",
       "name": "Cutout Parallax Hero",
@@ -104,7 +115,7 @@
         "scribble_svg_paths": "<path d=\"M15 120 C60 10, 140 200, 200 40\"></path>",
         "enable_scribble_text": true,
         "scribble_text": "Ways of Using",
-        "scribble_font_choice": "marker",
+        "scribble_font_choice": "serif",
         "scribble_font_url": "",
         "scribble_font_family": "ScribbleCustom",
         "scribble_text_size": 12,
@@ -586,6 +597,7 @@
   "order": [
     "image_with_text_2_NRLVdk",
     "image_with_text_kX9k8X",
+    "liquid_drip_divider_B8YCmR",
     "cutout_parallax_hero_MPYWeY",
     "scroll_cards_GUDwiE",
     "liquid_drip_divider_pMCczy",
