@@ -109,8 +109,8 @@
         "scribble_font_family": "ScribbleCustom",
         "scribble_text_size": 12,
         "scribble_text_color": "#ffffff",
-        "scribble_text_offset_x": 12,
-        "scribble_text_offset_y": 6,
+        "scribble_text_offset_x": 8.5,
+        "scribble_text_offset_y": 6.5,
         "scribble_text_rotation": -6,
         "scribble_text_stroke_width": 4
       }
@@ -123,7 +123,8 @@
           "settings": {
             "title": "MORECAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": ""
+            "icon_alt": "",
+            "icon_offset": 0
           }
         },
         "card_iMtLct": {
@@ -131,7 +132,8 @@
           "settings": {
             "title": "MORE\nCAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": ""
+            "icon_alt": "",
+            "icon_offset": 0
           }
         },
         "card_XNeKdD": {
@@ -139,7 +141,8 @@
           "settings": {
             "title": "MORE\nCAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": ""
+            "icon_alt": "",
+            "icon_offset": 0
           }
         },
         "card_WRbcqt": {
@@ -147,7 +150,8 @@
           "settings": {
             "title": "MORE\\nCAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": ""
+            "icon_alt": "",
+            "icon_offset": 0
           }
         },
         "card_b8jFEa": {
@@ -155,7 +159,8 @@
           "settings": {
             "title": "MORE\\nCAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": ""
+            "icon_alt": "",
+            "icon_offset": 0
           }
         }
       },
@@ -574,11 +579,7 @@
         "tagline_primary": "Don’t just crave it.",
         "tagline_primary_size": 48,
         "tagline_secondary": "Get it.",
-        "tagline_secondary_size": 36,
-        "note_left": "3–5 Days\nDelivery",
-        "note_left_size": 20,
-        "note_right": "Free Shipping over\n£40.00",
-        "note_right_size": 20
+        "tagline_secondary_size": 36
       }
     }
   },
