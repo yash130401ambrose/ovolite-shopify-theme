@@ -89,13 +89,13 @@
     width: 100%;
     max-width: 1600px;
     margin: 0 auto;
-    padding-top: clamp(16px, 4vw, 48px);
+    padding-top: clamp(8px, 2.5vw, 36px);
   }
 
   .scroll-cards__heading {
     position: relative;
     display: block;
-    margin: 0 auto clamp(32px, 5vw, 96px);
+    margin: 0 auto clamp(24px, 4vw, 72px);
     padding: 0 clamp(12px, 3vw, 32px);
     max-width: min(960px, 92%);
     text-align: center;
@@ -104,7 +104,7 @@
     font-weight: 700;
     line-height: 1.05;
     color: var(--heading-color);
-    opacity: 0.32;
+    opacity: 100;
     white-space: pre-wrap;
     pointer-events: none;
     z-index: 2;
@@ -160,7 +160,7 @@
     display: inline-flex;
     gap: var(--card-gap);
     align-items: stretch;
-    padding: clamp(40px, calc(var(--icon-size) * 0.6), 96px) 6vw clamp(32px, 6vw, 56px);
+    padding: clamp(28px, calc(var(--icon-size) * 0.45), 72px) 6vw clamp(24px, 5vw, 48px);
     will-change: transform;
     z-index: 3;
   }
@@ -262,7 +262,7 @@
   @media (max-width: 1024px) {
     .scroll-cards__heading {
       font-size: clamp(28px, 7vw, 84px);
-      margin: 0 auto clamp(28px, 7vw, 88px);
+      margin: 0 auto clamp(22px, 6vw, 72px);
       padding: 0 clamp(16px, 5vw, 36px);
       opacity: 0.26;
     }
@@ -278,9 +278,10 @@
     }
     .scroll-cards__container {
       max-width: 90vw;
+      padding-top: clamp(10px, 4vw, 32px);
     }
     .scroll-cards__track {
-      padding: clamp(36px, calc(var(--icon-size) * 0.55), 72px) clamp(5vw, 9vw, 12vw) clamp(28px, 6vw, 44px);
+      padding: clamp(26px, calc(var(--icon-size) * 0.42), 60px) clamp(5vw, 9vw, 12vw) clamp(22px, 5vw, 40px);
     }
     .scroll-card {
       flex: 0 0 clamp(340px, 80vw, 420px);
@@ -298,13 +299,13 @@
 
     .scroll-cards__container {
       max-width: 100%;
-      padding-top: clamp(12px, 4vw, 40px);
+      padding-top: clamp(8px, 3.5vw, 32px);
     }
 
     .scroll-cards__heading {
       font-size: clamp(24px, 14vw, 60px);
       letter-spacing: 0.04em;
-      margin: 0 auto clamp(24px, 8vw, 72px);
+      margin: 0 auto clamp(20px, 7vw, 56px);
       padding: 0 clamp(16px, 6vw, 40px);
       opacity: 0.24;
     }
@@ -342,7 +343,7 @@
 
     .scroll-cards__heading {
       font-size: clamp(22px, 15vw, 52px);
-      margin: 0 auto clamp(20px, 10vw, 60px);
+      margin: 0 auto clamp(18px, 9vw, 52px);
       padding: 0 clamp(14px, 7vw, 36px);
       opacity: 0.28;
     }
