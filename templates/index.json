@@ -366,7 +366,7 @@
         "media_border_radius": 0,
         "media_min_height": 520,
         "media_min_height_mobile": 360,
-        "background_color": "#f5f7ec",
+        "background_color": "#ffffff",
         "image_fallback_color": "#dde8c9",
         "heading_color": "#1b45c7",
         "subheading_color": "#1b45c7",
@@ -497,7 +497,7 @@
       ],
       "name": "Ingrediant box",
       "settings": {
-        "bg_color": "#f6f4ea",
+        "bg_color": "#ffffff",
         "accent_color": "#1b45c7",
         "heading_color": "#191919",
         "subheading_color": "#2e332e",
