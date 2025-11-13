@@ -321,6 +321,8 @@
   #energy-payment-{{ section.id }} .ep-payment-logos__item {
     width: var(--logo-size, 152px);
     height: var(--logo-size, 152px);
+    flex: 0 0 auto;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
     background: #ffffff;
     box-shadow: none;
@@ -339,12 +341,12 @@
     animation: ep-logo-sway 1.1s ease-in-out infinite alternate;
   }
 
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(1) { --ep-logo-offset: 28px; }
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(2) { --ep-logo-offset: 12px; }
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(3) { --ep-logo-offset: -12px; }
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(4) { --ep-logo-offset: -12px; }
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(5) { --ep-logo-offset: 12px; }
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(6) { --ep-logo-offset: 28px; }
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(1) { --ep-logo-offset: 32px; }
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(2) { --ep-logo-offset: 16px; }
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(3) { --ep-logo-offset: -10px; }
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(4) { --ep-logo-offset: -10px; }
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(5) { --ep-logo-offset: 16px; }
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(6) { --ep-logo-offset: 32px; }
 
   @keyframes ep-logo-sway {
     0%   { transform: translateY(var(--ep-logo-offset, 0px)) translateX(-8px); }
