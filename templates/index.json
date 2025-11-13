@@ -123,7 +123,8 @@
           "settings": {
             "title": "MORECAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": ""
+            "icon_alt": "",
+            "icon_offset": 0
           }
         },
         "card_iMtLct": {
@@ -131,7 +132,8 @@
           "settings": {
             "title": "MORE\nCAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": ""
+            "icon_alt": "",
+            "icon_offset": 0
           }
         },
         "card_XNeKdD": {
@@ -139,7 +141,8 @@
           "settings": {
             "title": "MORE\nCAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": ""
+            "icon_alt": "",
+            "icon_offset": 0
           }
         },
         "card_WRbcqt": {
@@ -147,7 +150,8 @@
           "settings": {
             "title": "MORE\\nCAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": ""
+            "icon_alt": "",
+            "icon_offset": 0
           }
         },
         "card_b8jFEa": {
@@ -155,7 +159,8 @@
           "settings": {
             "title": "MORE\\nCAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": ""
+            "icon_alt": "",
+            "icon_offset": 0
           }
         }
       },
@@ -174,6 +179,7 @@
         "card_title_color": "#1a1a1a",
         "desc_color": "#1b45c7",
         "card_bg": "#ffffff",
+        "shared_icon": "shopify://shop_images/WhatsApp_Image_2025-01-13_at_17.35.33_1.jpg",
         "card_icon_size": 72,
         "card_icon_gap": 20,
         "card_height": 520,
@@ -182,6 +188,11 @@
         "card_width": 530,
         "card_gap": 48,
         "section_padding_y": 200,
+        "heading_card_gap": 56,
+        "scroll_distance": 2200,
+        "scroll_smoothness": 6,
+        "animation_direction": "rtl",
+        "animation_ease": "power2.out",
         "enable_animation": true
       }
     },
