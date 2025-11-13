@@ -283,85 +283,39 @@
     },
     "feature_compare_cfdaRM": {
       "type": "feature-compare",
-      "blocks": {
-        "benefit_WUDDLh": {
-          "type": "benefit",
-          "settings": {
-            "benefit": "Low in Carbs",
-            "left_has": true,
-            "right_has": false
-          }
-        },
-        "benefit_g9EyYn": {
-          "type": "benefit",
-          "settings": {
-            "benefit": "Low in Carbs",
-            "left_has": true,
-            "right_has": false
-          }
-        },
-        "benefit_rqYN93": {
-          "type": "benefit",
-          "settings": {
-            "benefit": "Low in Carbs",
-            "left_has": true,
-            "right_has": false
-          }
-        },
-        "benefit_iiKTq3": {
-          "type": "benefit",
-          "settings": {
-            "benefit": "Low in Carbs",
-            "left_has": true,
-            "right_has": false
-          }
-        }
-      },
-      "block_order": [
-        "benefit_WUDDLh",
-        "benefit_g9EyYn",
-        "benefit_rqYN93",
-        "benefit_iiKTq3"
-      ],
       "name": "Feature Compare Ovolite",
       "settings": {
-        "icon_area_image": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
-        "icon_area_mode": "cover",
-        "right_label": "Regular EggWhite",
+        "image": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
+        "image_alt": "Matcha scoop",
+        "subheading": "More for you.",
         "heading": "See the difference.",
-        "icon_area_background": "#f4f6ee",
-        "icon_area_size": 240,
-        "bg_color": "#ffffff",
+        "description": "<p>Highlight your product benefits and show how it outperforms the competition.</p>",
+        "benefit_heading": "Benefits",
+        "left_label": "More",
+        "right_label": "Regular EggWhite",
+        "text_alignment": "left",
+        "text_alignment_mobile": "center",
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "left_column_width": 40,
+        "max_width": 1180,
+        "content_max_width": 600,
+        "media_border_radius": 0,
+        "media_min_height": 520,
+        "media_min_height_mobile": 360,
+        "background_color": "#f5f7ec",
+        "image_fallback_color": "#dde8c9",
         "heading_color": "#1b45c7",
-        "text_color": "#0a0a0a",
-        "accent_color": "#0040ff",
-        "card_color": "#f5f8ff",
-        "icon_background_color": "#ffffff",
-        "icon_border_color": "#8cc279",
-        "icon_diameter": 96,
-        "badge_top_offset": 28,
-        "icon_wrap_width": 60,
-        "icon_wrap_height": 48,
-        "benefit_text_color": "#2c5127",
-        "benefit_heading_color": "#245226a6",
-        "left_label_color": "#245226a6",
-        "right_label_color": "#245226a6",
-        "benefit_font_size": 20,
-        "true_icon_background": "#c1d9aa3d",
-        "true_icon_color": "#386337",
-        "false_icon_color": "#2e2e2e",
+        "subheading_color": "#618049",
+        "body_color": "#32512db8",
+        "header_color": "#32512db3",
+        "row_border_color": "#62804947",
+        "check_background": "#c1d9aa59",
+        "check_color": "#3f6b3b",
+        "cross_color": "#32512d8c",
         "use_lottie_checks": false,
         "lottie_src": "",
-        "lottie_size": 32,
-        "right_icon_width": 110,
-        "right_icon_height": 64,
-        "icon_animation_speed": 2.4,
-        "right_icon_animation": "shake",
-        "row_animation_style": "slide-up",
-        "row_animation_duration": 0.6,
-        "icon_animation_duration": 0.4,
-        "row_delay_step": 0.1,
-        "right_icon_size": 36
+        "lottie_size": 32
       }
     },
     "ingrediant_circle_XrmJTy": {
