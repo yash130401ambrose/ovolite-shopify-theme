@@ -38,7 +38,7 @@
               <span class="ep-energy__metric-number">{{ section.settings.energy_primary_value }}</span>
             {% endif %}
             {% if section.settings.energy_primary_unit != blank %}
-              <span class="ep-energy__metric-unit">{{ section.settings.energy_primary_unit }}</span>
+              <span class="ep-energy__metric-unit ep-energy__metric-unit--primary">{{ section.settings.energy_primary_unit }}</span>
             {% endif %}
           </div>
           <span class="ep-energy__metrics-dot">•</span>
@@ -47,7 +47,7 @@
               <span class="ep-energy__metric-number">{{ section.settings.energy_secondary_value }}</span>
             {% endif %}
             {% if section.settings.energy_secondary_unit != blank %}
-              <span class="ep-energy__metric-unit">{{ section.settings.energy_secondary_unit }}</span>
+              <span class="ep-energy__metric-unit ep-energy__metric-unit--secondary">{{ section.settings.energy_secondary_unit }}</span>
             {% endif %}
           </div>
         </div>
@@ -157,7 +157,7 @@
   }
 
   #energy-payment-{{ section.id }} .ep-energy__label {
-    font-size: clamp(22px, 3vw, 42px);
+    font-size: clamp(20px, 2.6vw, 36px);
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -178,31 +178,40 @@
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric-number {
-    font-size: clamp(78px, 11.2vw, 136px);
+    font-size: clamp(58px, 8.4vw, 104px);
     font-weight: 700;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.01em;
     color: var(--ep-accent);
-    line-height: 0.75;
+    line-height: 0.78;
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric--secondary .ep-energy__metric-number {
-    color: color-mix(in srgb, var(--ep-heading) 85%, var(--ep-accent) 15%);
+    color: var(--ep-accent);
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric-unit {
-    font-size: clamp(26px, 4.4vw, 56px);
-    font-weight: 600;
+    font-size: clamp(20px, 3.2vw, 38px);
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     color: var(--ep-heading);
-    transform: translateY(clamp(6px, 1.5vw, 12px));
+    transform: translateY(clamp(10px, 2vw, 16px));
+    font-family: 'Caveat', 'Brush Script MT', 'Lucida Handwriting', cursive;
+  }
+
+  #energy-payment-{{ section.id }} .ep-energy__metric-unit--primary {
+    color: var(--ep-heading);
+  }
+
+  #energy-payment-{{ section.id }} .ep-energy__metric-unit--secondary {
+    color: var(--ep-heading);
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metrics-dot {
-    font-size: clamp(40px, 6vw, 72px);
+    font-size: clamp(28px, 4.4vw, 52px);
     line-height: 1;
     color: var(--ep-heading);
-    transform: translateY(clamp(-2px, -0.8vw, -6px));
+    transform: translateY(clamp(2px, 0.6vw, 6px));
   }
 
   #energy-payment-{{ section.id }} .ep-energy__caption {
@@ -408,11 +417,12 @@
     }
 
     #energy-payment-{{ section.id }} .ep-energy__metric-number {
-      font-size: clamp(50px, 17vw, 108px);
+      font-size: clamp(44px, 15vw, 92px);
     }
 
     #energy-payment-{{ section.id }} .ep-energy__metric-unit {
-      font-size: clamp(22px, 8vw, 40px);
+      font-size: clamp(18px, 7vw, 34px);
+      transform: translateY(clamp(8px, 2vw, 14px));
     }
   }
 </style>
