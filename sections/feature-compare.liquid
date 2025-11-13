@@ -13,6 +13,8 @@
   if section.settings.check_icon_image != blank
     assign has_check_image = true
   endif
+  assign row_animation_style = section.settings.row_animation_style | default: 'slide-up'
+  assign row_animation_speed = section.settings.row_animation_speed | default: 0.6
   if use_lottie_checks and lottie_src == blank
     assign use_lottie_checks = false
   endif
@@ -222,7 +224,7 @@
     }
 
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__cell--check .feature-compare-ovolite__pill {
-      background-color: var(--fc-check-bg);
+      background: transparent;
     }
 
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__pill--image {
@@ -321,51 +323,95 @@
       animation-name: fc-icon-pop;
     }
 
+    #feature-compare-ovolite-{{ section.id }} .fc-icon-anim--bounce .feature-compare-ovolite__icon-image {
+      animation-name: fc-icon-bounce;
+    }
+
+    #feature-compare-ovolite-{{ section.id }} .fc-icon-anim--wiggle .feature-compare-ovolite__icon-image {
+      animation-name: fc-icon-wiggle;
+    }
+
+    #feature-compare-ovolite-{{ section.id }} .fc-icon-anim--flash .feature-compare-ovolite__icon-image {
+      animation-name: fc-icon-flash;
+    }
+
+    #feature-compare-ovolite-{{ section.id }} .fc-icon-anim--zoom .feature-compare-ovolite__icon-image {
+      animation-name: fc-icon-zoom;
+    }
+
+    #feature-compare-ovolite-{{ section.id }} .fc-icon-anim--spin .feature-compare-ovolite__icon-image {
+      animation-name: fc-icon-spin;
+    }
+
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__row[data-fc-row] {
-      --fc-icon-delay: 0s;
+      --fc-row-speed: {{ row_animation_speed }}s;
+      transition: opacity var(--fc-row-speed) ease, transform var(--fc-row-speed) ease;
+      transition-delay: var(--fc-icon-delay, 0s);
     }
 
-    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row] .feature-compare-ovolite__icon--check {
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row] {
       opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: none;
     }
 
-    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row].is-visible .feature-compare-ovolite__icon--check {
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row].is-visible {
       opacity: 1;
       transform: none;
     }
 
-    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row] .feature-compare-ovolite__icon-image {
-      opacity: 0;
-      animation-delay: var(--fc-icon-delay, 0s);
-      animation-play-state: paused;
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--slide-up {
+      transform: translateY(36px);
     }
 
-    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row].is-visible .feature-compare-ovolite__icon-image {
-      opacity: 1;
-      animation-play-state: running;
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--slide-down {
+      transform: translateY(-36px);
     }
 
-    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row] .feature-compare-ovolite__icon--check svg {
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--slide-left {
+      transform: translateX(48px);
     }
 
-    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row] .feature-compare-ovolite__icon--check dotlottie-wc {
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-      display: block;
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--slide-right {
+      transform: translateX(-48px);
     }
 
-    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row].is-visible .feature-compare-ovolite__icon--check svg {
-      opacity: 1;
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--fade {
       transform: none;
+      opacity: 0;
     }
 
-    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row].is-visible .feature-compare-ovolite__icon--check dotlottie-wc {
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--zoom-in {
+      transform: scale(0.85);
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--zoom-out {
+      transform: scale(1.08);
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--flip {
+      transform: perspective(600px) rotateX(-35deg);
+      transform-origin: top center;
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--rotate {
+      transform: rotate(-6deg);
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--bounce {
+      transform: translateY(32px);
+      transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--flip.is-visible,
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--rotate.is-visible,
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--bounce.is-visible,
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--zoom-in.is-visible,
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--zoom-out.is-visible,
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--fade.is-visible,
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--slide-up.is-visible,
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--slide-down.is-visible,
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--slide-left.is-visible,
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row.fc-row-anim--slide-right.is-visible {
       opacity: 1;
       transform: none;
     }
@@ -395,6 +441,33 @@
       0%, 100% { transform: scale(1); }
       40% { transform: scale(1.12); }
       60% { transform: scale(0.98); }
+    }
+
+    @keyframes fc-icon-bounce {
+      0%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-8px); }
+      60% { transform: translateY(4px); }
+    }
+
+    @keyframes fc-icon-wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-8deg); }
+      75% { transform: rotate(8deg); }
+    }
+
+    @keyframes fc-icon-flash {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.08)); }
+      50% { transform: scale(1.05); filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.18)) brightness(1.15); }
+    }
+
+    @keyframes fc-icon-zoom {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    @keyframes fc-icon-spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     @media screen and (max-width: 639px) {
@@ -478,7 +551,7 @@
         {% if section.blocks.size > 0 %}
           {% for block in section.blocks %}
             {% assign row_delay = forloop.index0 | times: 0.08 %}
-            <div class="feature-compare-ovolite__row" role="row" data-fc-row style="--fc-icon-delay: {{ row_delay | round: 2 }}s;" {{ block.shopify_attributes }}>
+            <div class="feature-compare-ovolite__row fc-row-anim--{{ row_animation_style }}" role="row" data-fc-row style="--fc-icon-delay: {{ row_delay | round: 2 }}s;" {{ block.shopify_attributes }}>
               <div class="feature-compare-ovolite__cell" role="cell">
                 <span class="feature-compare-ovolite__benefit">{{ block.settings.benefit | escape }}</span>
               </div>
@@ -557,7 +630,7 @@
             </div>
           {% endfor %}
         {% else %}
-          <div class="feature-compare-ovolite__row" role="row" data-fc-row>
+          <div class="feature-compare-ovolite__row fc-row-anim--{{ row_animation_style }}" role="row" data-fc-row>
             <div class="feature-compare-ovolite__cell" role="cell">
               <span class="feature-compare-ovolite__benefit">Add benefits in the section settings.</span>
             </div>
@@ -636,7 +709,7 @@
           } else {
             row.classList.remove('is-visible');
             var icons = row.querySelectorAll('.feature-compare-ovolite__icon-image');
-            icons.forEach(function (icon) {
+            Array.prototype.forEach.call(icons, function (icon) {
               resetIconAnimation(icon);
             });
           }
@@ -693,6 +766,34 @@
       "id": "left_label",
       "label": "Left column label",
       "default": "More"
+    },
+    {
+      "type": "select",
+      "id": "row_animation_style",
+      "label": "Benefit row animation",
+      "default": "slide-up",
+      "options": [
+        { "value": "slide-up", "label": "Slide up" },
+        { "value": "slide-down", "label": "Slide down" },
+        { "value": "slide-left", "label": "Slide left" },
+        { "value": "slide-right", "label": "Slide right" },
+        { "value": "fade", "label": "Fade" },
+        { "value": "zoom-in", "label": "Zoom in" },
+        { "value": "zoom-out", "label": "Zoom out" },
+        { "value": "flip", "label": "Flip" },
+        { "value": "rotate", "label": "Rotate" },
+        { "value": "bounce", "label": "Bounce" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "row_animation_speed",
+      "label": "Benefit animation speed",
+      "min": 0.2,
+      "max": 1.5,
+      "step": 0.1,
+      "unit": "s",
+      "default": 0.6
     },
     {
       "type": "image_picker",
@@ -897,7 +998,12 @@
         { "value": "pulse", "label": "Pulse" },
         { "value": "sway", "label": "Sway" },
         { "value": "tilt", "label": "Tilt" },
-        { "value": "pop", "label": "Pop" }
+        { "value": "pop", "label": "Pop" },
+        { "value": "bounce", "label": "Bounce" },
+        { "value": "wiggle", "label": "Wiggle" },
+        { "value": "flash", "label": "Flash" },
+        { "value": "zoom", "label": "Zoom" },
+        { "value": "spin", "label": "Spin" }
       ]
     },
     {
