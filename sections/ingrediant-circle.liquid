@@ -313,7 +313,7 @@
     justify-content: center;
     gap: clamp(24px, 6vw, 72px);
     width: 100%;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__item {
@@ -321,7 +321,7 @@
     height: var(--logo-size, 152px);
     border-radius: 50%;
     background: #ffffff;
-    box-shadow: 0 30px 60px rgba(19, 36, 27, 0.22);
+    box-shadow: none;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -329,12 +329,24 @@
     gap: 12px;
     padding: clamp(16px, 3vw, 22px);
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.4s ease;
+    transform: translateY(var(--ep-logo-offset, 0px));
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__item:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 36px 70px rgba(19, 36, 27, 0.26);
+    animation: ep-logo-sway 1s ease-in-out infinite alternate;
+  }
+
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(1) { --ep-logo-offset: 48px; }
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(2) { --ep-logo-offset: 22px; }
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(3) { --ep-logo-offset: -12px; }
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(4) { --ep-logo-offset: -12px; }
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(5) { --ep-logo-offset: 22px; }
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(6) { --ep-logo-offset: 48px; }
+
+  @keyframes ep-logo-sway {
+    0%   { transform: translateY(var(--ep-logo-offset, 0px)) translateX(-8px); }
+    100% { transform: translateY(var(--ep-logo-offset, 0px)) translateX(8px); }
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__image {
@@ -367,6 +379,15 @@
       max-width: 480px;
       margin: 0 auto;
     }
+
+    #energy-payment-{{ section.id }} .ep-payment-logos {
+      flex-wrap: wrap;
+      gap: clamp(18px, 5vw, 42px);
+    }
+
+    #energy-payment-{{ section.id }} .ep-payment-logos__item {
+      --ep-logo-offset: 0px !important;
+    }
   }
 
   @media (max-width: 768px) {
@@ -387,6 +408,7 @@
     #energy-payment-{{ section.id }} .ep-payment-logos__item {
       width: var(--logo-size, 104px);
       height: var(--logo-size, 104px);
+      --ep-logo-offset: 0px !important;
     }
   }
 
@@ -395,6 +417,7 @@
       width: var(--logo-size, 92px);
       height: var(--logo-size, 92px);
       padding: 12px;
+      --ep-logo-offset: 0px !important;
     }
 
     #energy-payment-{{ section.id }} .ep-energy__metric-number {
