@@ -137,7 +137,8 @@
             "label": "More caffeine",
             "title": "Special Blend",
             "body": "85mg of caffeine per serving, equal to a cappuccino. Your daily energy boost.",
-            "accent_color": "#D4E7C7",
+            "icon": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
+            "accent_color": "#0040ff",
             "link": "",
             "link_label": "Shop now"
           }
@@ -148,7 +149,7 @@
             "label": "More caffeine",
             "title": "Special Blend",
             "body": "85mg of caffeine per serving, equal to a cappuccino. Your daily energy boost.",
-            "accent_color": "#D4E7C7",
+            "accent_color": "#d4e7c7",
             "link": "",
             "link_label": "Shop now"
           }
@@ -159,7 +160,7 @@
             "label": "More caffeine",
             "title": "Special Blend",
             "body": "85mg of caffeine per serving, equal to a cappuccino. Your daily energy boost.",
-            "accent_color": "#D4E7C7",
+            "accent_color": "#d4e7c7",
             "link": "",
             "link_label": "Shop now"
           }
@@ -177,8 +178,8 @@
         "subheading": "",
         "heading_size": "h1",
         "text_color": "#151515",
-        "background_color": "#F6F7F4",
-        "background_color_end": "#DCE7D5",
+        "background_color": "#ffffff",
+        "background_color_end": "#ffffff",
         "overlay_opacity": 0.6,
         "card_gap": 32,
         "card_radius": 24,
