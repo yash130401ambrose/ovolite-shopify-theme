@@ -287,7 +287,7 @@
         "row_jhzJ9A": {
           "type": "row",
           "settings": {
-            "benefit": "Low in carbs",
+            "benefit": "Low in Carbs - Fuel your body without unnecessary fillers",
             "left_state": "check",
             "right_state": "cross"
           }
@@ -295,7 +295,7 @@
         "row_C9bPGj": {
           "type": "row",
           "settings": {
-            "benefit": "Low in carbs",
+            "benefit": "High in Protein - Every serving packs the muscle-building power you need.",
             "left_state": "check",
             "right_state": "cross"
           }
@@ -303,7 +303,7 @@
         "row_ebxARV": {
           "type": "row",
           "settings": {
-            "benefit": "Low in carbs",
+            "benefit": "Zero Fat & Cholesterol - Heart‑friendly nutrition for everyday wellness.",
             "left_state": "check",
             "right_state": "cross"
           }
@@ -311,7 +311,7 @@
         "row_aPHxJY": {
           "type": "row",
           "settings": {
-            "benefit": "Low in carbs",
+            "benefit": "Ready to Use - No cracking, no waste, just pour and go.",
             "left_state": "check",
             "right_state": "cross"
           }
@@ -319,7 +319,15 @@
         "row_8ptWFc": {
           "type": "row",
           "settings": {
-            "benefit": "Low in carbs",
+            "benefit": "100% Pure & Preservative‑Free - Nothing artificial, only natural egg whites",
+            "left_state": "check",
+            "right_state": "cross"
+          }
+        },
+        "row_8dbxCB": {
+          "type": "row",
+          "settings": {
+            "benefit": "Versatile in Recipes - Perfect for shakes, omelets, baking, or meal prep.",
             "left_state": "check",
             "right_state": "cross"
           }
@@ -330,15 +338,16 @@
         "row_C9bPGj",
         "row_ebxARV",
         "row_aPHxJY",
-        "row_8ptWFc"
+        "row_8ptWFc",
+        "row_8dbxCB"
       ],
       "name": "Feature Compare Ovolite",
       "settings": {
         "image": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
         "image_alt": "Matcha scoop",
-        "subheading": "More for you.",
-        "heading": "See the difference.",
-        "description": "<p>Highlight your product benefits and show how it outperforms the competition.</p>",
+        "subheading": "See the Ovolite",
+        "heading": "Differenc",
+        "description": "<p>Why settle for ordinary? Ovolite Egg Whites deliver pure, clean protein for fitness, health, and convenience - making it the smarter choice.</p>",
         "benefit_heading": "Benefits",
         "left_label": "",
         "row_animation_style": "slide-up",
