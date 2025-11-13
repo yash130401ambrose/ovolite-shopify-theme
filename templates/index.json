@@ -136,6 +136,7 @@
           "settings": {
             "title": "MORECAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
+            "card_icon": "shopify://shop_images/e0c906e86f2d8aeb7e2dfe6b56deec12.jpg",
             "icon_alt": "",
             "icon_offset": 0
           }
