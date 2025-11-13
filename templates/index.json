@@ -26,9 +26,9 @@
         "text_alignment": "left",
         "text_size": "medium",
         "text_color": "white",
-        "title": "Image with text overlay",
+        "title": "Fuel Your Day with Pure Protein",
         "subtitle": "",
-        "text": "<p>Use overlay text to give your customers insight into your brand. Select imagery and text that relates to your style and story.</p>",
+        "text": "<p>11g of protein per 100ml, zero cholesterol, zero hassle. Ovolite liquid egg whites help you stay lean, strong, and ready for anything.</p>",
         "button_label": "Shop now",
         "button_link": "",
         "button_style": "m-button--white",
@@ -203,8 +203,8 @@
           "settings": {
             "label": "More caffeine",
             "icon_size": 84,
-            "title": "Special Blend",
-            "body": "85mg of caffeine per serving, equal to a cappuccino. Your daily energy boost.",
+            "title": "100% Pure Egg Whites",
+            "body": "No yolks, no fat, no cholesterol - just clean, high-quality protein in every drop.",
             "icon": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
             "accent_color": "#1b45c7",
             "link": "",
@@ -216,8 +216,8 @@
           "settings": {
             "label": "More caffeine",
             "icon_size": 84,
-            "title": "Special Blend",
-            "body": "85mg of caffeine per serving, equal to a cappuccino. Your daily energy boost.",
+            "title": "Fuel Your Goals",
+            "body": "Packed with 11g of protein per 100ml, perfect for muscle, recovery, and staying lean.",
             "accent_color": "#1b45c7",
             "link": "",
             "link_label": "Shop now"
@@ -228,8 +228,8 @@
           "settings": {
             "label": "More caffeine",
             "icon_size": 84,
-            "title": "Special Blend",
-            "body": "85mg of caffeine per serving, equal to a cappuccino. Your daily energy boost.",
+            "title": "Protein, On-the-Go",
+            "body": "Pour, mix, or cook - no cracking, no mess, just effortless nutrition anytime",
             "accent_color": "#1b45c7",
             "link": "",
             "link_label": "Shop now"
@@ -240,8 +240,8 @@
           "settings": {
             "label": "More caffeine",
             "icon_size": 84,
-            "title": "Special Blend",
-            "body": "85mg of caffeine per serving, equal to a cappuccino. Your daily energy boost.",
+            "title": "Quality You Can Trust",
+            "body": "Pasteurized, preservative-free, and always fresh when refrigerated - your daily protein, worry-free",
             "accent_color": "#1b45c7",
             "link": "",
             "link_label": "Shop now"
@@ -283,104 +283,32 @@
     },
     "feature_compare_cfdaRM": {
       "type": "feature-compare",
-      "blocks": {
-        "benefit_LbW89g": {
-          "type": "benefit",
-          "settings": {
-            "benefit": "Low in Carbs",
-            "left_has": true,
-            "right_has": false
-          }
-        },
-        "benefit_AUHCTh": {
-          "type": "benefit",
-          "settings": {
-            "benefit": "Low in Carbs",
-            "left_has": true,
-            "right_has": false
-          }
-        },
-        "benefit_fkgJqY": {
-          "type": "benefit",
-          "settings": {
-            "benefit": "Low in Carbs",
-            "left_has": true,
-            "right_has": false
-          }
-        },
-        "benefit_3MGQVT": {
-          "type": "benefit",
-          "settings": {
-            "benefit": "Low in Carbs",
-            "left_has": true,
-            "right_has": false
-          }
-        },
-        "benefit_rW7PJ4": {
-          "type": "benefit",
-          "settings": {
-            "benefit": "Low in Carbs",
-            "left_has": true,
-            "right_has": false
-          }
-        },
-        "benefit_ftebHM": {
-          "type": "benefit",
-          "settings": {
-            "benefit": "Low in Carbs",
-            "left_has": true,
-            "right_has": false
-          }
-        }
-      },
-      "block_order": [
-        "benefit_LbW89g",
-        "benefit_AUHCTh",
-        "benefit_fkgJqY",
-        "benefit_3MGQVT",
-        "benefit_rW7PJ4",
-        "benefit_ftebHM"
-      ],
       "name": "Feature Compare Ovolite",
       "settings": {
-        "icon_area_image": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
-        "icon_area_mode": "cover",
-        "left_logo": "shopify://shop_images/1.Ovolite_Listing_1.jpg",
-        "right_label": "Regular EggWhite",
+        "image_alt": "Matcha scoop",
+        "subheading": "More for you.",
         "heading": "See the difference.",
-        "icon_area_background": "#f4f6ee",
-        "icon_area_size": 240,
-        "bg_color": "#ffffff",
+        "description": "<p>Highlight your product benefits and show how it outperforms the competition.</p>",
+        "benefit_heading": "Benefits",
+        "left_label": "More",
+        "right_label": "Regular EggWhite",
+        "text_alignment": "left",
+        "text_alignment_mobile": "center",
+        "padding_top": 96,
+        "padding_bottom": 96,
+        "max_width": 1180,
+        "content_max_width": 600,
+        "media_border_radius": 0,
+        "background_color": "#f5f7ec",
+        "image_fallback_color": "#dde8c9",
         "heading_color": "#1b45c7",
-        "text_color": "#0a0a0a",
-        "accent_color": "#1b45c7",
-        "card_color": "#f5f8ff",
-        "icon_background_color": "#ffffff",
-        "icon_border_color": "#1b45c7",
-        "icon_diameter": 96,
-        "badge_top_offset": 28,
-        "icon_wrap_width": 53,
-        "icon_wrap_height": 44,
-        "benefit_text_color": "#1b45c7",
-        "benefit_heading_color": "#1b45c7",
-        "left_label_color": "#1b45c7",
-        "right_label_color": "#1b45c7",
-        "benefit_font_size": 20,
-        "true_icon_background": "#ffffff",
-        "true_icon_color": "#1b45c7",
-        "false_icon_color": "#2e2e2e",
-        "use_lottie_checks": true,
-        "lottie_src": "https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js",
-        "lottie_size": 32,
-        "right_icon_width": 110,
-        "right_icon_height": 64,
-        "icon_animation_speed": 2.4,
-        "right_icon_animation": "pulse",
-        "row_animation_style": "slide-up",
-        "row_animation_duration": 1,
-        "icon_animation_duration": 0.4,
-        "row_delay_step": 0.5,
-        "right_icon_size": 36
+        "subheading_color": "#618049",
+        "body_color": "#32512db8",
+        "header_color": "#32512db3",
+        "row_border_color": "#62804947",
+        "check_background": "#c1d9aa59",
+        "check_color": "#3f6b3b",
+        "cross_color": "#32512d8c"
       }
     },
     "ingrediant_circle_XrmJTy": {
