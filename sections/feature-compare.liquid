@@ -68,8 +68,8 @@
 
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__media {
       position: relative;
-      min-height: {{ section.settings.media_min_height | default: 520 }}px;
-      height: 100%;
+      min-height: max({{ section.settings.media_min_height | default: 480 }}px, 100%);
+      height: auto;
       overflow: hidden;
       border-radius: {{ section.settings.media_border_radius | default: 0 }}px;
       background-color: {{ section.settings.image_fallback_color | default: '#E6EDDA' }};
@@ -82,7 +82,9 @@
 
     @media screen and (max-width: 1023px) {
       #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__media {
-        min-height: {{ section.settings.media_min_height_mobile | default: 360 }}px;
+        min-height: max({{ section.settings.media_min_height_mobile | default: 340 }}px, 100%);
+        margin-top: 0;
+        margin-bottom: 0;
       }
     }
 
@@ -499,7 +501,7 @@
       "max": 180,
       "step": 4,
       "unit": "px",
-      "default": 96
+      "default": 64
     },
     {
       "type": "range",
@@ -549,7 +551,7 @@
       "max": 820,
       "step": 20,
       "unit": "px",
-      "default": 520
+      "default": 480
     },
     {
       "type": "range",
@@ -559,7 +561,7 @@
       "max": 640,
       "step": 20,
       "unit": "px",
-      "default": 360
+      "default": 340
     },
     {
       "type": "color",
