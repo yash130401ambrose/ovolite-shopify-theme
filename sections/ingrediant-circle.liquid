@@ -33,7 +33,7 @@
           <p class="ep-energy__label">{{ section.settings.energy_heading }}</p>
         {% endif %}
         <div class="ep-energy__metrics">
-          <div class="ep-energy__metric ep-energy__metric--primary" style="--ep-value-size: {{ section.settings.energy_primary_value_size | default: 64 }}; --ep-unit-size: {{ section.settings.energy_primary_unit_size | default: 28 }}">
+          <div class="ep-energy__metric ep-energy__metric--primary" style="--ep-value-size: {{ section.settings.energy_primary_value_size | default: 64 }}px; --ep-unit-size: {{ section.settings.energy_primary_unit_size | default: 28 }}px">
             {% if section.settings.energy_primary_value != blank %}
               <span class="ep-energy__metric-number">{{ section.settings.energy_primary_value }}</span>
             {% endif %}
@@ -42,7 +42,7 @@
             {% endif %}
           </div>
           <span class="ep-energy__metrics-dot">•</span>
-          <div class="ep-energy__metric ep-energy__metric--secondary" style="--ep-value-size: {{ section.settings.energy_secondary_value_size | default: 64 }}; --ep-unit-size: {{ section.settings.energy_secondary_unit_size | default: 28 }}">
+          <div class="ep-energy__metric ep-energy__metric--secondary" style="--ep-value-size: {{ section.settings.energy_secondary_value_size | default: 64 }}px; --ep-unit-size: {{ section.settings.energy_secondary_unit_size | default: 28 }}px">
             {% if section.settings.energy_secondary_value != blank %}
               <span class="ep-energy__metric-number">{{ section.settings.energy_secondary_value }}</span>
             {% endif %}
