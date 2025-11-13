@@ -91,23 +91,24 @@
     margin: 0 auto;
   }
 
-  .scroll-cards__heading {
-    position: absolute;
-    top: clamp(8px, 10vh, 120px);
-    left: 5vw;
+.scroll-cards__heading {
+    position: relative;
+    display: block;
+    margin: 0 auto clamp(36px, 6vw, 112px);
+    padding-top: clamp(32px, calc(var(--icon-size) * 0.45), 120px);
+    max-width: min(960px, 90%);
+    text-align: center;
     transform: none;
-    font-size: clamp(32px, 7vw, 96px);
+    font-size: clamp(32px, 6vw, 94px);
     font-weight: 700;
     line-height: 1.05;
     color: var(--heading-color);
-    opacity: 0.28;
+    opacity: 0.18;
     white-space: pre-wrap;
     pointer-events: none;
-    z-index: 1;
-    margin: 0;
+    z-index: 2;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    mix-blend-mode: normal;
   }
 
   /* shared center icon */
@@ -167,14 +168,14 @@
     flex: 0 0 var(--card-width);
     background: var(--card-bg);
     border-radius: var(--card-radius);
-    padding: clamp(24px, 4vw, 38px) clamp(20px, 3vw, 28px);
+    padding: clamp(20px, 3.6vw, 34px) clamp(18px, 2.8vw, 26px);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 16px;
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
-    min-height: clamp(220px, var(--card-height), 480px);
+    min-height: clamp(200px, calc(var(--card-height) * 0.9), 420px);
     position: relative;
     text-align: center;
     transform-origin: center;
@@ -187,7 +188,7 @@
   .scroll-card.is-active {
     box-shadow: 0 26px 64px rgba(0, 0, 0, 0.16);
     opacity: 1;
-    transform: translate3d(0, -12px, 0) scale(1);
+    transform: none;
   }
 
   .scroll-cards-section[data-animation-direction="ltr"] .scroll-cards__viewport::before {
@@ -259,10 +260,10 @@
 
   @media (max-width: 1024px) {
     .scroll-cards__heading {
-      top: clamp(12px, 12vh, 90px);
-      font-size: clamp(26px, 9vw, 74px);
-      left: clamp(3vw, 5vw, 8vw);
-      opacity: 0.32;
+      font-size: clamp(28px, 7vw, 80px);
+      margin: 0 auto clamp(28px, 7vw, 96px);
+      padding-top: clamp(28px, calc(var(--icon-size) * 0.4), 96px);
+      opacity: 0.22;
     }
     .scroll-cards__viewport::before,
     .scroll-cards__viewport::after {
@@ -282,7 +283,7 @@
     }
     .scroll-card {
       flex: 0 0 clamp(340px, 80vw, 420px);
-      min-height: clamp(200px, var(--card-height), 360px);
+      min-height: clamp(200px, calc(var(--card-height) * 0.85), 320px);
     }
   }
 
@@ -299,10 +300,11 @@
     }
 
     .scroll-cards__heading {
-      left: clamp(4vw, 6vw, 8vw);
       font-size: clamp(24px, 14vw, 60px);
       letter-spacing: 0.04em;
-      opacity: 0.3;
+      margin: 0 auto clamp(24px, 8vw, 72px);
+      padding-top: clamp(24px, calc(var(--icon-size) * 0.4), 80px);
+      opacity: 0.24;
     }
 
     .scroll-cards-section[data-scrollcards-mobile="true"] .scroll-cards__track {
@@ -318,7 +320,7 @@
 
     .scroll-card {
       padding: clamp(20px, 7vw, 28px) clamp(16px, 6vw, 22px);
-      min-height: clamp(200px, calc(var(--card-height) * 0.85), 340px);
+      min-height: clamp(200px, calc(var(--card-height) * 0.8), 300px);
     }
 
     .scroll-card__title {
@@ -337,9 +339,10 @@
     }
 
     .scroll-cards__heading {
-      left: clamp(3vw, 5vw, 7vw);
-      top: clamp(6px, 12vw, 60px);
       font-size: clamp(22px, 15vw, 52px);
+      margin: 0 auto clamp(20px, 10vw, 60px);
+      padding-top: clamp(16px, calc(var(--icon-size) * 0.35), 64px);
+      opacity: 0.28;
     }
 
     .scroll-cards__viewport::before,
@@ -352,7 +355,7 @@
       flex: 0 0 clamp(250px, 82vw, 320px);
       padding: clamp(18px, 7vw, 26px) clamp(14px, 5.5vw, 20px);
       border-radius: clamp(16px, 6vw, 24px);
-      min-height: clamp(200px, calc(var(--card-height) * 0.95), 320px);
+      min-height: clamp(200px, calc(var(--card-height) * 0.85), 280px);
     }
 
     .scroll-card__icon {
@@ -516,15 +519,14 @@
 
           timeline = gsap.timeline({ defaults: { ease: config.ease } });
 
-          gsap.set(track, { x: startOffset });
+        gsap.set(track, { x: startOffset });
           if (heading) {
             gsap.set(heading, { opacity: 1 });
           }
           cards.forEach(function(card) {
             gsap.set(card, {
               opacity: 0.2,
-              xPercent: 45 * directionMultiplier,
-              scale: 0.94
+            xPercent: 45 * directionMultiplier
             });
           });
           setActive(-1);
@@ -540,7 +542,6 @@
             timeline.to(card, {
               opacity: 1,
               xPercent: 0,
-              scale: 1,
               duration: stepDuration * 0.9
             }, '<');
 
@@ -550,7 +551,6 @@
               var previous = cards[index - 1];
               timeline.to(previous, {
                 opacity: 0.45,
-                scale: 0.95,
                 duration: stepDuration * 0.6
               }, '<');
             }
