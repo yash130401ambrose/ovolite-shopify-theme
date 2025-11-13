@@ -411,7 +411,7 @@
             "logo_label": "",
             "logo_alt": "",
             "logo_label_size": 14,
-            "logo_size": 160
+            "logo_size": 180
           }
         },
         "payment_logo_ngBdrN": {
@@ -419,8 +419,8 @@
           "settings": {
             "logo_label": "",
             "logo_alt": "",
-            "logo_label_size": 14,
-            "logo_size": 160
+            "logo_label_size": 12,
+            "logo_size": 180
           }
         },
         "payment_logo_7g6RkV": {
@@ -429,7 +429,7 @@
             "logo_label": "",
             "logo_alt": "",
             "logo_label_size": 14,
-            "logo_size": 160
+            "logo_size": 180
           }
         },
         "payment_logo_zjXrcy": {
@@ -438,7 +438,7 @@
             "logo_label": "",
             "logo_alt": "",
             "logo_label_size": 14,
-            "logo_size": 160
+            "logo_size": 180
           }
         },
         "payment_logo_ykehTC": {
@@ -447,7 +447,7 @@
             "logo_label": "",
             "logo_alt": "",
             "logo_label_size": 14,
-            "logo_size": 160
+            "logo_size": 180
           }
         },
         "payment_logo_HqWtqd": {
@@ -456,7 +456,7 @@
             "logo_label": "",
             "logo_alt": "",
             "logo_label_size": 14,
-            "logo_size": 160
+            "logo_size": 180
           }
         }
       },
@@ -482,6 +482,9 @@
         "section_padding_y": 96,
         "row_gap": 72,
         "arch_height": 64,
+        "arch_intensity": 130,
+        "circle_size": 140,
+        "circle_gap": 32,
         "energy_heading": "ENERGY VALUE",
         "energy_heading_size": 56,
         "energy_primary_value": "632",
