@@ -1,376 +1,388 @@
+{% comment %}
+Ovolite Feature Compare Section
+Fully customizable — all text, colors, images from theme editor
+Includes custom smiley/icon upload, logo image for left column, and editable colors
+{% endcomment %}
+
 {% liquid
-  assign section_padding_top = section.settings.padding_top | default: 80
-  assign section_padding_bottom = section.settings.padding_bottom | default: 80
-  assign text_alignment = section.settings.text_alignment | default: 'left'
-  assign left_image = section.settings.image
-  assign left_column_width = section.settings.left_column_width | default: 40
-  assign right_column_width = 100 | minus: left_column_width
   assign use_lottie_checks = section.settings.use_lottie_checks
   assign lottie_src = section.settings.lottie_src
   assign lottie_size = section.settings.lottie_size | default: 32
   if use_lottie_checks and lottie_src == blank
     assign use_lottie_checks = false
   endif
-  assign image_alt_text = section.settings.image_alt
-  if image_alt_text == blank and left_image != blank
-    assign image_alt_text = left_image.alt
-  endif
-  if image_alt_text == blank
-    assign image_alt_text = 'Feature compare image'
-  endif
 %}
 
-<section
-  id="feature-compare-ovolite-{{ section.id }}"
-  class="feature-compare-ovolite"
-  data-align="{{ text_alignment }}"
->
+<section id="feature-compare-{{ section.id }}" class="feature-compare-section" data-right-anim="{{ section.settings.right_icon_animation }}">
   {% if use_lottie_checks %}
     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
   {% endif %}
   <style>
-    #feature-compare-ovolite-{{ section.id }} {
-      --fc-heading-color: {{ section.settings.heading_color | default: '#618049' }};
-      --fc-subheading-color: {{ section.settings.subheading_color | default: '#32512D' }};
-      --fc-body-color: {{ section.settings.body_color | default: 'rgba(50, 81, 45, 0.72)' }};
-      --fc-bg-color: {{ section.settings.background_color | default: '#F5F7EC' }};
-      --fc-border-color: {{ section.settings.row_border_color | default: 'rgba(98, 128, 73, 0.28)' }};
-      --fc-header-color: {{ section.settings.header_color | default: 'rgba(50, 81, 45, 0.7)' }};
-      --fc-check-bg: {{ section.settings.check_background | default: 'rgba(193, 217, 170, 0.35)' }};
-      --fc-check-color: {{ section.settings.check_color | default: '#3F6B3B' }};
-      --fc-cross-color: {{ section.settings.cross_color | default: 'rgba(50, 81, 45, 0.55)' }};
-      padding-top: {{ section_padding_top | append: 'px' }};
-      padding-bottom: {{ section_padding_bottom | append: 'px' }};
-      background-color: var(--fc-bg-color);
-    }
-
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__inner {
-      width: 100%;
-      max-width: {{ section.settings.max_width | default: 1180 }}px;
-      margin-inline: auto;
-      display: grid;
-      grid-template-columns: minmax(0, {{ left_column_width }}%) minmax(0, {{ right_column_width }}%);
-      gap: clamp(24px, 4vw, 64px);
-      align-items: stretch;
-      padding-inline: clamp(16px, 4vw, 48px);
-    }
-
-    @media screen and (max-width: 1023px) {
-      #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__inner {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__media {
+    #feature-compare-{{ section.id }} {
+      background-color: {{ section.settings.bg_color }};
+      color: {{ section.settings.text_color }};
+      padding: clamp(110px, 14vw, 180px) 20px clamp(56px, 10vw, 96px);
+      box-sizing: border-box;
       position: relative;
-      min-height: {{ section.settings.media_min_height | default: 520 }}px;
-      height: 100%;
       overflow: hidden;
-      border-radius: {{ section.settings.media_border_radius | default: 0 }}px;
-      background-color: {{ section.settings.image_fallback_color | default: '#E6EDDA' }};
-      display: flex;
-      align-self: stretch;
+      --fc-icon-width: {{ section.settings.icon_wrap_width | default: 60 }}px;
+      --fc-icon-height: {{ section.settings.icon_wrap_height | default: 48 }}px;
+      --fc-icon-size: {{ section.settings.icon_diameter | default: 96 }}px;
+      --fc-icon-border: {{ section.settings.icon_border_color | default: section.settings.heading_color }};
+      --fc-icon-bg: {{ section.settings.icon_background_color | default: '#ffffff' }};
+      --fc-icon-top: {{ section.settings.badge_top_offset | default: 28 }}px;
+      --fc-check-bg: {{ section.settings.true_icon_background | default: 'rgba(193, 217, 170, 0.24)' }};
+      --fc-check-color: {{ section.settings.true_icon_color | default: section.settings.accent_color }};
+      --fc-cross-color: {{ section.settings.false_icon_color | default: '#2E2E2E' }};
+      --fc-right-icon-width: {{ section.settings.right_icon_width | default: 110 }}px;
+      --fc-right-icon-height: {{ section.settings.right_icon_height | default: 64 }}px;
+      --fc-icon-anim-speed: {{ section.settings.icon_animation_speed | default: 2.4 }}s;
+      --fc-benefit-color: {{ section.settings.benefit_text_color | default: 'rgba(36, 82, 38, 0.9)' }};
+      --fc-benefit-font: {{ section.settings.benefit_font_size | default: 20 }}px;
+      --fc-left-label-color: {{ section.settings.left_label_color | default: 'rgba(36, 82, 38, 0.65)' }};
+      --fc-right-label-color: {{ section.settings.right_label_color | default: 'rgba(36, 82, 38, 0.65)' }};
+      --fc-benefit-heading-color: {{ section.settings.benefit_heading_color | default: 'rgba(36, 82, 38, 0.65)' }};
+    }
+
+    .fc-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: clamp(40px, 6vw, 80px);
       align-items: stretch;
     }
 
-    @media screen and (max-width: 1023px) {
-      #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__media {
-        min-height: {{ section.settings.media_min_height_mobile | default: 360 }}px;
+    @media (max-width: 1024px) {
+      .fc-container {
+        grid-template-columns: 1fr;
+        gap: clamp(32px, 8vw, 48px);
       }
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      flex: 1 1 auto;
-    }
-
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__media--placeholder {
+    /* Left Image Card */
+    .fc-image-card {
+      background: {{ section.settings.icon_area_background | default: '#F4F6EE' }};
+      border-radius: clamp(12px, 2vw, 24px);
+      padding: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 14px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      min-height: 100%;
+      height: 100%;
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__content {
+    .fc-image-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: {{ section.settings.icon_area_background | default: '#F4F6EE' }};
+      z-index: 0;
+      border-radius: inherit;
+    }
+
+    .fc-image-card--cover::before {
+      {% if section.settings.icon_area_image != blank %}
+      background-image: url('{{ section.settings.icon_area_image | img_url: '1200x' }}');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      {% endif %}
+    }
+
+    .fc-image-card--contain::before {
+      {% if section.settings.icon_area_image != blank %}
+      background-image: url('{{ section.settings.icon_area_image | img_url: '800x' }}');
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      {% endif %}
+    }
+
+    .fc-image-card__icon {
+      position: relative;
+      z-index: 1;
+      width: clamp(120px, {{ section.settings.icon_area_size | default: 240 }}px, 360px);
+      height: auto;
+      object-fit: contain;
+    }
+
+    /* Top centered icon badge */
+    .fc-smiley { display: none; }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(-2px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Right Content */
+    .fc-content {
+      text-align: left;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      gap: clamp(24px, 4vw, 36px);
-      text-align: {{ text_alignment }};
+      gap: clamp(20px, 3vw, 32px);
     }
 
-    @media screen and (max-width: 639px) {
-      #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__content {
-        text-align: {{ section.settings.text_alignment_mobile | default: 'center' }};
+    .fc-title {
+      font-size: clamp(56px, 6.5vw, 90px);
+      line-height: 0.92;
+      font-weight: 700;
+      color: {{ section.settings.heading_color }};
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .fc-sub {
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.5;
+      color: rgba(36, 82, 38, 0.7);
+      margin: 0;
+    }
+
+    /* Table / Comparison */
+    .fc-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    :root {
+      --fc-anim-duration: {{ section.settings.row_animation_duration | default: 0.6 }}s;
+      --fc-icon-anim-duration: {{ section.settings.icon_animation_duration | default: 0.4 }}s;
+      --fc-row-delay-step: {{ section.settings.row_delay_step | default: 0.1 }}s;
+    }
+
+    .fc-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 140px) minmax(0, 140px);
+      align-items: center;
+      gap: clamp(16px, 3vw, 32px);
+      padding: clamp(18px, 2.8vw, 28px) 0;
+      border-bottom: 1px solid rgba(36, 82, 38, 0.18);
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (max-width: 600px) {
+      .fc-row {
+        grid-template-columns: 1fr 110px 110px;
+        gap: 14px;
+      }
+      .fc-title { font-size: clamp(36px, 10vw, 44px); }
+    }
+
+    .fc-row[data-animate] { opacity: 1; transform: none; }
+
+    .fc-row.fc-anim--slide-up[data-animate],
+    .fc-row.fc-anim--slide-left[data-animate],
+    .fc-row.fc-anim--slide-right[data-animate],
+    .fc-row.fc-anim--zoom[data-animate],
+    .fc-row.fc-anim--fade[data-animate] {
+      transform: none !important;
+    }
+
+    .play .fc-row[data-animate] .fc-icon-wrap,
+    .play .fc-row[data-animate] .fc-col.is-right .fc-icon-wrap {
+      animation: none;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .fc-benefit {
+      font-size: clamp(var(--fc-benefit-font), 2vw, calc(var(--fc-benefit-font) + 2px));
+      color: var(--fc-benefit-color);
+    }
+
+    .fc-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-align: center;
+      color: var(--fc-left-label-color);
+    }
+
+    .fc-col.is-right {
+      color: var(--fc-right-label-color);
+    }
+
+    .fc-icon-wrap {
+      width: var(--fc-right-icon-width);
+      height: var(--fc-right-icon-height);
+      min-width: var(--fc-right-icon-width);
+      min-height: var(--fc-right-icon-height);
+      border-radius: 12px;
+      background: rgba(193, 217, 170, 0.24);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: none;
+    }
+
+    .fc-icon-wrap dotlottie-wc {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      pointer-events: none;
+    }
+
+    .fc-col.has-check .fc-icon-wrap {
+      background: var(--fc-check-bg);
+    }
+
+    .fc-col.has-cross .fc-icon-wrap {
+      background: transparent;
+    }
+
+    /* Animated Icons */
+    .fc-check, .fc-cross {
+      width: 20px;
+      height: 20px;
+      transform-origin: center;
+    }
+
+    .play .fc-row[data-animate] .fc-icon-wrap {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 24px rgba(36, 82, 38, 0.14);
+    }
+
+    .play .fc-check {
+      animation: pop var(--fc-icon-anim-duration) cubic-bezier(.2,.9,.3,1) forwards;
+    }
+    .play .fc-cross {
+      animation: shake var(--fc-icon-anim-duration) cubic-bezier(.2,.9,.3,1) forwards;
+    }
+
+    .fc-col.is-right .fc-icon-wrap {
+    }
+
+    .play .fc-row[data-animate] .fc-col.is-right .fc-icon-wrap {
+      animation: fc-shake var(--fc-icon-anim-duration, 0.7s) ease forwards;
+    }
+
+    @media (max-width: 768px) {
+      .fc-col {
+        gap: 4px;
+      }
+      .fc-icon-wrap {
+        width: max(32px, calc(var(--fc-icon-width, 60px) * 0.85));
+        height: max(24px, calc(var(--fc-icon-height, 48px) * 0.85));
       }
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__heading {
-      margin: 0;
-      color: var(--fc-heading-color);
-      font-family: var(--font-heading-family, inherit);
-      font-size: clamp(46px, 5.6vw, 82px);
-      line-height: 0.92;
-      font-weight: 700;
-      letter-spacing: -0.015em;
+    @media (max-width: 480px) {
+      .fc-icon-wrap {
+        width: max(30px, calc(var(--fc-icon-width, 60px) * 0.75));
+        height: max(22px, calc(var(--fc-icon-height, 48px) * 0.75));
+      }
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__subheading {
-      margin: 0;
-      color: var(--fc-subheading-color);
-      font-family: var(--font-heading-family, inherit);
-      font-size: clamp(46px, 5.6vw, 82px);
-      font-weight: 700;
-      line-height: 0.92;
-      letter-spacing: -0.015em;
+    @keyframes pop {
+      0% { transform: scale(0.2); opacity: 0; }
+      60% { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(1); }
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__description {
-      color: var(--fc-body-color);
-      font-family: var(--font-body-family, inherit);
-      font-size: clamp(16px, 2vw, 18px);
-      line-height: 1.55;
-      max-width: {{ section.settings.content_max_width | default: 620 }}px;
-      margin: 0;
+    @keyframes shake {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-10deg); }
+      75% { transform: rotate(10deg); }
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__table {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      border-top: 1px solid var(--fc-border-color);
+    @keyframes fc-shake {
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(-10deg); }
+      50% { transform: rotate(12deg); }
+      80% { transform: rotate(-6deg); }
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__row {
-      display: grid;
-      grid-template-columns: minmax(0, 1.1fr) repeat(2, minmax(0, 0.55fr));
-      align-items: stretch;
-      padding-block: clamp(16px, 2.3vw, 28px);
-      border-bottom: 1px solid var(--fc-border-color);
-      gap: clamp(12px, 3vw, 28px);
-    }
-
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__row--header {
-      font-size: 13px;
+    /* Table Header */
+    .fc-row.header {
+      border-bottom: 1px solid rgba(36, 82, 38, 0.3);
+      font-weight: 600;
+      font-size: 15px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--fc-header-color);
-      font-weight: 600;
-      padding-block: clamp(12px, 2vw, 20px);
+      color: var(--fc-benefit-heading-color);
+      padding: clamp(14px, 2vw, 20px) 0;
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__cell {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 14px;
+    .fc-row.header > div:first-child {
+      color: var(--fc-benefit-heading-color);
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__cell--header {
-      justify-content: flex-start;
-    }
-
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__cell--indicator {
+    .fc-row.header .fc-col {
       justify-content: center;
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__benefit {
-      color: var(--fc-body-color);
-      font-family: var(--font-body-family, inherit);
-      font-size: clamp(17px, 2.4vw, 20px);
-      font-weight: 500;
+    .fc-logo img {
+      max-height: {{ section.settings.right_icon_size | default: 36 }}px;
+      max-width: {{ section.settings.right_icon_size | default: 36 }}px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__pill {
-      width: clamp(42px, 4vw, 56px);
-      height: clamp(32px, 3vw, 42px);
-      border-radius: 12px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background-color: transparent;
-      transition: background-color 0.3s ease;
+    /* Right icon animation styles */
+    #feature-compare-{{ section.id }}.play .fc-row.fc-row--anim-shake .fc-col.is-right.has-check .fc-icon-wrap {
+      animation: fc-shake calc(var(--fc-icon-anim-speed) * 1.1) ease-in-out forwards;
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__cell--check .feature-compare-ovolite__pill {
-      background-color: var(--fc-check-bg);
+    #feature-compare-{{ section.id }}.play .fc-row.fc-row--anim-bounce .fc-col.is-right.has-check .fc-icon-wrap {
+      animation: fc-bounce calc(var(--fc-icon-anim-speed) * 1.3) cubic-bezier(.32,.75,.4,1) forwards;
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__icon {
-      width: clamp(18px, 2vw, 22px);
-      height: clamp(18px, 2vw, 22px);
-      display: inline-flex;
+    #feature-compare-{{ section.id }}.play .fc-row.fc-row--anim-flip .fc-col.is-right.has-check .fc-icon-wrap {
+      animation: fc-flip calc(var(--fc-icon-anim-speed) * 1.3) ease-in-out forwards;
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__icon--check path {
-      stroke: var(--fc-check-color);
+    #feature-compare-{{ section.id }}.play .fc-row.fc-row--anim-pulse .fc-col.is-right.has-check .fc-icon-wrap {
+      animation: fc-pulse calc(var(--fc-icon-anim-speed) * 1.1) ease-in-out forwards;
     }
 
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__icon--cross path {
-      stroke: var(--fc-cross-color);
-    }
-
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__label {
-      color: var(--fc-body-color);
-      font-family: var(--font-body-family, inherit);
-      font-size: clamp(15px, 2vw, 16px);
-      font-weight: 500;
-      text-align: center;
-    }
-
-    @media screen and (max-width: 639px) {
-      #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__row {
-        grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 0.4fr));
-        gap: 12px;
-      }
-
-      #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__label {
-        font-size: 14px;
-      }
-    }
-
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__row--header .feature-compare-ovolite__cell {
-      justify-content: center;
-    }
-
-    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__row--header .feature-compare-ovolite__cell:first-child {
-      justify-content: flex-start;
-    }
-
-    #feature-compare-ovolite-{{ section.id }} .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
+    #feature-compare-{{ section.id }}.play .fc-row.fc-row--anim-swing .fc-col.is-right.has-check .fc-icon-wrap {
+      animation: fc-swing calc(var(--fc-icon-anim-speed) * 1.3) ease-in-out forwards;
     }
   </style>
 
-  <div class="feature-compare-ovolite__inner">
-    <div class="feature-compare-ovolite__media{% unless left_image %} feature-compare-ovolite__media--placeholder{% endunless %}">
-      {% if left_image != blank %}
-        {{
-          left_image
-          | image_url: width: 2000
-          | image_tag: class: 'feature-compare-ovolite__image', loading: 'lazy', sizes: '(min-width: 1024px) 40vw, 100vw', alt: image_alt_text
-        }}
-      {% else %}
-        <span>Left column image</span>
+  <div class="fc-container">
+    <!-- Left Side -->
+    <div class="fc-image-card fc-image-card--{{ section.settings.icon_area_mode | default: 'cover' }}">
+      {% assign fc_mode = section.settings.icon_area_mode | default: 'cover' %}
+      {% if fc_mode == 'contain' and section.settings.icon_area_image != blank %}
+        <img class="fc-image-card__icon" src="{{ section.settings.icon_area_image | img_url: '600x' }}" alt="Feature icon" />
       {% endif %}
     </div>
-    <div class="feature-compare-ovolite__content">
-      {% if section.settings.subheading != blank %}
-        <p class="feature-compare-ovolite__subheading">{{ section.settings.subheading }}</p>
-      {% endif %}
-      {% if section.settings.heading != blank %}
-        <h2 class="feature-compare-ovolite__heading">{{ section.settings.heading }}</h2>
-      {% endif %}
-      {% if section.settings.description != blank %}
-        <div class="feature-compare-ovolite__description rte">
-          {{ section.settings.description }}
-        </div>
-      {% endif %}
 
-      <div class="feature-compare-ovolite__table" role="table">
-        <div class="feature-compare-ovolite__row feature-compare-ovolite__row--header" role="row">
-          <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--header" role="columnheader">
-            {{ section.settings.benefit_heading | default: 'Benefits' }}
+    <!-- Right Side -->
+    <div class="fc-content">
+      <h2 class="fc-title">{{ section.settings.heading }}</h2>
+      <div class="fc-sub">{{ section.settings.subtext }}</div>
+
+      <div class="fc-table">
+        <div class="fc-row header">
+          <div></div>
+          <div class="fc-col fc-logo">
+            {% if section.settings.left_logo != blank %}
+              <img src="{{ section.settings.left_logo | img_url: '200x' }}" alt="Left Logo" />
+            {% endif %}
           </div>
-          <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator" role="columnheader">
-            <span class="feature-compare-ovolite__label">{{ section.settings.left_label | default: 'More' }}</span>
-          </div>
-          <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator" role="columnheader">
-            <span class="feature-compare-ovolite__label">{{ section.settings.right_label | default: 'Regular Matcha' }}</span>
-          </div>
+          <div class="fc-col">{{ section.settings.right_label }}</div>
         </div>
 
-        {% if section.blocks.size > 0 %}
-          {% for block in section.blocks %}
-            <div class="feature-compare-ovolite__row" role="row" {{ block.shopify_attributes }}>
-              <div class="feature-compare-ovolite__cell" role="cell">
-                <span class="feature-compare-ovolite__benefit">{{ block.settings.benefit | escape }}</span>
-              </div>
-              <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator feature-compare-ovolite__cell--{{ block.settings.left_state }}" role="cell">
-                <span class="feature-compare-ovolite__pill" aria-hidden="true">
-                  {% if block.settings.left_state == 'check' %}
-                    <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check">
-                      {% if use_lottie_checks %}
-                        <dotlottie-wc
-                          src="{{ lottie_src }}"
-                          style="width: {{ lottie_size }}px; height: {{ lottie_size }}px;"
-                          autoplay
-                          loop
-                          aria-hidden="true"
-                        ></dotlottie-wc>
-                      {% else %}
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M5.5 12.5L10 17l8.5-8.5" stroke="{{ section.settings.check_color | default: '#3F6B3B' }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                      {% endif %}
-                    </span>
-                  {% else %}
-                    <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--cross">
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 7l10 10m0-10L7 17" stroke-width="2.2" stroke-linecap="round"/>
-                      </svg>
-                    </span>
-                  {% endif %}
-                </span>
-                <span class="visually-hidden">
-                  {{ section.settings.left_label | default: 'More' }} {% if block.settings.left_state == 'check' %}includes{% else %}does not include{% endif %} {{ block.settings.benefit }}
-                </span>
-              </div>
-              <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator feature-compare-ovolite__cell--{{ block.settings.right_state }}" role="cell">
-                <span class="feature-compare-ovolite__pill" aria-hidden="true">
-                  {% if block.settings.right_state == 'check' %}
-                    <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check">
-                      {% if use_lottie_checks %}
-                        <dotlottie-wc
-                          src="{{ lottie_src }}"
-                          style="width: {{ lottie_size }}px; height: {{ lottie_size }}px;"
-                          autoplay
-                          loop
-                          aria-hidden="true"
-                        ></dotlottie-wc>
-                      {% else %}
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M5.5 12.5L10 17l8.5-8.5" stroke="{{ section.settings.check_color | default: '#3F6B3B' }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                      {% endif %}
-                    </span>
-                  {% else %}
-                    <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--cross">
-                      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 7l10 10m0-10L7 17" stroke-width="2.2" stroke-linecap="round"/>
-                      </svg>
-                    </span>
-                  {% endif %}
-                </span>
-                <span class="visually-hidden">
-                  {{ section.settings.right_label | default: 'Regular Matcha' }} {% if block.settings.right_state == 'check' %}includes{% else %}does not include{% endif %} {{ block.settings.benefit }}
-                </span>
-              </div>
-            </div>
-          {% endfor %}
-        {% else %}
-          <div class="feature-compare-ovolite__row" role="row">
-            <div class="feature-compare-ovolite__cell" role="cell">
-              <span class="feature-compare-ovolite__benefit">Add benefits in the section settings.</span>
-            </div>
-            <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator feature-compare-ovolite__cell--check" role="cell">
-              <span class="feature-compare-ovolite__pill" aria-hidden="true">
-                <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check">
+        {% assign animation_style = section.settings.row_animation_style | default: 'slide-up' %}
+        {% for block in section.blocks %}
+        {% assign delay = forloop.index0 | times: section.settings.row_delay_step | default: 0.1 %}
+          {% capture row_style %}
+            transition-delay: {{ delay | round: 2 }}s;
+          {% endcapture %}
+          <div class="fc-row fc-anim--{{ animation_style }} fc-row--anim-{{ section.settings.right_icon_animation }}" data-animate style="{{ row_style | strip }}">
+            <div class="fc-benefit">{{ block.settings.benefit }}</div>
+            <div class="fc-col {% if block.settings.left_has %}has-check{% else %}has-cross{% endif %}">
+              <div class="fc-icon-wrap">
+                {% if block.settings.left_has %}
                   {% if use_lottie_checks %}
                     <dotlottie-wc
                       src="{{ lottie_src }}"
@@ -380,330 +392,143 @@
                       aria-hidden="true"
                     ></dotlottie-wc>
                   {% else %}
-                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M5.5 12.5L10 17l8.5-8.5" stroke="{{ section.settings.check_color | default: '#3F6B3B' }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <svg class="fc-check" viewBox="0 0 24 24" fill="none">
+                      <path d="M6 12.5l3 3 8-8" stroke="{{ section.settings.true_icon_color | default: section.settings.accent_color }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                   {% endif %}
-                </span>
-              </span>
-            </div>
-            <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator feature-compare-ovolite__cell--cross" role="cell">
-              <span class="feature-compare-ovolite__pill" aria-hidden="true">
-                <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--cross">
-                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M7 7l10 10m0-10L7 17" stroke-width="2.2" stroke-linecap="round"/>
+                {% else %}
+                  <svg class="fc-cross" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 6l12 12M6 18L18 6" stroke="{{ section.settings.false_icon_color | default: '#2E2E2E' }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                </span>
-              </span>
+                {% endif %}
+              </div>
+            </div>
+            <div class="fc-col is-right {% if block.settings.right_has %}has-check{% else %}has-cross{% endif %}">
+              <div class="fc-icon-wrap">
+                {% if block.settings.right_has %}
+                  {% if use_lottie_checks %}
+                    <dotlottie-wc
+                      src="{{ lottie_src }}"
+                      style="width: {{ lottie_size }}px; height: {{ lottie_size }}px;"
+                      autoplay
+                      loop
+                      aria-hidden="true"
+                    ></dotlottie-wc>
+                  {% else %}
+                    <svg class="fc-check" viewBox="0 0 24 24" fill="none">
+                      <path d="M6 12.5l3 3 8-8" stroke="{{ section.settings.true_icon_color | default: section.settings.accent_color }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  {% endif %}
+                {% else %}
+                  <svg class="fc-cross" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 6l12 12M6 18L18 6" stroke="{{ section.settings.false_icon_color | default: '#2E2E2E' }}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                {% endif %}
+              </div>
             </div>
           </div>
-        {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>
+
+  <script>
+    (function(){
+      const section = document.getElementById('feature-compare-{{ section.id }}');
+      if (!section) return;
+
+      const shouldAnimate = section.dataset.rightAnim && section.dataset.rightAnim !== 'none';
+      if (!shouldAnimate) return;
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            section.classList.add('play');
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.25 });
+
+      observer.observe(section);
+    })();
+  </script>
+
+  {% schema %}
+  {
+    "name": "Feature Compare Ovolite",
+    "settings": [
+      { "type": "image_picker", "id": "icon_area_image", "label": "Left icon image" },
+      { "type": "select", "id": "icon_area_mode", "label": "Left image display", "default": "cover", "options": [
+        { "value": "cover", "label": "Cover (full bleed)" },
+        { "value": "contain", "label": "Contain (centered icon)" }
+      ] },
+      { "type": "image_picker", "id": "left_logo", "label": "Left Column Logo" },
+      { "type": "text", "id": "right_label", "label": "Right Column Label", "default": "Regular Matcha" },
+      { "type": "text", "id": "heading", "label": "Heading", "default": "More for you. See the difference." },
+      { "type": "color", "id": "icon_area_background", "label": "Left icon background", "default": "#F4F6EE" },
+      { "type": "range", "id": "icon_area_size", "label": "Left icon size (px)", "min": 120, "max": 360, "step": 10, "default": 240 },
+      { "type": "color", "id": "bg_color", "label": "Background Color", "default": "#FFFFFF" },
+      { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#0040FF" },
+      { "type": "color", "id": "text_color", "label": "Text Color", "default": "#0A0A0A" },
+      { "type": "color", "id": "accent_color", "label": "Accent (Tick) Color", "default": "#0040FF" },
+      { "type": "color", "id": "card_color", "label": "Left Card Background", "default": "#F5F8FF" },
+      { "type": "color", "id": "icon_background_color", "label": "Icon background color", "default": "#FFFFFF" },
+      { "type": "color", "id": "icon_border_color", "label": "Icon border color", "default": "#8CC279" },
+      { "type": "range", "id": "icon_diameter", "label": "Icon diameter (px)", "min": 64, "max": 160, "step": 4, "default": 96, "unit": "px" },
+      { "type": "range", "id": "badge_top_offset", "label": "Icon vertical offset (px)", "min": 0, "max": 160, "step": 4, "default": 28, "unit": "px" },
+      { "type": "range", "id": "icon_wrap_width", "label": "Icon holder width (px)", "min": 32, "max": 120, "step": 1, "default": 60, "unit": "px" },
+      { "type": "range", "id": "icon_wrap_height", "label": "Icon holder height (px)", "min": 28, "max": 100, "step": 1, "default": 48, "unit": "px" },
+      { "type": "color", "id": "benefit_text_color", "label": "Benefit text color", "default": "#2c5127" },
+      { "type": "color", "id": "benefit_heading_color", "label": "Benefit header color", "default": "rgba(36, 82, 38, 0.65)" },
+      { "type": "color", "id": "left_label_color", "label": "Left column text color", "default": "rgba(36, 82, 38, 0.65)" },
+      { "type": "color", "id": "right_label_color", "label": "Right column text color", "default": "rgba(36, 82, 38, 0.65)" },
+      { "type": "range", "id": "benefit_font_size", "label": "Benefit font size (px)", "min": 16, "max": 28, "step": 1, "default": 20 },
+      { "type": "color", "id": "true_icon_background", "label": "True icon background", "default": "rgba(193, 217, 170, 0.24)" },
+      { "type": "color", "id": "true_icon_color", "label": "True icon color", "default": "#386337" },
+      { "type": "color", "id": "false_icon_color", "label": "False icon color", "default": "#2E2E2E" },
+      { "type": "checkbox", "id": "use_lottie_checks", "label": "Use Lottie animation for check marks", "default": false },
+      { "type": "text", "id": "lottie_src", "label": "Lottie animation URL", "info": "Paste the .lottie file URL." },
+      { "type": "range", "id": "lottie_size", "label": "Lottie animation size (px)", "min": 16, "max": 160, "step": 2, "default": 32 },
+      { "type": "range", "id": "right_icon_width", "label": "True icon width (px)", "min": 80, "max": 180, "step": 2, "default": 110 },
+      { "type": "range", "id": "right_icon_height", "label": "True icon height (px)", "min": 48, "max": 140, "step": 2, "default": 64 },
+      { "type": "range", "id": "icon_animation_speed", "label": "True icon animation base duration (s)", "min": 1.5, "max": 4, "step": 0.1, "default": 2.4 },
+      { "type": "select", "id": "right_icon_animation", "label": "Right icon animation", "default": "shake", "options": [
+        { "value": "none", "label": "None" },
+        { "value": "shake", "label": "Shake" },
+        { "value": "bounce", "label": "Bounce" },
+        { "value": "flip", "label": "Flip" },
+        { "value": "pulse", "label": "Pulse" },
+        { "value": "swing", "label": "Swing" }
+      ] },
+      { "type": "select", "id": "row_animation_style", "label": "Row animation style", "default": "slide-up", "options": [
+        { "label": "Slide up", "value": "slide-up" },
+        { "label": "Fade in", "value": "fade" },
+        { "label": "Zoom in", "value": "zoom" },
+        { "label": "Slide left", "value": "slide-left" },
+        { "label": "Slide right", "value": "slide-right" }
+      ] },
+      { "type": "range", "id": "row_animation_duration", "label": "Row animation duration (s)", "min": 0.2, "max": 1.5, "step": 0.1, "default": 0.6 },
+      { "type": "range", "id": "icon_animation_duration", "label": "Icon animation duration (s)", "min": 0.2, "max": 1.2, "step": 0.1, "default": 0.4 },
+      { "type": "range", "id": "row_delay_step", "label": "Delay between rows (s)", "min": 0, "max": 0.5, "step": 0.1, "default": 0.1 },
+      { "type": "range", "id": "right_icon_size", "label": "Right column icon size (px)", "min": 24, "max": 80, "step": 2, "default": 36 }
+    ],
+    "blocks": [
+      {
+        "type": "benefit",
+        "name": "Benefit",
+        "settings": [
+          { "type": "text", "id": "benefit", "label": "Benefit Text", "default": "Low in Carbs" },
+          { "type": "checkbox", "id": "left_has", "label": "Left Column Has ✓", "default": true },
+          { "type": "checkbox", "id": "right_has", "label": "Right Column Has ✓", "default": false }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Feature Compare Ovolite",
+        "category": "Image + Text"
+      }
+    ]
+  }
+  {% endschema %}
 </section>
-
-{% schema %}
-{
-  "name": "Feature Compare Ovolite",
-  "settings": [
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Left column image"
-    },
-    {
-      "type": "text",
-      "id": "image_alt",
-      "label": "Image alt text",
-      "default": "Matcha scoop"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "More for you."
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "See the difference."
-    },
-    {
-      "type": "richtext",
-      "id": "description",
-      "label": "Description",
-      "default": "<p>Highlight your product benefits and show how it outperforms the competition.</p>"
-    },
-    {
-      "type": "text",
-      "id": "benefit_heading",
-      "label": "Benefits column heading",
-      "default": "Benefits"
-    },
-    {
-      "type": "text",
-      "id": "left_label",
-      "label": "Left column label",
-      "default": "More"
-    },
-    {
-      "type": "text",
-      "id": "right_label",
-      "label": "Right column label",
-      "default": "Regular Matcha"
-    },
-    {
-      "type": "select",
-      "id": "text_alignment",
-      "label": "Text alignment (desktop)",
-      "default": "left",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" }
-      ]
-    },
-    {
-      "type": "select",
-      "id": "text_alignment_mobile",
-      "label": "Text alignment (mobile)",
-      "default": "center",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" }
-      ]
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "label": "Padding top",
-      "min": 0,
-      "max": 180,
-      "step": 4,
-      "unit": "px",
-      "default": 96
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "label": "Padding bottom",
-      "min": 0,
-      "max": 180,
-      "step": 4,
-      "unit": "px",
-      "default": 96
-    },
-    {
-      "type": "range",
-      "id": "left_column_width",
-      "label": "Left column width (%)",
-      "min": 30,
-      "max": 50,
-      "step": 1,
-      "unit": "%",
-      "default": 40
-    },
-    {
-      "type": "range",
-      "id": "max_width",
-      "label": "Content max width",
-      "min": 960,
-      "max": 1440,
-      "step": 20,
-      "unit": "px",
-      "default": 1180
-    },
-    {
-      "type": "range",
-      "id": "content_max_width",
-      "label": "Body text max width",
-      "min": 360,
-      "max": 760,
-      "step": 20,
-      "unit": "px",
-      "default": 600
-    },
-    {
-      "type": "range",
-      "id": "media_border_radius",
-      "label": "Image corner radius",
-      "min": 0,
-      "max": 40,
-      "step": 2,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "media_min_height",
-      "label": "Left column minimum height (desktop)",
-      "min": 320,
-      "max": 820,
-      "step": 20,
-      "unit": "px",
-      "default": 520
-    },
-    {
-      "type": "range",
-      "id": "media_min_height_mobile",
-      "label": "Left column minimum height (mobile)",
-      "min": 240,
-      "max": 640,
-      "step": 20,
-      "unit": "px",
-      "default": 360
-    },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background color",
-      "default": "#F5F7EC"
-    },
-    {
-      "type": "color",
-      "id": "image_fallback_color",
-      "label": "Image placeholder color",
-      "default": "#DDE8C9"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading color",
-      "default": "#618049"
-    },
-    {
-      "type": "color",
-      "id": "subheading_color",
-      "label": "Subheading color",
-      "default": "#618049"
-    },
-    {
-      "type": "color",
-      "id": "body_color",
-      "label": "Body text color",
-      "default": "rgba(50, 81, 45, 0.72)"
-    },
-    {
-      "type": "color",
-      "id": "header_color",
-      "label": "Table header color",
-      "default": "rgba(50, 81, 45, 0.7)"
-    },
-    {
-      "type": "color",
-      "id": "row_border_color",
-      "label": "Row divider color",
-      "default": "rgba(98, 128, 73, 0.28)"
-    },
-    {
-      "type": "color",
-      "id": "check_background",
-      "label": "Check background color",
-      "default": "rgba(193, 217, 170, 0.35)"
-    },
-    {
-      "type": "color",
-      "id": "check_color",
-      "label": "Check icon color",
-      "default": "#3F6B3B"
-    },
-    {
-      "type": "color",
-      "id": "cross_color",
-      "label": "Cross icon color",
-      "default": "rgba(50, 81, 45, 0.55)"
-    },
-    {
-      "type": "checkbox",
-      "id": "use_lottie_checks",
-      "label": "Animate check icon with Lottie",
-      "default": false
-    },
-    {
-      "type": "url",
-      "id": "lottie_src",
-      "label": "Lottie file URL",
-      "info": "Paste a .json or .lottie animation URL for the check icon."
-    },
-    {
-      "type": "range",
-      "id": "lottie_size",
-      "label": "Lottie icon size",
-      "min": 16,
-      "max": 64,
-      "step": 2,
-      "unit": "px",
-      "default": 28
-    }
-  ],
-  "blocks": [
-    {
-      "type": "row",
-      "name": "Benefit item",
-      "settings": [
-        {
-          "type": "text",
-          "id": "benefit",
-          "label": "Benefit",
-          "default": "Low in carbs"
-        },
-        {
-          "type": "select",
-          "id": "left_state",
-          "label": "Left column icon",
-          "default": "check",
-          "options": [
-            { "value": "check", "label": "Check" },
-            { "value": "cross", "label": "Cross" }
-          ]
-        },
-        {
-          "type": "select",
-          "id": "right_state",
-          "label": "Right column icon",
-          "default": "cross",
-          "options": [
-            { "value": "check", "label": "Check" },
-            { "value": "cross", "label": "Cross" }
-          ]
-        }
-      ]
-    }
-  ],
-  "max_blocks": 12,
-  "presets": [
-    {
-      "name": "Feature Compare Ovolite",
-      "category": "Product",
-      "blocks": [
-        {
-          "type": "row",
-          "settings": {
-            "benefit": "Low in carbs",
-            "left_state": "check",
-            "right_state": "cross"
-          }
-        },
-        {
-          "type": "row",
-          "settings": {
-            "benefit": "Low in sugar",
-            "left_state": "check",
-            "right_state": "cross"
-          }
-        },
-        {
-          "type": "row",
-          "settings": {
-            "benefit": "High in protein",
-            "left_state": "check",
-            "right_state": "cross"
-          }
-        }
-      ]
-    }
-  ]
-}
-{% endschema %}
-
