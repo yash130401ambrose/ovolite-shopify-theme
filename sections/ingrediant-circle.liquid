@@ -137,7 +137,7 @@
       items.forEach(function(item, index) {
         var normalized = count > 1 ? index / denominator : 0;
         var heightFactor = Math.sin(normalized * Math.PI);
-        var offset = -heightFactor * effectiveHeight;
+        var offset = heightFactor * effectiveHeight;
         item.style.setProperty('--ep-logo-offset', offset ? offset + 'px' : '0px');
       });
     }
@@ -458,14 +458,14 @@
 
   #energy-payment-{{ section.id }} .ep-payment-logos {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: space-between;
     gap: clamp(20px, 4vw, 48px);
     width: min(1100px, 100%);
     flex-wrap: nowrap;
     position: relative;
-    padding-top: calc(var(--ep-arch-height, 0px) * 1.25);
-    padding-bottom: 0;
+    padding-top: 0;
+    padding-bottom: calc(var(--ep-arch-height, 0px) * 1.3);
     transform: translate3d(var(--ep-arch-shift-x, 0px), var(--ep-arch-shift-y, 0px), 0);
     will-change: transform;
   }
@@ -536,6 +536,7 @@
       gap: clamp(18px, 5vw, 42px);
       transform: none;
       padding-top: 0;
+      padding-bottom: 0;
       --ep-arch-shift-x: 0px !important;
       --ep-arch-shift-y: 0px !important;
     }
