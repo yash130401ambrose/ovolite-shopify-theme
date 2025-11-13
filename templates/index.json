@@ -387,12 +387,12 @@
     "ingrediant_circle_XrmJTy": {
       "type": "ingrediant-circle",
       "blocks": {
-        "metric_i7anfC": {
+        "metric_YyeEzb": {
           "type": "metric",
           "settings": {
-            "metric_label": "Protein: 10.2 g – pure muscle‑building fuel",
+            "metric_label": "Protein: – pure muscle‑building fuel",
             "metric_label_size": 16,
-            "metric_value": "10.2g",
+            "metric_value": "10.2 g",
             "metric_value_size": 16
           }
         },
@@ -479,7 +479,7 @@
         }
       },
       "block_order": [
-        "metric_i7anfC",
+        "metric_YyeEzb",
         "metric_wK7NkP",
         "metric_Km4eLP",
         "metric_RBYhHE",
