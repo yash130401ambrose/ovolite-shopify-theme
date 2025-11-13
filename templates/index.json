@@ -387,30 +387,39 @@
     "ingrediant_circle_XrmJTy": {
       "type": "ingrediant-circle",
       "blocks": {
-        "metric_bBYdBN": {
+        "metric_i7anfC": {
           "type": "metric",
           "settings": {
-            "metric_label": "The Caleries in Ovolite Egg White",
+            "metric_label": "Protein: 10.2 g – pure muscle‑building fuel",
             "metric_label_size": 16,
-            "metric_value": "10.2 g",
+            "metric_value": "10.2g",
             "metric_value_size": 16
           }
         },
         "metric_wK7NkP": {
           "type": "metric",
           "settings": {
-            "metric_label": "The Caleries in Ovolite Egg White",
+            "metric_label": "Carbohydrates: - for clean energy balance",
             "metric_label_size": 16,
-            "metric_value": "10.2 g",
+            "metric_value": "Low",
             "metric_value_size": 16
           }
         },
         "metric_Km4eLP": {
           "type": "metric",
           "settings": {
-            "metric_label": "The Caleries in Ovolite Egg White",
+            "metric_label": "Fat: – healthy, pure, guilt‑free nutrition",
             "metric_label_size": 16,
-            "metric_value": "10.2 g",
+            "metric_value": "0g",
+            "metric_value_size": 16
+          }
+        },
+        "metric_RBYhHE": {
+          "type": "metric",
+          "settings": {
+            "metric_label": "Cholesterol: – heart‑friendly choice",
+            "metric_label_size": 16,
+            "metric_value": "0mg",
             "metric_value_size": 16
           }
         },
@@ -470,9 +479,10 @@
         }
       },
       "block_order": [
-        "metric_bBYdBN",
+        "metric_i7anfC",
         "metric_wK7NkP",
         "metric_Km4eLP",
+        "metric_RBYhHE",
         "payment_logo_zedzQt",
         "payment_logo_ngBdrN",
         "payment_logo_7g6RkV",
@@ -494,7 +504,7 @@
         "arch_intensity": 130,
         "circle_size": 140,
         "circle_gap": 32,
-        "energy_heading": "ENERGY VALUE",
+        "energy_heading": "Fuel Your Body, The Smarter Way",
         "energy_heading_size": 56,
         "energy_primary_value": "632",
         "energy_primary_value_size": 58,
@@ -504,7 +514,7 @@
         "energy_secondary_value_size": 34,
         "energy_secondary_unit": "kcal",
         "energy_secondary_unit_size": 36,
-        "energy_caption": "With glucomannan – clinically proven to support weight loss, ideal for your conscious lifestyle.",
+        "energy_caption": "Ovolite Egg Whites provide clean energy with fewer calories and glucomannan to support weight loss perfect for training, weight management, or clean eating.",
         "energy_caption_size": 16,
         "nutrition_heading": "MACROS",
         "nutrition_heading_size": 18,
