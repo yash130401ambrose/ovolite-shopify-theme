@@ -405,40 +405,58 @@
             "metric_value_size": 16
           }
         },
-        "payment_logo_MJwnWN": {
+        "payment_logo_zedzQt": {
           "type": "payment_logo",
           "settings": {
             "logo_label": "",
             "logo_alt": "",
             "logo_label_size": 14,
-            "logo_size": 128
+            "logo_size": 160
           }
         },
-        "payment_logo_agDntQ": {
+        "payment_logo_ngBdrN": {
           "type": "payment_logo",
           "settings": {
             "logo_label": "",
             "logo_alt": "",
             "logo_label_size": 14,
-            "logo_size": 128
+            "logo_size": 160
           }
         },
-        "payment_logo_YkBUDR": {
+        "payment_logo_7g6RkV": {
           "type": "payment_logo",
           "settings": {
             "logo_label": "",
             "logo_alt": "",
             "logo_label_size": 14,
-            "logo_size": 128
+            "logo_size": 160
           }
         },
-        "payment_logo_mGXLVf": {
+        "payment_logo_zjXrcy": {
           "type": "payment_logo",
           "settings": {
             "logo_label": "",
             "logo_alt": "",
             "logo_label_size": 14,
-            "logo_size": 128
+            "logo_size": 160
+          }
+        },
+        "payment_logo_ykehTC": {
+          "type": "payment_logo",
+          "settings": {
+            "logo_label": "",
+            "logo_alt": "",
+            "logo_label_size": 14,
+            "logo_size": 160
+          }
+        },
+        "payment_logo_HqWtqd": {
+          "type": "payment_logo",
+          "settings": {
+            "logo_label": "",
+            "logo_alt": "",
+            "logo_label_size": 14,
+            "logo_size": 160
           }
         }
       },
@@ -446,10 +464,12 @@
         "metric_bBYdBN",
         "metric_wK7NkP",
         "metric_Km4eLP",
-        "payment_logo_MJwnWN",
-        "payment_logo_agDntQ",
-        "payment_logo_YkBUDR",
-        "payment_logo_mGXLVf"
+        "payment_logo_zedzQt",
+        "payment_logo_ngBdrN",
+        "payment_logo_7g6RkV",
+        "payment_logo_zjXrcy",
+        "payment_logo_ykehTC",
+        "payment_logo_HqWtqd"
       ],
       "name": "Ingrediant box",
       "settings": {
@@ -461,6 +481,7 @@
         "card_bg": "rgba(0,0,0,0)",
         "section_padding_y": 96,
         "row_gap": 72,
+        "arch_height": 64,
         "energy_heading": "ENERGY VALUE",
         "energy_heading_size": 56,
         "energy_primary_value": "632",
