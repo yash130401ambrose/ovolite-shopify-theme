@@ -41,6 +41,8 @@
       --fc-cross-color: {{ section.settings.cross_color | default: 'rgba(50, 81, 45, 0.55)' }};
       --fc-padding-top: {{ section_padding_top | append: 'px' }};
       --fc-padding-bottom: {{ section_padding_bottom | append: 'px' }};
+      --fc-check-image: {% if section.settings.check_icon_image != blank %}url('{{ section.settings.check_icon_image | image_url: width: 160 }}'){% else %}none{% endif %};
+      --fc-check-image-size: clamp(18px, 2vw, 24px);
       padding-top: {{ section_padding_top | append: 'px' }};
       padding-bottom: {{ section_padding_bottom | append: 'px' }};
       background-color: var(--fc-bg-color);
@@ -218,6 +220,32 @@
       display: inline-flex;
     }
 
+    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__icon-image {
+      width: var(--fc-check-image-size);
+      height: var(--fc-check-image-size);
+      display: block;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.08));
+      animation: fc-icon-float 4.5s ease-in-out infinite;
+      transition: transform 0.45s ease, filter 0.45s ease;
+    }
+
+    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__pill:hover .feature-compare-ovolite__icon-image {
+      transform: translateY(-2px) scale(1.03);
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.12));
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__icon-image {
+        animation: none;
+        transition: none;
+      }
+      #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__pill:hover .feature-compare-ovolite__icon-image {
+        transform: none;
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.08));
+      }
+    }
+
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__icon--check path {
       stroke: var(--fc-check-color);
     }
@@ -232,6 +260,11 @@
       font-size: clamp(15px, 2vw, 16px);
       font-weight: 500;
       text-align: center;
+    }
+
+    @keyframes fc-icon-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
     }
 
     @media screen and (max-width: 639px) {
@@ -314,7 +347,13 @@
                 <span class="feature-compare-ovolite__pill" aria-hidden="true">
                   {% if block.settings.left_state == 'check' %}
                     <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check">
-                      {% if use_lottie_checks %}
+                      {% if section.settings.check_icon_image != blank %}
+                        {{
+                          section.settings.check_icon_image
+                          | image_url: width: 160
+                          | image_tag: class: 'feature-compare-ovolite__icon-image', loading: 'lazy', alt: '', role: 'presentation'
+                        }}
+                      {% elsif use_lottie_checks %}
                         <dotlottie-wc
                           src="{{ lottie_src }}"
                           style="width: {{ lottie_size }}px; height: {{ lottie_size }}px;"
@@ -344,7 +383,13 @@
                 <span class="feature-compare-ovolite__pill" aria-hidden="true">
                   {% if block.settings.right_state == 'check' %}
                     <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check">
-                      {% if use_lottie_checks %}
+                      {% if section.settings.check_icon_image != blank %}
+                        {{
+                          section.settings.check_icon_image
+                          | image_url: width: 160
+                          | image_tag: class: 'feature-compare-ovolite__icon-image', loading: 'lazy', alt: '', role: 'presentation'
+                        }}
+                      {% elsif use_lottie_checks %}
                         <dotlottie-wc
                           src="{{ lottie_src }}"
                           style="width: {{ lottie_size }}px; height: {{ lottie_size }}px;"
@@ -380,7 +425,13 @@
             <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator feature-compare-ovolite__cell--check" role="cell">
               <span class="feature-compare-ovolite__pill" aria-hidden="true">
                 <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check">
-                  {% if use_lottie_checks %}
+                  {% if section.settings.check_icon_image != blank %}
+                    {{
+                      section.settings.check_icon_image
+                      | image_url: width: 160
+                      | image_tag: class: 'feature-compare-ovolite__icon-image', loading: 'lazy', alt: '', role: 'presentation'
+                    }}
+                  {% elsif use_lottie_checks %}
                     <dotlottie-wc
                       src="{{ lottie_src }}"
                       style="width: {{ lottie_size }}px; height: {{ lottie_size }}px;"
@@ -622,6 +673,12 @@
       "id": "cross_color",
       "label": "Cross icon color",
       "default": "rgba(50, 81, 45, 0.55)"
+    },
+    {
+      "type": "image_picker",
+      "id": "check_icon_image",
+      "label": "Check icon image",
+      "info": "Upload the PNG check icon to replace the default animation."
     },
     {
       "type": "checkbox",
