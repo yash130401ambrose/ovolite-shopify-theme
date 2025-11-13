@@ -83,13 +83,6 @@
         {% endif %}
       </div>
 
-      {% if section.settings.note_left != blank %}
-        <span class="ep-floating-note ep-floating-note--left" style="--ep-note-size: {{ section.settings.note_left_size | default: 18 }}px">{{ section.settings.note_left }}</span>
-      {% endif %}
-      {% if section.settings.note_right != blank %}
-        <span class="ep-floating-note ep-floating-note--right" style="--ep-note-size: {{ section.settings.note_right_size | default: 18 }}px">{{ section.settings.note_right }}</span>
-      {% endif %}
-
       <div class="ep-payment-logos">
         {% for block in section.blocks %}
           {% if block.type == 'payment_logo' %}
@@ -474,10 +467,6 @@
     { "type": "range", "id": "tagline_primary_size", "label": "Tagline primary font size", "min": 16, "max": 80, "step": 2, "default": 48, "unit": "px" },
     { "type": "text", "id": "tagline_secondary", "label": "Tagline secondary", "default": "Get it." },
     { "type": "range", "id": "tagline_secondary_size", "label": "Tagline secondary font size", "min": 14, "max": 60, "step": 2, "default": 36, "unit": "px" },
-    { "type": "textarea", "id": "note_left", "label": "Floating note (left)", "default": "3–5 Days\nDelivery" },
-    { "type": "range", "id": "note_left_size", "label": "Left note font size", "min": 12, "max": 36, "step": 1, "default": 20, "unit": "px" },
-    { "type": "textarea", "id": "note_right", "label": "Floating note (right)", "default": "Free Shipping over\n£40.00" },
-    { "type": "range", "id": "note_right_size", "label": "Right note font size", "min": 12, "max": 36, "step": 1, "default": 20, "unit": "px" }
   ],
   "blocks": [
     {
@@ -519,4 +508,5 @@
   ]
 }
 {% endschema %}
+
 
