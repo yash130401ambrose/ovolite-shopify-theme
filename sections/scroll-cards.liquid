@@ -58,7 +58,12 @@
         {% for block in section.blocks %}
           {% if block.type == 'card' %}
             {% assign block_icon = block.settings.card_icon | default: shared_icon %}
-            <article class="scroll-card" {{ block.shopify_attributes }}>
+            {% capture icon_style %}
+              {% if block_icon != blank %}
+                --card-icon-offset: {{ block.settings.icon_offset | default: 0 }}px;
+              {% endif %}
+            {% endcapture %}
+            <article class="scroll-card{% if block_icon != blank %} has-icon{% endif %}" {% if icon_style != blank %}style="{{ icon_style | strip }}"{% endif %} {{ block.shopify_attributes }}>
               {% if block_icon != blank %}
                 <div class="scroll-card__icon">
                   {{ block_icon | image_url: width: 160 | image_tag: class: 'scroll-card__icon-image', alt: block.settings.icon_alt | default: block.settings.title }}
@@ -228,7 +233,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: clamp(16px, var(--card-icon-gap), 28px);
+    margin: var(--card-icon-offset, 0px) auto clamp(16px, var(--card-icon-gap), 28px);
   }
 
   .scroll-card__icon-image {
@@ -712,7 +717,8 @@
         { "type": "text", "id": "title", "label": "Card title", "default": "MORE\\nCAFFEINE" },
         { "type": "richtext", "id": "text", "label": "Description text", "default": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>" },
         { "type": "image_picker", "id": "card_icon", "label": "Card icon (optional)" },
-        { "type": "text", "id": "icon_alt", "label": "Icon alt text" }
+        { "type": "text", "id": "icon_alt", "label": "Icon alt text" },
+        { "type": "range", "id": "icon_offset", "label": "Icon offset (px)", "min": -160, "max": 160, "step": 4, "default": 0, "unit": "px" }
       ]
     }
   ],
