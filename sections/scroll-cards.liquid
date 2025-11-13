@@ -86,7 +86,7 @@
     overflow: hidden;
   }
 
-.scroll-cards__container {
+  .scroll-cards__container {
     position: relative;
     width: 100%;
     max-width: 1600px;
@@ -158,7 +158,7 @@
     background: linear-gradient(270deg, var(--bg) 0%, rgba(255, 255, 255, 0) 100%);
   }
 
-.scroll-cards__track {
+  .scroll-cards__track {
     display: inline-flex;
     gap: var(--card-gap);
     align-items: stretch;
@@ -178,7 +178,7 @@
     align-items: center;
     gap: 16px;
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
-    min-height: clamp(200px, calc(var(--card-height) * 0.9), 420px);
+    min-height: clamp(160px, calc(var(--card-height) * 0.7), 320px);
     position: relative;
     text-align: center;
     transform-origin: center;
@@ -287,7 +287,7 @@
     }
     .scroll-card {
       flex: 0 0 clamp(340px, 80vw, 420px);
-      min-height: clamp(200px, calc(var(--card-height) * 0.85), 320px);
+      min-height: clamp(160px, calc(var(--card-height) * 0.6), 260px);
     }
   }
 
@@ -325,7 +325,7 @@
 
     .scroll-card {
       padding: clamp(20px, 7vw, 28px) clamp(16px, 6vw, 22px);
-      min-height: clamp(200px, calc(var(--card-height) * 0.8), 300px);
+      min-height: clamp(150px, calc(var(--card-height) * 0.55), 240px);
     }
 
     .scroll-card__title {
@@ -360,7 +360,7 @@
       flex: 0 0 clamp(250px, 82vw, 320px);
       padding: clamp(18px, 7vw, 26px) clamp(14px, 5.5vw, 20px);
       border-radius: clamp(16px, 6vw, 24px);
-      min-height: clamp(200px, calc(var(--card-height) * 0.85), 280px);
+      min-height: clamp(150px, calc(var(--card-height) * 0.6), 220px);
     }
 
     .scroll-card__icon {
@@ -525,9 +525,9 @@
           timeline = gsap.timeline({ defaults: { ease: config.ease } });
 
         gsap.set(track, { x: startOffset });
-          if (heading) {
-            gsap.set(heading, { opacity: 1 });
-          }
+        if (heading) {
+          gsap.set(heading, { opacity: 1 });
+        }
           cards.forEach(function(card) {
             gsap.set(card, {
               opacity: 0.4,
@@ -568,13 +568,13 @@
 
           if (heading) {
             timeline.to(heading, { opacity: 0.35, duration: totalDuration, ease: 'none' }, 0);
-          }
+        }
 
-          scrollTriggerInstance = ScrollTrigger.create({
-            trigger: root,
-            start: 'top top',
+        scrollTriggerInstance = ScrollTrigger.create({
+          trigger: root,
+          start: 'top top',
             end: '+=' + config.scrollDistance,
-            pin: true,
+          pin: true,
             scrub: scrubValue,
             anticipatePin: 1,
             animation: timeline,
