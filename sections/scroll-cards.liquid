@@ -15,12 +15,20 @@
   assign shared_icon = section.settings.shared_icon
   assign card_icon_size = section.settings.card_icon_size | default: 64
   assign card_icon_gap = section.settings.card_icon_gap | default: 24
+  assign scroll_distance = section.settings.scroll_distance | default: 2200
+  assign scroll_smoothness = section.settings.scroll_smoothness | default: 6
+  assign animation_direction = section.settings.animation_direction | default: 'rtl'
+  assign animation_ease = section.settings.animation_ease | default: 'power2.out'
 %}
 
 <section
   id="scroll-cards-{{ section.id }}"
   class="scroll-cards-section"
   data-enable-animation="{{ enable_animation }}"
+  data-animation-direction="{{ animation_direction }}"
+  data-animation-ease="{{ animation_ease }}"
+  data-scroll-distance="{{ scroll_distance }}"
+  data-scroll-smoothness="{{ scroll_smoothness }}"
   style="--bg: {{ bg_color }};
          --heading-color: {{ heading_color }};
          --desc-color: {{ desc_color }};
@@ -170,15 +178,28 @@
     position: relative;
     text-align: center;
     transform-origin: center;
-    transform: translate3d(0, 40px, 0) scale(0.95);
-    opacity: 0.65;
-    transition: transform 0.4s ease, opacity 0.25s ease, box-shadow 0.4s ease;
+    transform: none;
+    opacity: 1;
+    will-change: transform, opacity;
+    transition: transform 0.45s ease, opacity 0.35s ease, box-shadow 0.45s ease;
   }
 
   .scroll-card.is-active {
     box-shadow: 0 26px 64px rgba(0, 0, 0, 0.16);
     opacity: 1;
     transform: translate3d(0, -12px, 0) scale(1);
+  }
+
+  .scroll-cards-section[data-animation-direction="ltr"] .scroll-cards__viewport::before {
+    left: auto;
+    right: 0;
+    background: linear-gradient(270deg, var(--bg) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  .scroll-cards-section[data-animation-direction="ltr"] .scroll-cards__viewport::after {
+    right: auto;
+    left: 0;
+    background: linear-gradient(90deg, var(--bg) 0%, rgba(255, 255, 255, 0) 100%);
   }
 
   .scroll-card__title {
@@ -380,39 +401,6 @@
     }
   }
 
-  function highlightCards(cards, viewportWidth, currentX, immediate) {
-    var viewportCenter = viewportWidth / 2;
-    var rank = [];
-    cards.forEach(function(card) {
-      var center = card.offsetLeft + card.offsetWidth / 2 + currentX;
-      var distance = Math.abs(viewportCenter - center);
-      var ratio = Math.min(distance / (viewportWidth * 0.58), 1);
-      var scale = gsap.utils.interpolate(1, 0.9, ratio);
-      var opacity = gsap.utils.interpolate(1, 0.55, ratio);
-      var translateY = gsap.utils.interpolate(-12, 46, ratio);
-      var translateX = gsap.utils.interpolate(0, 60, ratio) * (center > viewportCenter ? 1 : -1);
-      gsap.to(card, {
-        scale: scale,
-        opacity: opacity,
-        x: translateX,
-        y: translateY,
-        duration: immediate ? 0 : 0.25,
-        overwrite: true,
-        ease: 'power2.out'
-      });
-      rank.push({ card: card, distance: distance });
-    });
-    rank.sort(function(a, b) { return a.distance - b.distance; });
-    var visibleCount = Math.min(3, rank.length);
-    rank.forEach(function(entry, index) {
-      if (index < visibleCount) {
-        entry.card.classList.add('is-active');
-      } else {
-        entry.card.classList.remove('is-active');
-      }
-    });
-  }
-
   function init() {
     destroyExisting();
     var root = document.getElementById(sectionId);
@@ -427,7 +415,22 @@
     var cards = Array.from(track.querySelectorAll('.scroll-card'));
     if (!cards.length) return;
 
-    function setup() {
+    var config = {
+      direction: (root.getAttribute('data-animation-direction') || 'rtl').toLowerCase() === 'ltr' ? 'ltr' : 'rtl',
+      ease: root.getAttribute('data-animation-ease') || 'power2.out',
+      scrollDistance: parseInt(root.getAttribute('data-scroll-distance'), 10),
+      smoothnessSteps: parseInt(root.getAttribute('data-scroll-smoothness'), 10)
+    };
+
+    if (isNaN(config.scrollDistance)) {
+      config.scrollDistance = 2200;
+    }
+    config.scrollDistance = Math.max(config.scrollDistance, 400);
+
+    var smoothnessSeconds = isNaN(config.smoothnessSteps) ? 0.6 : config.smoothnessSteps / 10;
+    var scrubValue = smoothnessSeconds > 0 ? smoothnessSeconds : true;
+
+    function setupAnimation() {
       if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
       gsap.registerPlugin(ScrollTrigger);
 
@@ -437,8 +440,14 @@
         cards.forEach(function(card) {
           gsap.killTweensOf(card);
           card.classList.remove('is-active');
-          gsap.set(card, { clearProps: 'transform,opacity' });
+          gsap.set(card, { clearProps: 'transform,opacity,scale' });
         });
+        gsap.killTweensOf(track);
+        gsap.set(track, { clearProps: 'transform' });
+        if (heading) {
+          gsap.killTweensOf(heading);
+          gsap.set(heading, { clearProps: 'opacity,transform' });
+        }
       }
 
       root.__scrollCardsDestroy = function() {
@@ -446,103 +455,157 @@
           mm.kill();
         }
         cleanupCardState();
-        gsap.set(track, { clearProps: 'transform' });
-        if (heading) {
-          gsap.killTweensOf(heading);
-          gsap.set(heading, { clearProps: 'opacity,transform' });
-        }
       };
 
       mm.add('(min-width: 768px)', function() {
         root.removeAttribute('data-scrollcards-mobile');
-        var viewportWidth = viewport.clientWidth;
-        var startX = 0;
-        var endX = 0;
+
+        var timeline = null;
         var scrollTriggerInstance = null;
-        var resizeHandler = function() {
-          ScrollTrigger.refresh();
-        };
+        var resizeRaf = null;
+        var directionMultiplier = config.direction === 'rtl' ? 1 : -1;
 
-        var gapAmount = 0;
-
-        function computeBounds() {
-          viewportWidth = viewport.clientWidth;
-          var viewportCenter = viewportWidth / 2;
-          var firstCenter = cards[0].offsetLeft + cards[0].offsetWidth / 2;
-          var lastCenter = cards[cards.length - 1].offsetLeft + cards[cards.length - 1].offsetWidth / 2;
-          startX = viewportCenter - firstCenter;
-          endX = viewportCenter - lastCenter;
-          if (cards.length === 1) {
-            endX = startX;
-          }
-          var style = window.getComputedStyle(track);
-          gapAmount = parseFloat(style.columnGap || style.gap || style.gridColumnGap || 0) || 0;
-        }
-
-        computeBounds();
-        gsap.set(track, { x: startX });
-        highlightCards(cards, viewportWidth, startX, true);
-        if (heading) {
-          gsap.set(heading, { opacity: 1 });
-        }
-
-        scrollTriggerInstance = ScrollTrigger.create({
-          trigger: root,
-          start: 'top top',
-          end: function() {
-            computeBounds();
-            var travel = Math.abs(endX - startX);
-            var groupCount = Math.max(cards.length - 2, 1);
-            var cardWidth = cards[0].offsetWidth;
-            var extraHold = groupCount * (cardWidth + gapAmount) * 0.85;
-            return '+=' + (travel + extraHold + viewportWidth * 0.35);
-          },
-          pin: true,
-          scrub: true,
-          invalidateOnRefresh: true,
-          onRefresh: function() {
-            computeBounds();
-            gsap.set(track, { x: startX });
-            highlightCards(cards, viewportWidth, startX, true);
-          },
-          onUpdate: function(self) {
-            var progress = self.progress;
-            var easedProgress = gsap.utils.clamp(0, 1, progress);
-            var currentX = gsap.utils.interpolate(startX, endX, easedProgress);
-            gsap.set(track, { x: currentX });
-            highlightCards(cards, viewportWidth, currentX);
-            if (heading) {
-              gsap.to(heading, { opacity: gsap.utils.interpolate(1, 0.35, self.progress), duration: 0.2, overwrite: true });
+        function setActive(index) {
+          cards.forEach(function(card, cardIndex) {
+            if (cardIndex === index) {
+              card.classList.add('is-active');
+            } else {
+              card.classList.remove('is-active');
             }
+          });
+        }
+
+        function killTimeline() {
+          if (timeline) {
+            timeline.kill();
+            timeline = null;
           }
-        });
+          if (scrollTriggerInstance) {
+            scrollTriggerInstance.kill();
+            scrollTriggerInstance = null;
+          }
+        }
+
+        function buildTimeline() {
+          var previousProgress = scrollTriggerInstance ? scrollTriggerInstance.progress : 0;
+          killTimeline();
+
+          var viewportWidth = viewport.clientWidth || window.innerWidth;
+          var trackWidth = track.scrollWidth;
+          var viewportCenter = viewportWidth / 2;
+
+          var positions = cards.map(function(card) {
+            var cardCenter = card.offsetLeft + card.offsetWidth / 2;
+            if (directionMultiplier === 1) {
+              return viewportCenter - cardCenter;
+            }
+            var mirroredCenter = trackWidth - cardCenter;
+            return viewportCenter - mirroredCenter;
+          });
+
+          if (!positions.length) return;
+
+          var firstCard = cards[0];
+          var lastCard = cards[cards.length - 1];
+
+          var entryOvershoot = viewportWidth * 0.85 + firstCard.offsetWidth * 0.5;
+          var exitOvershoot = viewportWidth * 0.55 + lastCard.offsetWidth * 0.5;
+
+          var startOffset = positions[0] + directionMultiplier * entryOvershoot;
+          var endOffset = positions[positions.length - 1] - directionMultiplier * exitOvershoot;
+
+          timeline = gsap.timeline({ defaults: { ease: config.ease } });
+
+          gsap.set(track, { x: startOffset });
+          if (heading) {
+            gsap.set(heading, { opacity: 1 });
+          }
+          cards.forEach(function(card) {
+            gsap.set(card, {
+              opacity: 0.2,
+              xPercent: 45 * directionMultiplier,
+              scale: 0.94
+            });
+          });
+          setActive(-1);
+
+          var stepDuration = 1;
+          var holdDuration = 0.45;
+          var releaseDuration = 0.65;
+          var totalDuration = cards.length * (stepDuration + holdDuration) + releaseDuration;
+
+          cards.forEach(function(card, index) {
+            timeline.to(track, { x: positions[index], duration: stepDuration });
+
+            timeline.to(card, {
+              opacity: 1,
+              xPercent: 0,
+              scale: 1,
+              duration: stepDuration * 0.9
+            }, '<');
+
+            timeline.call(setActive, [index]);
+
+            if (index > 0) {
+              var previous = cards[index - 1];
+              timeline.to(previous, {
+                opacity: 0.45,
+                scale: 0.95,
+                duration: stepDuration * 0.6
+              }, '<');
+            }
+
+            timeline.to({}, { duration: holdDuration });
+          });
+
+          timeline.to(track, { x: endOffset, duration: releaseDuration, ease: config.ease });
+          timeline.call(setActive, [-1]);
+
+          if (heading) {
+            timeline.to(heading, { opacity: 0.35, duration: totalDuration, ease: 'none' }, 0);
+          }
+
+          scrollTriggerInstance = ScrollTrigger.create({
+            trigger: root,
+            start: 'top top',
+            end: '+=' + config.scrollDistance,
+            pin: true,
+            scrub: scrubValue,
+            anticipatePin: 1,
+            animation: timeline,
+            invalidateOnRefresh: true
+          });
+
+          if (previousProgress > 0) {
+            scrollTriggerInstance.progress(previousProgress);
+            scrollTriggerInstance.update();
+          }
+        }
+
+        buildTimeline();
+
+        var resizeHandler = function() {
+          if (resizeRaf) {
+            cancelAnimationFrame(resizeRaf);
+          }
+          resizeRaf = requestAnimationFrame(function() {
+            buildTimeline();
+          });
+        };
 
         window.addEventListener('resize', resizeHandler);
 
         return function() {
           window.removeEventListener('resize', resizeHandler);
-          if (scrollTriggerInstance) {
-            scrollTriggerInstance.kill();
-            scrollTriggerInstance = null;
-          }
+          killTimeline();
+          setActive(-1);
           cleanupCardState();
-          gsap.set(track, { clearProps: 'transform' });
-          if (heading) {
-            gsap.killTweensOf(heading);
-            gsap.set(heading, { clearProps: 'opacity,transform' });
-          }
-          root.removeAttribute('data-scrollcards-mobile');
         };
       });
 
       mm.add('(max-width: 767px)', function() {
         root.setAttribute('data-scrollcards-mobile', 'true');
         cleanupCardState();
-        gsap.set(track, { clearProps: 'transform' });
-        if (heading) {
-          gsap.killTweensOf(heading);
-          gsap.set(heading, { clearProps: 'opacity,transform' });
-        }
         return function() {
           root.removeAttribute('data-scrollcards-mobile');
         };
@@ -552,14 +615,14 @@
     if (typeof gsap === 'undefined') {
       loadScript(GSAP_SRC)
         .then(function() { return loadScript(SCROLL_TRIGGER_SRC); })
-        .then(function() { setup(); })
+        .then(function() { setupAnimation(); })
         .catch(function() { /* noop */ });
     } else if (typeof ScrollTrigger === 'undefined') {
       loadScript(SCROLL_TRIGGER_SRC)
-        .then(function() { setup(); })
+        .then(function() { setupAnimation(); })
         .catch(function() { /* noop */ });
     } else {
-      setup();
+      setupAnimation();
     }
   }
 
@@ -609,6 +672,32 @@
     { "type": "range", "id": "card_width", "label": "Card width", "min": 240, "max": 920, "step": 10, "default": 720, "unit": "px" },
     { "type": "range", "id": "card_gap", "label": "Gap between cards", "min": 8, "max": 80, "step": 2, "default": 32, "unit": "px" },
     { "type": "range", "id": "section_padding_y", "label": "Section vertical padding", "min": 20, "max": 300, "step": 4, "default": 80, "unit": "px" },
+    { "type": "range", "id": "scroll_distance", "label": "Scroll travel distance", "min": 600, "max": 6000, "step": 100, "default": 2200, "unit": "px" },
+    { "type": "range", "id": "scroll_smoothness", "label": "Scroll smoothing (x0.1s)", "min": 0, "max": 20, "step": 1, "default": 6 },
+    {
+      "type": "select",
+      "id": "animation_direction",
+      "label": "Animation direction",
+      "default": "rtl",
+      "options": [
+        { "value": "rtl", "label": "Right to left" },
+        { "value": "ltr", "label": "Left to right" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "animation_ease",
+      "label": "Animation easing",
+      "default": "power2.out",
+      "options": [
+        { "value": "power1.out", "label": "Power1 out" },
+        { "value": "power2.out", "label": "Power2 out" },
+        { "value": "power3.out", "label": "Power3 out" },
+        { "value": "sine.inOut", "label": "Sine in/out" },
+        { "value": "expo.out", "label": "Expo out" },
+        { "value": "back.out(1.4)", "label": "Back out (1.4)" }
+      ]
+    },
     { "type": "checkbox", "id": "enable_animation", "label": "Enable scroll animation", "default": true }
   ],
   "blocks": [
