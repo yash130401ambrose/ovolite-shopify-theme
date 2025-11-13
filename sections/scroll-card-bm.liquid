@@ -1,0 +1,535 @@
+{% liquid
+  assign section_id = 'bm-scroll-' | append: section.id
+  assign heading = section.settings.heading | default: 'What Makes Us Special'
+  assign subheading = section.settings.subheading
+  assign text_color = section.settings.text_color | default: '#151515'
+  assign bg_color = section.settings.background_color | default: '#F6F7F4'
+  assign bg_color_end = section.settings.background_color_end | default: bg_color
+  assign container_width = section.settings.container | default: 'container'
+  assign card_gap = section.settings.card_gap | default: 32
+  assign animation_duration = section.settings.animation_duration | default: 1.6
+  assign animation_delay = section.settings.animation_delay | default: 0.15
+  assign overlay_opacity = section.settings.overlay_opacity | default: 0.65
+  assign heading_size = section.settings.heading_size | default: 'h1'
+  assign card_radius = section.settings.card_radius | default: 24
+%}
+
+<section
+  id="{{ section_id }}"
+  class="bm-scroll"
+  style="--bm-text: {{ text_color }}; --bm-bg: {{ bg_color }}; --bm-bg-end: {{ bg_color_end }}; --bm-gap: {{ card_gap }}px; --bm-duration: {{ animation_duration }}s; --bm-delay: {{ animation_delay }}s; --bm-radius: {{ card_radius }}px; --bm-overlay: {{ overlay_opacity }};"
+>
+  <div class="{{ container_width }} bm-scroll__inner">
+    {% if subheading != blank %}
+      <p class="bm-scroll__eyebrow">{{ subheading }}</p>
+    {% endif %}
+    <div class="bm-scroll__heading-wrap">
+      <h2 class="bm-scroll__heading {{ heading_size }}">
+        {{ heading }}
+      </h2>
+    </div>
+    <div class="bm-scroll__viewport">
+      <div class="bm-scroll__cards">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'card' %}
+              {% liquid
+                assign label = block.settings.label
+                assign title = block.settings.title
+                assign body = block.settings.body
+                assign icon = block.settings.icon
+                assign accent = block.settings.accent_color
+                assign link = block.settings.link
+                assign link_label = block.settings.link_label
+              %}
+              <article class="bm-card" style="{% if accent %}--bm-card-accent: {{ accent }};{% endif %}" {{ block.shopify_attributes }}>
+                <div class="bm-card__inner">
+                  {% if icon != blank %}
+                    <div class="bm-card__icon">
+                      <img src="{{ icon | image_url: width: 120 }}" alt="" loading="lazy" />
+                    </div>
+                  {% endif %}
+                  {% if label != blank %}
+                    <span class="bm-card__label">{{ label }}</span>
+                  {% endif %}
+                  {% if title != blank %}
+                    <h3 class="bm-card__title">{{ title }}</h3>
+                  {% endif %}
+                  {% if body != blank %}
+                    <p class="bm-card__body">{{ body }}</p>
+                  {% endif %}
+                  {% if link != blank and link_label != blank %}
+                    <a href="{{ link }}" class="bm-card__link">{{ link_label }}</a>
+                  {% endif %}
+                </div>
+              </article>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #{{ section_id }} {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(48px, 12vw, 160px) 0;
+    background: var(--bm-bg);
+    color: var(--bm-text);
+    transition: background-color 0.6s ease;
+  }
+  #{{ section_id }}::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, var(--bm-bg) 0%, color-mix(in srgb, var(--bm-bg-end) 70%, transparent) 100%);
+    opacity: var(--bm-overlay);
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+  }
+  #{{ section_id }} .bm-scroll__inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: clamp(32px, 4vw, 64px);
+  }
+  #{{ section_id }} .bm-scroll__eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    font-weight: 600;
+    font-size: clamp(12px, 1.2vw, 14px);
+    text-align: center;
+    margin: 0 auto;
+    opacity: 0.7;
+  }
+  #{{ section_id }} .bm-scroll__heading-wrap {
+    position: sticky;
+    top: 50vh;
+    transform: translateY(-50%);
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    min-height: clamp(180px, 30vw, 320px);
+  }
+  #{{ section_id }} .bm-scroll__heading {
+    margin: 0;
+    text-align: center;
+    font-size: clamp(36px, 6vw, 80px);
+    line-height: 1;
+    max-width: clamp(420px, 60vw, 820px);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  #{{ section_id }} .bm-scroll__viewport {
+    position: relative;
+    overflow: visible;
+    width: 100%;
+    min-height: clamp(240px, 26vw, 420px);
+    z-index: 2; /* above heading to hide it */
+  }
+  #{{ section_id }} .bm-scroll__cards {
+    display: flex;
+    align-items: center;
+    gap: var(--bm-gap);
+    will-change: transform;
+    transform: translate3d(120vw, 0, 0);
+    opacity: 0;
+    z-index: 2;
+  }
+  #{{ section_id }} .bm-card {
+    flex: 0 0 clamp(240px, 26vw, 340px);
+    position: relative;
+    background: color-mix(in srgb, var(--bm-card-accent, rgba(255,255,255,0.92)) 60%, white 40%);
+    border-radius: var(--bm-radius);
+    box-shadow:
+      0 28px 60px -36px rgba(0, 0, 0, 0.45),
+      0 18px 32px -20px rgba(18, 18, 18, 0.25);
+    padding: clamp(24px, 3vw, 40px);
+    color: #0F1C16;
+    backdrop-filter: blur(6px);
+    transition: transform 0.45s ease, box-shadow 0.45s ease;
+  }
+  #{{ section_id }} .bm-card__inner {
+    display: grid;
+    gap: clamp(12px, 1.4vw, 16px);
+  }
+  #{{ section_id }} .bm-card__icon {
+    width: clamp(44px, 5vw, 64px);
+    height: clamp(44px, 5vw, 64px);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,0.75);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+  }
+  #{{ section_id }} .bm-card__icon img {
+    max-width: 60%;
+    height: auto;
+  }
+  #{{ section_id }} .bm-card__label {
+    font-size: clamp(12px, 1.2vw, 14px);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    opacity: 0.8;
+  }
+  #{{ section_id }} .bm-card__title {
+    margin: 0;
+    font-size: clamp(20px, 2.4vw, 28px);
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+  #{{ section_id }} .bm-card__body {
+    margin: 0;
+    font-size: clamp(14px, 1.4vw, 16px);
+    line-height: 1.4;
+    color: rgba(15, 28, 22, 0.8);
+  }
+  #{{ section_id }} .bm-card__link {
+    font-size: clamp(13px, 1.2vw, 15px);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+    color: currentColor;
+    text-decoration: none;
+    position: relative;
+  }
+  #{{ section_id }} .bm-card__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.28s ease;
+  }
+  #{{ section_id }} .bm-card:hover {
+    transform: translateY(-12px) rotate3d(1, 0, 0, 2deg);
+    box-shadow:
+      0 38px 60px -28px rgba(0, 0, 0, 0.35),
+      0 24px 40px -20px rgba(18, 18, 18, 0.25);
+  }
+  #{{ section_id }} .bm-card:hover .bm-card__link::after {
+    transform: scaleX(1);
+  }
+
+  @media (max-width: 1024px) {
+    #{{ section_id }} .bm-scroll__cards {
+      transform: translate3d(60vw, 0, 0);
+    }
+    #{{ section_id }} .bm-card {
+      flex-basis: clamp(220px, 54vw, 300px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    #{{ section_id }} {
+      padding: clamp(40px, 18vw, 120px) 0;
+    }
+    #{{ section_id }} .bm-scroll__heading {
+      font-size: clamp(30px, 12vw, 48px);
+      max-width: 90%;
+    }
+    #{{ section_id }} .bm-scroll__cards {
+      gap: clamp(16px, 6vw, 32px);
+      transform: translate3d(100%, 0, 0);
+    }
+    #{{ section_id }} .bm-card {
+      flex-basis: clamp(220px, 80vw, 280px);
+    }
+    #{{ section_id }} .bm-card:hover {
+      transform: none;
+      box-shadow:
+        0 18px 30px -18px rgba(0, 0, 0, 0.28),
+        0 12px 20px -14px rgba(18, 18, 18, 0.2);
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    var section = document.getElementById('{{ section_id }}');
+    if (!section) return;
+
+    function loadScript(src) {
+      return new Promise(function(resolve, reject) {
+        var s = document.createElement('script');
+        s.src = src;
+        s.async = true;
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
+    function initAnimation() {
+      var track = section.querySelector('.bm-scroll__cards');
+      var viewport = section.querySelector('.bm-scroll__viewport');
+      if (!track || !viewport) return;
+
+      var cards = track.querySelectorAll('.bm-card');
+      if (!cards.length) return;
+
+      var totalWidth = 0;
+      cards.forEach(function(card) { totalWidth += card.offsetWidth; });
+      var styles = getComputedStyle(track);
+      var gap = parseFloat(styles.columnGap || styles.gap || 0) || 0;
+      totalWidth += gap * (cards.length - 1);
+
+      var viewportWidth = viewport.offsetWidth;
+
+      // Compute target so a group of 3 cards ends centered over the heading
+      var mid = Math.max(0, Math.min(cards.length - 1, Math.floor(cards.length / 2)));
+      var startIdx = Math.max(0, mid - 1);
+      var endIdx = Math.min(cards.length - 1, startIdx + 2);
+      // Measure group bounds relative to track
+      var trackRect = track.getBoundingClientRect();
+      var firstRect = cards[startIdx].getBoundingClientRect();
+      var lastRect = cards[endIdx].getBoundingClientRect();
+      var groupLeft = firstRect.left - trackRect.left;
+      var groupRight = lastRect.right - trackRect.left;
+      var groupCenter = (groupLeft + groupRight) / 2;
+      var targetOffset = (viewportWidth / 2) - groupCenter;
+
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        return;
+      }
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      var dur = parseFloat(getComputedStyle(section).getPropertyValue('--bm-duration')) || {{ animation_duration }};
+      var stg = parseFloat(getComputedStyle(section).getPropertyValue('--bm-delay')) || {{ animation_delay }};
+
+      // Pin the section while cards slide across the heading
+      var tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: '+=' + Math.max(800, viewportWidth * 1.5),
+          pin: true,
+          scrub: false,
+          anticipatePin: 1
+        }
+      });
+
+      tl.fromTo(track,
+        { x: viewportWidth * 1.1, opacity: 0 },
+        { x: targetOffset, opacity: 1, duration: dur, ease: 'power4.out' }
+      );
+
+      tl.from(cards, {
+        y: 80,
+        opacity: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: stg
+      }, '<0.1');
+    }
+
+    function ready(fn) {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', fn);
+      } else {
+        fn();
+      }
+    }
+
+    ready(function() {
+      if (typeof gsap === 'undefined') {
+        loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js')
+          .then(function() {
+            if (typeof ScrollTrigger === 'undefined') {
+              return loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js');
+            }
+          })
+          .then(initAnimation)
+          .catch(initAnimation);
+      } else {
+        if (typeof ScrollTrigger === 'undefined') {
+          loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js')
+            .then(initAnimation)
+            .catch(initAnimation);
+        } else {
+          initAnimation();
+        }
+      }
+    });
+
+    document.addEventListener('shopify:section:load', function(e) {
+      if (!section.contains(e.target)) return;
+      initAnimation();
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Scroll Cards BM",
+  "settings": [
+    {
+      "type": "select",
+      "id": "container",
+      "label": "Width",
+      "default": "container",
+      "options": [
+        { "value": "container", "label": "Default" },
+        { "value": "container-fluid", "label": "Full width" },
+        { "value": "container-full", "label": "Edge to edge" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What Makes Us Special"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Eyebrow text"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "h1",
+      "options": [
+        { "value": "h1", "label": "Display" },
+        { "value": "h2", "label": "Large" },
+        { "value": "h3", "label": "Medium" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#151515"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background start color",
+      "default": "#F6F7F4"
+    },
+    {
+      "type": "color",
+      "id": "background_color_end",
+      "label": "Background end color",
+      "default": "#DCE7D5"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Background overlay strength",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.6
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Card spacing",
+      "min": 12,
+      "max": 64,
+      "step": 4,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card corner radius",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "label": "Scroll animation duration",
+      "min": 0.5,
+      "max": 4,
+      "step": 0.1,
+      "default": 1.6,
+      "unit": "s"
+    },
+    {
+      "type": "range",
+      "id": "animation_delay",
+      "label": "Card stagger delay",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 0.1,
+      "unit": "s"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Card label",
+          "default": "More caffeine"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card title",
+          "default": "Special Blend"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Description",
+          "default": "85mg of caffeine per serving, equal to a cappuccino. Your daily energy boost."
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon image"
+        },
+        {
+          "type": "color",
+          "id": "accent_color",
+          "label": "Accent color",
+          "default": "#D4E7C7"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label",
+          "default": "Shop now"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Scroll Cards BM",
+      "blocks": [
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
