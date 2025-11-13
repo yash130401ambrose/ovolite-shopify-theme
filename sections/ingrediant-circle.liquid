@@ -139,8 +139,8 @@
       var denominator = count > 1 ? (count - 1) : 1;
 
       items.forEach(function(item, index) {
-        var normalized = count > 1 ? (index / denominator) * 2 - 1 : 0;
-        var heightFactor = Math.pow(1 - Math.abs(normalized), 1.2);
+        var normalized = count > 1 ? index / denominator : 0;
+        var heightFactor = Math.sin(normalized * Math.PI);
         var offset = heightFactor * archHeight;
         item.style.setProperty('--ep-logo-offset', offset ? '-' + offset + 'px' : '0px');
       });
