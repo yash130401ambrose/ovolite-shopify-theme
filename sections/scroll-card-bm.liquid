@@ -148,6 +148,7 @@
     width: min(92vw, 1200px);
     z-index: -1;
     opacity: 0.9;
+    pointer-events: none;
   }
   #{{ section_id }} .bm-heading-bg picture, 
   #{{ section_id }} .bm-heading-bg img {
@@ -155,6 +156,7 @@
     width: 100%;
     height: auto;
     object-fit: cover;
+    pointer-events: none;
   }
   #{{ section_id }} .bm-scroll__viewport {
     position: absolute;
@@ -185,7 +187,7 @@
     box-shadow:
       0 28px 60px -36px rgba(0, 0, 0, 0.45),
       0 18px 32px -20px rgba(18, 18, 18, 0.25);
-    padding: clamp(28px, 3.6vw, 56px);
+    padding: clamp(52px, 5vw, 88px) clamp(32px, 3.8vw, 64px) clamp(40px, 3.4vw, 68px);
     color: #0F1C16;
     backdrop-filter: blur(6px);
     transition: transform 0.45s ease, box-shadow 0.45s ease;
@@ -357,31 +359,34 @@
       // Pin the section while cards slide across the heading
       // Pure scroll-controlled movement: pin and scrub, no opacity or other animations
       var initialX = viewportWidth * 1.15;
-      var st = ScrollTrigger.create({
-        trigger: section,
-        start: 'top top',
-        end: '+=' + Math.max(900, viewportWidth * 2.0),
-        pin: true,
-        scrub: true,
-        anticipatePin: 1,
-        onUpdate: checkPhase
-      });
-      gsap.fromTo(track, { x: initialX }, { x: targetOffset, ease: 'none', scrollTrigger: st });
-
-      // When the LAST card is centered in the viewport, toggle a class on the section
       var lastCard = cards[cards.length - 1];
       var lastRect = lastCard.getBoundingClientRect();
       var lastCenter = (lastRect.left + lastRect.right) / 2 - trackRect.left;
       var offsetLastCenter = (viewportWidth / 2) - lastCenter;
+      var denom = (initialX - targetOffset);
+      var lastTriggerProgress = denom !== 0 ? (initialX - offsetLastCenter) / denom : 1;
+      lastTriggerProgress = Math.max(0, Math.min(1, lastTriggerProgress));
+      var tolerance = 0.02;
 
-      function checkPhase() {
-        var currentX = gsap.getProperty(track, 'x');
-        if (Math.abs(currentX - offsetLastCenter) < 20) {
-          section.classList.add('is-last-centered');
-        } else {
-          section.classList.remove('is-last-centered');
+      gsap.fromTo(track, { x: initialX }, {
+        x: targetOffset,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top top',
+          end: '+=' + Math.max(900, viewportWidth * 2.0),
+          pin: true,
+          scrub: true,
+          anticipatePin: 1,
+          onUpdate: function(self) {
+            if (self.progress >= lastTriggerProgress - tolerance) {
+              section.classList.add('is-last-centered');
+            } else {
+              section.classList.remove('is-last-centered');
+            }
+          }
         }
-      }
+      });
     }
 
     function ready(fn) {
