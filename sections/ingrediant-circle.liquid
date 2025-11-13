@@ -285,70 +285,56 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(28px, 6vw, 48px);
+    gap: clamp(36px, 7vw, 64px);
   }
 
   #energy-payment-{{ section.id }} .ep-tagline {
     text-align: center;
-    max-width: min(720px, 80%);
+    max-width: min(780px, 88%);
   }
 
   #energy-payment-{{ section.id }} .ep-tagline__primary {
     margin: 0;
-    font-size: clamp(30px, 6vw, 62px);
-    font-weight: 600;
+    font-size: clamp(32px, 6vw, var(--ep-tagline-primary-size, 54px));
+    font-weight: 700;
     color: var(--ep-heading);
   }
 
   #energy-payment-{{ section.id }} .ep-tagline__secondary {
-    margin: clamp(12px, 2vw, 18px) 0 0;
-    font-size: clamp(22px, 4vw, 42px);
+    margin: clamp(8px, 1.6vw, 16px) 0 0;
+    font-size: clamp(22px, 4.4vw, var(--ep-tagline-secondary-size, 42px));
     font-weight: 600;
-    color: color-mix(in srgb, var(--ep-heading) 70%, #ffffff 30%);
-  }
-
-  #energy-payment-{{ section.id }} .ep-floating-note {
-    position: absolute;
-    font-size: clamp(12px, 2.8vw, var(--ep-note-size, 18px));
-    font-weight: 500;
-    color: var(--ep-note);
-    font-family: 'Handlee', 'Comic Sans MS', cursive;
-    white-space: pre-line;
-    line-height: 1.3;
-  }
-
-  #energy-payment-{{ section.id }} .ep-floating-note--left {
-    top: clamp(-12px, -4vw, -24px);
-    left: clamp(0px, 8vw, 160px);
-  }
-
-  #energy-payment-{{ section.id }} .ep-floating-note--right {
-    bottom: clamp(-24px, -5vw, -40px);
-    right: clamp(0px, 6vw, 140px);
-    text-align: right;
+    color: color-mix(in srgb, var(--ep-heading) 65%, var(--ep-accent) 35%);
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: clamp(16px, 4vw, 36px);
+    gap: clamp(24px, 6vw, 72px);
     width: 100%;
+    flex-wrap: wrap;
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__item {
-    width: var(--logo-size, 120px);
-    height: var(--logo-size, 120px);
+    width: var(--logo-size, 152px);
+    height: var(--logo-size, 152px);
     border-radius: 50%;
     background: #ffffff;
-    box-shadow: 0 14px 26px rgba(22, 26, 20, 0.12);
+    box-shadow: 0 30px 60px rgba(19, 36, 27, 0.22);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 16px;
+    gap: 12px;
+    padding: clamp(16px, 3vw, 22px);
     text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 36px 70px rgba(19, 36, 27, 0.26);
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__image {
@@ -363,18 +349,9 @@
     color: var(--ep-heading);
   }
 
-  #energy-payment-{{ section.id }} .ep-floating-note:empty,
   #energy-payment-{{ section.id }} .ep-tagline__primary:empty,
   #energy-payment-{{ section.id }} .ep-tagline__secondary:empty {
     display: none;
-  }
-
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(odd) {
-    transform: translateY(clamp(-8px, -1.6vw, -18px));
-  }
-
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(even) {
-    transform: translateY(clamp(8px, 1.6vw, 18px));
   }
 
   @media (max-width: 1024px) {
@@ -464,7 +441,7 @@
     { "type": "range", "id": "nutrition_heading_size", "label": "Nutrition heading font size", "min": 12, "max": 40, "step": 1, "default": 18, "unit": "px" },
 
     { "type": "text", "id": "tagline_primary", "label": "Tagline primary", "default": "Don’t just crave it." },
-    { "type": "range", "id": "tagline_primary_size", "label": "Tagline primary font size", "min": 16, "max": 80, "step": 2, "default": 48, "unit": "px" },
+    { "type": "range", "id": "tagline_primary_size", "label": "Tagline primary font size", "min": 16, "max": 80, "step": 2, "default": 54, "unit": "px" },
     { "type": "text", "id": "tagline_secondary", "label": "Tagline secondary", "default": "Get it." },
     { "type": "range", "id": "tagline_secondary_size", "label": "Tagline secondary font size", "min": 14, "max": 60, "step": 2, "default": 36, "unit": "px" },
   ],
@@ -487,7 +464,7 @@
         { "type": "text", "id": "logo_label", "label": "Logo label" },
         { "type": "text", "id": "logo_alt", "label": "Logo alt text" },
         { "type": "range", "id": "logo_label_size", "label": "Logo label font size", "min": 10, "max": 28, "step": 1, "default": 14, "unit": "px" },
-        { "type": "range", "id": "logo_size", "label": "Logo circle size", "min": 64, "max": 200, "step": 4, "default": 128, "unit": "px" }
+        { "type": "range", "id": "logo_size", "label": "Logo circle size", "min": 80, "max": 240, "step": 4, "default": 160, "unit": "px" }
       ]
     }
   ],
