@@ -87,7 +87,13 @@
       </div>
 
       {% if payment_logo_count > 0 %}
-        <div class="ep-payment-logos" data-arch="true" data-arch-height="{{ section.settings.arch_height | default: 64 }}" data-count="{{ payment_logo_count }}">
+        <div
+          class="ep-payment-logos"
+          data-arch="true"
+          data-arch-height="{{ section.settings.arch_height | default: 64 }}"
+          data-count="{{ payment_logo_count }}"
+          style="--ep-arch-height: {{ section.settings.arch_height | default: 64 }}px;"
+        >
           {% for block in payment_logo_blocks %}
             <div class="ep-payment-logos__item" style="--logo-size: {{ block.settings.logo_size | default: 120 }}px;" {{ block.shopify_attributes }}>
               {% if block.settings.logo_image != blank %}
@@ -134,8 +140,8 @@
 
       items.forEach(function(item, index) {
         var normalized = count > 1 ? (index / denominator) * 2 - 1 : 0;
-        var offset = (1 - Math.pow(normalized, 2)) * archHeight;
-        offset = offset < 0 ? 0 : offset;
+        var heightFactor = Math.pow(1 - Math.abs(normalized), 1.2);
+        var offset = heightFactor * archHeight;
         item.style.setProperty('--ep-logo-offset', offset ? '-' + offset + 'px' : '0px');
       });
     }
@@ -380,12 +386,13 @@
 
   #energy-payment-{{ section.id }} .ep-payment-logos {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
     gap: clamp(20px, 4vw, 48px);
     width: min(1100px, 100%);
     flex-wrap: nowrap;
     position: relative;
+    padding-top: var(--ep-arch-height, 0px);
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__item {
