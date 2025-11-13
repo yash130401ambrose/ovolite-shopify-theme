@@ -7,6 +7,9 @@
   assign card_bg = section.settings.card_bg | default: 'rgba(255,255,255,0)'
   assign section_padding_y = section.settings.section_padding_y | default: 80
   assign gap_between_rows = section.settings.row_gap | default: 72
+  assign metric_blocks = section.blocks | where: 'type', 'metric'
+  assign payment_logo_blocks = section.blocks | where: 'type', 'payment_logo'
+  assign payment_logo_count = payment_logo_blocks | size
 %}
 
 <section
@@ -60,16 +63,16 @@
         {% if section.settings.nutrition_heading != blank %}
           <p class="ep-nutrition-card__heading" style="--ep-nutrition-heading-size: {{ section.settings.nutrition_heading_size | default: 20 }}px">{{ section.settings.nutrition_heading }}</p>
         {% endif %}
-        <ul class="ep-nutrition-card__list">
-          {% for block in section.blocks %}
-            {% if block.type == 'metric' %}
+        {% if metric_blocks.size > 0 %}
+          <ul class="ep-nutrition-card__list">
+            {% for block in metric_blocks %}
               <li class="ep-nutrition-card__item" style="--ep-row-label-size: {{ block.settings.metric_label_size | default: 16 }}px; --ep-row-value-size: {{ block.settings.metric_value_size | default: 16 }}px" {{ block.shopify_attributes }}>
                 <span class="ep-nutrition-card__label">{{ block.settings.metric_label }}</span>
                 <span class="ep-nutrition-card__value">{{ block.settings.metric_value }}</span>
               </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
+            {% endfor %}
+          </ul>
+        {% endif %}
       </div>
     </div>
 
@@ -83,9 +86,9 @@
         {% endif %}
       </div>
 
-      <div class="ep-payment-logos">
-        {% for block in section.blocks %}
-          {% if block.type == 'payment_logo' %}
+      {% if payment_logo_count > 0 %}
+        <div class="ep-payment-logos" data-arch="true" data-arch-height="{{ section.settings.arch_height | default: 64 }}" data-count="{{ payment_logo_count }}">
+          {% for block in payment_logo_blocks %}
             <div class="ep-payment-logos__item" style="--logo-size: {{ block.settings.logo_size | default: 120 }}px;" {{ block.shopify_attributes }}>
               {% if block.settings.logo_image != blank %}
                 {{ block.settings.logo_image | image_url: width: 220 | image_tag: class: 'ep-payment-logos__image', alt: block.settings.logo_alt | default: block.settings.logo_label }}
@@ -94,12 +97,79 @@
                 <span class="ep-payment-logos__label" style="--ep-logo-label-size: {{ block.settings.logo_label_size | default: 14 }}px">{{ block.settings.logo_label }}</span>
               {% endif %}
             </div>
-          {% endif %}
-        {% endfor %}
-      </div>
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
   </div>
 </section>
+
+<script>
+  (function() {
+    var sectionId = 'energy-payment-{{ section.id }}';
+
+    function applyArchLayout(root) {
+      if (!root) {
+        return;
+      }
+
+      var container = root.querySelector('.ep-payment-logos[data-arch]');
+      if (!container) {
+        return;
+      }
+
+      var items = container.querySelectorAll('.ep-payment-logos__item');
+      if (!items.length) {
+        return;
+      }
+
+      var archHeightAttr = container.getAttribute('data-arch-height');
+      var archHeight = archHeightAttr ? parseFloat(archHeightAttr) : 0;
+      if (Number.isNaN(archHeight)) {
+        archHeight = 0;
+      }
+
+      var count = items.length;
+      var midIndex = (count - 1) / 2;
+      var denominator = midIndex === 0 ? 1 : midIndex;
+
+      items.forEach(function(item, index) {
+        var normalized = (index - midIndex) / denominator;
+        var offset = Math.pow(normalized, 2) * archHeight;
+        item.style.setProperty('--ep-logo-offset', offset ? offset + 'px' : '0px');
+      });
+    }
+
+    var sectionEl = document.getElementById(sectionId);
+    if (sectionEl) {
+      applyArchLayout(sectionEl);
+    }
+
+    document.addEventListener('shopify:section:load', function(event) {
+      if (event.target && event.target.id === sectionId) {
+        applyArchLayout(event.target);
+      }
+    });
+
+    document.addEventListener('shopify:section:select', function(event) {
+      if (event.target && event.target.id === sectionId) {
+        applyArchLayout(event.target);
+      }
+    });
+
+    document.addEventListener('shopify:block:select', function(event) {
+      if (event.target && event.target.closest('#' + sectionId)) {
+        applyArchLayout(document.getElementById(sectionId));
+      }
+    });
+
+    document.addEventListener('shopify:block:deselect', function(event) {
+      if (event.target && event.target.closest('#' + sectionId)) {
+        applyArchLayout(document.getElementById(sectionId));
+      }
+    });
+  })();
+</script>
 
 <style>
   #energy-payment-{{ section.id }} {
@@ -341,13 +411,6 @@
     animation: ep-logo-sway 1.1s ease-in-out infinite alternate;
   }
 
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(1) { --ep-logo-offset: 32px; }
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(2) { --ep-logo-offset: 16px; }
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(3) { --ep-logo-offset: -10px; }
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(4) { --ep-logo-offset: -10px; }
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(5) { --ep-logo-offset: 16px; }
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:nth-child(6) { --ep-logo-offset: 32px; }
-
   @keyframes ep-logo-sway {
     0%   { transform: translateY(var(--ep-logo-offset, 0px)) translateX(-8px); }
     100% { transform: translateY(var(--ep-logo-offset, 0px)) translateX(8px); }
@@ -452,6 +515,7 @@
     { "type": "color", "id": "card_bg", "label": "Table background color (use transparency for none)", "default": "rgba(0,0,0,0)" },
     { "type": "range", "id": "section_padding_y", "label": "Section vertical padding", "min": 32, "max": 240, "step": 4, "default": 96, "unit": "px" },
     { "type": "range", "id": "row_gap", "label": "Gap between top and bottom blocks", "min": 32, "max": 160, "step": 4, "default": 72, "unit": "px" },
+    { "type": "range", "id": "arch_height", "label": "Circle arch height", "min": 0, "max": 200, "step": 4, "default": 64, "unit": "px" },
 
     { "type": "image_picker", "id": "energy_icon", "label": "Energy icon" },
     { "type": "text", "id": "energy_heading", "label": "Energy heading", "default": "ENERGY VALUE" },
@@ -506,6 +570,8 @@
         { "type": "metric" },
         { "type": "metric" },
         { "type": "metric" },
+        { "type": "payment_logo" },
+        { "type": "payment_logo" },
         { "type": "payment_logo" },
         { "type": "payment_logo" },
         { "type": "payment_logo" },
