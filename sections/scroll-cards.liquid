@@ -84,19 +84,19 @@
     overflow: hidden;
   }
 
-  .scroll-cards__container {
+.scroll-cards__container {
     position: relative;
     width: 100%;
     max-width: 1600px;
     margin: 0 auto;
-    padding-top: clamp(8px, 2.5vw, 36px);
+    padding-top: clamp(0px, 0.8vw, 18px);
   }
 
-  .scroll-cards__heading {
+.scroll-cards__heading {
     position: relative;
     display: block;
-    margin: 0 auto clamp(24px, 4vw, 72px);
-    padding: 0 clamp(12px, 3vw, 32px);
+    margin: 0 auto clamp(16px, 3.2vw, 42px);
+    padding: 0 clamp(10px, 2.6vw, 26px);
     max-width: min(960px, 92%);
     text-align: center;
     transform: none;
@@ -104,7 +104,7 @@
     font-weight: 700;
     line-height: 1.05;
     color: var(--heading-color);
-    opacity: 100;
+    opacity: 0.34;
     white-space: pre-wrap;
     pointer-events: none;
     z-index: 2;
@@ -156,11 +156,11 @@
     background: linear-gradient(270deg, var(--bg) 0%, rgba(255, 255, 255, 0) 100%);
   }
 
-  .scroll-cards__track {
+.scroll-cards__track {
     display: inline-flex;
     gap: var(--card-gap);
     align-items: stretch;
-    padding: clamp(28px, calc(var(--icon-size) * 0.45), 72px) 6vw clamp(24px, 5vw, 48px);
+    padding: clamp(18px, calc(var(--icon-size) * 0.35), 58px) 6vw clamp(20px, 4.2vw, 42px);
     will-change: transform;
     z-index: 3;
   }
@@ -262,9 +262,9 @@
   @media (max-width: 1024px) {
     .scroll-cards__heading {
       font-size: clamp(28px, 7vw, 84px);
-      margin: 0 auto clamp(22px, 6vw, 72px);
-      padding: 0 clamp(16px, 5vw, 36px);
-      opacity: 0.26;
+      margin: 0 auto clamp(14px, 5.5vw, 56px);
+      padding: 0 clamp(14px, 4.6vw, 30px);
+      opacity: 0.28;
     }
     .scroll-cards__viewport::before,
     .scroll-cards__viewport::after {
@@ -278,10 +278,10 @@
     }
     .scroll-cards__container {
       max-width: 90vw;
-      padding-top: clamp(10px, 4vw, 32px);
+      padding-top: clamp(4px, 3vw, 24px);
     }
     .scroll-cards__track {
-      padding: clamp(26px, calc(var(--icon-size) * 0.42), 60px) clamp(5vw, 9vw, 12vw) clamp(22px, 5vw, 40px);
+      padding: clamp(16px, calc(var(--icon-size) * 0.3), 46px) clamp(4.5vw, 8vw, 11vw) clamp(18px, 4.5vw, 36px);
     }
     .scroll-card {
       flex: 0 0 clamp(340px, 80vw, 420px);
@@ -299,14 +299,14 @@
 
     .scroll-cards__container {
       max-width: 100%;
-      padding-top: clamp(8px, 3.5vw, 32px);
+      padding-top: clamp(4px, 3vw, 24px);
     }
 
     .scroll-cards__heading {
       font-size: clamp(24px, 14vw, 60px);
       letter-spacing: 0.04em;
-      margin: 0 auto clamp(20px, 7vw, 56px);
-      padding: 0 clamp(16px, 6vw, 40px);
+      margin: 0 auto clamp(14px, 6vw, 48px);
+      padding: 0 clamp(14px, 5.5vw, 36px);
       opacity: 0.24;
     }
 
@@ -343,8 +343,8 @@
 
     .scroll-cards__heading {
       font-size: clamp(22px, 15vw, 52px);
-      margin: 0 auto clamp(18px, 9vw, 52px);
-      padding: 0 clamp(14px, 7vw, 36px);
+      margin: 0 auto clamp(12px, 8vw, 44px);
+      padding: 0 clamp(12px, 6.5vw, 32px);
       opacity: 0.28;
     }
 
@@ -514,8 +514,8 @@
           var firstCard = cards[0];
           var lastCard = cards[cards.length - 1];
 
-          var entryOvershoot = viewportWidth * 0.35 + firstCard.offsetWidth * 0.35;
-          var exitOvershoot = viewportWidth * 0.45 + lastCard.offsetWidth * 0.4;
+          var entryOvershoot = viewportWidth * 0.18 + firstCard.offsetWidth * 0.25;
+          var exitOvershoot = viewportWidth * 0.4 + lastCard.offsetWidth * 0.35;
 
           var startOffset = positions[0] + directionMultiplier * entryOvershoot;
           var endOffset = positions[positions.length - 1] - directionMultiplier * exitOvershoot;
@@ -528,8 +528,8 @@
           }
           cards.forEach(function(card) {
             gsap.set(card, {
-              opacity: 0.35,
-              xPercent: 55 * directionMultiplier
+              opacity: 0.4,
+              xPercent: 32 * directionMultiplier
             });
           });
           setActive(-1);
