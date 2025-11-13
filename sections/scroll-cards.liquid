@@ -15,6 +15,7 @@
   assign shared_icon = section.settings.shared_icon
   assign card_icon_size = section.settings.card_icon_size | default: 64
   assign card_icon_gap = section.settings.card_icon_gap | default: 24
+  assign heading_card_gap = section.settings.heading_card_gap | default: 56
   assign scroll_distance = section.settings.scroll_distance | default: 2200
   assign scroll_smoothness = section.settings.scroll_smoothness | default: 6
   assign animation_direction = section.settings.animation_direction | default: 'rtl'
@@ -39,7 +40,8 @@
          --card-gap: {{ card_gap }}px;
          --card-height: {{ card_height }}px;
          --section-padding-y: {{ section_padding_y }}px;
-         --icon-size: {{ icon_size }}px;"
+         --icon-size: {{ icon_size }}px;
+         --heading-card-gap: {{ heading_card_gap }}px;"
 >
   <div class="scroll-cards__container">
 
@@ -92,10 +94,10 @@
     padding-top: clamp(0px, 0.8vw, 18px);
   }
 
-.scroll-cards__heading {
+  .scroll-cards__heading {
     position: relative;
     display: block;
-    margin: 0 auto clamp(16px, 3.2vw, 42px);
+    margin: 0 auto clamp(16px, 4vw, var(--heading-card-gap));
     padding: 0 clamp(10px, 2.6vw, 26px);
     max-width: min(960px, 92%);
     text-align: center;
@@ -262,7 +264,7 @@
   @media (max-width: 1024px) {
     .scroll-cards__heading {
       font-size: clamp(28px, 7vw, 84px);
-      margin: 0 auto clamp(14px, 5.5vw, 56px);
+      margin: 0 auto clamp(14px, 6vw, calc(var(--heading-card-gap) * 0.9));
       padding: 0 clamp(14px, 4.6vw, 30px);
       opacity: 0.28;
     }
@@ -305,7 +307,7 @@
     .scroll-cards__heading {
       font-size: clamp(24px, 14vw, 60px);
       letter-spacing: 0.04em;
-      margin: 0 auto clamp(14px, 6vw, 48px);
+      margin: 0 auto clamp(12px, 7vw, calc(var(--heading-card-gap) * 0.85));
       padding: 0 clamp(14px, 5.5vw, 36px);
       opacity: 0.24;
     }
@@ -343,7 +345,7 @@
 
     .scroll-cards__heading {
       font-size: clamp(22px, 15vw, 52px);
-      margin: 0 auto clamp(12px, 8vw, 44px);
+      margin: 0 auto clamp(10px, 8.5vw, calc(var(--heading-card-gap) * 0.8));
       padding: 0 clamp(12px, 6.5vw, 32px);
       opacity: 0.28;
     }
@@ -675,6 +677,7 @@
     { "type": "range", "id": "card_width", "label": "Card width", "min": 240, "max": 920, "step": 10, "default": 720, "unit": "px" },
     { "type": "range", "id": "card_gap", "label": "Gap between cards", "min": 8, "max": 80, "step": 2, "default": 32, "unit": "px" },
     { "type": "range", "id": "section_padding_y", "label": "Section vertical padding", "min": 20, "max": 300, "step": 4, "default": 80, "unit": "px" },
+    { "type": "range", "id": "heading_card_gap", "label": "Spacing between heading and cards", "min": 8, "max": 160, "step": 4, "default": 56, "unit": "px" },
     { "type": "range", "id": "scroll_distance", "label": "Scroll travel distance", "min": 600, "max": 6000, "step": 100, "default": 2200, "unit": "px" },
     { "type": "range", "id": "scroll_smoothness", "label": "Scroll smoothing (x0.1s)", "min": 0, "max": 20, "step": 1, "default": 6 },
     {
