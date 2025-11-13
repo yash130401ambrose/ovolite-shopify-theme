@@ -13,6 +13,7 @@
   assign arch_intensity = section.settings.arch_intensity | default: 130
   assign circle_size = section.settings.circle_size | default: 140
   assign circle_gap = section.settings.circle_gap | default: 32
+  assign circle_color = section.settings.circle_color | default: '#ffffff'
 %}
 
 <section
@@ -25,7 +26,8 @@
          --ep-note: {{ note_color }};
          --ep-card-bg: {{ card_bg }};
          --ep-padding-y: {{ section_padding_y }}px;
-         --ep-row-gap: {{ gap_between_rows }}px;"
+         --ep-row-gap: {{ gap_between_rows }}px;
+         --ep-circle-bg: {{ circle_color }};"
 >
   <div class="ep-wrapper">
     <div class="ep-top">
@@ -314,7 +316,7 @@
     width: clamp(72px, 12vw, 120px);
     height: clamp(72px, 12vw, 120px);
     border-radius: 50%;
-    background: #ffffff;
+    background: var(--ep-circle-bg, #ffffff);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -506,7 +508,7 @@
     flex: 0 0 auto;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
-    background: #ffffff;
+    background: var(--ep-circle-bg, #ffffff);
     box-shadow: none;
     display: flex;
     flex-direction: column;
@@ -634,6 +636,7 @@
     { "type": "color", "id": "card_bg", "label": "Table background color (use transparency for none)", "default": "rgba(0,0,0,0)" },
     { "type": "range", "id": "section_padding_y", "label": "Section vertical padding", "min": 32, "max": 240, "step": 4, "default": 96, "unit": "px" },
     { "type": "range", "id": "row_gap", "label": "Gap between top and bottom blocks", "min": 32, "max": 160, "step": 4, "default": 72, "unit": "px" },
+    { "type": "color", "id": "circle_color", "label": "Circle background color", "default": "#ffffff" },
     { "type": "range", "id": "arch_height", "label": "Circle arch height", "min": 0, "max": 200, "step": 4, "default": 64, "unit": "px" },
     { "type": "range", "id": "arch_intensity", "label": "Arch curve intensity", "min": 50, "max": 200, "step": 5, "default": 130, "unit": "%" },
     { "type": "range", "id": "circle_size", "label": "Default circle size", "min": 80, "max": 240, "step": 4, "default": 140, "unit": "px" },
