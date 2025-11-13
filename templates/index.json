@@ -107,7 +107,7 @@
         "line_height": 140,
         "letter_spacing": 0,
         "parallax_strength": 40,
-        "enable_scribble": true,
+        "enable_scribble": false,
         "scribble_stroke": "#000000",
         "scribble_width": 4,
         "scribble_duration": 1.5,
@@ -123,7 +123,9 @@
         "scribble_text_offset_x": 0.5,
         "scribble_text_offset_y": 6.5,
         "scribble_text_rotation": -6,
-        "scribble_text_stroke_width": 4
+        "scribble_text_stroke_width": 4,
+        "scribble_text_viewbox": "0 0 1200 300",
+        "scribble_text_duration": 4.4
       }
     },
     "scroll_cards_GUDwiE": {
