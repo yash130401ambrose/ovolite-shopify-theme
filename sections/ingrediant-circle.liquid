@@ -92,7 +92,7 @@
           data-arch="true"
           data-arch-height="{{ section.settings.arch_height | default: 64 }}"
           data-count="{{ payment_logo_count }}"
-          style="--ep-arch-height: {{ section.settings.arch_height | default: 64 }}px;"
+          style="--ep-arch-height: {{ section.settings.arch_height | default: 64 }}px; --ep-arch-shift-x: 0px; --ep-arch-shift-y: 0px;"
         >
           {% for block in payment_logo_blocks %}
             <div class="ep-payment-logos__item" style="--logo-size: {{ block.settings.logo_size | default: 120 }}px;" {{ block.shopify_attributes }}>
@@ -114,12 +114,7 @@
   (function() {
     var sectionId = 'energy-payment-{{ section.id }}';
 
-    function applyArchLayout(root) {
-      if (!root) {
-        return;
-      }
-
-      var container = root.querySelector('.ep-payment-logos[data-arch]');
+    function applyArchLayout(container) {
       if (!container) {
         return;
       }
@@ -135,43 +130,120 @@
         archHeight = 0;
       }
 
+      var effectiveHeight = archHeight * 1.3;
       var count = items.length;
       var denominator = count > 1 ? (count - 1) : 1;
 
       items.forEach(function(item, index) {
         var normalized = count > 1 ? index / denominator : 0;
         var heightFactor = Math.sin(normalized * Math.PI);
-        var offset = heightFactor * archHeight;
+        var offset = -heightFactor * effectiveHeight;
         item.style.setProperty('--ep-logo-offset', offset ? offset + 'px' : '0px');
+      });
+    }
+
+    function setupCursorFollow(root, container) {
+      if (!container || container.dataset.cursorFollowInit === 'true') {
+        return;
+      }
+
+      if (window.matchMedia('(pointer: coarse)').matches) {
+        return;
+      }
+
+      container.dataset.cursorFollowInit = 'true';
+
+      var maxShiftX = 32;
+      var maxShiftY = 18;
+      var state = {
+        targetX: 0,
+        targetY: 0,
+        currentX: 0,
+        currentY: 0
+      };
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function updateTarget(event) {
+        var bounds = root.getBoundingClientRect();
+        if (!bounds.width || !bounds.height) {
+          return;
+        }
+
+        var relativeX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+        var relativeY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+
+        state.targetX = clamp(relativeX * maxShiftX, -maxShiftX, maxShiftX);
+        state.targetY = clamp(relativeY * maxShiftY, -maxShiftY, maxShiftY);
+      }
+
+      function resetTarget() {
+        state.targetX = 0;
+        state.targetY = 0;
+      }
+
+      var animationActive = true;
+
+      function animate() {
+        if (!animationActive || !container.isConnected) {
+          return;
+        }
+
+        state.currentX += (state.targetX - state.currentX) * 0.08;
+        state.currentY += (state.targetY - state.currentY) * 0.08;
+
+        container.style.setProperty('--ep-arch-shift-x', state.currentX.toFixed(2) + 'px');
+        container.style.setProperty('--ep-arch-shift-y', state.currentY.toFixed(2) + 'px');
+
+        requestAnimationFrame(animate);
+      }
+
+      root.addEventListener('pointermove', updateTarget);
+      root.addEventListener('pointerleave', resetTarget);
+
+      animate();
+    }
+
+    function initSection(root) {
+      if (!root) {
+        return;
+      }
+
+      var containers = root.querySelectorAll('.ep-payment-logos[data-arch]');
+      containers.forEach(function(container) {
+        applyArchLayout(container);
+        setupCursorFollow(root, container);
       });
     }
 
     var sectionEl = document.getElementById(sectionId);
     if (sectionEl) {
-      applyArchLayout(sectionEl);
+      initSection(sectionEl);
     }
 
     document.addEventListener('shopify:section:load', function(event) {
       if (event.target && event.target.id === sectionId) {
-        applyArchLayout(event.target);
+        initSection(event.target);
       }
     });
 
     document.addEventListener('shopify:section:select', function(event) {
       if (event.target && event.target.id === sectionId) {
-        applyArchLayout(event.target);
+        initSection(event.target);
       }
     });
 
     document.addEventListener('shopify:block:select', function(event) {
       if (event.target && event.target.closest('#' + sectionId)) {
-        applyArchLayout(document.getElementById(sectionId));
+        initSection(document.getElementById(sectionId));
       }
     });
 
     document.addEventListener('shopify:block:deselect', function(event) {
       if (event.target && event.target.closest('#' + sectionId)) {
-        applyArchLayout(document.getElementById(sectionId));
+        initSection(document.getElementById(sectionId));
       }
     });
   })();
@@ -392,7 +464,10 @@
     width: min(1100px, 100%);
     flex-wrap: nowrap;
     position: relative;
-    padding-bottom: var(--ep-arch-height, 0px);
+    padding-top: calc(var(--ep-arch-height, 0px) * 1.25);
+    padding-bottom: 0;
+    transform: translate3d(var(--ep-arch-shift-x, 0px), var(--ep-arch-shift-y, 0px), 0);
+    will-change: transform;
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__item {
@@ -410,17 +485,17 @@
     gap: 12px;
     padding: clamp(16px, 3vw, 22px);
     text-align: center;
-    transition: transform 0.4s ease;
-    transform: translateY(var(--ep-logo-offset, 0px));
+    transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.45s ease;
+    transform: translate3d(0, calc(var(--ep-logo-offset, 0px) + var(--ep-logo-hover-lift, 0px)), 0) scale(var(--ep-logo-scale, 1));
+    --ep-logo-hover-lift: 0px;
+    --ep-logo-scale: 1;
   }
 
-  #energy-payment-{{ section.id }} .ep-payment-logos__item:hover {
-    animation: ep-logo-sway 1.1s ease-in-out infinite alternate;
-  }
-
-  @keyframes ep-logo-sway {
-    0%   { transform: translateY(var(--ep-logo-offset, 0px)) translateX(-8px); }
-    100% { transform: translateY(var(--ep-logo-offset, 0px)) translateX(8px); }
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:hover,
+  #energy-payment-{{ section.id }} .ep-payment-logos__item:focus-visible {
+    --ep-logo-scale: 1.06;
+    --ep-logo-hover-lift: -14px;
+    box-shadow: 0 18px 36px rgba(17, 36, 20, 0.14);
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__image {
@@ -459,11 +534,16 @@
       justify-content: center;
       width: 100%;
       gap: clamp(18px, 5vw, 42px);
+      transform: none;
+      padding-top: 0;
+      --ep-arch-shift-x: 0px !important;
+      --ep-arch-shift-y: 0px !important;
     }
 
     #energy-payment-{{ section.id }} .ep-payment-logos__item {
       --ep-logo-offset: 0px !important;
-      --ep-logo-depth: 0px !important;
+      --ep-logo-hover-lift: 0px !important;
+      --ep-logo-scale: 1 !important;
     }
   }
 
