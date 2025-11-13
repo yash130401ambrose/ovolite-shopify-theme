@@ -123,8 +123,7 @@
           "settings": {
             "title": "MORECAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": "",
-            "icon_offset": 0
+            "icon_alt": ""
           }
         },
         "card_iMtLct": {
@@ -132,8 +131,7 @@
           "settings": {
             "title": "MORE\nCAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": "",
-            "icon_offset": 0
+            "icon_alt": ""
           }
         },
         "card_XNeKdD": {
@@ -141,8 +139,7 @@
           "settings": {
             "title": "MORE\nCAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": "",
-            "icon_offset": 0
+            "icon_alt": ""
           }
         },
         "card_WRbcqt": {
@@ -150,8 +147,7 @@
           "settings": {
             "title": "MORE\\nCAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": "",
-            "icon_offset": 0
+            "icon_alt": ""
           }
         },
         "card_b8jFEa": {
@@ -159,8 +155,7 @@
           "settings": {
             "title": "MORE\\nCAFFEINE",
             "text": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>",
-            "icon_alt": "",
-            "icon_offset": 0
+            "icon_alt": ""
           }
         }
       },
@@ -475,6 +470,95 @@
         "auto_rotate": false,
         "auto_rotate_interval": 6
       }
+    },
+    "ingrediant_circle_XrmJTy": {
+      "type": "ingrediant-circle",
+      "blocks": {
+        "metric_bBYdBN": {
+          "type": "metric",
+          "settings": {
+            "metric_label": "Fat",
+            "metric_value": "10.2 g"
+          }
+        },
+        "metric_wK7NkP": {
+          "type": "metric",
+          "settings": {
+            "metric_label": "Fat",
+            "metric_value": "10.2 g"
+          }
+        },
+        "metric_Km4eLP": {
+          "type": "metric",
+          "settings": {
+            "metric_label": "Fat",
+            "metric_value": "10.2 g"
+          }
+        },
+        "payment_logo_MJwnWN": {
+          "type": "payment_logo",
+          "settings": {
+            "logo_label": "",
+            "logo_alt": "",
+            "logo_size": 128
+          }
+        },
+        "payment_logo_agDntQ": {
+          "type": "payment_logo",
+          "settings": {
+            "logo_label": "",
+            "logo_alt": "",
+            "logo_size": 128
+          }
+        },
+        "payment_logo_YkBUDR": {
+          "type": "payment_logo",
+          "settings": {
+            "logo_label": "",
+            "logo_alt": "",
+            "logo_size": 128
+          }
+        },
+        "payment_logo_mGXLVf": {
+          "type": "payment_logo",
+          "settings": {
+            "logo_label": "",
+            "logo_alt": "",
+            "logo_size": 128
+          }
+        }
+      },
+      "block_order": [
+        "metric_bBYdBN",
+        "metric_wK7NkP",
+        "metric_Km4eLP",
+        "payment_logo_MJwnWN",
+        "payment_logo_agDntQ",
+        "payment_logo_YkBUDR",
+        "payment_logo_mGXLVf"
+      ],
+      "name": "Ingrediant box",
+      "settings": {
+        "bg_color": "#f6f4ea",
+        "accent_color": "#f3bd2f",
+        "heading_color": "#191919",
+        "subheading_color": "#2e332e",
+        "note_color": "#34693a",
+        "card_bg": "#ffffff",
+        "section_padding_y": 96,
+        "row_gap": 72,
+        "energy_heading": "ENERGY VALUE",
+        "energy_primary_value": "632",
+        "energy_primary_unit": "kJ",
+        "energy_secondary_value": "151",
+        "energy_secondary_unit": "kcal",
+        "energy_caption": "With glucomannan – clinically proven to support weight loss, ideal for your conscious lifestyle.",
+        "nutrition_heading": "MACROS",
+        "tagline_primary": "Don’t just crave it.",
+        "tagline_secondary": "Get it.",
+        "note_left": "3–5 Days\nDelivery",
+        "note_right": "Free Shipping over\n£40.00"
+      }
     }
   },
   "order": [
@@ -485,6 +569,7 @@
     "liquid_drip_divider_pMCczy",
     "blog_posts_QhW4rx",
     "feature_compare_cfdaRM",
-    "animated_review_4Eb44C"
+    "animated_review_4Eb44C",
+    "ingrediant_circle_XrmJTy"
   ]
 }
