@@ -24,6 +24,20 @@
       <p class="bm-scroll__eyebrow">{{ subheading }}</p>
     {% endif %}
     <div class="bm-scroll__heading-wrap">
+      {% if section.settings.heading_bg_image_desktop or section.settings.heading_bg_image_mobile %}
+        <div class="bm-heading-bg" aria-hidden="true">
+          <picture>
+            {% if section.settings.heading_bg_image_mobile %}
+              <source media="(max-width: 768px)" srcset="{{ section.settings.heading_bg_image_mobile | image_url: width: 1400 }}">
+            {% endif %}
+            {% if section.settings.heading_bg_image_desktop %}
+              <img src="{{ section.settings.heading_bg_image_desktop | image_url: width: 2400 }}" alt="" loading="lazy" />
+            {% else %}
+              <img src="{{ section.settings.heading_bg_image_mobile | image_url: width: 1800 }}" alt="" loading="lazy" />
+            {% endif %}
+          </picture>
+        </div>
+      {% endif %}
       <h2 class="bm-scroll__heading {{ heading_size }}">
         {{ heading }}
       </h2>
@@ -89,6 +103,9 @@
     pointer-events: none;
     transition: opacity 0.6s ease;
   }
+  #{{ section_id }}.is-last-centered {
+    background: var(--bm-bg-end);
+  }
   #{{ section_id }} .bm-scroll__inner {
     position: relative;
     z-index: 2;
@@ -123,6 +140,21 @@
     text-transform: uppercase;
     letter-spacing: 0.04em;
     pointer-events: none;
+  }
+  #{{ section_id }} .bm-heading-bg {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    width: min(92vw, 1200px);
+    z-index: -1;
+    opacity: 0.9;
+  }
+  #{{ section_id }} .bm-heading-bg picture, 
+  #{{ section_id }} .bm-heading-bg img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
   }
   #{{ section_id }} .bm-scroll__viewport {
     position: absolute;
@@ -161,6 +193,8 @@
   #{{ section_id }} .bm-card__inner {
     display: grid;
     gap: clamp(14px, 1.6vw, 20px);
+    justify-items: center;
+    text-align: center;
   }
   #{{ section_id }} .bm-card__icon {
     position: absolute;
@@ -322,18 +356,32 @@
 
       // Pin the section while cards slide across the heading
       // Pure scroll-controlled movement: pin and scrub, no opacity or other animations
-      gsap.to(track, {
-        x: targetOffset,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: '+=' + Math.max(900, viewportWidth * 2.0),
-          pin: true,
-          scrub: true,
-          anticipatePin: 1
-        }
+      var initialX = viewportWidth * 1.15;
+      var st = ScrollTrigger.create({
+        trigger: section,
+        start: 'top top',
+        end: '+=' + Math.max(900, viewportWidth * 2.0),
+        pin: true,
+        scrub: true,
+        anticipatePin: 1,
+        onUpdate: checkPhase
       });
+      gsap.fromTo(track, { x: initialX }, { x: targetOffset, ease: 'none', scrollTrigger: st });
+
+      // When the LAST card is centered in the viewport, toggle a class on the section
+      var lastCard = cards[cards.length - 1];
+      var lastRect = lastCard.getBoundingClientRect();
+      var lastCenter = (lastRect.left + lastRect.right) / 2 - trackRect.left;
+      var offsetLastCenter = (viewportWidth / 2) - lastCenter;
+
+      function checkPhase() {
+        var currentX = gsap.getProperty(track, 'x');
+        if (Math.abs(currentX - offsetLastCenter) < 20) {
+          section.classList.add('is-last-centered');
+        } else {
+          section.classList.remove('is-last-centered');
+        }
+      }
     }
 
     function ready(fn) {
@@ -426,6 +474,16 @@
       "id": "background_color_end",
       "label": "Background end color",
       "default": "#DCE7D5"
+    },
+    {
+      "type": "image_picker",
+      "id": "heading_bg_image_desktop",
+      "label": "Heading background image (desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "heading_bg_image_mobile",
+      "label": "Heading background image (mobile)"
     },
     {
       "type": "range",
