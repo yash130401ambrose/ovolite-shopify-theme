@@ -142,7 +142,7 @@
         var normalized = count > 1 ? index / denominator : 0;
         var heightFactor = Math.sin(normalized * Math.PI);
         var offset = heightFactor * archHeight;
-        item.style.setProperty('--ep-logo-offset', offset ? '-' + offset + 'px' : '0px');
+        item.style.setProperty('--ep-logo-offset', offset ? offset + 'px' : '0px');
       });
     }
 
@@ -236,7 +236,7 @@
 
   #energy-payment-{{ section.id }} .ep-energy__metrics {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: clamp(14px, 4.6vw, 28px);
     flex-wrap: wrap;
   }
@@ -392,7 +392,7 @@
     width: min(1100px, 100%);
     flex-wrap: nowrap;
     position: relative;
-    padding-top: var(--ep-arch-height, 0px);
+    padding-bottom: var(--ep-arch-height, 0px);
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__item {
