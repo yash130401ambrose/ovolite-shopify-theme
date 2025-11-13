@@ -32,21 +32,24 @@
         {% if section.settings.energy_heading != blank %}
           <p class="ep-energy__label">{{ section.settings.energy_heading }}</p>
         {% endif %}
-        <div class="ep-energy__primary">
-          {% if section.settings.energy_primary_value != blank %}
-            <span class="ep-energy__primary-number">{{ section.settings.energy_primary_value }}</span>
-          {% endif %}
-          {% if section.settings.energy_primary_unit != blank %}
-            <span class="ep-energy__primary-unit">{{ section.settings.energy_primary_unit }}</span>
-          {% endif %}
-        </div>
-        <div class="ep-energy__secondary">
-          {% if section.settings.energy_secondary_value != blank %}
-            <span class="ep-energy__secondary-number">{{ section.settings.energy_secondary_value }}</span>
-          {% endif %}
-          {% if section.settings.energy_secondary_unit != blank %}
-            <span class="ep-energy__secondary-unit">{{ section.settings.energy_secondary_unit }}</span>
-          {% endif %}
+        <div class="ep-energy__metrics">
+          <div class="ep-energy__metric ep-energy__metric--primary">
+            {% if section.settings.energy_primary_value != blank %}
+              <span class="ep-energy__metric-number">{{ section.settings.energy_primary_value }}</span>
+            {% endif %}
+            {% if section.settings.energy_primary_unit != blank %}
+              <span class="ep-energy__metric-unit">{{ section.settings.energy_primary_unit }}</span>
+            {% endif %}
+          </div>
+          <span class="ep-energy__metrics-dot">•</span>
+          <div class="ep-energy__metric ep-energy__metric--secondary">
+            {% if section.settings.energy_secondary_value != blank %}
+              <span class="ep-energy__metric-number">{{ section.settings.energy_secondary_value }}</span>
+            {% endif %}
+            {% if section.settings.energy_secondary_unit != blank %}
+              <span class="ep-energy__metric-unit">{{ section.settings.energy_secondary_unit }}</span>
+            {% endif %}
+          </div>
         </div>
         {% if section.settings.energy_caption != blank %}
           <p class="ep-energy__caption">{{ section.settings.energy_caption }}</p>
@@ -162,41 +165,43 @@
     color: var(--ep-heading);
   }
 
-  #energy-payment-{{ section.id }} .ep-energy__primary {
+  #energy-payment-{{ section.id }} .ep-energy__metrics {
     display: flex;
-    align-items: baseline;
-    gap: clamp(8px, 2vw, 18px);
+    align-items: flex-end;
+    gap: clamp(18px, 5vw, 32px);
   }
 
-  #energy-payment-{{ section.id }} .ep-energy__primary-number {
-    font-size: clamp(64px, 11vw, 132px);
+  #energy-payment-{{ section.id }} .ep-energy__metric {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: clamp(8px, 2vw, 16px);
+  }
+
+  #energy-payment-{{ section.id }} .ep-energy__metric-number {
+    font-size: clamp(72px, 12vw, 150px);
     font-weight: 700;
-    line-height: 0.85;
+    letter-spacing: -0.02em;
     color: var(--ep-accent);
+    line-height: 0.8;
   }
 
-  #energy-payment-{{ section.id }} .ep-energy__primary-unit {
-    font-size: clamp(32px, 5vw, 68px);
-    font-weight: 600;
-    color: var(--ep-heading);
+  #energy-payment-{{ section.id }} .ep-energy__metric--secondary .ep-energy__metric-number {
+    color: color-mix(in srgb, var(--ep-heading) 85%, var(--ep-accent) 15%);
   }
 
-  #energy-payment-{{ section.id }} .ep-energy__secondary {
-    display: flex;
-    align-items: baseline;
-    gap: clamp(6px, 1.8vw, 14px);
-  }
-
-  #energy-payment-{{ section.id }} .ep-energy__secondary-number {
-    font-size: clamp(42px, 7vw, 88px);
+  #energy-payment-{{ section.id }} .ep-energy__metric-unit {
+    font-size: clamp(32px, 5.2vw, 70px);
     font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     color: var(--ep-heading);
   }
 
-  #energy-payment-{{ section.id }} .ep-energy__secondary-unit {
-    font-size: clamp(24px, 4vw, 56px);
-    font-weight: 600;
+  #energy-payment-{{ section.id }} .ep-energy__metrics-dot {
+    font-size: clamp(32px, 6vw, 72px);
+    line-height: 1;
     color: var(--ep-heading);
+    transform: translateY(-6px);
   }
 
   #energy-payment-{{ section.id }} .ep-energy__caption {
@@ -401,12 +406,12 @@
       padding: 12px;
     }
 
-    #energy-payment-{{ section.id }} .ep-energy__primary-number {
-      font-size: clamp(54px, 18vw, 120px);
+    #energy-payment-{{ section.id }} .ep-energy__metric-number {
+      font-size: clamp(52px, 18vw, 118px);
     }
 
-    #energy-payment-{{ section.id }} .ep-energy__secondary-number {
-      font-size: clamp(36px, 14vw, 72px);
+    #energy-payment-{{ section.id }} .ep-energy__metric-unit {
+      font-size: clamp(26px, 9vw, 48px);
     }
   }
 </style>
