@@ -139,7 +139,7 @@
             "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
             "width": "66%",
             "alignment": "center",
-            "align_text": "left",
+            "align_text": "center",
             "text_size": "medium",
             "text_color": "inherit",
             "button_label": "",
