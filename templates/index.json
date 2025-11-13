@@ -139,7 +139,7 @@
             "title": "Special Blend",
             "body": "85mg of caffeine per serving, equal to a cappuccino. Your daily energy boost.",
             "icon": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
-            "accent_color": "#0040ff",
+            "accent_color": "#1b45c7",
             "link": "",
             "link_label": "Shop now"
           }
@@ -151,7 +151,7 @@
             "icon_size": 84,
             "title": "Special Blend",
             "body": "85mg of caffeine per serving, equal to a cappuccino. Your daily energy boost.",
-            "accent_color": "#d4e7c7",
+            "accent_color": "#1b45c7",
             "link": "",
             "link_label": "Shop now"
           }
@@ -163,7 +163,7 @@
             "icon_size": 84,
             "title": "Special Blend",
             "body": "85mg of caffeine per serving, equal to a cappuccino. Your daily energy boost.",
-            "accent_color": "#d4e7c7",
+            "accent_color": "#1b45c7",
             "link": "",
             "link_label": "Shop now"
           }
@@ -180,7 +180,7 @@
         "heading": "What Makes Us Special",
         "subheading": "",
         "heading_size": "h1",
-        "text_color": "#151515",
+        "text_color": "#ffffff",
         "background_color": "#ffffff",
         "background_color_end": "#ffffff",
         "overlay_opacity": 0.6,
@@ -300,38 +300,110 @@
         "right_icon_size": 36
       }
     },
-    "blog_posts_QhW4rx": {
-      "type": "blog-posts",
-      "name": "Blog posts",
+    "ingrediant_circle_XrmJTy": {
+      "type": "ingrediant-circle",
+      "blocks": {
+        "metric_bBYdBN": {
+          "type": "metric",
+          "settings": {
+            "metric_label": "The Caleries in Ovolite Egg White",
+            "metric_label_size": 16,
+            "metric_value": "10.2 g",
+            "metric_value_size": 16
+          }
+        },
+        "metric_wK7NkP": {
+          "type": "metric",
+          "settings": {
+            "metric_label": "The Caleries in Ovolite Egg White",
+            "metric_label_size": 16,
+            "metric_value": "10.2 g",
+            "metric_value_size": 16
+          }
+        },
+        "metric_Km4eLP": {
+          "type": "metric",
+          "settings": {
+            "metric_label": "The Caleries in Ovolite Egg White",
+            "metric_label_size": 16,
+            "metric_value": "10.2 g",
+            "metric_value_size": 16
+          }
+        },
+        "payment_logo_MJwnWN": {
+          "type": "payment_logo",
+          "settings": {
+            "logo_label": "",
+            "logo_alt": "",
+            "logo_label_size": 14,
+            "logo_size": 128
+          }
+        },
+        "payment_logo_agDntQ": {
+          "type": "payment_logo",
+          "settings": {
+            "logo_label": "",
+            "logo_alt": "",
+            "logo_label_size": 14,
+            "logo_size": 128
+          }
+        },
+        "payment_logo_YkBUDR": {
+          "type": "payment_logo",
+          "settings": {
+            "logo_label": "",
+            "logo_alt": "",
+            "logo_label_size": 14,
+            "logo_size": 128
+          }
+        },
+        "payment_logo_mGXLVf": {
+          "type": "payment_logo",
+          "settings": {
+            "logo_label": "",
+            "logo_alt": "",
+            "logo_label_size": 14,
+            "logo_size": 128
+          }
+        }
+      },
+      "block_order": [
+        "metric_bBYdBN",
+        "metric_wK7NkP",
+        "metric_Km4eLP",
+        "payment_logo_MJwnWN",
+        "payment_logo_agDntQ",
+        "payment_logo_YkBUDR",
+        "payment_logo_mGXLVf"
+      ],
+      "name": "Ingrediant box",
       "settings": {
-        "heading": "Blog posts",
-        "heading_size": "h3",
-        "subheading": "",
-        "description": "",
-        "header_alignment": "center",
-        "container": "container-fluid",
-        "color_scheme": "badge-sale",
-        "blog": "news",
-        "limit": 4,
-        "column": 4,
-        "column_gap": 30,
-        "mobile_gap": 10,
-        "article_image_aspect_ratio": "1/1",
-        "article_align_content": "text-left",
-        "article_show_tags": false,
-        "article_show_date": false,
-        "article_show_excerpt": true,
-        "article_show_button": false,
-        "show_button_on_header": false,
-        "button_link": "",
-        "button_text": "View More",
-        "button_style": "m-button--primary",
-        "button_size": "",
-        "use_scroll_mobile": true,
-        "padding_top": 50,
-        "padding_bottom": 50,
-        "custom_class": "",
-        "animations": "inherit"
+        "bg_color": "#f6f4ea",
+        "accent_color": "#1b45c7",
+        "heading_color": "#191919",
+        "subheading_color": "#2e332e",
+        "note_color": "#34693a",
+        "card_bg": "rgba(0,0,0,0)",
+        "section_padding_y": 96,
+        "row_gap": 72,
+        "energy_heading": "ENERGY VALUE",
+        "energy_heading_size": 56,
+        "energy_primary_value": "632",
+        "energy_primary_value_size": 58,
+        "energy_primary_unit": "kJ",
+        "energy_primary_unit_size": 96,
+        "energy_secondary_value": "151",
+        "energy_secondary_value_size": 34,
+        "energy_secondary_unit": "kcal",
+        "energy_secondary_unit_size": 36,
+        "energy_caption": "With glucomannan – clinically proven to support weight loss, ideal for your conscious lifestyle.",
+        "energy_caption_size": 16,
+        "nutrition_heading": "MACROS",
+        "nutrition_heading_size": 18,
+        "tagline_primary": "Don’t just crave it.",
+        "tagline_primary_size": 48,
+        "tagline_secondary": "Get it.",
+        "tagline_secondary_size": 36
       }
     },
     "animated_review_4Eb44C": {
@@ -471,110 +543,38 @@
         "auto_rotate_interval": 6
       }
     },
-    "ingrediant_circle_XrmJTy": {
-      "type": "ingrediant-circle",
-      "blocks": {
-        "metric_bBYdBN": {
-          "type": "metric",
-          "settings": {
-            "metric_label": "The Caleries in Ovolite Egg White",
-            "metric_label_size": 16,
-            "metric_value": "10.2 g",
-            "metric_value_size": 16
-          }
-        },
-        "metric_wK7NkP": {
-          "type": "metric",
-          "settings": {
-            "metric_label": "The Caleries in Ovolite Egg White",
-            "metric_label_size": 16,
-            "metric_value": "10.2 g",
-            "metric_value_size": 16
-          }
-        },
-        "metric_Km4eLP": {
-          "type": "metric",
-          "settings": {
-            "metric_label": "The Caleries in Ovolite Egg White",
-            "metric_label_size": 16,
-            "metric_value": "10.2 g",
-            "metric_value_size": 16
-          }
-        },
-        "payment_logo_MJwnWN": {
-          "type": "payment_logo",
-          "settings": {
-            "logo_label": "",
-            "logo_alt": "",
-            "logo_label_size": 14,
-            "logo_size": 128
-          }
-        },
-        "payment_logo_agDntQ": {
-          "type": "payment_logo",
-          "settings": {
-            "logo_label": "",
-            "logo_alt": "",
-            "logo_label_size": 14,
-            "logo_size": 128
-          }
-        },
-        "payment_logo_YkBUDR": {
-          "type": "payment_logo",
-          "settings": {
-            "logo_label": "",
-            "logo_alt": "",
-            "logo_label_size": 14,
-            "logo_size": 128
-          }
-        },
-        "payment_logo_mGXLVf": {
-          "type": "payment_logo",
-          "settings": {
-            "logo_label": "",
-            "logo_alt": "",
-            "logo_label_size": 14,
-            "logo_size": 128
-          }
-        }
-      },
-      "block_order": [
-        "metric_bBYdBN",
-        "metric_wK7NkP",
-        "metric_Km4eLP",
-        "payment_logo_MJwnWN",
-        "payment_logo_agDntQ",
-        "payment_logo_YkBUDR",
-        "payment_logo_mGXLVf"
-      ],
-      "name": "Ingrediant box",
+    "blog_posts_QhW4rx": {
+      "type": "blog-posts",
+      "name": "Blog posts",
       "settings": {
-        "bg_color": "#f6f4ea",
-        "accent_color": "#1b45c7",
-        "heading_color": "#191919",
-        "subheading_color": "#2e332e",
-        "note_color": "#34693a",
-        "card_bg": "rgba(0,0,0,0)",
-        "section_padding_y": 96,
-        "row_gap": 72,
-        "energy_heading": "ENERGY VALUE",
-        "energy_heading_size": 56,
-        "energy_primary_value": "632",
-        "energy_primary_value_size": 58,
-        "energy_primary_unit": "kJ",
-        "energy_primary_unit_size": 96,
-        "energy_secondary_value": "151",
-        "energy_secondary_value_size": 34,
-        "energy_secondary_unit": "kcal",
-        "energy_secondary_unit_size": 36,
-        "energy_caption": "With glucomannan – clinically proven to support weight loss, ideal for your conscious lifestyle.",
-        "energy_caption_size": 16,
-        "nutrition_heading": "MACROS",
-        "nutrition_heading_size": 18,
-        "tagline_primary": "Don’t just crave it.",
-        "tagline_primary_size": 48,
-        "tagline_secondary": "Get it.",
-        "tagline_secondary_size": 36
+        "heading": "Blog posts",
+        "heading_size": "h3",
+        "subheading": "",
+        "description": "",
+        "header_alignment": "center",
+        "container": "container-fluid",
+        "color_scheme": "badge-sale",
+        "blog": "news",
+        "limit": 4,
+        "column": 4,
+        "column_gap": 30,
+        "mobile_gap": 10,
+        "article_image_aspect_ratio": "1/1",
+        "article_align_content": "text-left",
+        "article_show_tags": false,
+        "article_show_date": false,
+        "article_show_excerpt": true,
+        "article_show_button": false,
+        "show_button_on_header": false,
+        "button_link": "",
+        "button_text": "View More",
+        "button_style": "m-button--primary",
+        "button_size": "",
+        "use_scroll_mobile": true,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "custom_class": "",
+        "animations": "inherit"
       }
     }
   },
