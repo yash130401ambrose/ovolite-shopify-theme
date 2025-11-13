@@ -89,21 +89,22 @@
     width: 100%;
     max-width: 1600px;
     margin: 0 auto;
+    padding-top: clamp(16px, 4vw, 48px);
   }
 
-.scroll-cards__heading {
+  .scroll-cards__heading {
     position: relative;
     display: block;
-    margin: 0 auto clamp(36px, 6vw, 112px);
-    padding-top: clamp(32px, calc(var(--icon-size) * 0.45), 120px);
-    max-width: min(960px, 90%);
+    margin: 0 auto clamp(32px, 5vw, 96px);
+    padding: 0 clamp(12px, 3vw, 32px);
+    max-width: min(960px, 92%);
     text-align: center;
     transform: none;
-    font-size: clamp(32px, 6vw, 94px);
+    font-size: clamp(34px, 6.5vw, 92px);
     font-weight: 700;
     line-height: 1.05;
     color: var(--heading-color);
-    opacity: 0.18;
+    opacity: 0.32;
     white-space: pre-wrap;
     pointer-events: none;
     z-index: 2;
@@ -159,7 +160,7 @@
     display: inline-flex;
     gap: var(--card-gap);
     align-items: stretch;
-    padding: calc(var(--icon-size) + 28px) 6vw 44px;
+    padding: clamp(40px, calc(var(--icon-size) * 0.6), 96px) 6vw clamp(32px, 6vw, 56px);
     will-change: transform;
     z-index: 3;
   }
@@ -260,10 +261,10 @@
 
   @media (max-width: 1024px) {
     .scroll-cards__heading {
-      font-size: clamp(28px, 7vw, 80px);
-      margin: 0 auto clamp(28px, 7vw, 96px);
-      padding-top: clamp(28px, calc(var(--icon-size) * 0.4), 96px);
-      opacity: 0.22;
+      font-size: clamp(28px, 7vw, 84px);
+      margin: 0 auto clamp(28px, 7vw, 88px);
+      padding: 0 clamp(16px, 5vw, 36px);
+      opacity: 0.26;
     }
     .scroll-cards__viewport::before,
     .scroll-cards__viewport::after {
@@ -279,7 +280,7 @@
       max-width: 90vw;
     }
     .scroll-cards__track {
-      padding: clamp(40px, calc(var(--icon-size) + 24px), 64px) clamp(6vw, 10vw, 12vw) clamp(32px, 6vw, 40px);
+      padding: clamp(36px, calc(var(--icon-size) * 0.55), 72px) clamp(5vw, 9vw, 12vw) clamp(28px, 6vw, 44px);
     }
     .scroll-card {
       flex: 0 0 clamp(340px, 80vw, 420px);
@@ -297,13 +298,14 @@
 
     .scroll-cards__container {
       max-width: 100%;
+      padding-top: clamp(12px, 4vw, 40px);
     }
 
     .scroll-cards__heading {
       font-size: clamp(24px, 14vw, 60px);
       letter-spacing: 0.04em;
       margin: 0 auto clamp(24px, 8vw, 72px);
-      padding-top: clamp(24px, calc(var(--icon-size) * 0.4), 80px);
+      padding: 0 clamp(16px, 6vw, 40px);
       opacity: 0.24;
     }
 
@@ -341,7 +343,7 @@
     .scroll-cards__heading {
       font-size: clamp(22px, 15vw, 52px);
       margin: 0 auto clamp(20px, 10vw, 60px);
-      padding-top: clamp(16px, calc(var(--icon-size) * 0.35), 64px);
+      padding: 0 clamp(14px, 7vw, 36px);
       opacity: 0.28;
     }
 
@@ -511,8 +513,8 @@
           var firstCard = cards[0];
           var lastCard = cards[cards.length - 1];
 
-          var entryOvershoot = viewportWidth * 0.85 + firstCard.offsetWidth * 0.5;
-          var exitOvershoot = viewportWidth * 0.55 + lastCard.offsetWidth * 0.5;
+          var entryOvershoot = viewportWidth * 0.35 + firstCard.offsetWidth * 0.35;
+          var exitOvershoot = viewportWidth * 0.45 + lastCard.offsetWidth * 0.4;
 
           var startOffset = positions[0] + directionMultiplier * entryOvershoot;
           var endOffset = positions[positions.length - 1] - directionMultiplier * exitOvershoot;
@@ -525,8 +527,8 @@
           }
           cards.forEach(function(card) {
             gsap.set(card, {
-              opacity: 0.2,
-            xPercent: 45 * directionMultiplier
+              opacity: 0.35,
+              xPercent: 55 * directionMultiplier
             });
           });
           setActive(-1);
@@ -542,7 +544,7 @@
             timeline.to(card, {
               opacity: 1,
               xPercent: 0,
-              duration: stepDuration * 0.9
+              duration: stepDuration * 0.85
             }, '<');
 
             timeline.call(setActive, [index]);
@@ -550,8 +552,8 @@
             if (index > 0) {
               var previous = cards[index - 1];
               timeline.to(previous, {
-                opacity: 0.45,
-                duration: stepDuration * 0.6
+                opacity: 0.5,
+                duration: stepDuration * 0.55
               }, '<');
             }
 
