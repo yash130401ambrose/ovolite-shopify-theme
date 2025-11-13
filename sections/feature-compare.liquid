@@ -8,6 +8,11 @@
   assign use_lottie_checks = section.settings.use_lottie_checks
   assign lottie_src = section.settings.lottie_src
   assign lottie_size = section.settings.lottie_size | default: 32
+  assign icon_animation_style = section.settings.check_icon_animation_style | default: 'float'
+  assign has_check_image = false
+  if section.settings.check_icon_image != blank
+    assign has_check_image = true
+  endif
   if use_lottie_checks and lottie_src == blank
     assign use_lottie_checks = false
   endif
@@ -17,6 +22,10 @@
   endif
   if image_alt_text == blank
     assign image_alt_text = 'Feature compare image'
+  endif
+  assign left_label_image_alt = section.settings.left_label_image_alt
+  if left_label_image_alt == blank
+    assign left_label_image_alt = section.settings.left_label | default: 'More'
   endif
 %}
 
@@ -41,6 +50,8 @@
       --fc-cross-color: {{ section.settings.cross_color | default: 'rgba(50, 81, 45, 0.55)' }};
       --fc-padding-top: {{ section_padding_top | append: 'px' }};
       --fc-padding-bottom: {{ section_padding_bottom | append: 'px' }};
+      --fc-icon-speed: {{ section.settings.check_icon_animation_speed | default: 4 | append: 's' }};
+      --fc-label-image-width: {{ section.settings.left_label_image_width | default: 80 }}px;
       --fc-check-image: {% if section.settings.check_icon_image != blank %}url('{{ section.settings.check_icon_image | image_url: width: 160 }}'){% else %}none{% endif %};
       --fc-check-image-size: clamp(18px, 2vw, 24px);
       padding-top: {{ section_padding_top | append: 'px' }};
@@ -214,6 +225,15 @@
       background-color: var(--fc-check-bg);
     }
 
+    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__pill--image {
+      background: transparent;
+      box-shadow: none;
+    }
+
+    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__cell--check .feature-compare-ovolite__pill--image {
+      background: transparent;
+    }
+
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__icon {
       width: clamp(18px, 2vw, 22px);
       height: clamp(18px, 2vw, 22px);
@@ -226,7 +246,9 @@
       display: block;
       object-fit: contain;
       filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.08));
-      animation: fc-icon-float 4.5s ease-in-out infinite;
+      animation-duration: var(--fc-icon-speed);
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
       transition: transform 0.45s ease, filter 0.45s ease;
     }
 
@@ -262,9 +284,71 @@
       text-align: center;
     }
 
+    #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__label-image {
+      width: min(var(--fc-label-image-width), 140px);
+      max-width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      margin-inline: auto;
+    }
+
+    #feature-compare-ovolite-{{ section.id }} .fc-icon-anim--float .feature-compare-ovolite__icon-image {
+      animation-name: fc-icon-float;
+    }
+
+    #feature-compare-ovolite-{{ section.id }} .fc-icon-anim--pulse .feature-compare-ovolite__icon-image {
+      animation-name: fc-icon-pulse;
+    }
+
+    #feature-compare-ovolite-{{ section.id }} .fc-icon-anim--sway .feature-compare-ovolite__icon-image {
+      animation-name: fc-icon-sway;
+    }
+
+    #feature-compare-ovolite-{{ section.id }} .fc-icon-anim--tilt .feature-compare-ovolite__icon-image {
+      animation-name: fc-icon-tilt;
+    }
+
+    #feature-compare-ovolite-{{ section.id }} .fc-icon-anim--pop .feature-compare-ovolite__icon-image {
+      animation-name: fc-icon-pop;
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row] {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    #feature-compare-ovolite-{{ section.id }}.is-observing .feature-compare-ovolite__row[data-fc-row].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     @keyframes fc-icon-float {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-4px); }
+    }
+
+    @keyframes fc-icon-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    @keyframes fc-icon-sway {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(-6deg); }
+    }
+
+    @keyframes fc-icon-tilt {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-3px) rotate(6deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    @keyframes fc-icon-pop {
+      0%, 100% { transform: scale(1); }
+      40% { transform: scale(1.12); }
+      60% { transform: scale(0.98); }
     }
 
     @media screen and (max-width: 639px) {
@@ -330,7 +414,15 @@
             {{ section.settings.benefit_heading | default: 'Benefits' }}
           </div>
           <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator" role="columnheader">
-            <span class="feature-compare-ovolite__label">{{ section.settings.left_label | default: 'More' }}</span>
+            {% if section.settings.left_label_image != blank %}
+              {{
+                section.settings.left_label_image
+                | image_url: width: 300
+                | image_tag: class: 'feature-compare-ovolite__label-image', loading: 'lazy', alt: left_label_image_alt
+              }}
+            {% else %}
+              <span class="feature-compare-ovolite__label">{{ section.settings.left_label | default: 'More' }}</span>
+            {% endif %}
           </div>
           <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator" role="columnheader">
             <span class="feature-compare-ovolite__label">{{ section.settings.right_label | default: 'Regular Matcha' }}</span>
@@ -339,15 +431,16 @@
 
         {% if section.blocks.size > 0 %}
           {% for block in section.blocks %}
-            <div class="feature-compare-ovolite__row" role="row" {{ block.shopify_attributes }}>
+            {% assign row_delay = forloop.index0 | times: 0.08 %}
+            <div class="feature-compare-ovolite__row" role="row" data-fc-row style="transition-delay: {{ row_delay | round: 2 }}s;" {{ block.shopify_attributes }}>
               <div class="feature-compare-ovolite__cell" role="cell">
                 <span class="feature-compare-ovolite__benefit">{{ block.settings.benefit | escape }}</span>
               </div>
               <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator feature-compare-ovolite__cell--{{ block.settings.left_state }}" role="cell">
-                <span class="feature-compare-ovolite__pill" aria-hidden="true">
+                <span class="feature-compare-ovolite__pill{% if block.settings.left_state == 'check' and has_check_image %} feature-compare-ovolite__pill--image{% endif %}" aria-hidden="true">
                   {% if block.settings.left_state == 'check' %}
-                    <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check">
-                      {% if section.settings.check_icon_image != blank %}
+                    <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check fc-icon-anim--{{ icon_animation_style }}">
+                      {% if has_check_image %}
                         {{
                           section.settings.check_icon_image
                           | image_url: width: 160
@@ -380,10 +473,10 @@
                 </span>
               </div>
               <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator feature-compare-ovolite__cell--{{ block.settings.right_state }}" role="cell">
-                <span class="feature-compare-ovolite__pill" aria-hidden="true">
+                <span class="feature-compare-ovolite__pill{% if block.settings.right_state == 'check' and has_check_image %} feature-compare-ovolite__pill--image{% endif %}" aria-hidden="true">
                   {% if block.settings.right_state == 'check' %}
-                    <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check">
-                      {% if section.settings.check_icon_image != blank %}
+                    <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check fc-icon-anim--{{ icon_animation_style }}">
+                      {% if has_check_image %}
                         {{
                           section.settings.check_icon_image
                           | image_url: width: 160
@@ -418,14 +511,14 @@
             </div>
           {% endfor %}
         {% else %}
-          <div class="feature-compare-ovolite__row" role="row">
+          <div class="feature-compare-ovolite__row" role="row" data-fc-row>
             <div class="feature-compare-ovolite__cell" role="cell">
               <span class="feature-compare-ovolite__benefit">Add benefits in the section settings.</span>
             </div>
             <div class="feature-compare-ovolite__cell feature-compare-ovolite__cell--indicator feature-compare-ovolite__cell--check" role="cell">
-              <span class="feature-compare-ovolite__pill" aria-hidden="true">
-                <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check">
-                  {% if section.settings.check_icon_image != blank %}
+              <span class="feature-compare-ovolite__pill{% if has_check_image %} feature-compare-ovolite__pill--image{% endif %}" aria-hidden="true">
+                <span class="feature-compare-ovolite__icon feature-compare-ovolite__icon--check fc-icon-anim--{{ icon_animation_style }}">
+                  {% if has_check_image %}
                     {{
                       section.settings.check_icon_image
                       | image_url: width: 160
@@ -461,6 +554,40 @@
       </div>
     </div>
   </div>
+  <script>
+    (function () {
+      var section = document.getElementById('feature-compare-ovolite-{{ section.id }}');
+      if (!section) { return; }
+      var rows = section.querySelectorAll('[data-fc-row]');
+      if (!rows.length) { return; }
+      var prefersReducedMotion = false;
+      if (window.matchMedia) {
+        prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      }
+      var forEachRow = function (callback) {
+        Array.prototype.forEach.call(rows, callback);
+      };
+      var revealRow = function (row) {
+        row.classList.add('is-visible');
+      };
+      if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+        forEachRow(revealRow);
+        return;
+      }
+      section.classList.add('is-observing');
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            revealRow(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      forEachRow(function (row) {
+        observer.observe(row);
+      });
+    })();
+  </script>
 </section>
 
 {% schema %}
@@ -507,6 +634,27 @@
       "id": "left_label",
       "label": "Left column label",
       "default": "More"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_label_image",
+      "label": "Left column label image"
+    },
+    {
+      "type": "text",
+      "id": "left_label_image_alt",
+      "label": "Left label image alt text",
+      "default": "More"
+    },
+    {
+      "type": "range",
+      "id": "left_label_image_width",
+      "label": "Left label image width",
+      "min": 40,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 80
     },
     {
       "type": "text",
@@ -679,6 +827,29 @@
       "id": "check_icon_image",
       "label": "Check icon image",
       "info": "Upload the PNG check icon to replace the default animation."
+    },
+    {
+      "type": "select",
+      "id": "check_icon_animation_style",
+      "label": "Check icon animation style",
+      "default": "float",
+      "options": [
+        { "value": "float", "label": "Float" },
+        { "value": "pulse", "label": "Pulse" },
+        { "value": "sway", "label": "Sway" },
+        { "value": "tilt", "label": "Tilt" },
+        { "value": "pop", "label": "Pop" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "check_icon_animation_speed",
+      "label": "Check icon animation speed (seconds)",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "unit": "s",
+      "default": 4
     },
     {
       "type": "checkbox",
