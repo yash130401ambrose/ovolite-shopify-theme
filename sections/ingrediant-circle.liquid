@@ -130,13 +130,13 @@
       }
 
       var count = items.length;
-      var midIndex = (count - 1) / 2;
-      var denominator = midIndex === 0 ? 1 : midIndex;
+      var denominator = count > 1 ? (count - 1) : 1;
 
       items.forEach(function(item, index) {
-        var normalized = (index - midIndex) / denominator;
-        var offset = Math.pow(normalized, 2) * archHeight;
-        item.style.setProperty('--ep-logo-offset', offset ? offset + 'px' : '0px');
+        var normalized = count > 1 ? (index / denominator) * 2 - 1 : 0;
+        var offset = (1 - Math.pow(normalized, 2)) * archHeight;
+        offset = offset < 0 ? 0 : offset;
+        item.style.setProperty('--ep-logo-offset', offset ? '-' + offset + 'px' : '0px');
       });
     }
 
