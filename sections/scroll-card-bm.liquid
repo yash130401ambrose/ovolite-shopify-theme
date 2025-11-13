@@ -53,7 +53,7 @@
                 assign body = block.settings.body
                 assign icon = block.settings.icon
                 assign icon_size = block.settings.icon_size | default: 84
-                assign accent = block.settings.accent_color
+                assign accent = block.settings.accent_color | default: '#D4E7C7'
                 assign link = block.settings.link
                 assign link_label = block.settings.link_label
               %}
@@ -173,28 +173,25 @@
   #{{ section_id }} .bm-scroll__cards {
     display: flex;
     align-items: center;
-    gap: var(--bm-gap);
+    gap: calc(var(--bm-gap) * 1.8);
     will-change: transform;
     transform: translate3d(120vw, 0, 0);
     opacity: 1;
     z-index: 2;
   }
   #{{ section_id }} .bm-card {
-    flex: 0 0 clamp(320px, 34vw, 520px);
+    flex: 0 0 clamp(320px, 32vw, 500px);
     position: relative;
-    background: color-mix(in srgb, var(--bm-card-accent, rgba(255,255,255,0.92)) 60%, white 40%);
+    background: var(--bm-card-accent, #d4e7c7);
     border-radius: var(--bm-radius);
-    box-shadow:
-      0 28px 60px -36px rgba(0, 0, 0, 0.45),
-      0 18px 32px -20px rgba(18, 18, 18, 0.25);
-    padding: clamp(52px, 5vw, 88px) clamp(32px, 3.8vw, 64px) clamp(40px, 3.4vw, 68px);
+    padding: clamp(56px, 5.4vw, 96px) clamp(40px, 4.2vw, 72px) clamp(48px, 3.6vw, 72px);
     color: #0F1C16;
     backdrop-filter: blur(6px);
-    transition: transform 0.45s ease, box-shadow 0.45s ease;
+    transition: none;
   }
   #{{ section_id }} .bm-card__inner {
     display: grid;
-    gap: clamp(14px, 1.6vw, 20px);
+    gap: clamp(20px, 2vw, 28px);
     justify-items: center;
     text-align: center;
   }
@@ -220,7 +217,7 @@
     object-fit: cover;
   }
   #{{ section_id }} .bm-card__label {
-    font-size: clamp(13px, 1.3vw, 15px);
+    font-size: clamp(14px, 1.4vw, 16px);
     text-transform: uppercase;
     letter-spacing: 0.18em;
     font-weight: 600;
@@ -234,12 +231,12 @@
   }
   #{{ section_id }} .bm-card__body {
     margin: 0;
-    font-size: clamp(16px, 1.5vw, 18px);
-    line-height: 1.4;
-    color: rgba(15, 28, 22, 0.8);
+    font-size: clamp(18px, 1.8vw, 22px);
+    line-height: 1.5;
+    color: rgba(15, 28, 22, 0.9);
   }
   #{{ section_id }} .bm-card__link {
-    font-size: clamp(13px, 1.2vw, 15px);
+    font-size: clamp(14px, 1.3vw, 16px);
     text-transform: uppercase;
     letter-spacing: 0.2em;
     font-weight: 600;
@@ -248,25 +245,7 @@
     position: relative;
   }
   #{{ section_id }} .bm-card__link::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -6px;
-    width: 100%;
-    height: 2px;
-    background: currentColor;
-    transform-origin: left;
-    transform: scaleX(0);
-    transition: transform 0.28s ease;
-  }
-  #{{ section_id }} .bm-card:hover {
-    transform: translateY(-12px) rotate3d(1, 0, 0, 2deg);
-    box-shadow:
-      0 38px 60px -28px rgba(0, 0, 0, 0.35),
-      0 24px 40px -20px rgba(18, 18, 18, 0.25);
-  }
-  #{{ section_id }} .bm-card:hover .bm-card__link::after {
-    transform: scaleX(1);
+    display: none;
   }
 
   @media (max-width: 1024px) {
@@ -295,9 +274,6 @@
     }
     #{{ section_id }} .bm-card:hover {
       transform: none;
-      box-shadow:
-        0 18px 30px -18px rgba(0, 0, 0, 0.28),
-        0 12px 20px -14px rgba(18, 18, 18, 0.2);
     }
   }
 </style>
