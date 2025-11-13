@@ -299,11 +299,38 @@
             "left_state": "check",
             "right_state": "cross"
           }
+        },
+        "row_ebxARV": {
+          "type": "row",
+          "settings": {
+            "benefit": "Low in carbs",
+            "left_state": "check",
+            "right_state": "cross"
+          }
+        },
+        "row_aPHxJY": {
+          "type": "row",
+          "settings": {
+            "benefit": "Low in carbs",
+            "left_state": "check",
+            "right_state": "cross"
+          }
+        },
+        "row_8ptWFc": {
+          "type": "row",
+          "settings": {
+            "benefit": "Low in carbs",
+            "left_state": "check",
+            "right_state": "cross"
+          }
         }
       },
       "block_order": [
         "row_jhzJ9A",
-        "row_C9bPGj"
+        "row_C9bPGj",
+        "row_ebxARV",
+        "row_aPHxJY",
+        "row_8ptWFc"
       ],
       "name": "Feature Compare Ovolite",
       "settings": {
