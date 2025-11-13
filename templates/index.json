@@ -156,6 +156,18 @@
             "link_label": "Shop now"
           }
         },
+        "card_ig86Et": {
+          "type": "card",
+          "settings": {
+            "label": "More caffeine",
+            "icon_size": 84,
+            "title": "Special Blend",
+            "body": "85mg of caffeine per serving, equal to a cappuccino. Your daily energy boost.",
+            "accent_color": "#1b45c7",
+            "link": "",
+            "link_label": "Shop now"
+          }
+        },
         "card_3qyhRY": {
           "type": "card",
           "settings": {
@@ -172,6 +184,7 @@
       "block_order": [
         "card_PzBkM8",
         "card_jzHqkm",
+        "card_ig86Et",
         "card_3qyhRY"
       ],
       "name": "Scroll Cards BM",
