@@ -128,6 +128,73 @@
         "scribble_text_duration": 4.4
       }
     },
+    "custom_content_YXWAfa": {
+      "type": "custom-content",
+      "blocks": {
+        "text_PPrbG6": {
+          "type": "text",
+          "settings": {
+            "title": "",
+            "subheading": "",
+            "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
+            "width": "66%",
+            "alignment": "center",
+            "align_text": "left",
+            "text_size": "medium",
+            "text_color": "inherit",
+            "button_label": "",
+            "button_link": "",
+            "button_style": "m-button--primary",
+            "button_size": "",
+            "block_custom_class": "",
+            "animations": "inherit"
+          }
+        },
+        "text_He8tD8": {
+          "type": "text",
+          "settings": {
+            "title": "",
+            "subheading": "",
+            "text": "",
+            "width": "33%",
+            "alignment": "center",
+            "align_text": "center",
+            "text_size": "medium",
+            "text_color": "inherit",
+            "button_label": "View Recipes",
+            "button_link": "",
+            "button_style": "m-button--primary",
+            "button_size": "",
+            "block_custom_class": "",
+            "animations": "inherit"
+          }
+        }
+      },
+      "block_order": [
+        "text_PPrbG6",
+        "text_He8tD8"
+      ],
+      "name": "Custom content",
+      "settings": {
+        "heading": "",
+        "heading_size": "h3",
+        "subheading": "",
+        "description": "",
+        "header_alignment": "center",
+        "container": "container-fluid",
+        "color_scheme": "badge-sale",
+        "content_color_scheme": "badge-sale",
+        "enable_parallax": false,
+        "parallax_direction": "vertical",
+        "gap": 30,
+        "gap_mobile": 16,
+        "use_scroll_mobile": false,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "enable_preload_image": false,
+        "custom_class": ""
+      }
+    },
     "scroll_card_bm_GVJhVi": {
       "type": "scroll-card-bm",
       "blocks": {
@@ -596,6 +663,7 @@
     "image_with_text_kX9k8X",
     "liquid_drip_divider_B8YCmR",
     "cutout_parallax_hero_MPYWeY",
+    "custom_content_YXWAfa",
     "scroll_card_bm_GVJhVi",
     "liquid_drip_divider_pMCczy",
     "feature_compare_cfdaRM",
