@@ -273,6 +273,8 @@
       position: relative;
       overflow: hidden;
     padding: 6px 0 12px;
+    cursor: grab;
+    touch-action: pan-y;
     }
 
     #animated-review-{{ section.id }} .animated-review__track {
@@ -280,6 +282,8 @@
     gap: var(--card-gap);
     transition: transform 0.6s cubic-bezier(.24,.8,.3,1);
       will-change: transform;
+    user-select: none;
+    -webkit-user-drag: none;
     }
 
     #animated-review-{{ section.id }} .animated-review__card {
@@ -387,6 +391,10 @@
       font-weight: 600;
     }
 
+  #animated-review-{{ section.id }}.is-dragging .animated-review__slider {
+    cursor: grabbing;
+  }
+
     #animated-review-{{ section.id }} .animated-review__inner[data-visible="true"] .animated-review__subheading,
     #animated-review-{{ section.id }} .animated-review__inner[data-visible="true"] .animated-review__heading {
       opacity: 1;
@@ -468,10 +476,13 @@
       });
       }
 
+    var currentOffset = 0;
+
     function applyTransform(offset, animate) {
         if (!track) return;
       track.style.transition = (animate && !prefersReducedMotion) ? 'transform 0.6s cubic-bezier(.24,.8,.3,1)' : 'none';
       track.style.transform = 'translateX(' + (-offset) + 'px)';
+      currentOffset = offset;
       }
 
     function focusIndex(index, animate) {
@@ -537,6 +548,98 @@
       nextBtn.addEventListener('click', function() {
         focusIndex(activeIndex + 1, true);
           restartAutoRotate();
+        });
+      }
+
+      var isDragging = false;
+      var dragPointerId = null;
+      var dragStartX = 0;
+      var dragStartOffset = 0;
+
+      function pointerDownHandler(event) {
+        if (!slider || cards.length <= 1) return;
+        if (event.button !== undefined && event.button !== 0) return;
+        if (event.pointerType === 'touch') return;
+
+        stopAutoRotate();
+
+        isDragging = true;
+        dragPointerId = event.pointerId;
+        dragStartX = event.clientX;
+        dragStartOffset = currentOffset;
+        root.classList.add('is-dragging');
+
+        if (track) {
+          track.style.transition = 'none';
+        }
+
+        if (slider.setPointerCapture) {
+          try { slider.setPointerCapture(event.pointerId); } catch (err) {}
+        }
+
+        event.preventDefault();
+      }
+
+      function pointerMoveHandler(event) {
+        if (!isDragging || event.pointerId !== dragPointerId) return;
+
+        var deltaX = event.clientX - dragStartX;
+        var nextOffset = dragStartOffset - deltaX;
+        applyTransform(nextOffset, false);
+      }
+
+      function finishDrag(shouldSnap) {
+        if (!isDragging) return;
+
+        isDragging = false;
+        if (slider.releasePointerCapture && dragPointerId !== null && slider.hasPointerCapture && slider.hasPointerCapture(dragPointerId)) {
+          try { slider.releasePointerCapture(dragPointerId); } catch (err) {}
+        }
+        dragPointerId = null;
+        root.classList.remove('is-dragging');
+
+        if (shouldSnap && slider && cards.length) {
+          var sliderCenter = slider.clientWidth / 2;
+          var offset = currentOffset;
+          var closestIndex = activeIndex;
+          var minDistance = Infinity;
+
+          cards.forEach(function(card, idx) {
+            var cardCenter = card.offsetLeft + card.clientWidth / 2 - offset;
+            var distance = Math.abs(cardCenter - sliderCenter);
+            if (distance < minDistance) {
+              minDistance = distance;
+              closestIndex = idx;
+            }
+          });
+
+          focusIndex(closestIndex, true);
+        } else {
+          focusIndex(activeIndex, true);
+        }
+
+        restartAutoRotate();
+      }
+
+      function pointerUpHandler(event) {
+        if (event.pointerId !== dragPointerId && dragPointerId !== null) return;
+        finishDrag(true);
+      }
+
+      function pointerCancelHandler(event) {
+        if (dragPointerId !== null && event.pointerId !== dragPointerId) return;
+        finishDrag(true);
+      }
+
+      if (slider) {
+        slider.addEventListener('pointerdown', pointerDownHandler);
+        slider.addEventListener('pointermove', pointerMoveHandler);
+        slider.addEventListener('pointerup', pointerUpHandler);
+        slider.addEventListener('pointercancel', pointerCancelHandler);
+        slider.addEventListener('pointerleave', function(event) {
+          if (event.pointerId === dragPointerId) {
+            finishDrag(true);
+          }
         });
       }
 
