@@ -535,10 +535,10 @@
         "review_a6w94f": {
           "type": "review",
           "settings": {
-            "title": "Super delicious!",
-            "emoji": "-",
-            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
-            "author": "Tina H.",
+            "title": "Perfect for my workouts!",
+            "emoji": "",
+            "review_text": "<p>Ovolite has become a staple in my post-gym shakes. It’s easy to use and gives me the protein I need without the extra fat.</p>",
+            "author": "Rohan Mehta",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
@@ -548,10 +548,10 @@
         "review_7QFpE7": {
           "type": "review",
           "settings": {
-            "title": "Super delicious!",
-            "emoji": "-",
-            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
-            "author": "Tina H.",
+            "title": "Convenient and healthy",
+            "emoji": "",
+            "review_text": "<p>I love that I don’t have to separate eggs anymore. Makes cooking and baking much easier while keeping it healthy.</p>",
+            "author": "Anjali Sharma",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
@@ -561,10 +561,10 @@
         "review_YHwdHa": {
           "type": "review",
           "settings": {
-            "title": "Super delicious!",
-            "emoji": "-",
-            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
-            "author": "Tina H.",
+            "title": "Great taste and quality",
+            "emoji": "",
+            "review_text": "<p>The liquid egg whites taste fresh and mix well in shakes. No weird smell or texture like some other brands.</p>",
+            "author": "Vikram Singh",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
@@ -574,10 +574,10 @@
         "review_mfhEDK": {
           "type": "review",
           "settings": {
-            "title": "Super delicious!",
-            "emoji": "-",
-            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
-            "author": "Tina H.",
+            "title": "Good for weight loss",
+            "emoji": "",
+            "review_text": "<p>I’m trying to cut down on calories but maintain protein intake. Ovolite helps me stay full without added fat.</p>",
+            "author": "Priya Deshmukh",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
@@ -587,10 +587,10 @@
         "review_c96dxK": {
           "type": "review",
           "settings": {
-            "title": "Super delicious!",
-            "emoji": "-",
-            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
-            "author": "Tina H.",
+            "title": "Time saver in the kitchen",
+            "emoji": "",
+            "review_text": "<p>No more cracking eggs and separating yolks. It’s hygienic and saves a lot of time.</p>",
+            "author": "Radhika Reddy",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
@@ -600,10 +600,10 @@
         "review_9FL8eH": {
           "type": "review",
           "settings": {
-            "title": "Super delicious!",
-            "emoji": "-",
-            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
-            "author": "Tina H.",
+            "title": "Perfect for baking",
+            "emoji": "",
+            "review_text": "<p>I use it in muffins and pancakes. Works really well and gives the batter a fluffy texture.</p>",
+            "author": "Sneha Rai",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
@@ -613,10 +613,49 @@
         "review_JxGkKh": {
           "type": "review",
           "settings": {
-            "title": "Super delicious!",
-            "emoji": "-",
-            "review_text": "<p>Super delicious with ice cubes, water and oat-almond milk.</p>",
-            "author": "Tina H.",
+            "title": "High-quality protein",
+            "emoji": "",
+            "review_text": "<p>Excellent source of protein, especially for vegetarians who mix it with shakes. Worth the price.</p>",
+            "author": "Manish Gupta",
+            "show_verified": true,
+            "verified_label": "Verified",
+            "stars": "5",
+            "card_theme": "dark"
+          }
+        },
+        "review_YYxpKj": {
+          "type": "review",
+          "settings": {
+            "title": "Fresh and easy to store",
+            "emoji": "",
+            "review_text": "<p>Comes in a well-packed. Stays fresh in the fridge for days and easy to measure.</p>",
+            "author": "Kavita Nair",
+            "show_verified": true,
+            "verified_label": "Verified",
+            "stars": "5",
+            "card_theme": "dark"
+          }
+        },
+        "review_BDBWpB": {
+          "type": "review",
+          "settings": {
+            "title": "No cholesterol, just protein!",
+            "emoji": "",
+            "review_text": "<p>Being health-conscious, this is perfect for me. High protein, no cholesterol, fits my diet perfectly.</p>",
+            "author": "Sameer Patel",
+            "show_verified": true,
+            "verified_label": "Verified",
+            "stars": "5",
+            "card_theme": "dark"
+          }
+        },
+        "review_6qnP8c": {
+          "type": "review",
+          "settings": {
+            "title": "Ideal for busy mornings",
+            "emoji": "",
+            "review_text": "<p>I mix it with oats and a banana for breakfast. Super convenient, nutritious, and keeps me full till lunch.</p>",
+            "author": "Meera Joshi",
             "show_verified": true,
             "verified_label": "Verified",
             "stars": "5",
@@ -631,7 +670,10 @@
         "review_mfhEDK",
         "review_c96dxK",
         "review_9FL8eH",
-        "review_JxGkKh"
+        "review_JxGkKh",
+        "review_YYxpKj",
+        "review_BDBWpB",
+        "review_6qnP8c"
       ],
       "name": "Animated review carousel",
       "settings": {
