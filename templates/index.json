@@ -283,6 +283,28 @@
     },
     "feature_compare_cfdaRM": {
       "type": "feature-compare",
+      "blocks": {
+        "row_jhzJ9A": {
+          "type": "row",
+          "settings": {
+            "benefit": "Low in carbs",
+            "left_state": "check",
+            "right_state": "cross"
+          }
+        },
+        "row_C9bPGj": {
+          "type": "row",
+          "settings": {
+            "benefit": "Low in carbs",
+            "left_state": "check",
+            "right_state": "cross"
+          }
+        }
+      },
+      "block_order": [
+        "row_jhzJ9A",
+        "row_C9bPGj"
+      ],
       "name": "Feature Compare Ovolite",
       "settings": {
         "image": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
