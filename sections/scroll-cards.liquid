@@ -58,7 +58,12 @@
         {% for block in section.blocks %}
           {% if block.type == 'card' %}
             {% assign block_icon = block.settings.card_icon | default: shared_icon %}
-            <article class="scroll-card" {{ block.shopify_attributes }}>
+            {% capture icon_style %}
+              {% if block_icon != blank %}
+                --card-icon-offset: {{ block.settings.icon_offset | default: 0 }}px;
+              {% endif %}
+            {% endcapture %}
+            <article class="scroll-card{% if block_icon != blank %} has-icon{% endif %}" {% if icon_style != blank %}style="{{ icon_style | strip }}"{% endif %} {{ block.shopify_attributes }}>
               {% if block_icon != blank %}
                 <div class="scroll-card__icon">
                   {{ block_icon | image_url: width: 160 | image_tag: class: 'scroll-card__icon-image', alt: block.settings.icon_alt | default: block.settings.title }}
@@ -228,7 +233,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: clamp(16px, var(--card-icon-gap), 28px);
+    margin: var(--card-icon-offset, 0px) auto clamp(16px, var(--card-icon-gap), 28px);
   }
 
   .scroll-card__icon-image {
@@ -526,51 +531,58 @@
 
           timeline = gsap.timeline({ defaults: { ease: config.ease } });
 
-        gsap.set(track, { x: startOffset });
-        if (heading) {
-          gsap.set(heading, { opacity: 1 });
-        }
+          gsap.set(track, { x: startOffset });
+          if (heading) {
+            gsap.set(heading, { opacity: 1 });
+          }
+
           cards.forEach(function(card) {
             gsap.set(card, {
-              opacity: 0.55,
-              xPercent: 24 * directionMultiplier
+              opacity: 0.5,
+              xPercent: 26 * directionMultiplier
             });
           });
           setActive(-1);
 
-          var stepDuration = 1;
-          var holdDuration = 0.28;
-          var releaseDuration = 0.55;
-          var totalDuration = cards.length * (stepDuration + holdDuration) + releaseDuration;
+          var travelDuration = 1.05;
+          var settlePause = 0.35;
+          var settleDuration = 0.5;
 
           cards.forEach(function(card, index) {
-            timeline.to(track, { x: positions[index], duration: stepDuration });
+            var stepLabel = 'card-step-' + index;
+            timeline.addLabel(stepLabel);
+
+            timeline.to(track, {
+              x: positions[index],
+              duration: travelDuration,
+              ease: config.ease
+            }, stepLabel);
 
             timeline.to(card, {
               opacity: 1,
               xPercent: 0,
-              duration: stepDuration * 0.85
-            }, '<');
+              duration: travelDuration * 0.85,
+              ease: 'power2.out'
+            }, stepLabel);
 
-            timeline.call(setActive, [index]);
+            timeline.call(setActive, [index], stepLabel + '+=' + (travelDuration * 0.4));
 
-            if (index > 0) {
-              var previous = cards[index - 1];
-              timeline.to(previous, {
-                opacity: 0.5,
-                duration: stepDuration * 0.55
-              }, '<');
-            }
+            timeline.to({}, { duration: settlePause });
 
-            timeline.to({}, { duration: holdDuration });
+            timeline.to(card, {
+              opacity: 0.6,
+              xPercent: -8 * directionMultiplier,
+              duration: settleDuration,
+              ease: 'power1.inOut'
+            });
           });
 
-          timeline.to(track, { x: endOffset, duration: releaseDuration, ease: config.ease });
+          timeline.to(track, {
+            x: endOffset,
+            duration: settleDuration,
+            ease: config.ease
+          });
           timeline.call(setActive, [-1]);
-
-          if (heading) {
-            timeline.to(heading, { opacity: 0.35, duration: totalDuration, ease: 'none' }, 0);
-        }
 
         scrollTriggerInstance = ScrollTrigger.create({
           trigger: root,
@@ -716,7 +728,8 @@
         { "type": "text", "id": "title", "label": "Card title", "default": "MORE\\nCAFFEINE" },
         { "type": "richtext", "id": "text", "label": "Description text", "default": "<p>85mg of caffeine per serving,<br/>equal to a cappuccino.<br/>Your daily energy boost.</p>" },
         { "type": "image_picker", "id": "card_icon", "label": "Card icon (optional)" },
-        { "type": "text", "id": "icon_alt", "label": "Icon alt text" }
+        { "type": "text", "id": "icon_alt", "label": "Icon alt text" },
+        { "type": "range", "id": "icon_offset", "label": "Icon offset (px)", "min": -160, "max": 160, "step": 4, "default": 0, "unit": "px" }
       ]
     }
   ],
