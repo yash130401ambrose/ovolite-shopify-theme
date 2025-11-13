@@ -48,14 +48,14 @@
 
     #feature-compare-ovolite-{{ section.id }} .feature-compare-ovolite__inner {
       width: 100%;
-      max-width: {{ section.settings.max_width | default: 1180 }}px;
-      margin-inline: auto;
+      max-width: none;
+      margin-inline: 0;
       display: grid;
       grid-template-columns: minmax(0, {{ left_column_width }}%) minmax(0, {{ right_column_width }}%);
       gap: clamp(24px, 4vw, 64px);
       align-items: stretch;
       padding-left: 0;
-      padding-right: clamp(16px, 4vw, 48px);
+      padding-right: clamp(16px, 3.5vw, 56px);
     }
 
     @media screen and (max-width: 1023px) {
