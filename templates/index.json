@@ -124,7 +124,7 @@
         "scribble_text_offset_y": 6.5,
         "scribble_text_rotation": -6,
         "scribble_text_stroke_width": 4,
-        "scribble_text_viewbox": "0 1200 300",
+        "scribble_text_viewbox": "1  0 1200 300",
         "scribble_text_duration": 4.4
       }
     },
