@@ -170,14 +170,18 @@
 
       var maxShiftX = 28;
       var maxShiftY = 16;
+      var totalItems = items.length;
       var itemStates = Array.prototype.map.call(items, function(item, index) {
+        var normalizedIndex = totalItems <= 1 ? 0.5 : index / (totalItems - 1);
         return {
           item: item,
           targetX: 0,
           targetY: 0,
           currentX: 0,
           currentY: 0,
-          damp: 0.08 + (index * 0.012)
+          base: normalizedIndex,
+          leadFactor: 0.55 + normalizedIndex * 0.35,
+          damp: 0.08 + (normalizedIndex * 0.06)
         };
       });
 
@@ -191,19 +195,16 @@
           return;
         }
 
-        var pointerX = clamp((event.clientX - bounds.left) / bounds.width, 0, 1);
-        var pointerY = clamp((event.clientY - bounds.top) / bounds.height, 0, 1);
+        var relativeX = clamp((event.clientX - bounds.left) / bounds.width, 0, 1);
+        var relativeY = clamp((event.clientY - bounds.top) / bounds.height, 0, 1);
 
-        var maxIndex = Math.max(itemStates.length - 1, 1);
+        itemStates.forEach(function(state) {
+          var deltaX = relativeX - state.base;
+          var spread = 1 - Math.min(Math.abs(deltaX) * 1.6, 1);
+          var verticalInfluence = (relativeY - 0.5) * (0.4 + spread * 0.6);
 
-        itemStates.forEach(function(state, index) {
-          var itemRatio = maxIndex === 0 ? 0.5 : index / maxIndex;
-          var deltaX = pointerX - itemRatio;
-          var approach = 1 - Math.min(Math.abs(deltaX) * 1.4, 1);
-          var deltaY = pointerY - 0.5;
-
-          state.targetX = clamp(deltaX * maxShiftX, -maxShiftX, maxShiftX);
-          state.targetY = clamp(deltaY * maxShiftY * (0.4 + approach * 0.6), -maxShiftY, maxShiftY);
+          state.targetX = clamp(deltaX * maxShiftX * state.leadFactor, -maxShiftX, maxShiftX);
+          state.targetY = clamp(verticalInfluence * maxShiftY, -maxShiftY, maxShiftY);
         });
       }
 
@@ -230,8 +231,8 @@
         requestAnimationFrame(animate);
       }
 
-      root.addEventListener('pointermove', updateTarget);
-      root.addEventListener('pointerleave', resetTarget);
+      container.addEventListener('pointermove', updateTarget);
+      container.addEventListener('pointerleave', resetTarget);
 
       animate();
     }
@@ -489,11 +490,12 @@
   #energy-payment-{{ section.id }} .ep-payment-logos {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: center;
     gap: var(--ep-circle-gap, 32px);
     width: min(1100px, 100%);
     flex-wrap: nowrap;
     position: relative;
+    margin: 0 auto;
     padding-top: 0;
     padding-bottom: calc(var(--ep-arch-height, 0px) * 1.3);
   }
