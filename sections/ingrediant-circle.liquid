@@ -186,18 +186,24 @@
       }
 
       function updateTarget(event) {
-        var bounds = root.getBoundingClientRect();
+        var bounds = container.getBoundingClientRect();
         if (!bounds.width || !bounds.height) {
           return;
         }
 
-        var relativeX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
-        var relativeY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+        var pointerX = clamp((event.clientX - bounds.left) / bounds.width, 0, 1);
+        var pointerY = clamp((event.clientY - bounds.top) / bounds.height, 0, 1);
+
+        var maxIndex = Math.max(itemStates.length - 1, 1);
 
         itemStates.forEach(function(state, index) {
-          var influence = 0.6 + (index / Math.max(itemStates.length - 1, 1)) * 0.4;
-          state.targetX = clamp(relativeX * maxShiftX * influence, -maxShiftX, maxShiftX);
-          state.targetY = clamp(relativeY * maxShiftY * influence, -maxShiftY, maxShiftY);
+          var itemRatio = maxIndex === 0 ? 0.5 : index / maxIndex;
+          var deltaX = pointerX - itemRatio;
+          var approach = 1 - Math.min(Math.abs(deltaX) * 1.4, 1);
+          var deltaY = pointerY - 0.5;
+
+          state.targetX = clamp(deltaX * maxShiftX, -maxShiftX, maxShiftX);
+          state.targetY = clamp(deltaY * maxShiftY * (0.4 + approach * 0.6), -maxShiftY, maxShiftY);
         });
       }
 
