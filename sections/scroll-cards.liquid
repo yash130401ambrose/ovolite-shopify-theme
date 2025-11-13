@@ -568,10 +568,6 @@
           timeline.to(track, { x: endOffset, duration: releaseDuration, ease: config.ease });
           timeline.call(setActive, [-1]);
 
-          if (heading) {
-            timeline.to(heading, { opacity: 0.35, duration: totalDuration, ease: 'none' }, 0);
-        }
-
         scrollTriggerInstance = ScrollTrigger.create({
           trigger: root,
           start: 'top top',
