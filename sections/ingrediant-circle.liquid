@@ -474,11 +474,12 @@
   #energy-payment-{{ section.id }} .ep-energy__metric--secondary .ep-energy__metric-number {
     color: var(--ep-energy-secondary-value);
     font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(42px, 6vw, var(--ep-value-size, 72px));
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric-unit {
-    font-size: clamp(18px, 3vw, var(--ep-unit-size, 32px));
-    font-weight: 600;
+    font-size: clamp(42px, 6vw, var(--ep-value-size, 72px));
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--ep-energy-primary-unit);
@@ -610,13 +611,15 @@
     font-size: clamp(32px, 6vw, var(--ep-tagline-primary-size, 54px));
     font-weight: 700;
     color: var(--ep-tagline-primary);
+    line-height: 1.1;
   }
 
   #energy-payment-{{ section.id }} .ep-tagline__secondary {
-    margin: clamp(8px, 1.6vw, 16px) 0 0;
+    margin: clamp(2px, 0.5vw, 4px) 0 0;
     font-size: clamp(22px, 4.4vw, var(--ep-tagline-secondary-size, 42px));
     font-weight: 600;
     color: var(--ep-tagline-secondary);
+    line-height: 1.1;
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos {
