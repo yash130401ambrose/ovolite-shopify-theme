@@ -247,6 +247,44 @@
       animate();
     }
 
+    function setupPopInAnimation(root) {
+      if (!root || root.dataset.popInInit === 'true') {
+        return;
+      }
+
+      var items = root.querySelectorAll('.ep-payment-logos__item');
+      if (!items.length) {
+        return;
+      }
+
+      root.dataset.popInInit = 'true';
+
+      var observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.2
+      };
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var container = entry.target.querySelector('.ep-payment-logos');
+            if (container) {
+              var circleItems = container.querySelectorAll('.ep-payment-logos__item');
+              circleItems.forEach(function(item, index) {
+                setTimeout(function() {
+                  item.classList.add('pop-in');
+                }, index * 80);
+              });
+            }
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      observer.observe(root);
+    }
+
     function initSection(root) {
       if (!root) {
         return;
@@ -257,6 +295,8 @@
         applyArchLayout(container);
         setupCursorFollow(root, container);
       });
+
+      setupPopInAnimation(root);
     }
 
     var sectionEl = document.getElementById(sectionId);
@@ -560,11 +600,33 @@
     padding: clamp(16px, 3vw, 22px);
     text-align: center;
     transition: transform 0.45s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.45s ease;
-    transform: translate3d(var(--ep-item-shift-x, 0px), calc(var(--ep-logo-offset, 0px) + var(--ep-logo-hover-lift, 0px) + var(--ep-item-shift-y, 0px)), 0) scale(var(--ep-logo-scale, 1));
     --ep-logo-hover-lift: 0px;
     --ep-logo-scale: 1;
     --ep-item-shift-x: 0px;
     --ep-item-shift-y: 0px;
+    --ep-pop-scale: 0;
+    opacity: 0;
+    transform: translate3d(var(--ep-item-shift-x, 0px), calc(var(--ep-logo-offset, 0px) + var(--ep-logo-hover-lift, 0px) + var(--ep-item-shift-y, 0px)), 0) scale(var(--ep-pop-scale)) scale(var(--ep-logo-scale, 1));
+  }
+
+  #energy-payment-{{ section.id }} .ep-payment-logos__item.pop-in {
+    opacity: 1;
+    animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  @keyframes popIn {
+    0% {
+      opacity: 0;
+      --ep-pop-scale: 0;
+    }
+    50% {
+      opacity: 0.8;
+      --ep-pop-scale: 1.15;
+    }
+    100% {
+      opacity: 1;
+      --ep-pop-scale: 1;
+    }
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__item:hover,
