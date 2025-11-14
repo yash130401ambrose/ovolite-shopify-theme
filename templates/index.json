@@ -431,6 +431,8 @@
           "type": "payment_logo",
           "settings": {
             "logo_image": "shopify://shop_images/1_88045ad9-cf79-484a-82cb-98600133231e.png",
+            "oval_text": "",
+            "oval_text_size": 16,
             "logo_label": "Fitness & Bodybuilding",
             "logo_alt": "",
             "logo_label_size": 14,
@@ -441,6 +443,8 @@
           "type": "payment_logo",
           "settings": {
             "logo_image": "shopify://shop_images/3_3271b80a-e5e1-4af0-8b32-d525aca54063.png",
+            "oval_text": "",
+            "oval_text_size": 16,
             "logo_label": "Busy Lifestyle",
             "logo_alt": "",
             "logo_label_size": 12,
@@ -451,6 +455,8 @@
           "type": "payment_logo",
           "settings": {
             "logo_image": "shopify://shop_images/2_46880ec2-be8f-4ba9-9ce1-92948a667c94.png",
+            "oval_text": "",
+            "oval_text_size": 16,
             "logo_label": "Weight Management",
             "logo_alt": "",
             "logo_label_size": 14,
@@ -461,6 +467,8 @@
           "type": "payment_logo",
           "settings": {
             "logo_image": "shopify://shop_images/5_4c2404c3-46cb-45ea-a7b2-a2496c80d1fd.png",
+            "oval_text": "",
+            "oval_text_size": 16,
             "logo_label": "Easy Protein Intake",
             "logo_alt": "",
             "logo_label_size": 14,
@@ -471,6 +479,8 @@
           "type": "payment_logo",
           "settings": {
             "logo_image": "shopify://shop_images/4_4744d162-93f0-486f-b02b-61395ef415f3.png",
+            "oval_text": "",
+            "oval_text_size": 16,
             "logo_label": "Mess-Free Cooking",
             "logo_alt": "",
             "logo_label_size": 14,
@@ -480,6 +490,9 @@
         "payment_logo_HqWtqd": {
           "type": "payment_logo",
           "settings": {
+            "logo_image": "shopify://shop_images/333.png",
+            "oval_text": "Nutrition Boost",
+            "oval_text_size": 16,
             "logo_label": "",
             "logo_alt": "",
             "logo_label_size": 14,
@@ -535,7 +548,20 @@
         "tagline_primary": "Don’t Just Crave Convenience.",
         "tagline_primary_size": 48,
         "tagline_secondary": "Get Pure Protein On Demand.",
-        "tagline_secondary_size": 36
+        "tagline_secondary_size": 36,
+        "energy_heading_text_color": "#191919",
+        "energy_primary_value_color": "#f3bd2f",
+        "energy_secondary_value_color": "#f3bd2f",
+        "energy_primary_unit_color": "#191919",
+        "energy_secondary_unit_color": "#191919",
+        "energy_caption_color": "#2e332e",
+        "nutrition_label_color": "#191919",
+        "nutrition_value_color": "#191919",
+        "nutrition_separator_color": "#191919",
+        "nutrition_border_color": "#d4c4a8",
+        "tagline_primary_color": "#191919",
+        "tagline_secondary_color": "#191919",
+        "oval_text_color": "#ffffff"
       }
     },
     "animated_review_4Eb44C": {
