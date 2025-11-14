@@ -265,6 +265,48 @@
         threshold: 0.2
       };
 
+      function animatePopIn(item, delay) {
+        setTimeout(function() {
+          var startTime = null;
+          var duration = 700;
+          var startScale = 0;
+          var midScale = 1.08;
+          var endScale = 1;
+          
+          function animate(currentTime) {
+            if (!startTime) startTime = currentTime;
+            var elapsed = currentTime - startTime;
+            var progress = Math.min(elapsed / duration, 1);
+            
+            var scale;
+            var opacity;
+            
+            if (progress < 0.6) {
+              var t = progress / 0.6;
+              scale = startScale + (midScale - startScale) * t;
+              opacity = t;
+            } else {
+              var t = (progress - 0.6) / 0.4;
+              scale = midScale + (endScale - midScale) * t;
+              opacity = 1;
+            }
+            
+            item.style.setProperty('--ep-pop-scale', scale);
+            item.style.opacity = opacity;
+            
+            if (progress < 1) {
+              requestAnimationFrame(animate);
+            } else {
+              item.classList.add('pop-in');
+              item.style.setProperty('--ep-pop-scale', '1');
+              item.style.opacity = '1';
+            }
+          }
+          
+          requestAnimationFrame(animate);
+        }, delay);
+      }
+
       var observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
           if (entry.isIntersecting) {
@@ -272,9 +314,7 @@
             if (container) {
               var circleItems = container.querySelectorAll('.ep-payment-logos__item');
               circleItems.forEach(function(item, index) {
-                setTimeout(function() {
-                  item.classList.add('pop-in');
-                }, index * 80);
+                animatePopIn(item, index * 80);
               });
             }
             observer.unobserve(entry.target);
@@ -606,27 +646,12 @@
     --ep-item-shift-y: 0px;
     --ep-pop-scale: 0;
     opacity: 0;
-    transform: translate3d(var(--ep-item-shift-x, 0px), calc(var(--ep-logo-offset, 0px) + var(--ep-logo-hover-lift, 0px) + var(--ep-item-shift-y, 0px)), 0) scale(var(--ep-pop-scale)) scale(var(--ep-logo-scale, 1));
+    transform: translate3d(var(--ep-item-shift-x, 0px), calc(var(--ep-logo-offset, 0px) + var(--ep-logo-hover-lift, 0px) + var(--ep-item-shift-y, 0px)), 0) scale(calc(var(--ep-pop-scale) * var(--ep-logo-scale, 1)));
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__item.pop-in {
-    opacity: 1;
-    animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  }
-
-  @keyframes popIn {
-    0% {
-      opacity: 0;
-      --ep-pop-scale: 0;
-    }
-    50% {
-      opacity: 0.8;
-      --ep-pop-scale: 1.15;
-    }
-    100% {
-      opacity: 1;
-      --ep-pop-scale: 1;
-    }
+    opacity: 1 !important;
+    --ep-pop-scale: 1 !important;
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__item:hover,
