@@ -53,7 +53,6 @@
               <span class="ep-energy__metric-unit ep-energy__metric-unit--primary">{{ section.settings.energy_primary_unit }}</span>
             {% endif %}
           </div>
-          <span class="ep-energy__metrics-dot">•</span>
           <div class="ep-energy__metric ep-energy__metric--secondary" style="--ep-value-size: {{ section.settings.energy_secondary_value_size | default: 64 }}px; --ep-unit-size: {{ section.settings.energy_secondary_unit_size | default: 28 }}px">
             {% if section.settings.energy_secondary_value != blank %}
               <span class="ep-energy__metric-number">{{ section.settings.energy_secondary_value }}</span>
@@ -371,6 +370,7 @@
 
   #energy-payment-{{ section.id }} .ep-energy__metric--secondary .ep-energy__metric-number {
     color: var(--ep-accent);
+    font-family: Arial, Helvetica, sans-serif;
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric-unit {
@@ -380,7 +380,7 @@
     letter-spacing: 0.12em;
     color: var(--ep-heading);
     transform: translateY(clamp(10px, 2vw, 20px));
-    font-family: 'Caveat', 'Brush Script MT', 'Lucida Handwriting', cursive;
+    font-family: Arial, Helvetica, sans-serif;
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric-unit--primary {
