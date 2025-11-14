@@ -18,6 +18,19 @@
   assign card_padding_right = section.settings.card_padding_right | default: 20
   assign card_padding_bottom = section.settings.card_padding_bottom | default: 14
   assign card_padding_left = section.settings.card_padding_left | default: 20
+  assign energy_heading_text_color = section.settings.energy_heading_text_color | default: heading_color
+  assign energy_primary_value_color = section.settings.energy_primary_value_color | default: accent_color
+  assign energy_secondary_value_color = section.settings.energy_secondary_value_color | default: accent_color
+  assign energy_primary_unit_color = section.settings.energy_primary_unit_color | default: heading_color
+  assign energy_secondary_unit_color = section.settings.energy_secondary_unit_color | default: heading_color
+  assign energy_caption_color = section.settings.energy_caption_color | default: subheading_color
+  assign nutrition_label_color = section.settings.nutrition_label_color | default: heading_color
+  assign nutrition_value_color = section.settings.nutrition_value_color | default: heading_color
+  assign nutrition_separator_color = section.settings.nutrition_separator_color | default: heading_color
+  assign nutrition_border_color = section.settings.nutrition_border_color | default: '#d4c4a8'
+  assign tagline_primary_color = section.settings.tagline_primary_color | default: heading_color
+  assign tagline_secondary_color = section.settings.tagline_secondary_color | default: heading_color
+  assign oval_text_color = section.settings.oval_text_color | default: heading_color
 %}
 
 <section
@@ -31,7 +44,20 @@
          --ep-card-bg: {{ card_bg }};
          --ep-padding-y: {{ section_padding_y }}px;
          --ep-row-gap: {{ gap_between_rows }}px;
-         --ep-circle-bg: {{ circle_color }};"
+         --ep-circle-bg: {{ circle_color }};
+         --ep-energy-heading-text: {{ energy_heading_text_color }};
+         --ep-energy-primary-value: {{ energy_primary_value_color }};
+         --ep-energy-secondary-value: {{ energy_secondary_value_color }};
+         --ep-energy-primary-unit: {{ energy_primary_unit_color }};
+         --ep-energy-secondary-unit: {{ energy_secondary_unit_color }};
+         --ep-energy-caption: {{ energy_caption_color }};
+         --ep-nutrition-label: {{ nutrition_label_color }};
+         --ep-nutrition-value: {{ nutrition_value_color }};
+         --ep-nutrition-separator: {{ nutrition_separator_color }};
+         --ep-nutrition-border: {{ nutrition_border_color }};
+         --ep-tagline-primary: {{ tagline_primary_color }};
+         --ep-tagline-secondary: {{ tagline_secondary_color }};
+         --ep-oval-text: {{ oval_text_color }};"
 >
   <div class="ep-wrapper">
     <div class="ep-top">
@@ -420,7 +446,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     margin: 0;
-    color: var(--ep-heading);
+    color: var(--ep-energy-heading-text);
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metrics {
@@ -440,12 +466,12 @@
     font-size: clamp(42px, 6vw, var(--ep-value-size, 72px));
     font-weight: 700;
     letter-spacing: -0.02em;
-    color: var(--ep-accent);
+    color: var(--ep-energy-primary-value);
     line-height: 0.72;
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric--secondary .ep-energy__metric-number {
-    color: var(--ep-accent);
+    color: var(--ep-energy-secondary-value);
     font-family: Arial, Helvetica, sans-serif;
   }
 
@@ -454,17 +480,17 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--ep-heading);
+    color: var(--ep-energy-primary-unit);
     transform: translateY(clamp(10px, 2vw, 20px));
     font-family: Arial, Helvetica, sans-serif;
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric-unit--primary {
-    color: var(--ep-heading);
+    color: var(--ep-energy-primary-unit);
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric-unit--secondary {
-    color: var(--ep-heading);
+    color: var(--ep-energy-secondary-unit);
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metrics-dot {
@@ -477,14 +503,14 @@
   #energy-payment-{{ section.id }} .ep-energy__caption {
     margin: 0;
     font-size: clamp(14px, 2vw, {{ section.settings.energy_caption_size | default: 18 }}px);
-    color: var(--ep-subheading);
+    color: var(--ep-energy-caption);
     max-width: clamp(280px, 40vw, 420px);
     line-height: 1.5;
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card {
     position: relative;
-    border: 1px solid #d4c4a8;
+    border: 1px solid var(--ep-nutrition-border);
     border-radius: 0;
     background: var(--ep-card-bg);
     padding: {{ card_padding_top }}px {{ card_padding_right }}px {{ card_padding_bottom }}px {{ card_padding_left }}px;
@@ -522,14 +548,14 @@
     align-items: baseline;
     gap: clamp(8px, 1.2vw, 16px);
     padding: clamp(10px, 1.6vw, 14px) 0;
-    border-top: 1px solid #d4c4a8;
+    border-top: 1px solid var(--ep-nutrition-border);
     width: 100%;
     min-width: 0;
     box-sizing: border-box;
   }
   
   #energy-payment-{{ section.id }} .ep-nutrition-card__separator {
-    color: var(--ep-heading);
+    color: var(--ep-nutrition-separator);
     margin: 0 clamp(4px, 0.8vw, 8px);
     flex-shrink: 0;
   }
@@ -540,7 +566,7 @@
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__label {
     font-weight: 700;
-    color: var(--ep-heading);
+    color: var(--ep-nutrition-label);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-size: clamp(12px, 1.8vw, var(--ep-row-label-size, 16px));
@@ -553,7 +579,7 @@
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__value {
     font-weight: 700;
-    color: var(--ep-heading);
+    color: var(--ep-nutrition-value);
     letter-spacing: 0.04em;
     text-transform: uppercase;
     font-size: clamp(12px, 1.8vw, var(--ep-row-value-size, 16px));
@@ -581,14 +607,14 @@
     margin: 0;
     font-size: clamp(32px, 6vw, var(--ep-tagline-primary-size, 54px));
     font-weight: 700;
-    color: var(--ep-heading);
+    color: var(--ep-tagline-primary);
   }
 
   #energy-payment-{{ section.id }} .ep-tagline__secondary {
     margin: clamp(8px, 1.6vw, 16px) 0 0;
     font-size: clamp(22px, 4.4vw, var(--ep-tagline-secondary-size, 42px));
     font-weight: 600;
-    color: color-mix(in srgb, var(--ep-heading) 65%, var(--ep-accent) 35%);
+    color: var(--ep-tagline-secondary);
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos {
@@ -650,7 +676,7 @@
   #energy-payment-{{ section.id }} .ep-payment-logos__text {
     font-size: clamp(12px, 2.6vw, var(--ep-logo-text-size, 16px));
     font-weight: 600;
-    color: var(--ep-heading);
+    color: var(--ep-oval-text);
     text-align: center;
     line-height: 1.2;
   }
@@ -658,7 +684,7 @@
   #energy-payment-{{ section.id }} .ep-payment-logos__label {
     font-size: clamp(11px, 2.4vw, var(--ep-logo-label-size, 14px));
     font-weight: 600;
-    color: var(--ep-heading);
+    color: var(--ep-oval-text);
   }
 
   #energy-payment-{{ section.id }} .ep-tagline__primary:empty,
@@ -785,6 +811,27 @@
     { "type": "range", "id": "tagline_primary_size", "label": "Tagline primary font size", "min": 16, "max": 80, "step": 2, "default": 54, "unit": "px" },
     { "type": "text", "id": "tagline_secondary", "label": "Tagline secondary", "default": "Get it." },
     { "type": "range", "id": "tagline_secondary_size", "label": "Tagline secondary font size", "min": 14, "max": 60, "step": 2, "default": 36, "unit": "px" },
+
+    { "type": "header", "content": "Energy Section Colors" },
+    { "type": "color", "id": "energy_heading_text_color", "label": "Energy heading text color", "default": "#191919" },
+    { "type": "color", "id": "energy_primary_value_color", "label": "Primary value color (e.g. 632)", "default": "#f3bd2f" },
+    { "type": "color", "id": "energy_secondary_value_color", "label": "Secondary value color (e.g. 151)", "default": "#f3bd2f" },
+    { "type": "color", "id": "energy_primary_unit_color", "label": "Primary unit color (e.g. kJ)", "default": "#191919" },
+    { "type": "color", "id": "energy_secondary_unit_color", "label": "Secondary unit color (e.g. KCAL)", "default": "#191919" },
+    { "type": "color", "id": "energy_caption_color", "label": "Energy caption color", "default": "#2e332e" },
+
+    { "type": "header", "content": "Nutrition Card Colors" },
+    { "type": "color", "id": "nutrition_label_color", "label": "Nutrition label color", "default": "#191919" },
+    { "type": "color", "id": "nutrition_value_color", "label": "Nutrition value color", "default": "#191919" },
+    { "type": "color", "id": "nutrition_separator_color", "label": "Separator color (—)", "default": "#191919" },
+    { "type": "color", "id": "nutrition_border_color", "label": "Card border color", "default": "#d4c4a8" },
+
+    { "type": "header", "content": "Tagline Colors" },
+    { "type": "color", "id": "tagline_primary_color", "label": "Tagline primary color", "default": "#191919" },
+    { "type": "color", "id": "tagline_secondary_color", "label": "Tagline secondary color", "default": "#191919" },
+
+    { "type": "header", "content": "Oval/Circle Colors" },
+    { "type": "color", "id": "oval_text_color", "label": "Oval text color", "default": "#191919" },
   ],
   "blocks": [
     {
