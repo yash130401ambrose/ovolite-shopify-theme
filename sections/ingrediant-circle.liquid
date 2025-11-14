@@ -73,6 +73,7 @@
             {% for block in metric_blocks %}
               <li class="ep-nutrition-card__item" style="--ep-row-label-size: {{ block.settings.metric_label_size | default: 16 }}px; --ep-row-value-size: {{ block.settings.metric_value_size | default: 16 }}px" {{ block.shopify_attributes }}>
                 <span class="ep-nutrition-card__label">{{ block.settings.metric_label }}</span>
+                <span class="ep-nutrition-card__separator">—</span>
                 <span class="ep-nutrition-card__value">{{ block.settings.metric_value }}</span>
               </li>
             {% endfor %}
@@ -361,7 +362,7 @@
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric--secondary .ep-energy__metric-number {
-    color: var(--ep-heading);
+    color: var(--ep-accent);
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric-unit {
@@ -399,11 +400,11 @@
 
   #energy-payment-{{ section.id }} .ep-nutrition-card {
     position: relative;
-    border: 1px solid color-mix(in srgb, var(--ep-heading) 16%, transparent);
-    border-radius: 12px;
+    border: 1px solid #d4c4a8;
+    border-radius: 0;
     background: var(--ep-card-bg);
     padding: clamp(16px, 2.6vw, 24px);
-    box-shadow: 0 20px 40px rgba(14, 32, 20, 0.07);
+    box-shadow: none;
     display: flex;
     flex-direction: column;
     gap: clamp(16px, 3vw, 28px);
@@ -430,16 +431,20 @@
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__item {
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
     justify-content: space-between;
-    gap: clamp(12px, 5vw, 36px);
     align-items: baseline;
+    gap: clamp(8px, 2vw, 16px);
     font-size: clamp(12px, 1.8vw, 18px);
     padding: clamp(10px, 1.6vw, 14px) clamp(4px, 1vw, 8px);
-    border-top: 1px solid color-mix(in srgb, var(--ep-heading) 15%, transparent);
+    border-top: 1px solid #d4c4a8;
     width: fit-content;
     max-width: 100%;
+  }
+  
+  #energy-payment-{{ section.id }} .ep-nutrition-card__separator {
+    color: var(--ep-heading);
+    margin: 0 clamp(4px, 1vw, 8px);
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__item:first-child {
@@ -447,7 +452,7 @@
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__label {
-    font-weight: 500;
+    font-weight: 600;
     color: var(--ep-heading);
     letter-spacing: 0.12em;
     text-transform: uppercase;
