@@ -65,9 +65,6 @@
       </div>
 
       <div class="ep-nutrition-card">
-        {% if section.settings.nutrition_heading != blank %}
-          <p class="ep-nutrition-card__heading" style="--ep-nutrition-heading-size: {{ section.settings.nutrition_heading_size | default: 20 }}px">{{ section.settings.nutrition_heading }}</p>
-        {% endif %}
         {% if metric_blocks.size > 0 %}
           <ul class="ep-nutrition-card__list">
             {% for block in metric_blocks %}
@@ -403,11 +400,11 @@
     border: 1px solid #d4c4a8;
     border-radius: 0;
     background: var(--ep-card-bg);
-    padding: clamp(16px, 2.6vw, 24px);
+    padding: clamp(12px, 2vw, 20px);
     box-shadow: none;
     display: flex;
     flex-direction: column;
-    gap: clamp(16px, 3vw, 28px);
+    gap: 0;
     width: fit-content;
     max-width: 100%;
   }
