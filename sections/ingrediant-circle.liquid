@@ -424,7 +424,7 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: clamp(10px, 1.6vw, 14px);
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__item {
@@ -433,7 +433,7 @@
     align-items: baseline;
     gap: clamp(8px, 2vw, 16px);
     font-size: clamp(12px, 1.8vw, 18px);
-    padding: clamp(10px, 1.6vw, 14px) 0;
+    padding: 0;
     border-top: 1px solid #d4c4a8;
     width: 100%;
   }
