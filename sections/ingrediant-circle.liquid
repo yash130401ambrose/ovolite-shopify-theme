@@ -72,16 +72,9 @@
           <ul class="ep-nutrition-card__list">
             {% for block in metric_blocks %}
               <li class="ep-nutrition-card__item" style="--ep-row-label-size: {{ block.settings.metric_label_size | default: 16 }}px; --ep-row-value-size: {{ block.settings.metric_value_size | default: 16 }}px" {{ block.shopify_attributes }}>
-                <div class="ep-nutrition-card__left">
-                  <span class="ep-nutrition-card__label">{{ block.settings.metric_label }}</span>
-                  {% if block.settings.metric_description != blank %}
-                    <span class="ep-nutrition-card__description">{{ block.settings.metric_description }}</span>
-                  {% endif %}
-                </div>
-                <div class="ep-nutrition-card__right">
-                  <span class="ep-nutrition-card__separator">—</span>
-                  <span class="ep-nutrition-card__value">{{ block.settings.metric_value }}</span>
-                </div>
+                <span class="ep-nutrition-card__label">{{ block.settings.metric_label }}</span>
+                <span class="ep-nutrition-card__separator">—</span>
+                <span class="ep-nutrition-card__value">{{ block.settings.metric_value }}</span>
               </li>
             {% endfor %}
           </ul>
@@ -522,31 +515,16 @@
   #energy-payment-{{ section.id }} .ep-nutrition-card__item {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: clamp(16px, 2.4vw, 24px);
+    align-items: baseline;
+    gap: clamp(8px, 1.2vw, 16px);
     padding: 0;
     border-top: 1px solid #d4c4a8;
     width: 100%;
   }
-
-  #energy-payment-{{ section.id }} .ep-nutrition-card__left {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(4px, 0.6vw, 6px);
-    flex: 1;
-    min-width: 0;
-  }
-
-  #energy-payment-{{ section.id }} .ep-nutrition-card__right {
-    display: flex;
-    align-items: center;
-    gap: clamp(8px, 1.2vw, 12px);
-    flex-shrink: 0;
-    justify-content: flex-end;
-  }
   
   #energy-payment-{{ section.id }} .ep-nutrition-card__separator {
     color: var(--ep-heading);
+    margin: 0 clamp(4px, 0.8vw, 8px);
     flex-shrink: 0;
   }
 
@@ -560,16 +538,8 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-size: clamp(12px, 1.8vw, var(--ep-row-label-size, 16px));
-    line-height: 1.3;
-  }
-
-  #energy-payment-{{ section.id }} .ep-nutrition-card__description {
-    font-weight: 600;
-    color: var(--ep-heading);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-size: clamp(11px, 1.6vw, 14px);
-    line-height: 1.4;
+    line-height: 1.2;
+    flex-shrink: 0;
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__value {
@@ -580,7 +550,8 @@
     font-size: clamp(12px, 1.8vw, var(--ep-row-value-size, 16px));
     text-align: right;
     white-space: nowrap;
-    line-height: 1.3;
+    line-height: 1.2;
+    flex-shrink: 0;
   }
 
   #energy-payment-{{ section.id }} .ep-bottom {
