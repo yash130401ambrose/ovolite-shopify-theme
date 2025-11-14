@@ -392,6 +392,7 @@
           "settings": {
             "metric_label": "Protein: – pure muscle‑building fuel",
             "metric_label_size": 16,
+            "metric_description": "",
             "metric_value": "10.2 g",
             "metric_value_size": 16
           }
@@ -401,6 +402,7 @@
           "settings": {
             "metric_label": "Carbohydrates: - for clean energy balance",
             "metric_label_size": 16,
+            "metric_description": "",
             "metric_value": "Low",
             "metric_value_size": 16
           }
@@ -410,6 +412,7 @@
           "settings": {
             "metric_label": "Fat: – healthy, pure, guilt‑free nutrition",
             "metric_label_size": 16,
+            "metric_description": "",
             "metric_value": "0g",
             "metric_value_size": 16
           }
@@ -419,6 +422,7 @@
           "settings": {
             "metric_label": "Cholesterol: – heart‑friendly choice",
             "metric_label_size": 16,
+            "metric_description": "",
             "metric_value": "0mg",
             "metric_value_size": 16
           }
@@ -506,8 +510,8 @@
         "section_padding_y": 96,
         "row_gap": 72,
         "circle_color": "#1b45c7",
-        "arch_height": 64,
-        "arch_intensity": 130,
+        "arch_height": 100,
+        "arch_intensity": 200,
         "circle_size": 140,
         "circle_gap": 32,
         "energy_heading": "Fuel Your Body, The Smarter Way",
@@ -524,6 +528,10 @@
         "energy_caption_size": 16,
         "nutrition_heading": "MACROS",
         "nutrition_heading_size": 18,
+        "card_padding_top": 14,
+        "card_padding_right": 20,
+        "card_padding_bottom": 14,
+        "card_padding_left": 20,
         "tagline_primary": "Don’t Just Crave Convenience.",
         "tagline_primary_size": 48,
         "tagline_secondary": "Get Pure Protein On Demand.",
