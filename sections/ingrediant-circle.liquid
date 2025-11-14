@@ -604,10 +604,10 @@
 
   #energy-payment-{{ section.id }} .ep-payment-logos__item {
     width: var(--logo-size, var(--ep-circle-size, 152px));
-    height: var(--logo-size, var(--ep-circle-size, 152px));
+    height: calc(var(--logo-size, var(--ep-circle-size, 152px)) * 1.25);
     flex: 0 0 auto;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
+    aspect-ratio: 1 / 1.25;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     background: var(--ep-circle-bg, #ffffff);
     box-shadow: none;
     display: flex;
