@@ -69,9 +69,16 @@
           <ul class="ep-nutrition-card__list">
             {% for block in metric_blocks %}
               <li class="ep-nutrition-card__item" style="--ep-row-label-size: {{ block.settings.metric_label_size | default: 16 }}px; --ep-row-value-size: {{ block.settings.metric_value_size | default: 16 }}px" {{ block.shopify_attributes }}>
-                <span class="ep-nutrition-card__label">{{ block.settings.metric_label }}</span>
-                <span class="ep-nutrition-card__separator">—</span>
-                <span class="ep-nutrition-card__value">{{ block.settings.metric_value }}</span>
+                <div class="ep-nutrition-card__left">
+                  <span class="ep-nutrition-card__label">{{ block.settings.metric_label }}</span>
+                  {% if block.settings.metric_description != blank %}
+                    <span class="ep-nutrition-card__description">{{ block.settings.metric_description }}</span>
+                  {% endif %}
+                </div>
+                <div class="ep-nutrition-card__right">
+                  <span class="ep-nutrition-card__separator">—</span>
+                  <span class="ep-nutrition-card__value">{{ block.settings.metric_value }}</span>
+                </div>
               </li>
             {% endfor %}
           </ul>
@@ -400,7 +407,7 @@
     border: 1px solid #d4c4a8;
     border-radius: 0;
     background: var(--ep-card-bg);
-    padding: clamp(10px, 1.6vw, 14px) clamp(12px, 2vw, 20px);
+    padding: clamp(14px, 2vw, 18px) clamp(16px, 2.4vw, 24px);
     box-shadow: none;
     display: flex;
     flex-direction: column;
@@ -424,23 +431,38 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: clamp(10px, 1.6vw, 14px);
+    gap: clamp(14px, 2vw, 18px);
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__item {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
-    gap: clamp(8px, 2vw, 16px);
-    font-size: clamp(12px, 1.8vw, 18px);
+    align-items: flex-start;
+    gap: clamp(16px, 2.4vw, 24px);
     padding: 0;
     border-top: 1px solid #d4c4a8;
     width: 100%;
   }
+
+  #energy-payment-{{ section.id }} .ep-nutrition-card__left {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4px, 0.6vw, 6px);
+    flex: 1;
+    min-width: 0;
+  }
+
+  #energy-payment-{{ section.id }} .ep-nutrition-card__right {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 1.2vw, 12px);
+    flex-shrink: 0;
+    justify-content: flex-end;
+  }
   
   #energy-payment-{{ section.id }} .ep-nutrition-card__separator {
     color: var(--ep-heading);
-    margin: 0 clamp(4px, 1vw, 8px);
+    flex-shrink: 0;
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__item:first-child {
@@ -448,18 +470,32 @@
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__label {
-    font-weight: 600;
+    font-weight: 700;
     color: var(--ep-heading);
-    letter-spacing: 0.12em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    font-size: clamp(11px, 1.6vw, var(--ep-row-label-size, 15px));
+    font-size: clamp(12px, 1.8vw, var(--ep-row-label-size, 16px));
+    line-height: 1.3;
   }
 
-  #energy-payment-{{ section.id }} .ep-nutrition-card__value {
+  #energy-payment-{{ section.id }} .ep-nutrition-card__description {
     font-weight: 600;
     color: var(--ep-heading);
     letter-spacing: 0.06em;
-    font-size: clamp(11px, 1.6vw, var(--ep-row-value-size, 15px));
+    text-transform: uppercase;
+    font-size: clamp(11px, 1.6vw, 14px);
+    line-height: 1.4;
+  }
+
+  #energy-payment-{{ section.id }} .ep-nutrition-card__value {
+    font-weight: 700;
+    color: var(--ep-heading);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: clamp(12px, 1.8vw, var(--ep-row-value-size, 16px));
+    text-align: right;
+    white-space: nowrap;
+    line-height: 1.3;
   }
 
   #energy-payment-{{ section.id }} .ep-bottom {
@@ -672,6 +708,7 @@
       "settings": [
         { "type": "text", "id": "metric_label", "label": "Metric label", "default": "Fat" },
         { "type": "range", "id": "metric_label_size", "label": "Label font size", "min": 10, "max": 32, "step": 1, "default": 16, "unit": "px" },
+        { "type": "text", "id": "metric_description", "label": "Metric description" },
         { "type": "text", "id": "metric_value", "label": "Metric value", "default": "10.2 g" },
         { "type": "range", "id": "metric_value_size", "label": "Value font size", "min": 10, "max": 32, "step": 1, "default": 16, "unit": "px" }
       ]
