@@ -14,6 +14,10 @@
   assign circle_size = section.settings.circle_size | default: 140
   assign circle_gap = section.settings.circle_gap | default: 32
   assign circle_color = section.settings.circle_color | default: '#ffffff'
+  assign card_padding_top = section.settings.card_padding_top | default: 14
+  assign card_padding_right = section.settings.card_padding_right | default: 20
+  assign card_padding_bottom = section.settings.card_padding_bottom | default: 14
+  assign card_padding_left = section.settings.card_padding_left | default: 20
 %}
 
 <section
@@ -407,7 +411,7 @@
     border: 1px solid #d4c4a8;
     border-radius: 0;
     background: var(--ep-card-bg);
-    padding: clamp(14px, 2vw, 18px) clamp(16px, 2.4vw, 24px);
+    padding: {{ card_padding_top }}px {{ card_padding_right }}px {{ card_padding_bottom }}px {{ card_padding_left }}px;
     box-shadow: none;
     display: flex;
     flex-direction: column;
@@ -695,6 +699,11 @@
 
     { "type": "text", "id": "nutrition_heading", "label": "Nutrition card heading", "default": "MACROS" },
     { "type": "range", "id": "nutrition_heading_size", "label": "Nutrition heading font size", "min": 12, "max": 40, "step": 1, "default": 18, "unit": "px" },
+    { "type": "header", "content": "Nutrition Card Padding" },
+    { "type": "range", "id": "card_padding_top", "label": "Card padding top", "min": 0, "max": 40, "step": 1, "default": 14, "unit": "px" },
+    { "type": "range", "id": "card_padding_right", "label": "Card padding right", "min": 0, "max": 40, "step": 1, "default": 20, "unit": "px" },
+    { "type": "range", "id": "card_padding_bottom", "label": "Card padding bottom", "min": 0, "max": 40, "step": 1, "default": 14, "unit": "px" },
+    { "type": "range", "id": "card_padding_left", "label": "Card padding left", "min": 0, "max": 40, "step": 1, "default": 20, "unit": "px" },
 
     { "type": "text", "id": "tagline_primary", "label": "Tagline primary", "default": "Don’t just crave it." },
     { "type": "range", "id": "tagline_primary_size", "label": "Tagline primary font size", "min": 16, "max": 80, "step": 2, "default": 54, "unit": "px" },
