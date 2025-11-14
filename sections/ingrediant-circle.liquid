@@ -106,7 +106,9 @@
               {% if block.settings.logo_image != blank %}
                 {{ block.settings.logo_image | image_url: width: 220 | image_tag: class: 'ep-payment-logos__image', alt: block.settings.logo_alt | default: block.settings.logo_label }}
               {% endif %}
-              {% if block.settings.logo_label != blank %}
+              {% if block.settings.oval_text != blank %}
+                <span class="ep-payment-logos__text" style="--ep-logo-text-size: {{ block.settings.oval_text_size | default: 16 }}px">{{ block.settings.oval_text }}</span>
+              {% elsif block.settings.logo_label != blank %}
                 <span class="ep-payment-logos__label" style="--ep-logo-label-size: {{ block.settings.logo_label_size | default: 14 }}px">{{ block.settings.logo_label }}</span>
               {% endif %}
             </div>
@@ -645,6 +647,14 @@
     object-fit: contain;
   }
 
+  #energy-payment-{{ section.id }} .ep-payment-logos__text {
+    font-size: clamp(12px, 2.6vw, var(--ep-logo-text-size, 16px));
+    font-weight: 600;
+    color: var(--ep-heading);
+    text-align: center;
+    line-height: 1.2;
+  }
+
   #energy-payment-{{ section.id }} .ep-payment-logos__label {
     font-size: clamp(11px, 2.4vw, var(--ep-logo-label-size, 14px));
     font-weight: 600;
@@ -793,7 +803,9 @@
       "name": "Payment logo",
       "settings": [
         { "type": "image_picker", "id": "logo_image", "label": "Logo image" },
-        { "type": "text", "id": "logo_label", "label": "Logo label" },
+        { "type": "text", "id": "oval_text", "label": "Oval text" },
+        { "type": "range", "id": "oval_text_size", "label": "Oval text font size", "min": 10, "max": 40, "step": 1, "default": 16, "unit": "px" },
+        { "type": "text", "id": "logo_label", "label": "Logo label (fallback)" },
         { "type": "text", "id": "logo_alt", "label": "Logo alt text" },
         { "type": "range", "id": "logo_label_size", "label": "Logo label font size", "min": 10, "max": 28, "step": 1, "default": 14, "unit": "px" },
         { "type": "range", "id": "logo_size", "label": "Logo circle size", "min": 80, "max": 240, "step": 4, "default": 160, "unit": "px" }
