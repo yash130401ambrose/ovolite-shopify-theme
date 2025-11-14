@@ -400,7 +400,7 @@
     border: 1px solid #d4c4a8;
     border-radius: 0;
     background: var(--ep-card-bg);
-    padding: clamp(12px, 2vw, 20px);
+    padding: clamp(10px, 1.6vw, 14px) clamp(12px, 2vw, 20px);
     box-shadow: none;
     display: flex;
     flex-direction: column;
@@ -433,10 +433,9 @@
     align-items: baseline;
     gap: clamp(8px, 2vw, 16px);
     font-size: clamp(12px, 1.8vw, 18px);
-    padding: clamp(10px, 1.6vw, 14px) clamp(4px, 1vw, 8px);
+    padding: clamp(10px, 1.6vw, 14px) 0;
     border-top: 1px solid #d4c4a8;
-    width: fit-content;
-    max-width: 100%;
+    width: 100%;
   }
   
   #energy-payment-{{ section.id }} .ep-nutrition-card__separator {
@@ -446,10 +445,6 @@
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__item:first-child {
     border-top: none;
-  }
-
-  #energy-payment-{{ section.id }} .ep-nutrition-card__item:last-child {
-    padding-bottom: clamp(4px, 0.8vw, 4px);
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card__label {
