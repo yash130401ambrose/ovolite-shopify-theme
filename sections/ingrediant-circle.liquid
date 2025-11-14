@@ -451,14 +451,14 @@
 
   #energy-payment-{{ section.id }} .ep-energy__metrics {
     display: flex;
-    align-items: flex-start;
+    align-items: baseline;
     gap: clamp(14px, 4.6vw, 28px);
     flex-wrap: wrap;
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric {
     display: inline-flex;
-    align-items: flex-end;
+    align-items: baseline;
     gap: clamp(6px, 1.6vw, 12px);
   }
 
@@ -467,7 +467,8 @@
     font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--ep-energy-primary-value);
-    line-height: 0.72;
+    line-height: 1;
+    vertical-align: baseline;
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric--secondary .ep-energy__metric-number {
@@ -481,8 +482,9 @@
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--ep-energy-primary-unit);
-    transform: translateY(clamp(10px, 2vw, 20px));
     font-family: Arial, Helvetica, sans-serif;
+    vertical-align: baseline;
+    line-height: 1;
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric-unit--primary {
