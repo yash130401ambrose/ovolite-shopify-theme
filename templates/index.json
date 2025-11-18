@@ -748,6 +748,17 @@
         "auto_rotate_interval": 6
       }
     },
+    "liquid_drip_divider_RCXMTa": {
+      "type": "liquid-drip-divider",
+      "name": "Liquid Drip Divider",
+      "settings": {
+        "mask_image_above": true,
+        "top_color": "#F5F0E8",
+        "bottom_color": "#1b45c7",
+        "drip_height": 100,
+        "wave_style": "medium"
+      }
+    },
     "blog_posts_QhW4rx": {
       "type": "blog-posts",
       "name": "Blog posts",
@@ -793,6 +804,7 @@
     "feature_compare_cfdaRM",
     "ingrediant_circle_XrmJTy",
     "animated_review_4Eb44C",
+    "liquid_drip_divider_RCXMTa",
     "blog_posts_QhW4rx"
   ]
 }
