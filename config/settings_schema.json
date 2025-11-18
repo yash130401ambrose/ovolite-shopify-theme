@@ -366,11 +366,23 @@
         "unit": "s"
       },
       {
-        "type": "text",
+        "type": "select",
         "id": "heading_animation_ease",
         "label": "Ease",
         "default": "power3.out",
-        "info": "GSAP easing function (e.g., power3.out, power2.inOut)"
+        "options": [
+          { "value": "power1.inOut", "label": "Power1 In-Out" },
+          { "value": "power2.out", "label": "Power2 Out" },
+          { "value": "power3.out", "label": "Power3 Out" },
+          { "value": "power4.out", "label": "Power4 Out" },
+          { "value": "back.out(1.7)", "label": "Back Out" },
+          { "value": "expo.out", "label": "Expo Out" },
+          { "value": "sine.out", "label": "Sine Out" },
+          { "value": "elastic.out(1, 0.5)", "label": "Elastic Out" },
+          { "value": "bounce.out", "label": "Bounce Out" },
+          { "value": "linear", "label": "Linear" }
+        ],
+        "info": "Choose a GSAP easing curve for heading animations"
       },
       {
         "type": "text",
