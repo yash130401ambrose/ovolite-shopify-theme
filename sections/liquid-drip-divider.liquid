@@ -6,21 +6,33 @@
   assign mask_image_above = section.settings.mask_image_above | default: false
 %}
 
+{% capture mask_path %}
+  {% case wave_style %}
+    {% when 'subtle' %}
+      M0,0 L0,50 Q360,60 720,50 T1440,50 L1440,0 Z
+    {% when 'dramatic' %}
+      M0,0 L0,40 Q180,90 360,40 T720,50 T1080,40 T1440,75 L1440,0 Z
+    {% when 'organic' %}
+      M0,0 L0,55 Q120,75 240,50 T480,48 T720,45 T960,50 T1200,52 L1440,52 L1440,0 Z
+    {% else %}
+      M0,0 L0,60 Q360,80 720,50 T1440,50 L1440,0 Z
+  {% endcase %}
+{% endcapture %}
+
+{% assign mask_path = mask_path | strip | replace: '\n', ' ' %}
+
+{% capture mask_svg %}
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="{{ mask_path }}" fill="white"/></svg>
+{% endcapture %}
+
+{% assign mask_svg_encoded = mask_svg | strip | uri_escape %}
+
 {% if mask_image_above %}
   {% comment %} Mask mode: The divider acts as a mask for the section above {% endcomment %}
   <div class="liquid-drip-mask-wrapper" style="--drip-height: {{ drip_height }}px; --top-color: {{ top_color }}; --bottom-color: {{ bottom_color }};">
     <div class="liquid-drip-mask liquid-drip-{{ wave_style }}" style="--drip-height: var(--drip-height);">
       <svg class="liquid-drip-mask-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
-        {% case wave_style %}
-          {% when 'subtle' %}
-            <path d="M0,0 L0,50 Q360,60 720,50 T1440,50 L1440,0 Z" fill="white"/>
-          {% when 'dramatic' %}
-            <path d="M0,0 L0,40 Q180,90 360,40 T720,50 T1080,40 T1440,75 L1440,0 Z" fill="white"/>
-          {% when 'organic' %}
-            <path d="M0,0 L0,55 Q120,75 240,50 T480,48 T720,45 T960,50 T1200,52 L1440,52 L1440,0 Z" fill="white"/>
-          {% else %}
-            <path d="M0,0 L0,60 Q360,80 720,50 T1440,50 L1440,0 Z" fill="white"/>
-        {% endcase %}
+        <path d="{{ mask_path }}" fill="white"/>
       </svg>
     </div>
   </div>
@@ -44,6 +56,56 @@
       {% endcase %}
     </svg>
   </div>
+{% endif %}
+
+{% if mask_image_above %}
+  <script>
+    (function() {
+      var sectionId = '{{ section.id }}';
+      var maskImage = "url('data:image/svg+xml,{{ mask_svg_encoded }}')";
+      var dripHeight = '{{ drip_height }}px';
+      var topColor = '{{ top_color }}';
+      var bottomColor = '{{ bottom_color }}';
+
+      var applyMaskVariables = function () {
+        var sectionEl = document.getElementById('shopify-section-' + sectionId);
+        if (!sectionEl) return;
+
+        var previousSection = sectionEl.previousElementSibling;
+
+        while (previousSection && previousSection.nodeType !== 1) {
+          previousSection = previousSection.previousElementSibling;
+        }
+
+        if (!previousSection || !previousSection.classList.contains('liquid-drip-masked-section')) {
+          return;
+        }
+
+        previousSection.style.setProperty('--liquid-drip-height', dripHeight);
+        previousSection.style.setProperty('--liquid-drip-top-color', topColor);
+        previousSection.style.setProperty('--liquid-drip-bottom-color', bottomColor);
+        previousSection.style.setProperty('--liquid-drip-mask-image', maskImage);
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyMaskVariables, { once: true });
+      } else {
+        applyMaskVariables();
+      }
+
+      document.addEventListener('shopify:section:load', function(event) {
+        if (event.detail && event.detail.sectionId === sectionId) {
+          applyMaskVariables();
+        }
+      });
+
+      document.addEventListener('shopify:section:select', function(event) {
+        if (event.detail && event.detail.sectionId === sectionId) {
+          applyMaskVariables();
+        }
+      });
+    })();
+  </script>
 {% endif %}
 
 <style>
@@ -100,6 +162,7 @@
   .liquid-drip-masked-section {
     position: relative;
     margin-bottom: 0 !important;
+    overflow: hidden;
   }
   
   .liquid-drip-masked-section::after {
@@ -108,16 +171,21 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: var(--drip-height, 100px);
-    background: var(--bottom-color);
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L0,60 Q360,80 720,50 T1440,50 L1440,0 Z' fill='white'/%3E%3C/svg%3E");
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L0,60 Q360,80 720,50 T1440,50 L1440,0 Z' fill='white'/%3E%3C/svg%3E");
+    height: var(--liquid-drip-height, var(--drip-height, 100px));
+    background: linear-gradient(
+      180deg,
+      var(--liquid-drip-top-color, transparent) 0%,
+      var(--liquid-drip-bottom-color, var(--bottom-color, #FAF7F2)) 100%
+    );
+    mask-image: var(--liquid-drip-mask-image, url("data:image/svg+xml,{{ mask_svg_encoded }}"));
+    -webkit-mask-image: var(--liquid-drip-mask-image, url("data:image/svg+xml,{{ mask_svg_encoded }}"));
     mask-size: 100% 100%;
     -webkit-mask-size: 100% 100%;
     mask-repeat: no-repeat;
     -webkit-mask-repeat: no-repeat;
     mask-position: bottom;
     -webkit-mask-position: bottom;
+    pointer-events: none;
     z-index: 1;
   }
 </style>
