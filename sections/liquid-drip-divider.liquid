@@ -163,6 +163,7 @@
     position: relative;
     margin-bottom: 0 !important;
     overflow: hidden;
+    isolation: isolate;
   }
   
   .liquid-drip-masked-section::after {
@@ -172,11 +173,7 @@
     left: 0;
     width: 100%;
     height: var(--liquid-drip-height, var(--drip-height, 100px));
-    background: linear-gradient(
-      180deg,
-      var(--liquid-drip-top-color, transparent) 0%,
-      var(--liquid-drip-bottom-color, var(--bottom-color, #FAF7F2)) 100%
-    );
+    background: #000;
     mask-image: var(--liquid-drip-mask-image, url("data:image/svg+xml,{{ mask_svg_encoded }}"));
     -webkit-mask-image: var(--liquid-drip-mask-image, url("data:image/svg+xml,{{ mask_svg_encoded }}"));
     mask-size: 100% 100%;
@@ -185,6 +182,8 @@
     -webkit-mask-repeat: no-repeat;
     mask-position: bottom;
     -webkit-mask-position: bottom;
+    mix-blend-mode: destination-out;
+    opacity: 1;
     pointer-events: none;
     z-index: 1;
   }
