@@ -43,7 +43,9 @@
     },
     "image_with_text_kX9k8X": {
       "type": "image-with-text",
-      "custom_css": [],
+      "custom_css": [
+        "@media only screen and (min-width: 1280px) {.h1, h1 {font-size: calc( ((var(--font-h1-desktop)) / (var(--font-base-size))) * 0.7rem ); line-height: 1.167; }}"
+      ],
       "name": "Image with text",
       "settings": {
         "heading": "",
@@ -273,17 +275,6 @@
         "animation_delay": 0.1
       }
     },
-    "liquid_drip_divider_pMCczy": {
-      "type": "liquid-drip-divider",
-      "name": "Liquid Drip Divider",
-      "settings": {
-        "mask_image_above": false,
-        "top_color": "#ffffff",
-        "bottom_color": "#1b45c7",
-        "drip_height": 100,
-        "wave_style": "medium"
-      }
-    },
     "feature_compare_cfdaRM": {
       "type": "feature-compare",
       "blocks": {
@@ -347,9 +338,9 @@
       "name": "Feature Compare Ovolite",
       "settings": {
         "image": "shopify://shop_images/Screenshot_2025-11-10_at_4.13.14_PM.png",
-        "image_alt": "Matcha scoop",
+        "image_alt": "",
         "subheading": "See the Ovolite",
-        "heading": "Differenc",
+        "heading": "Difference",
         "description": "<p>Why settle for ordinary? Ovolite Egg Whites deliver pure, clean protein for fitness, health, and convenience - making it the smarter choice.</p>",
         "benefit_heading": "Benefits",
         "left_label": "",
@@ -417,6 +408,16 @@
             "metric_label_size": 16,
             "metric_description": "",
             "metric_value": "0g",
+            "metric_value_size": 16
+          }
+        },
+        "metric_r9iANT": {
+          "type": "metric",
+          "settings": {
+            "metric_label": "Fat",
+            "metric_label_size": 16,
+            "metric_description": "",
+            "metric_value": "10.2 g",
             "metric_value_size": 16
           }
         },
@@ -507,6 +508,7 @@
         "metric_YyeEzb",
         "metric_wK7NkP",
         "metric_Km4eLP",
+        "metric_r9iANT",
         "metric_RBYhHE",
         "payment_logo_zedzQt",
         "payment_logo_ngBdrN",
@@ -526,7 +528,7 @@
         "section_padding_y": 96,
         "row_gap": 72,
         "circle_color": "#1b45c7",
-        "arch_height": 100,
+        "arch_height": 112,
         "arch_intensity": 200,
         "circle_size": 140,
         "circle_gap": 32,
@@ -788,7 +790,6 @@
     "cutout_parallax_hero_MPYWeY",
     "custom_content_YXWAfa",
     "scroll_card_bm_GVJhVi",
-    "liquid_drip_divider_pMCczy",
     "feature_compare_cfdaRM",
     "ingrediant_circle_XrmJTy",
     "animated_review_4Eb44C",
