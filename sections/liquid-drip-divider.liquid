@@ -25,8 +25,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="{{ mask_path }}" fill="white"/></svg>
 {% endcapture %}
 
-{% assign mask_svg_encoded = mask_svg | strip | uri_escape %}
-
 {% if mask_image_above %}
   {% comment %} Mask mode: The divider acts as a mask for the section above {% endcomment %}
   <div class="liquid-drip-mask-wrapper" style="--drip-height: {{ drip_height }}px; --top-color: {{ top_color }}; --bottom-color: {{ bottom_color }};">
@@ -62,46 +60,134 @@
   <script>
     (function() {
       var sectionId = '{{ section.id }}';
-      var maskImage = "url('data:image/svg+xml,{{ mask_svg_encoded }}')";
-      var dripHeight = '{{ drip_height }}px';
-      var topColor = '{{ top_color }}';
-      var bottomColor = '{{ bottom_color }}';
+      var dripHeight = {{ drip_height | default: 100 }};
+      var waveStyle = '{{ wave_style }}';
+      var baseWidth = 1440;
+      var baseHeight = 120;
 
-      var applyMaskVariables = function () {
+      var wavePaths = {
+        subtle: [
+          { cmd: 'M', args: [0, 0] },
+          { cmd: 'L', args: [0, 50] },
+          { cmd: 'Q', args: [360, 60, 720, 50] },
+          { cmd: 'T', args: [1440, 50] },
+          { cmd: 'L', args: [1440, 0] },
+          { cmd: 'Z', args: [] }
+        ],
+        dramatic: [
+          { cmd: 'M', args: [0, 0] },
+          { cmd: 'L', args: [0, 40] },
+          { cmd: 'Q', args: [180, 90, 360, 40] },
+          { cmd: 'T', args: [720, 50] },
+          { cmd: 'T', args: [1080, 40] },
+          { cmd: 'T', args: [1440, 75] },
+          { cmd: 'L', args: [1440, 0] },
+          { cmd: 'Z', args: [] }
+        ],
+        organic: [
+          { cmd: 'M', args: [0, 0] },
+          { cmd: 'L', args: [0, 55] },
+          { cmd: 'Q', args: [120, 75, 240, 50] },
+          { cmd: 'T', args: [480, 48] },
+          { cmd: 'T', args: [720, 45] },
+          { cmd: 'T', args: [960, 50] },
+          { cmd: 'T', args: [1200, 52] },
+          { cmd: 'L', args: [1440, 52] },
+          { cmd: 'L', args: [1440, 0] },
+          { cmd: 'Z', args: [] }
+        ],
+        medium: [
+          { cmd: 'M', args: [0, 0] },
+          { cmd: 'L', args: [0, 60] },
+          { cmd: 'Q', args: [360, 80, 720, 50] },
+          { cmd: 'T', args: [1440, 50] },
+          { cmd: 'L', args: [1440, 0] },
+          { cmd: 'Z', args: [] }
+        ]
+      };
+
+      var commands = wavePaths[waveStyle] || wavePaths.medium;
+
+      var buildPath = function(width, height, dripHeightValue) {
+        var scaleX = width / baseWidth;
+        var scaleY = dripHeightValue / baseHeight;
+        var offsetY = Math.max(height - dripHeightValue, 0);
+
+        return commands.map(function(segment) {
+          if (!segment.args.length) {
+            return segment.cmd;
+          }
+
+          var transformedArgs = segment.args.map(function(value, index) {
+            var isY = index % 2 === 1;
+            if (isY) {
+              if (value === 0) {
+                return 0;
+              }
+              return (offsetY + value * scaleY).toFixed(2);
+            }
+            return (value * scaleX).toFixed(2);
+          });
+
+          return segment.cmd + ' ' + transformedArgs.join(' ');
+        }).join(' ');
+      };
+
+      var applyClipPath = function(target) {
+        if (!target) return;
+        var width = target.offsetWidth;
+        var height = target.offsetHeight;
+        if (!width || !height) return;
+
+        var pathData = buildPath(width, height, Math.min(dripHeight, height));
+        var pathValue = 'path("' + pathData + '")';
+        target.style.clipPath = pathValue;
+        target.style.webkitClipPath = pathValue;
+        target.style.overflow = 'hidden';
+      };
+
+      var applyMaskToPrevious = function () {
         var sectionEl = document.getElementById('shopify-section-' + sectionId);
         if (!sectionEl) return;
 
         var previousSection = sectionEl.previousElementSibling;
-
         while (previousSection && previousSection.nodeType !== 1) {
           previousSection = previousSection.previousElementSibling;
         }
-
         if (!previousSection || !previousSection.classList.contains('liquid-drip-masked-section')) {
           return;
         }
 
-        previousSection.style.setProperty('--liquid-drip-height', dripHeight);
-        previousSection.style.setProperty('--liquid-drip-top-color', topColor);
-        previousSection.style.setProperty('--liquid-drip-bottom-color', bottomColor);
-        previousSection.style.setProperty('--liquid-drip-mask-image', maskImage);
+        applyClipPath(previousSection);
+
+        if (window.ResizeObserver && !previousSection.__liquidDripResizeHandler) {
+          var resizeObserver = new ResizeObserver(function() {
+            applyClipPath(previousSection);
+          });
+          resizeObserver.observe(previousSection);
+          previousSection.__liquidDripResizeHandler = resizeObserver;
+        }
+      };
+
+      var init = function() {
+        applyMaskToPrevious();
       };
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', applyMaskVariables, { once: true });
+        document.addEventListener('DOMContentLoaded', init, { once: true });
       } else {
-        applyMaskVariables();
+        init();
       }
 
       document.addEventListener('shopify:section:load', function(event) {
         if (event.detail && event.detail.sectionId === sectionId) {
-          applyMaskVariables();
+          applyMaskToPrevious();
         }
       });
 
       document.addEventListener('shopify:section:select', function(event) {
         if (event.detail && event.detail.sectionId === sectionId) {
-          applyMaskVariables();
+          applyMaskToPrevious();
         }
       });
     })();
@@ -163,29 +249,6 @@
     position: relative;
     margin-bottom: 0 !important;
     overflow: hidden;
-    isolation: isolate;
-  }
-  
-  .liquid-drip-masked-section::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: var(--liquid-drip-height, var(--drip-height, 100px));
-    background: #000;
-    mask-image: var(--liquid-drip-mask-image, url("data:image/svg+xml,{{ mask_svg_encoded }}"));
-    -webkit-mask-image: var(--liquid-drip-mask-image, url("data:image/svg+xml,{{ mask_svg_encoded }}"));
-    mask-size: 100% 100%;
-    -webkit-mask-size: 100% 100%;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-    mask-position: bottom;
-    -webkit-mask-position: bottom;
-    mix-blend-mode: destination-out;
-    opacity: 1;
-    pointer-events: none;
-    z-index: 1;
   }
 </style>
 
