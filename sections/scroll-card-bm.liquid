@@ -22,6 +22,17 @@
   class="bm-scroll"
   style="--bm-text: {{ text_color }}; --bm-card-text: {{ text_color }}; --bm-bg: {{ bg_color }}; --bm-bg-end: {{ bg_color_end }}; --bm-gap: {{ card_gap }}px; --bm-duration: {{ animation_duration }}s; --bm-delay: {{ animation_delay }}s; --bm-radius: {{ card_radius }}px; --bm-overlay: {{ overlay_opacity }};{% if card_padding_vertical > 0 %} --bm-card-pad-top: {{ card_padding_vertical }}px; --bm-card-pad-bottom: {{ card_padding_vertical }}px;{% endif %}{% if card_padding_horizontal > 0 %} --bm-card-pad-inline: {{ card_padding_horizontal }}px;{% endif %}{% if card_min_height > 0 %} --bm-card-height: {{ card_min_height }}px;{% endif %}"
 >
+  <div class="scroll-squiggle-bg">
+    <svg class="scroll-squiggle-svg" viewBox="0 0 800 800" fill="none">
+      <path id="scroll-squiggle-path"
+        d="M245.813 59.5015C54.1619 152.668 -34.1186 356.234 41.6525 512.101C117.424 667.969 332.042 724.289 523.692 631.123C715.343 537.957 803.624 334.39 727.852 178.522C652.081 22.6546 437.463 -33.6648 245.813 59.5015Z"
+        stroke="#FFFFFF"
+        stroke-width="28"
+        stroke-linecap="round"
+        fill="none"
+      />
+    </svg>
+  </div>
   <div class="{{ container_width }} bm-scroll__inner">
     {% if subheading != blank %}
       <p class="bm-scroll__eyebrow">{{ subheading }}</p>
@@ -96,6 +107,7 @@
     background: var(--bm-bg);
     color: var(--bm-text);
     transition: background-color 0.6s ease;
+    z-index: 1;
   }
   #{{ section_id }}::before {
     content: "";
@@ -105,6 +117,22 @@
     opacity: var(--bm-overlay);
     pointer-events: none;
     transition: opacity 0.6s ease;
+  }
+
+  #{{ section_id }} .scroll-squiggle-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #{{ section_id }} .scroll-squiggle-svg {
+    width: 100%;
+    height: auto;
+    opacity: 1;
   }
   #{{ section_id }}.is-last-centered {
     background: var(--bm-bg-end);
@@ -288,6 +316,52 @@
     }
   }
 </style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  var sectionEl = document.getElementById('{{ section_id }}');
+  if (!sectionEl) return;
+
+  var path = sectionEl.querySelector("#scroll-squiggle-path");
+  if (!path) return;
+
+  var length = path.getTotalLength();
+  path.style.strokeDasharray = length;
+  path.style.strokeDashoffset = length;
+
+  function loadGSAP(callback) {
+    if (window.gsap && window.ScrollTrigger) {
+      callback();
+      return;
+    }
+    var gsapScript = document.createElement("script");
+    gsapScript.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js";
+    gsapScript.onload = function() {
+      var stScript = document.createElement("script");
+      stScript.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js";
+      stScript.onload = callback;
+      document.body.appendChild(stScript);
+    };
+    document.body.appendChild(gsapScript);
+  }
+
+  loadGSAP(function() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.to(path, {
+      strokeDashoffset: 0,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionEl.querySelector('.scroll-squiggle-bg') || sectionEl,
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: 1
+      }
+    });
+  });
+});
+</script>
 
 <script>
   (function() {
