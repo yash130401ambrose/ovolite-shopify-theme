@@ -12,12 +12,15 @@
   assign overlay_opacity = section.settings.overlay_opacity | default: 0.65
   assign heading_size = section.settings.heading_size | default: 'h1'
   assign card_radius = section.settings.card_radius | default: 24
+  assign card_padding_vertical = section.settings.card_padding_vertical | default: 0
+  assign card_padding_horizontal = section.settings.card_padding_horizontal | default: 0
+  assign card_min_height = section.settings.card_min_height | default: 0
 %}
 
 <section
   id="{{ section_id }}"
   class="bm-scroll"
-  style="--bm-text: {{ text_color }}; --bm-card-text: {{ text_color }}; --bm-bg: {{ bg_color }}; --bm-bg-end: {{ bg_color_end }}; --bm-gap: {{ card_gap }}px; --bm-duration: {{ animation_duration }}s; --bm-delay: {{ animation_delay }}s; --bm-radius: {{ card_radius }}px; --bm-overlay: {{ overlay_opacity }};"
+  style="--bm-text: {{ text_color }}; --bm-card-text: {{ text_color }}; --bm-bg: {{ bg_color }}; --bm-bg-end: {{ bg_color_end }}; --bm-gap: {{ card_gap }}px; --bm-duration: {{ animation_duration }}s; --bm-delay: {{ animation_delay }}s; --bm-radius: {{ card_radius }}px; --bm-overlay: {{ overlay_opacity }};{% if card_padding_vertical > 0 %} --bm-card-pad-top: {{ card_padding_vertical }}px; --bm-card-pad-bottom: {{ card_padding_vertical }}px;{% endif %}{% if card_padding_horizontal > 0 %} --bm-card-pad-inline: {{ card_padding_horizontal }}px;{% endif %}{% if card_min_height > 0 %} --bm-card-height: {{ card_min_height }}px;{% endif %}"
 >
   <div class="{{ container_width }} bm-scroll__inner">
     {% if subheading != blank %}
@@ -186,7 +189,11 @@
     position: relative;
     background: var(--bm-card-accent, #d4e7c7);
     border-radius: var(--bm-radius);
-    padding: clamp(56px, 5.4vw, 96px) clamp(40px, 4.2vw, 72px) clamp(48px, 3.6vw, 72px);
+    min-height: var(--bm-card-height, auto);
+    padding-top: var(--bm-card-pad-top, clamp(56px, 5.4vw, 96px));
+    padding-bottom: var(--bm-card-pad-bottom, clamp(48px, 3.6vw, 72px));
+    padding-left: var(--bm-card-pad-inline, clamp(40px, 4.2vw, 72px));
+    padding-right: var(--bm-card-pad-inline, clamp(40px, 4.2vw, 72px));
     color: var(--bm-card-text, var(--bm-text));
     backdrop-filter: blur(6px);
     transition: none;
@@ -501,6 +508,39 @@
       "step": 4,
       "default": 24,
       "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "card_padding_vertical",
+      "label": "Card padding (top & bottom)",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 0,
+      "unit": "px",
+      "info": "Set to 0 to use the default responsive padding"
+    },
+    {
+      "type": "range",
+      "id": "card_padding_horizontal",
+      "label": "Card padding (sides)",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 0,
+      "unit": "px",
+      "info": "Set to 0 to use the default responsive padding"
+    },
+    {
+      "type": "range",
+      "id": "card_min_height",
+      "label": "Card minimum height",
+      "min": 0,
+      "max": 900,
+      "step": 20,
+      "default": 0,
+      "unit": "px",
+      "info": "Leave at 0 to let cards size naturally"
     },
     {
       "type": "range",
