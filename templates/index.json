@@ -207,7 +207,7 @@
             "icon_size": 84,
             "title": "100% Pure Egg Whites",
             "body": "No yolks, no fat, no cholesterol - just clean, high-quality protein in every drop.",
-            "icon": "shopify://shop_images/1_488a22fb-f220-4474-9d71-b8031637e12c.png",
+            "icon": "shopify://shop_images/1_4759d167-32a3-4028-bb39-be553baea189.png",
             "accent_color": "#1b45c7",
             "link": "",
             "link_label": "Shop now"
@@ -220,7 +220,7 @@
             "icon_size": 84,
             "title": "Fuel Your Goals",
             "body": "Packed with 11g of protein per 100ml, perfect for muscle, recovery, and staying lean.",
-            "icon": "shopify://shop_images/2_1f4d8345-4176-45bf-9ce7-ffd9909c8f74.png",
+            "icon": "shopify://shop_images/2_02f3fe9b-579f-4493-8c16-531b0e6c430d.png",
             "accent_color": "#1b45c7",
             "link": "",
             "link_label": "Shop now"
@@ -233,7 +233,7 @@
             "icon_size": 84,
             "title": "Protein, On-the-Go",
             "body": "Pour, mix, or cook - no cracking, no mess, just effortless nutrition anytime",
-            "icon": "shopify://shop_images/3_740e2f53-cac4-4fa0-9b21-56032a62f6b1.png",
+            "icon": "shopify://shop_images/3_513de041-e7eb-4966-b001-95ba35cc91ea.png",
             "accent_color": "#1b45c7",
             "link": "",
             "link_label": "Shop now"
@@ -246,7 +246,7 @@
             "icon_size": 84,
             "title": "Quality You Can Trust",
             "body": "Pasteurized, preservative-free, and always fresh when refrigerated - your daily protein, worry-free",
-            "icon": "shopify://shop_images/4_5791f069-9d0f-4541-8424-095226870e24.png",
+            "icon": "shopify://shop_images/4_b835040c-c064-4317-aea6-2d568e4551a9.png",
             "accent_color": "#1b45c7",
             "link": "",
             "link_label": "Shop now"
@@ -269,7 +269,7 @@
         "background_color": "#ffffff",
         "background_color_end": "#ffffff",
         "overlay_opacity": 0.6,
-        "card_gap": 32,
+        "card_gap": 24,
         "card_radius": 24,
         "animation_duration": 1.6,
         "animation_delay": 0.1
