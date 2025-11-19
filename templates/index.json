@@ -88,7 +88,7 @@
       "settings": {
         "mask_image_above": false,
         "top_color": "#ffffff",
-        "bottom_color": "#1b45c7",
+        "bottom_color": "#fffdf5",
         "drip_height": 100,
         "wave_style": "dramatic"
       }
@@ -98,7 +98,7 @@
       "name": "Cutout Parallax Hero",
       "settings": {
         "bg_image": "shopify://shop_images/e0c906e86f2d8aeb7e2dfe6b56deec12.jpg",
-        "overlay_color": "#1b45c7",
+        "overlay_color": "#fffdf5",
         "section_height": 105,
         "padding_top": 80,
         "padding_bottom": 100,
@@ -184,8 +184,8 @@
         "description": "",
         "header_alignment": "center",
         "container": "container-fluid",
-        "color_scheme": "badge-sale",
-        "content_color_scheme": "badge-sale",
+        "color_scheme": "badge-new",
+        "content_color_scheme": "badge-new",
         "enable_parallax": false,
         "parallax_direction": "vertical",
         "gap": 30,
@@ -266,8 +266,8 @@
         "subheading": "",
         "heading_size": "h1",
         "text_color": "#1b45c7",
-        "background_color": "#ffffff",
-        "background_color_end": "#ffffff",
+        "background_color": "#1b45c7",
+        "background_color_end": "#1b45c7",
         "overlay_opacity": 0.6,
         "card_gap": 24,
         "card_radius": 16,
