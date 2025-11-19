@@ -245,7 +245,7 @@
             "label": "More caffeine",
             "icon_size": 84,
             "title": "Quality You Can Trust",
-            "body": "Pasteurized, preservative-free, and always fresh when refrigerated - your daily protein, worry-free",
+            "body": "Pasteurized, preservative-free, and always fresh when refrigerated - your daily protein,",
             "icon": "shopify://shop_images/4_b835040c-c064-4317-aea6-2d568e4551a9.png",
             "accent_color": "#1b45c7",
             "link": "",
@@ -270,7 +270,10 @@
         "background_color_end": "#ffffff",
         "overlay_opacity": 0.6,
         "card_gap": 24,
-        "card_radius": 24,
+        "card_radius": 16,
+        "card_padding_vertical": 20,
+        "card_padding_horizontal": 52,
+        "card_min_height": 0,
         "animation_duration": 1.6,
         "animation_delay": 0.1
       }
