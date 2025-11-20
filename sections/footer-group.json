@@ -11,6 +11,29 @@
   "type": "footer",
   "name": "Footer",
   "sections": {
+    "newsletter_96yiBt": {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "settings": {
+        "container": "w-full",
+        "color_scheme": "",
+        "form_layout": "vertical",
+        "form_design": "1",
+        "heading": "Stay up to date with all fashion news<br> and exclusive offers",
+        "description": "",
+        "text_size": "h2",
+        "email_placeholder": "Enter your email",
+        "submit_button": "Subscribe",
+        "text_color": "inherit",
+        "show_icon": true,
+        "icon_img_width": "30",
+        "show_agreement": false,
+        "padding_top": 50,
+        "padding_bottom": 50,
+        "custom_class": "",
+        "animations": "inherit"
+      }
+    },
     "footer": {
       "type": "footer",
       "blocks": {
@@ -154,6 +177,7 @@
     }
   },
   "order": [
+    "newsletter_96yiBt",
     "footer",
     "mobile-sticky-bar",
     "age-verifier-popup"

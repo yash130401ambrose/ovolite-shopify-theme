@@ -1,27 +1,20 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "breadcrumb": {
-      "type": "breadcrumb",
-      "settings": {
-        "container": "container",
-        "text_alignment": "center",
-        "hide_current": false,
-        "hide_on_mb": false,
-        "animations": "inherit"
-      }
-    },
     "main": {
       "type": "main-product",
       "blocks": {
-        "badge_ChqgGj": {
-          "type": "badge",
-          "settings": {
-          }
-        },
         "title": {
           "type": "title",
-          "settings": {
-          }
+          "settings": {}
         },
         "price": {
           "type": "price",
@@ -39,49 +32,18 @@
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_quantity_selector": true,
+            "show_quantity_selector": false,
             "show_atc_button": true,
             "show_dynamic_checkout": true,
             "show_gift_card_recipient": true
           }
-        },
-        "addons": {
-          "type": "addons",
-          "settings": {
-            "show_atcp": true,
-            "show_ask_a_question": true,
-            "show_social": true
-          }
-        },
-        "shipping_VBJFtx": {
-          "type": "shipping",
-          "settings": {
-            "show_delivery_times": true,
-            "deliver_text": "Estimated Delivery:",
-            "deliver_days": "7",
-            "date_format": "%b %d",
-            "show_shipping_text": true,
-            "shipping_text": "<p><strong>Free Shipping & Returns: <\/strong>On all orders over $75<\/p>"
-          }
-        },
-        "trust_badge_NyBMd4": {
-          "type": "trust_badge",
-          "settings": {
-            "trust_badges_text": "<p>Guarantee safe & secure checkout<\/p>",
-            "trust_badges_image_width": "60%",
-            "position": "below"
-          }
         }
       },
       "block_order": [
-        "badge_ChqgGj",
         "title",
         "price",
         "variant_picker",
-        "buy_buttons",
-        "addons",
-        "shipping_VBJFtx",
-        "trust_badge_NyBMd4"
+        "buy_buttons"
       ],
       "settings": {
         "container": "container",
@@ -115,7 +77,7 @@
           "type": "tab",
           "settings": {
             "header": "Shipping & Return",
-            "content": "<p>Shipping cost is based on weight. Just add products to your cart and use the Shipping Calculator to see the shipping price.<\/p><p>We want you to be 100% satisfied with your purchase. Items can be returned or exchanged within 30 days of delivery.<\/p>",
+            "content": "<p>Shipping cost is based on weight. Just add products to your cart and use the Shipping Calculator to see the shipping price.</p><p>We want you to be 100% satisfied with your purchase. Items can be returned or exchanged within 30 days of delivery.</p>",
             "content_page": ""
           }
         }
@@ -221,11 +183,13 @@
         "iconbox_pJbJGA": {
           "type": "iconbox",
           "settings": {
+            "card_color_scheme": "",
             "image_by_url": "",
             "title": "100 Days Return",
-            "description": "<p>Enjoy a seamless shopping experience, facilitated<br\/> by our complimentary shipping.<\/p>",
+            "description": "<p>Enjoy a seamless shopping experience, facilitated<br/> by our complimentary shipping.</p>",
             "link": "",
             "button_label": "Learn more [arrow]",
+            "button_link": "",
             "button_style": "m-button--plain",
             "button_size": ""
           }
@@ -233,11 +197,13 @@
         "iconbox_RW46nE": {
           "type": "iconbox",
           "settings": {
+            "card_color_scheme": "",
             "image_by_url": "",
             "title": "Lifetime Warranty",
-            "description": "<p>Our dedicated team provides timely assistance, <br\/>committed to addressing your queries.<\/p>",
+            "description": "<p>Our dedicated team provides timely assistance, <br/>committed to addressing your queries.</p>",
             "link": "",
             "button_label": "Learn more [arrow]",
+            "button_link": "",
             "button_style": "m-button--plain",
             "button_size": ""
           }
@@ -245,11 +211,13 @@
         "iconbox_EiwgTg": {
           "type": "iconbox",
           "settings": {
+            "card_color_scheme": "",
             "image_by_url": "",
             "title": "Customers Services",
-            "description": "<p>Invest in our activewear with absolute confidence, backed by our 30-day satisfaction guarantee.<\/p>",
+            "description": "<p>Invest in our activewear with absolute confidence, backed by our 30-day satisfaction guarantee.</p>",
             "link": "",
             "button_label": "Learn more [arrow]",
+            "button_link": "",
             "button_style": "m-button--plain",
             "button_size": ""
           }
@@ -264,17 +232,16 @@
         ".m-icon-box__heading {font-weight: 400;}"
       ],
       "settings": {
+        "container": "container",
+        "color_scheme": "",
         "heading": "Why Minimog?",
         "heading_size": "h3",
         "subheading": "",
         "description": "",
         "header_alignment": "center",
-        "container": "container",
-        "color_scheme": "",
         "item_per_row": 3,
         "item_gap": 30,
         "item_gap_mobile": 10,
-        "card_color_scheme": "",
         "card_style": "vertical",
         "image_max_width": "70px",
         "content_alignment": "center",
@@ -298,7 +265,7 @@
           "settings": {
             "header": "How long does it take to process an order?",
             "text_size": "h4",
-            "content": "<p>All the details you love about the original—with a fresh flared block heel and modern square toe. Expertly crafted using soft Nappa leather, this essential style molds and moves with you to keep you comfortably on your feet all day (and night). This boot uses leather sourced from a Leather Working Group-approved trader. The Leather Working Group (LWG) Audit Standards provide transparency and accountability within the leather supply chain—covering energy and water usage.<\/p>",
+            "content": "<p>All the details you love about the original—with a fresh flared block heel and modern square toe. Expertly crafted using soft Nappa leather, this essential style molds and moves with you to keep you comfortably on your feet all day (and night). This boot uses leather sourced from a Leather Working Group-approved trader. The Leather Working Group (LWG) Audit Standards provide transparency and accountability within the leather supply chain—covering energy and water usage.</p>",
             "content_page": "",
             "open": true
           }
@@ -308,7 +275,7 @@
           "settings": {
             "header": "Do you ship internationally?",
             "text_size": "h4",
-            "content": "<p>All the details you love about the original—with a fresh flared block heel and modern square toe. Expertly crafted using soft Nappa leather, this essential style molds and moves with you to keep you comfortably on your feet all day (and night). This boot uses leather sourced from a Leather Working Group-approved trader. The Leather Working Group (LWG) Audit Standards provide transparency and accountability within the leather supply chain—covering energy and water usage.<\/p>",
+            "content": "<p>All the details you love about the original—with a fresh flared block heel and modern square toe. Expertly crafted using soft Nappa leather, this essential style molds and moves with you to keep you comfortably on your feet all day (and night). This boot uses leather sourced from a Leather Working Group-approved trader. The Leather Working Group (LWG) Audit Standards provide transparency and accountability within the leather supply chain—covering energy and water usage.</p>",
             "content_page": "",
             "open": false
           }
@@ -318,7 +285,7 @@
           "settings": {
             "header": "What is your return policy?",
             "text_size": "h4",
-            "content": "<p>All the details you love about the original—with a fresh flared block heel and modern square toe. Expertly crafted using soft Nappa leather, this essential style molds and moves with you to keep you comfortably on your feet all day (and night). This boot uses leather sourced from a Leather Working Group-approved trader. The Leather Working Group (LWG) Audit Standards provide transparency and accountability within the leather supply chain—covering energy and water usage.<\/p>",
+            "content": "<p>All the details you love about the original—with a fresh flared block heel and modern square toe. Expertly crafted using soft Nappa leather, this essential style molds and moves with you to keep you comfortably on your feet all day (and night). This boot uses leather sourced from a Leather Working Group-approved trader. The Leather Working Group (LWG) Audit Standards provide transparency and accountability within the leather supply chain—covering energy and water usage.</p>",
             "content_page": "",
             "open": false
           }
@@ -328,7 +295,7 @@
           "settings": {
             "header": "What are your sizing options?",
             "text_size": "h4",
-            "content": "<p>All the details you love about the original—with a fresh flared block heel and modern square toe. Expertly crafted using soft Nappa leather, this essential style molds and moves with you to keep you comfortably on your feet all day (and night). This boot uses leather sourced from a Leather Working Group-approved trader. The Leather Working Group (LWG) Audit Standards provide transparency and accountability within the leather supply chain—covering energy and water usage.<\/p>",
+            "content": "<p>All the details you love about the original—with a fresh flared block heel and modern square toe. Expertly crafted using soft Nappa leather, this essential style molds and moves with you to keep you comfortably on your feet all day (and night). This boot uses leather sourced from a Leather Working Group-approved trader. The Leather Working Group (LWG) Audit Standards provide transparency and accountability within the leather supply chain—covering energy and water usage.</p>",
             "content_page": "",
             "open": false
           }
@@ -357,6 +324,7 @@
         "header_alignment": "center",
         "padding_top": 100,
         "padding_bottom": 0,
+        "enable_preload_image": false,
         "animations": "inherit",
         "custom_class": ""
       }
@@ -374,6 +342,8 @@
         "columns": 5,
         "column_gap": 30,
         "enable_slider": true,
+        "show_pagination": false,
+        "show_navigation": true,
         "use_scroll_mobile": true,
         "padding_top": 100,
         "padding_bottom": 100,
@@ -410,7 +380,6 @@
     }
   },
   "order": [
-    "breadcrumb",
     "main",
     "product-details-tabs",
     "scrolling_promotion_MVNN6Q",
