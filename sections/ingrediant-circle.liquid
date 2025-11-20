@@ -61,10 +61,10 @@
          --ep-squiggle-color: {{ section.settings.squiggle_color | default: '#ffffff' }};"
 >
   <div class="ep-squiggle-bg" aria-hidden="true">
-    <svg class="ep-squiggle-svg" viewBox="-140 0 1580 660" preserveAspectRatio="none" fill="none">
+    <svg class="ep-squiggle-svg" viewBox="-120 0 1600 700" preserveAspectRatio="none" fill="none">
       <path id="ep-squiggle-path-{{ section.id }}"
-        d="M1442.05 19.9995C1346.05 34.4995 1170.99 110.452 1098.05 191.999C975.047 329.499 1257.15 515.709 1159 626.498C1027 775.498 571.87 408.445 484.498 347.293C244.047 178.999 15 -12.5016 -102 87.9984"
-        stroke="currentColor"
+        d="M-18.71 5c-13.946 63.747 87.162 120.514 206.635 115.163 94.068-4.213 234.063-38.055 299.378-54.44C939.856-47.813 622.333 217.95 673.484 297.908c37.655 58.861 225.928-110.975 381.896-110.975 56.25 0 206.21 27.386 293.1 98.412 72.29 59.093 134.66 63.049 158.52 51.416"
+        stroke="#1B45C7"
         stroke-width="40"
         stroke-linecap="round"
         fill="none"
@@ -74,11 +74,6 @@
   <div class="ep-wrapper">
     <div class="ep-top">
       <div class="ep-energy">
-        {% if section.settings.energy_icon != blank %}
-          <div class="ep-energy-icon">
-            {{ section.settings.energy_icon | image_url: width: 140 | image_tag: class: 'ep-energy-icon__image', alt: section.settings.energy_heading | escape }}
-          </div>
-        {% endif %}
         {% if section.settings.energy_heading != blank %}
           <p class="ep-energy__label">{{ section.settings.energy_heading }}</p>
         {% endif %}
@@ -960,7 +955,6 @@
     { "type": "range", "id": "circle_size", "label": "Default circle size", "min": 80, "max": 240, "step": 4, "default": 140, "unit": "px" },
     { "type": "range", "id": "circle_gap", "label": "Circle spacing", "min": 8, "max": 120, "step": 2, "default": 32, "unit": "px" },
 
-    { "type": "image_picker", "id": "energy_icon", "label": "Energy icon" },
     { "type": "text", "id": "energy_heading", "label": "Energy heading", "default": "ENERGY VALUE" },
     { "type": "range", "id": "energy_heading_size", "label": "Heading font size", "min": 20, "max": 120, "step": 2, "default": 72, "unit": "px" },
     { "type": "text", "id": "energy_primary_value", "label": "Primary value (e.g. 632)", "default": "632" },
