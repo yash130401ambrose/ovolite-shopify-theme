@@ -395,7 +395,9 @@
   #energy-payment-{{ section.id }} {
     background: var(--ep-bg);
     padding: var(--ep-padding-y) clamp(20px, 6vw, 80px);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--font-stack-body, var(--font-body-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif));
+    font-weight: var(--font-weight-body, 400);
+    font-style: var(--font-style-body, normal);
   }
 
   #energy-payment-{{ section.id }} .ep-wrapper {
@@ -469,11 +471,11 @@
     color: var(--ep-energy-primary-value);
     line-height: 1;
     vertical-align: baseline;
+    font-family: var(--font-stack-header, var(--font-stack-body, inherit));
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric--secondary .ep-energy__metric-number {
     color: var(--ep-energy-secondary-value);
-    font-family: Arial, Helvetica, sans-serif;
     font-size: clamp(42px, 6vw, var(--ep-value-size, 72px));
   }
 
@@ -483,9 +485,9 @@
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--ep-energy-primary-unit);
-    font-family: Arial, Helvetica, sans-serif;
     vertical-align: baseline;
     line-height: 1;
+    font-family: var(--font-stack-header, var(--font-stack-body, inherit));
   }
 
   #energy-payment-{{ section.id }} .ep-energy__metric-unit--primary {
