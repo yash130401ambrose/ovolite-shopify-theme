@@ -122,8 +122,8 @@
   #{{ section_id }} .scroll-squiggle-bg {
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 0;
+    transform: translateY(-50%);
     width: 100%;
     overflow: visible;
     pointer-events: none;
@@ -131,11 +131,10 @@
   }
 
   #{{ section_id }} .scroll-squiggle-svg {
-    width: 100%;
+    width: 120%;
     height: auto;
     opacity: 1;
     display: block;
-    transform: translateX(15%);
   }
   #{{ section_id }}.is-last-centered {
     background: var(--bm-bg-end);
