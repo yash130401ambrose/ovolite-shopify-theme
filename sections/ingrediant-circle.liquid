@@ -494,7 +494,8 @@
   #energy-payment-{{ section.id }} .ep-energy__label {
     font-size: clamp(24px, 4.8vw, {{ section.settings.energy_heading_size | default: 60 }}px);
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
     margin: 0;
     color: var(--ep-energy-heading-text);
   }
@@ -515,7 +516,7 @@
   #energy-payment-{{ section.id }} .ep-energy__metric-number {
     font-size: clamp(42px, 6vw, var(--ep-value-size, 72px));
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
     color: var(--ep-energy-primary-value);
     line-height: 1;
     vertical-align: baseline;
@@ -530,10 +531,10 @@
   #energy-payment-{{ section.id }} .ep-energy__metric-unit {
     font-size: clamp(42px, 6vw, var(--ep-value-size, 72px));
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.06em;
     color: var(--ep-energy-primary-unit);
     vertical-align: baseline;
-    line-height: 1;
+    line-height: 1.05;
     font-family: var(--font-stack-header, var(--font-stack-body, inherit));
   }
 
@@ -557,7 +558,7 @@
     font-size: clamp(14px, 2vw, {{ section.settings.energy_caption_size | default: 18 }}px);
     color: var(--ep-energy-caption);
     max-width: clamp(280px, 40vw, 420px);
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   #energy-payment-{{ section.id }} .ep-nutrition-card {
@@ -598,7 +599,7 @@
     justify-content: space-between;
     align-items: baseline;
     gap: clamp(8px, 1.2vw, 16px);
-    padding: clamp(10px, 1.6vw, 14px) 0;
+    padding: clamp(8px, 1.4vw, 12px) 0;
     border-top: 1px solid var(--ep-nutrition-border);
     width: 100%;
     min-width: 0;
@@ -618,9 +619,9 @@
   #energy-payment-{{ section.id }} .ep-nutrition-card__label {
     font-weight: 700;
     color: var(--ep-nutrition-label);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     font-size: clamp(12px, 1.8vw, var(--ep-row-label-size, 16px));
-    line-height: 1.2;
+    line-height: 1.35;
     flex: 0 1 auto;
     min-width: 0;
     overflow: hidden;
@@ -630,11 +631,11 @@
   #energy-payment-{{ section.id }} .ep-nutrition-card__value {
     font-weight: 700;
     color: var(--ep-nutrition-value);
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
     font-size: clamp(12px, 1.8vw, var(--ep-row-value-size, 16px));
     text-align: right;
     white-space: nowrap;
-    line-height: 1.2;
+    line-height: 1.35;
     flex-shrink: 0;
   }
 
@@ -657,7 +658,7 @@
     font-size: clamp(32px, 6vw, var(--ep-tagline-primary-size, 54px));
     font-weight: 700;
     color: var(--ep-tagline-primary);
-    line-height: 1.1;
+    line-height: 1.15;
   }
 
   #energy-payment-{{ section.id }} .ep-tagline__secondary {
@@ -665,7 +666,7 @@
     font-size: clamp(22px, 4.4vw, var(--ep-tagline-secondary-size, 42px));
     font-weight: 600;
     color: var(--ep-tagline-secondary);
-    line-height: 1.1;
+    line-height: 1.2;
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos {
