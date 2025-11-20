@@ -199,8 +199,8 @@
 
       container.dataset.cursorFollowInit = 'true';
 
-      var maxShiftX = 28;
-      var maxShiftY = 16;
+      var maxShiftX = 60;
+      var maxShiftY = 34;
       var totalItems = items.length;
       var itemStates = Array.prototype.map.call(items, function(item, index) {
         var normalizedIndex = totalItems <= 1 ? 0.5 : index / (totalItems - 1);
@@ -210,9 +210,12 @@
           targetY: 0,
           currentX: 0,
           currentY: 0,
+          velocityX: 0,
+          velocityY: 0,
           base: normalizedIndex,
-          leadFactor: 0.55 + normalizedIndex * 0.35,
-          damp: 0.08 + (normalizedIndex * 0.06)
+          leadFactor: 0.5 + normalizedIndex * 0.45,
+          stiffness: 0.18 + normalizedIndex * 0.12,
+          damping: 0.78 - normalizedIndex * 0.1
         };
       });
 
@@ -231,8 +234,8 @@
 
         itemStates.forEach(function(state) {
           var deltaX = relativeX - state.base;
-          var spread = 1 - Math.min(Math.abs(deltaX) * 1.6, 1);
-          var verticalInfluence = (relativeY - 0.5) * (0.4 + spread * 0.6);
+          var spread = 1 - Math.min(Math.abs(deltaX) * 1.4, 1);
+          var verticalInfluence = (relativeY - 0.5) * (0.6 + spread * 0.8);
 
           state.targetX = clamp(deltaX * maxShiftX * state.leadFactor, -maxShiftX, maxShiftX);
           state.targetY = clamp(verticalInfluence * maxShiftY, -maxShiftY, maxShiftY);
@@ -252,8 +255,12 @@
         }
 
         itemStates.forEach(function(state) {
-          state.currentX += (state.targetX - state.currentX) * state.damp;
-          state.currentY += (state.targetY - state.currentY) * state.damp;
+          state.velocityX += (state.targetX - state.currentX) * state.stiffness;
+          state.velocityY += (state.targetY - state.currentY) * state.stiffness;
+          state.velocityX *= state.damping;
+          state.velocityY *= state.damping;
+          state.currentX += state.velocityX;
+          state.currentY += state.velocityY;
 
           state.item.style.setProperty('--ep-item-shift-x', state.currentX.toFixed(2) + 'px');
           state.item.style.setProperty('--ep-item-shift-y', state.currentY.toFixed(2) + 'px');
@@ -346,18 +353,60 @@
       observer.observe(root);
     }
 
+    function isElementInViewport(el) {
+      if (!el) return false;
+      var rect = el.getBoundingClientRect();
+      return (
+        rect.top < window.innerHeight * 0.9 &&
+        rect.bottom > window.innerHeight * 0.1
+      );
+    }
+
     function initSection(root) {
       if (!root) {
         return;
       }
 
+      if (root.dataset.epInteractiveInit === 'true') {
+        return;
+      }
+
+      root.dataset.epInteractiveInit = 'true';
+
       var containers = root.querySelectorAll('.ep-payment-logos[data-arch]');
+      if (!containers.length) {
+        return;
+      }
+
+      var activated = false;
+
+      function activate() {
+        if (activated) return;
+        activated = true;
+        containers.forEach(function(container) {
+          applyArchLayout(container);
+          setupCursorFollow(root, container);
+        });
+        setupPopInAnimation(root);
+      }
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            activate();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.25 });
+
       containers.forEach(function(container) {
-        applyArchLayout(container);
-        setupCursorFollow(root, container);
+        observer.observe(container);
       });
 
-      setupPopInAnimation(root);
+      if (isElementInViewport(containers[0])) {
+        activate();
+        observer.disconnect();
+      }
     }
 
     var sectionEl = document.getElementById(sectionId);
