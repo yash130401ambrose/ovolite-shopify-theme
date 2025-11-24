@@ -57,20 +57,8 @@
          --ep-nutrition-border: {{ nutrition_border_color }};
          --ep-tagline-primary: {{ tagline_primary_color }};
          --ep-tagline-secondary: {{ tagline_secondary_color }};
-         --ep-oval-text: {{ oval_text_color }};
-         --ep-squiggle-color: {{ section.settings.squiggle_color | default: '#ffffff' }};"
+         --ep-oval-text: {{ oval_text_color }};"
 >
-  <div class="ep-squiggle-bg" aria-hidden="true">
-    <svg class="ep-squiggle-svg" viewBox="-120 0 1600 700" preserveAspectRatio="none" fill="none">
-      <path id="ep-squiggle-path-{{ section.id }}"
-        d="M-18.71 5c-13.946 63.747 87.162 120.514 206.635 115.163 94.068-4.213 234.063-38.055 299.378-54.44C939.856-47.813 622.333 217.95 673.484 297.908c37.655 58.861 225.928-110.975 381.896-110.975 56.25 0 206.21 27.386 293.1 98.412 72.29 59.093 134.66 63.049 158.52 51.416"
-        stroke="#1B45C7"
-        stroke-width="40"
-        stroke-linecap="round"
-        fill="none"
-      />
-    </svg>
-  </div>
   <div class="ep-wrapper">
     <div class="ep-top">
       <div class="ep-energy">
@@ -155,48 +143,6 @@
 <script>
   (function() {
     var sectionId = 'energy-payment-{{ section.id }}';
-
-    function loadGSAP(callback) {
-      if (typeof window === 'undefined') return;
-      if (window.gsap && window.ScrollTrigger) {
-        callback();
-        return;
-      }
-
-      function loadScript(src) {
-        return new Promise(function(resolve, reject) {
-          var existing = document.querySelector('script[src="' + src + '"]');
-          if (existing) {
-            if (existing.dataset.loaded === 'true') {
-              resolve();
-            } else {
-              existing.addEventListener('load', resolve);
-              existing.addEventListener('error', reject);
-            }
-            return;
-          }
-          var script = document.createElement('script');
-          script.src = src;
-          script.async = true;
-          script.addEventListener('load', function() {
-            script.dataset.loaded = 'true';
-            resolve();
-          });
-          script.addEventListener('error', reject);
-          document.head.appendChild(script);
-        });
-      }
-
-      loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js')
-        .then(function() {
-          if (window.ScrollTrigger) return;
-          return loadScript('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js');
-        })
-        .then(function() {
-          callback();
-        })
-        .catch(function() {});
-    }
 
     function applyArchLayout(container) {
       if (!container) {
@@ -458,79 +404,32 @@
       }
     }
 
-    function initSquiggleAnimation(root) {
-      if (!root) return;
-      var path = root.querySelector('#ep-squiggle-path-{{ section.id }}');
-      if (!path || path.dataset.squiggleInit === 'true') {
-        return;
-      }
-
-      var length = path.getTotalLength();
-      path.style.strokeDasharray = length;
-      path.style.strokeDashoffset = length;
-
-      function startAnimation() {
-        if (path.dataset.squiggleInit === 'true') return;
-        path.dataset.squiggleInit = 'true';
-        loadGSAP(function() {
-          if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-          gsap.registerPlugin(ScrollTrigger);
-          gsap.to(path, {
-            strokeDashoffset: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: root,
-              start: 'top 85%',
-              end: 'bottom 15%',
-              scrub: 1
-            }
-          });
-        });
-      }
-
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            startAnimation();
-            observer.disconnect();
-          }
-        });
-      }, { threshold: 0.2 });
-
-      observer.observe(root);
-    }
-
     var sectionEl = document.getElementById(sectionId);
     if (sectionEl) {
       initSection(sectionEl);
-      initSquiggleAnimation(sectionEl);
     }
 
     document.addEventListener('shopify:section:load', function(event) {
       if (event.target && event.target.id === sectionId) {
         initSection(event.target);
-        initSquiggleAnimation(event.target);
       }
     });
 
     document.addEventListener('shopify:section:select', function(event) {
       if (event.target && event.target.id === sectionId) {
         initSection(event.target);
-        initSquiggleAnimation(event.target);
       }
     });
 
     document.addEventListener('shopify:block:select', function(event) {
       if (event.target && event.target.closest('#' + sectionId)) {
         initSection(document.getElementById(sectionId));
-        initSquiggleAnimation(document.getElementById(sectionId));
       }
     });
 
     document.addEventListener('shopify:block:deselect', function(event) {
       if (event.target && event.target.closest('#' + sectionId)) {
         initSection(document.getElementById(sectionId));
-        initSquiggleAnimation(document.getElementById(sectionId));
       }
     });
   })();
@@ -545,24 +444,6 @@
     font-style: var(--font-style-body, normal);
     position: relative;
     overflow: hidden;
-  }
-
-  #energy-payment-{{ section.id }} .ep-squiggle-bg {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-    color: var(--ep-squiggle-color, currentColor);
-  }
-
-  #energy-payment-{{ section.id }} .ep-squiggle-svg {
-    width: 110%;
-    max-width: none;
-    height: 120%;
   }
 
   #energy-payment-{{ section.id }} .ep-wrapper {
@@ -797,6 +678,16 @@
     margin: 0 auto;
     padding-top: 0;
     padding-bottom: calc(var(--ep-arch-height, 0px) * 1.3);
+    /* Mobile scroll handling to keep arch intact */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  #energy-payment-{{ section.id }} .ep-payment-logos::-webkit-scrollbar {
+    display: none;
   }
 
   #energy-payment-{{ section.id }} .ep-payment-logos__item {
@@ -876,20 +767,18 @@
     }
 
     #energy-payment-{{ section.id }} .ep-payment-logos {
-      flex-wrap: wrap;
-      justify-content: center;
+      /* Removed wrap to keep arch */
+      justify-content: flex-start; /* Aligns items to start for scrolling */
       width: 100%;
       gap: clamp(18px, 5vw, 42px);
-      padding-top: 0;
-      padding-bottom: 0;
     }
-
-    #energy-payment-{{ section.id }} .ep-payment-logos__item {
-      --ep-logo-offset: 0px !important;
-      --ep-logo-hover-lift: 0px !important;
-      --ep-logo-scale: 1 !important;
-      --ep-item-shift-x: 0px !important;
-      --ep-item-shift-y: 0px !important;
+    
+    /* Center the scroll area if items fit, otherwise standard scroll behavior */
+    #energy-payment-{{ section.id }} .ep-payment-logos::before,
+    #energy-payment-{{ section.id }} .ep-payment-logos::after {
+      content: '';
+      flex: 0 0 auto;
+      width: 20px; /* spacers */
     }
   }
 
@@ -898,20 +787,10 @@
       padding: clamp(48px, 18vw, 72px) clamp(16px, 6vw, 36px);
     }
 
-    #energy-payment-{{ section.id }} .ep-floating-note--left {
-      left: clamp(-12px, 2vw, 48px);
-      top: clamp(-16px, -6vw, -36px);
-    }
-
-    #energy-payment-{{ section.id }} .ep-floating-note--right {
-      right: clamp(-20px, 4vw, 60px);
-      bottom: clamp(-32px, -8vw, -52px);
-    }
-
     #energy-payment-{{ section.id }} .ep-payment-logos__item {
       width: var(--logo-size, 104px);
       height: var(--logo-size, 104px);
-      --ep-logo-offset: 0px !important;
+      /* Offset is now allowed */
     }
   }
 
@@ -920,7 +799,6 @@
       width: var(--logo-size, 92px);
       height: var(--logo-size, 92px);
       padding: 12px;
-      --ep-logo-offset: 0px !important;
     }
 
     #energy-payment-{{ section.id }} .ep-energy__metric-number {
@@ -946,7 +824,6 @@
     { "type": "color", "id": "subheading_color", "label": "Secondary text color", "default": "#2e332e" },
     { "type": "color", "id": "note_color", "label": "Floating note color", "default": "#34693a" },
     { "type": "color", "id": "card_bg", "label": "Table background color (use transparency for none)", "default": "rgba(0,0,0,0)" },
-    { "type": "color", "id": "squiggle_color", "label": "Background squiggle color", "default": "#ffffff" },
     { "type": "range", "id": "section_padding_y", "label": "Section vertical padding", "min": 32, "max": 240, "step": 4, "default": 96, "unit": "px" },
     { "type": "range", "id": "row_gap", "label": "Gap between top and bottom blocks", "min": 32, "max": 160, "step": 4, "default": 72, "unit": "px" },
     { "type": "color", "id": "circle_color", "label": "Circle background color", "default": "#ffffff" },
@@ -1047,5 +924,3 @@
   ]
 }
 {% endschema %}
-
-
