@@ -4,7 +4,6 @@
   assign padding_bottom = section.settings.padding_bottom | default: 40
   assign overlay_color = section.settings.overlay_color | default: '#FAF7EF'
   assign bg_image = section.settings.bg_image
-  assign bg_image_mobile = section.settings.bg_image_mobile | default: bg_image
   assign heading_text = section.settings.heading_text | default: 'FOR PROFESSIONAL AND HOME USE · BAKERY · HORECA · CONFECTIONERY'
   assign text_color = section.settings.text_color | default: '#000000'
   assign text_weight = section.settings.text_weight | default: 900
@@ -31,7 +30,6 @@
   assign scribble_text_rotation = section.settings.scribble_text_rotation | default: -6
   assign scribble_text_stroke_width = section.settings.scribble_text_stroke_width | default: 2
   assign scribble_text_viewbox = section.settings.scribble_text_viewbox | default: '0 0 1000 220'
-  assign scribble_text_duration = section.settings.scribble_text_duration | default: 2.7
   assign has_bg_image = false
   if bg_image != blank
     assign has_bg_image = true
@@ -53,7 +51,7 @@
   endif
 %}
 
-<section id="cutout-hero-{{ section.id }}" class="cutout-hero" style="--overlay: {{ overlay_color }}; --text-color: {{ text_color }}; --weight: {{ text_weight }}; --letter: {{ letter_spacing }}px; --line: {{ line_height }}px; --font-size: {{ font_size }}vw; --parallax: {{ parallax_strength }}; --scribble-stroke: {{ scribble_stroke }}; --scribble-width: {{ scribble_width }}; --scribble-duration: {{ scribble_duration }}s; --vh: {{ section_height }}vh; --pt: {{ padding_top }}px; --pb: {{ padding_bottom }}px; --scribble-text-size: {{ scribble_text_size }}vw; --scribble-text-color: {{ scribble_text_color }}; --scribble-text-offset-x: {{ scribble_text_offset_x }}vw; --scribble-text-offset-y: {{ scribble_text_offset_y }}vw; --scribble-text-rotation: {{ scribble_text_rotation }}deg; --scribble-subtitle-stroke-width: {{ scribble_text_stroke_width }}px; --scribble-font-stack: {{ scribble_font_stack }}; --scribble-text-animation-duration: {{ scribble_text_duration }}s;">
+<section id="cutout-hero-{{ section.id }}" class="cutout-hero" style="--overlay: {{ overlay_color }}; --text-color: {{ text_color }}; --weight: {{ text_weight }}; --letter: {{ letter_spacing }}px; --line: {{ line_height }}px; --font-size: {{ font_size }}vw; --parallax: {{ parallax_strength }}; --scribble-stroke: {{ scribble_stroke }}; --scribble-width: {{ scribble_width }}; --scribble-duration: {{ scribble_duration }}s; --vh: {{ section_height }}vh; --pt: {{ padding_top }}px; --pb: {{ padding_bottom }}px; --scribble-text-size: {{ scribble_text_size }}vw; --scribble-text-color: {{ scribble_text_color }}; --scribble-text-offset-x: {{ scribble_text_offset_x }}vw; --scribble-text-offset-y: {{ scribble_text_offset_y }}vw; --scribble-text-rotation: {{ scribble_text_rotation }}deg; --scribble-subtitle-stroke-width: {{ scribble_text_stroke_width }}px; --scribble-font-stack: {{ scribble_font_stack }};">
   {% if enable_scribble_text and scribble_font_url != blank %}
   <style>
     @font-face {
@@ -65,12 +63,7 @@
   {% endif %}
   <div class="cutout-hero__bg">
     {% if bg_image %}
-      <picture>
-        {% if bg_image_mobile %}
-          <source media="(max-width: 768px)" srcset="{{ bg_image_mobile | image_url: width: 1200 }} 1x, {{ bg_image_mobile | image_url: width: 2000 }} 2x">
-        {% endif %}
-        <img src="{{ bg_image | image_url: width: 2000 }}" alt="" loading="lazy" />
-      </picture>
+      <img src="{{ bg_image | image_url: width: 2000 }}" alt="" loading="lazy" />
     {% endif %}
   </div>
   <div class="cutout-hero__overlay"></div>
@@ -182,39 +175,12 @@
   }
   #cutout-hero-{{ section.id }} .cutout-hero__subtitle svg { width: clamp(220px, 26vw, 520px); height: auto; }
   #cutout-hero-{{ section.id }} .cutout-hero__subtitle text {
-    stroke-dasharray: 1600;
-    stroke-dashoffset: 1600;
     paint-order: stroke fill;
     stroke-width: var(--scribble-subtitle-stroke-width);
     font-size: var(--scribble-text-size);
     font-family: var(--scribble-font-stack, 'Brush Script MT', 'Segoe Script', cursive);
-    animation:
-      scribbleTextDraw var(--scribble-text-animation-duration) ease forwards,
-      scribbleTextFill 0.6s ease forwards calc(var(--scribble-text-animation-duration) - 0.2s);
   }
   #cutout-hero-{{ section.id }} .cutout-hero__subtitle-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-
-  @keyframes scribbleTextDraw {
-    to { stroke-dashoffset: 0; }
-  }
-
-  @keyframes scribbleTextFill {
-    to { fill-opacity: 1; }
-}
-
-  @media (prefers-reduced-motion: reduce) {
-    #cutout-hero-{{ section.id }} .cutout-hero__subtitle text {
-      animation: none;
-      stroke-dashoffset: 0;
-      fill-opacity: 1;
-    }
-}
-
-  @media (max-width: 768px) {
-    #cutout-hero-{{ section.id }} { --font-size: 14vw; --line: 62px; }
-    #cutout-hero-{{ section.id }} .cutout-hero__scribble { width: min(60vw, 420px); }
-    #cutout-hero-{{ section.id }} .cutout-hero__subtitle svg { width: clamp(180px, 50vw, 400px); }
-  }
 </style>
 
 <script>
@@ -287,8 +253,7 @@
 {
   "name": "Cutout Parallax Hero",
   "settings": [
-    {"type":"image_picker","id":"bg_image","label":"Background image (desktop)"},
-    {"type":"image_picker","id":"bg_image_mobile","label":"Background image (mobile)"},
+    {"type":"image_picker","id":"bg_image","label":"Background image"},
     {"type":"color","id":"overlay_color","label":"Overlay color","default":"#FAF7EF"},
     {"type":"range","id":"section_height","label":"Section height (vh)","min":40,"max":120,"step":5,"default":80,"unit":"vh"},
     {"type":"range","id":"padding_top","label":"Padding top","min":0,"max":200,"step":4,"default":40,"unit":"px"},
@@ -300,7 +265,6 @@
     {"type":"range","id":"line_height","label":"Line height (px)","min":50,"max":140,"step":2,"default":92,"unit":"px"},
     {"type":"range","id":"letter_spacing","label":"Letter spacing (px)","min":-2,"max":6,"step":0.5,"default":0,"unit":"px"},
     {"type":"range","id":"parallax_strength","label":"Parallax strength","min":0,"max":40,"step":2,"default":20},
-
     {"type":"header","content":"Scribble Paths (optional)"},
     {"type":"checkbox","id":"enable_scribble","label":"Show scribble path overlay","default":true},
     {"type":"color","id":"scribble_stroke","label":"Scribble stroke color","default":"#000000"},
@@ -321,8 +285,7 @@
     {"type":"range","id":"scribble_text_offset_y","label":"Scribble vertical offset (vw)","min":-20,"max":20,"step":0.5,"default":-8,"unit":"vw"},
     {"type":"range","id":"scribble_text_rotation","label":"Scribble rotation (deg)","min":-30,"max":30,"step":1,"default":-6,"unit":"deg"},
     {"type":"range","id":"scribble_text_stroke_width","label":"Scribble stroke width (px)","min":0.5,"max":10,"step":0.5,"default":2,"unit":"px"},
-    {"type":"text","id":"scribble_text_viewbox","label":"Scribble text viewBox","default":"0 0 1000 220","info":"Adjust width and height if the scribble text is clipped. Format: minX minY width height"},
-    {"type":"range","id":"scribble_text_duration","label":"Scribble text draw duration (s)","min":0.3,"max":10,"step":0.1,"default":2.7,"unit":"s"}
+    {"type":"text","id":"scribble_text_viewbox","label":"Scribble text viewBox","default":"0 0 1000 220","info":"Adjust width and height if the scribble text is clipped. Format: minX minY width height"}
   ],
   "presets": [
     {"name":"Cutout Parallax Hero"}
